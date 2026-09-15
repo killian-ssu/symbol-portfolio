@@ -1,0 +1,1 @@
+[1,0,0,[["cc.TextAsset",["_name","text"],1]],[[0,0,1,3]],[[0,"AGENTS","# GUI Prefab 编辑规范\n\n- `game_main.prefab` 承载局内常驻 UI；`reward_picker.prefab`、详情、确认等保持 Oops Dialog。\n- 节点引用优先通过 Inspector 绑定；多个区域节点的顺序必须在文档中写明，例如 SourceImprintBar 固定为伐木、渔猎、垦荒、采药、淘金。\n- 新效果节点默认 inactive，并保留可替换图片与 `FxAnchor`；不要把最终美术路径硬写在玩法代码中。\n- 工具目标态不加独立全屏遮罩；复用局内层级、暗化和绿光节点。\n"]],0,0,[],[],[]]

@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>远行商人</title>
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+  <meta name="screen-orientation" content="portrait">
+  <meta name="x5-orientation" content="portrait">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div id="viewport"><div id="GameDiv" cc_exact_fit_screen="false"><div id="Cocos3dGameContainer"><canvas id="GameCanvas" tabindex="0"></canvas></div></div></div>
+  <div id="safe-area-probe" aria-hidden="true"></div>
+  <div id="status" role="status"><div><p id="status-text">正在准备远行…</p><button id="retry" hidden>重新进入</button></div></div>
+  <script src="./compat.js"></script>
+  <script src="./platform.js"></script>
+  <script src="./viewport.js"></script>
+  <script src="./layout.js"></script>
+  <script src="./src/polyfills.bundle.js"></script>
+  <script src="./src/system.bundle.js"></script>
+  <script src="./src/import-map.json" type="systemjs-importmap"></script>
+  <script src="./boot.js"></script>
+</body>
+</html>
