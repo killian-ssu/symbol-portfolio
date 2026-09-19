@@ -85,3 +85,5 @@ body{isolation:isolate}
 /* Design archive entry */
 .project-shortcuts>a[href="design/"]{grid-column:1/-1;color:var(--gold);border-bottom:1px solid var(--line);padding:8px 0 12px;margin-bottom:3px}
 @media(max-width:700px){.header-actions .open-original{display:none}}
+
+.project-shortcuts>a[href="design/"] .icon-wrap{margin-left:5px}.project-shortcuts>a[href="design/"] .folio-icon{width:17px;height:17px}
