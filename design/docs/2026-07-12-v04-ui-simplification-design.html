@@ -1,0 +1,62 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f4f2eb"><title>右链版本 UI 简化 · Symbol 策划档案</title><meta name="description" content="收敛右链版本界面信息与操作入口。"><link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css"><script src="../archive.js" defer></script></head><body class="document-page merchant"><a class="skip" href="#main">跳到正文</a><header class="site-header"><a class="wordmark" href="../index.html">SYMBOL<span>设计档案 / 2026</span></a><nav aria-label="主导航"><a href="../index.html#timeline">版本时间线</a><a href="../index.html#catalog">全部文档</a><a class="back-portfolio" href="../../index.html">作品集 <span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="doc-top"><a class="back-link" href="../index.html?project=merchant#catalog">← 返回远行商人文档</a><div class="doc-tags"><span>远行商人</span><span>迭代方案</span><span>交互表现</span></div><h1>右链版本 UI 简化</h1><p class="doc-intro">收敛右链版本界面信息与操作入口。</p><div class="doc-metadata"><span><strong>2026-07-12</strong>文件名日期</span><span><strong>5 分钟</strong>预计阅读</span><span><strong>1</strong>次可查提交</span><a class="download" href="../sources/2026-07-12-v04-ui-simplification-design.md" download>下载本文 ↓</a></div></div><div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><a class="level-2" href="#目标">目标</a><a class="level-2" href="#已确认的体验规则">已确认的体验规则</a><a class="level-2" href="#方案比较与选择">方案比较与选择</a><a class="level-3" href="#方案-a-保留独立工具区和连线批次">方案 A：保留独立工具区和连线批次</a><a class="level-3" href="#方案-b-同区手牌-逐格结算-常驻道具拖拽">方案 B：同区手牌 + 逐格结算 + 常驻道具拖拽</a><a class="level-3" href="#方案-c-保留重排弹层-用点击交换替代拖拽">方案 C：保留重排弹层、用点击交换替代拖拽</a><a class="level-2" href="#架构与数据流">架构与数据流</a><a class="level-2" href="#组件边界">组件边界</a><a class="level-3" href="#handviewcomp">HandViewComp</a><a class="level-3" href="#hudviewcomp-与-boss-prefab">HudViewComp 与 Boss Prefab</a><a class="level-3" href="#boardviewcomp">BoardViewComp</a><a class="level-3" href="#区域道具排序">区域道具排序</a><a class="level-2" href="#失败与降级">失败与降级</a><a class="level-2" href="#验收标准">验收标准</a><a href="#source-record">来源与修改记录</a></nav></details><a class="to-top" href="#main">回到页首 ↑</a></aside><div class="doc-reading"><div class="archive-note"><span class="note-marker">档案说明</span><p>这是 2026-09-19 从工程收录的文本，可能包含后来补写的注释。正文中的“当前”“已实现”保留原有语境，不代表本站试玩版已逐项复验。</p></div><article class="prose" id="article"><h2 id="目标">目标<a class="heading-link" href="#目标" aria-label="链接到本节">#</a></h2><p>将 v0.4 Core 接入当前局内视觉，删除未经确认的双手牌、连线批次、刷新保留和重排弹层假设。局内应清楚表达：同一手牌区的行动/工具、通用 Boss 规则文字、Boss 专用进度、五类行动累计、区域 1→5 的依次结算，以及道具的常驻拖拽排序。</p>
+<h2 id="已确认的体验规则">已确认的体验规则<a class="heading-link" href="#已确认的体验规则" aria-label="链接到本节">#</a></h2><ol>
+<li>行动牌与工具牌共用 <code>Hand</code>。行动牌刷新时替换为三张新的行动牌；工具牌保留且使用后消耗。不会有独立工具手牌根。</li>
+<li>Boss 的规则说明放在游戏界面通用 HUD。Boss 应对进度和解除状态由 Boss 专用 Prefab 显示；通用 HUD 不重复展示计数。</li>
+<li>五类行动累计继续使用已有 <code>SourceImprintBar</code> 与 <code>HudViewComp.setSourceImprints()</code>，不创建第二套累计栏。</li>
+<li>右向触发保持 Core 的区域 1→5 结算顺序，但不显示箭头连线、<code>×N</code> 批次文字或专用连线动画。结算表现由行动格/道具自身的触发、数字与爆分效果承担。</li>
+<li>刷新不再有保留选择。<code>refreshHand()</code> 只刷新行动手牌，工具牌不受影响；移除提灯保留 UI 和与之相关的交互状态。</li>
+<li>道具常驻在五个行动格下方的对应区域。道具可拖拽交换位置，但只允许在本轮尚未放置行动时，或上一轮结算完成且行动格已清空时排序。第一张行动落位后锁定，直到结算完成再次解锁。</li>
+<li>所有美术尺寸、暗化、绿光、粒子、拖拽动画、数字样式等呈现参数由 Prefab Inspector 管理；UI 代码不覆盖它们。玩法合法性、刷新规则、道具排序、Boss/结算顺序继续由 Core 返回。</li>
+</ol>
+<h2 id="方案比较与选择">方案比较与选择<a class="heading-link" href="#方案比较与选择" aria-label="链接到本节">#</a></h2><h3 id="方案-a-保留独立工具区和连线批次">方案 A：保留独立工具区和连线批次<a class="heading-link" href="#方案-a-保留独立工具区和连线批次" aria-label="链接到本节">#</a></h3><p>实现较少，但与当前简洁手牌画面和战棋式触发认知不一致；不采用。</p>
+<h3 id="方案-b-同区手牌-逐格结算-常驻道具拖拽">方案 B：同区手牌 + 逐格结算 + 常驻道具拖拽<a class="heading-link" href="#方案-b-同区手牌-逐格结算-常驻道具拖拽" aria-label="链接到本节">#</a></h3><p>工具和行动牌在同一手牌布局中显示；Core 保持高性能压缩结算，UI 将压缩批次映射为逐区域的局部效果。道具成为区域下方可见、可调整的构筑对象。采用此方案。</p>
+<h3 id="方案-c-保留重排弹层-用点击交换替代拖拽">方案 C：保留重排弹层、用点击交换替代拖拽<a class="heading-link" href="#方案-c-保留重排弹层-用点击交换替代拖拽" aria-label="链接到本节">#</a></h3><p>更易接线，但打断局内节奏，且不符合已确认的道具常驻构想；不采用。</p>
+<h2 id="架构与数据流">架构与数据流<a class="heading-link" href="#架构与数据流" aria-label="链接到本节">#</a></h2><pre><code class="language-text">V04GameSession / GameSession 门面
+  ├─ state.hand：行动与工具的同一显示序列
+  ├─ state.regions：区域行动、区域道具与锁定所需状态
+  ├─ refreshHand()：只重抽行动牌
+  ├─ reorderRelics(order)：Core 校验并交换区域道具
+  └─ SettlementBatch：仍作为 UI 结算顺序数据，但不要求连线节点
+
+GameMainViewComp
+  ├─ HandViewComp：一个 handRoot，同一布局显示两类牌
+  ├─ HudViewComp：SourceImprintBar + 通用 Boss 文案
+  ├─ BossViewComp（或既有 Boss Prefab 组件）：进度/解除状态
+  └─ BoardViewComp：行动格、道具锚点、区域道具拖拽与局部结算播放
+</code></pre>
+<p>Core 不知道 Prefab 节点；UI 不自行计算可拖拽时机或 Boss 应对数。<code>GameMainViewComp</code> 仅根据 Core state 的“本轮是否已有行动”和结算状态开关道具排序。</p>
+<h2 id="组件边界">组件边界<a class="heading-link" href="#组件边界" aria-label="链接到本节">#</a></h2><h3 id="handviewcomp">HandViewComp<a class="heading-link" href="#handviewcomp" aria-label="链接到本节">#</a></h3><ul>
+<li>移除 <code>toolRoot</code> 的运行时分流；所有卡牌都加入 <code>handRoot</code> 并使用各自 Prefab。</li>
+<li>继续由 <code>CardViewComp</code> 区分可点击行动和可消耗工具。</li>
+<li>工具目标选择的绿光仍可作用于行动牌；工具牌在目标选择态不作为目标。</li>
+</ul>
+<h3 id="hudviewcomp-与-boss-prefab">HudViewComp 与 Boss Prefab<a class="heading-link" href="#hudviewcomp-与-boss-prefab" aria-label="链接到本节">#</a></h3><ul>
+<li><code>SourceImprintBar</code> 是唯一行动累计视图。</li>
+<li>Hud 仅显示 Boss 名称和规则文字。</li>
+<li>新增/扩展 Boss Prefab 视图组件，仅接收 <code>{ count, required, broken }</code>；无 Boss 时隐藏。</li>
+</ul>
+<h3 id="boardviewcomp">BoardViewComp<a class="heading-link" href="#boardviewcomp" aria-label="链接到本节">#</a></h3><ul>
+<li>删除 <code>rightwardLinks</code>、<code>rightwardBatchLabels</code> 和其时间参数的运行时依赖；不再要求这些 Prefab 节点。</li>
+<li>将 <code>SettlementBatch</code> 变为对源/目标区域的局部触发接口，未绑定特效节点时安全降级为无动画。</li>
+<li>提供 Inspector 可配的每格 <code>FxAnchor</code> 与区域道具锚点。没有道具动画资源时不影响结算。</li>
+</ul>
+<h3 id="区域道具排序">区域道具排序<a class="heading-link" href="#区域道具排序" aria-label="链接到本节">#</a></h3><ul>
+<li>使用 <code>BoardViewComp</code> 的拖拽回调把“源区域、目标区域”交给 <code>GameMainViewComp</code>。</li>
+<li><code>GameMainViewComp</code> 在 Core 状态允许时调用 <code>progress.swapRelics(source, target)</code>；锁定时回弹，不修改 Core。</li>
+<li>拖拽是否可用由 Core/门面暴露的 <code>canReorderRelics</code> 状态决定，规则为五个行动区域均为空且不在结算动画中。</li>
+</ul>
+<h2 id="失败与降级">失败与降级<a class="heading-link" href="#失败与降级" aria-label="链接到本节">#</a></h2><ul>
+<li>未绑定 Boss Prefab 时只缺少进度表现，规则文字和结算正确。</li>
+<li>未绑定道具锚点/动画节点时，拖拽和排序仍使用区域节点作为回退；不创建运行时美术节点。</li>
+<li>刷新、拖拽和工具目标在结算动画中一律拒绝，且保持当前 UI 状态。</li>
+<li>旧的 <code>refreshRetainRoot</code>、<code>relicReorderRoot</code>、右向连线字段在本轮移除或废弃，不再由 GameMain 激活。</li>
+</ul>
+<h2 id="验收标准">验收标准<a class="heading-link" href="#验收标准" aria-label="链接到本节">#</a></h2><ol>
+<li>一排手牌中可同时显示行动牌和工具牌；刷新后仅行动牌更换。</li>
+<li><code>SourceImprintBar</code> 的五类累计更新，且不存在重复的累计栏。</li>
+<li>Boss 关显示 HUD 规则文字与 Boss Prefab 计数；解除后 Boss Prefab 显示解除态。</li>
+<li>五张行动结算时，视觉按区域 1→5 自身与其道具播放；没有连线/批次数字节点要求。</li>
+<li>无行动放置时交换两个区域道具成功；第一张行动落位后拖拽回弹；结算后重新可换。</li>
+<li>在 Cocos 改动所有表现参数后，运行时不会由 TypeScript 覆写。</li>
+</ol>
+</article><section class="source-record" id="source-record"><p class="eyebrow">SOURCE & REVISIONS</p><h2>来源与修改记录</h2><dl><dt>原文标题</dt><dd>v0.4 局内 UI 简化设计</dd><dt>工程内文件</dt><dd><code>docs/superpowers/specs/2026-07-12-v04-ui-simplification-design.md</code></dd><dt>收录方式</dt><dd>从现存工程文件收录，保留原段落与参数；仅做网页排版、本机路径匿名化与链接整理。</dd><dt>日期依据</dt><dd>文件名日期 · 2026-07-12。正文日期、首次入库日期与修订日期可能不同。</dd></dl><details class="history" open><summary>查看 1 次文件提交记录</summary><p>以下为包含此文件变化的提交。提交说明可能涉及整个项目，不代表该文档单独完成了所有列出的功能。</p><ol><li><time>2026-07-12</time><div><code>3a6d758</code><p>docs: define simplified v0.4 board UI</p></div></li></ol></details></section><nav class="adjacent" aria-label="相邻文档"><a href="2026-05-30-relic-stamp-and-replace-design.html"><small>上一篇</small>道具盖章与替换</a><a href="2026-07-14-ui-motion-trial-design.html"><small>下一篇</small>界面动效试验</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>两个独立游戏，从原型到迭代的设计记录。</p></div><p>整理于 2026.09.19<br><a href="../index.html#about">收录与日期说明</a> · <a href="../../index.html">返回作品集 ↗</a></p></footer></body></html>

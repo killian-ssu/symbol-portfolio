@@ -1,0 +1,617 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f4f2eb"><title>游戏策划案 · Symbol 策划档案</title><meta name="description" content="从棋盘消除转为五格出牌，保留同类组合、关卡目标与三选一奖励。"><link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css"><script src="../archive.js" defer></script></head><body class="document-page merchant"><a class="skip" href="#main">跳到正文</a><header class="site-header"><a class="wordmark" href="../index.html">SYMBOL<span>设计档案 / 2026</span></a><nav aria-label="主导航"><a href="../index.html#timeline">版本时间线</a><a href="../index.html#catalog">全部文档</a><a class="back-portfolio" href="../../index.html">作品集 <span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="doc-top"><a class="back-link" href="../index.html?project=merchant#catalog">← 返回远行商人文档</a><div class="doc-tags"><span>远行商人</span><span>历史方案</span><span>核心玩法</span></div><h1>游戏策划案</h1><p class="doc-intro">从棋盘消除转为五格出牌，保留同类组合、关卡目标与三选一奖励。</p><div class="doc-metadata"><span><strong>2026-05-19</strong>正文日期</span><span><strong>19 分钟</strong>预计阅读</span><span><strong>1</strong>次可查提交</span><a class="download" href="../sources/merchant-mvp.md" download>下载本文 ↓</a></div></div><div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><a class="level-2" href="#1-项目定位">1. 项目定位</a><a class="level-2" href="#2-设计原则">2. 设计原则</a><a class="level-3" href="#2-1-首版必须简化">2.1 首版必须简化</a><a class="level-3" href="#2-2-玩家每局主要做三类决策">2.2 玩家每局主要做三类决策</a><a class="level-3" href="#2-3-不是战斗-是通过关隘">2.3 不是战斗，是通过关隘</a><a class="level-2" href="#3-核心术语">3. 核心术语</a><a class="level-2" href="#4-单局结构">4. 单局结构</a><a class="level-2" href="#5-单关流程">5. 单关流程</a><a class="level-2" href="#6-货源牌">6. 货源牌</a><a class="level-3" href="#6-1-基础收益">6.1 基础收益</a><a class="level-3" href="#6-2-初始牌库">6.2 初始牌库</a><a class="level-2" href="#7-牌型系统">7. 牌型系统</a><a class="level-2" href="#8-结算公式">8. 结算公式</a><a class="level-2" href="#9-手牌与刷新">9. 手牌与刷新</a><a class="level-3" href="#9-1-手牌规则">9.1 手牌规则</a><a class="level-3" href="#9-2-刷新规则">9.2 刷新规则</a><a class="level-2" href="#10-工具牌">10. 工具牌</a><a class="level-3" href="#10-1-工具牌使用细则">10.1 工具牌使用细则</a><a class="level-2" href="#11-行动格与道具底座">11. 行动格与道具底座</a><a class="level-2" href="#12-随身物系统">12. 随身物系统</a><a class="level-3" href="#12-1-mvp-随身物列表">12.1 MVP 随身物列表</a><a class="level-3" href="#12-2-道具触发时机">12.2 道具触发时机</a><a class="level-3" href="#12-3-道具位规则">12.3 道具位规则</a><a class="level-2" href="#13-boss-负面机制">13. Boss 负面机制</a><a class="level-3" href="#13-1-boss-规则显示">13.1 Boss 规则显示</a><a class="level-2" href="#14-三选一构筑奖励">14. 三选一构筑奖励</a><a class="level-3" href="#14-1-货源强化奖励">14.1 货源强化奖励</a><a class="level-3" href="#14-2-工具牌奖励">14.2 工具牌奖励</a><a class="level-3" href="#14-3-随身物奖励">14.3 随身物奖励</a><a class="level-2" href="#15-数值节奏">15. 数值节奏</a><a class="level-3" href="#15-1-初始数值">15.1 初始数值</a><a class="level-3" href="#15-2-目标盘缠">15.2 目标盘缠</a><a class="level-3" href="#15-3-调参目标">15.3 调参目标</a><a class="level-2" href="#16-流派方向">16. 流派方向</a><a class="level-3" href="#16-1-同源爆发流">16.1 同源爆发流</a><a class="level-3" href="#16-2-五源齐备流">16.2 五源齐备流</a><a class="level-3" href="#16-3-工具连锁流">16.3 工具连锁流</a><a class="level-3" href="#16-4-格子构筑流">16.4 格子构筑流</a><a class="level-2" href="#17-ui-布局">17. UI 布局</a><a class="level-3" href="#17-1-顶部区域">17.1 顶部区域</a><a class="level-3" href="#17-2-中上场景区域">17.2 中上场景区域</a><a class="level-3" href="#17-3-中部行动区">17.3 中部行动区</a><a class="level-3" href="#17-4-底部手牌区">17.4 底部手牌区</a><a class="level-3" href="#17-5-结算表现">17.5 结算表现</a><a class="level-2" href="#18-美术风格">18. 美术风格</a><a class="level-3" href="#18-1-货源视觉">18.1 货源视觉</a><a class="level-3" href="#18-2-ui-材质">18.2 UI 材质</a><a class="level-2" href="#19-cocos-模块拆分">19. Cocos 模块拆分</a><a class="level-3" href="#19-1-核心模块">19.1 核心模块</a><a class="level-3" href="#19-2-推荐数据表">19.2 推荐数据表</a><a class="level-3" href="#19-3-货源牌数据结构">19.3 货源牌数据结构</a><a class="level-3" href="#19-4-工具牌数据结构">19.4 工具牌数据结构</a><a class="level-3" href="#19-5-随身物数据结构">19.5 随身物数据结构</a><a class="level-3" href="#19-6-关卡数据结构">19.6 关卡数据结构</a><a class="level-3" href="#19-7-牌型数据结构">19.7 牌型数据结构</a><a class="level-2" href="#20-mvp-开发范围">20. MVP 开发范围</a><a class="level-3" href="#20-1-必做">20.1 必做</a><a class="level-3" href="#20-2-暂不做">20.2 暂不做</a><a class="level-2" href="#21-后续版本方向">21. 后续版本方向</a><a class="level-3" href="#21-1-v0-2">21.1 v0.2</a><a class="level-3" href="#21-2-v0-3">21.2 v0.3</a><a class="level-3" href="#21-3-v0-4">21.3 v0.4</a><a class="level-2" href="#22-首轮验证目标">22. 首轮验证目标</a><a class="level-2" href="#23-一局体验示例">23. 一局体验示例</a><a class="level-2" href="#24-当前版本结论">24. 当前版本结论</a><a href="#source-record">来源与修改记录</a></nav></details><a class="to-top" href="#main">回到页首 ↑</a></aside><div class="doc-reading"><div class="archive-note"><span class="note-marker">档案说明</span><p>这是 2026-09-19 从工程收录的文本，可能包含后来补写的注释。正文中的“当前”“已实现”保留原有语境，不代表本站试玩版已逐项复验。</p><label class="version-label">切换保存版本<select id="version-select"><option value="merchant-mvp.html" selected>收录文本 · 2026-09-19</option><option value="merchant-mvp-edc90e8.html" >2026-05-29 · edc90e8 提交快照</option></select></label></div><article class="prose" id="article"><p>版本：MVP v0.1<br>日期：2026-05-19<br>目标平台：微信小游戏<br>开发引擎：Cocos Creator<br>类型：竖屏 / 轻量 Roguelike 构筑 / 牌型结算 / 数值连锁</p>
+<hr>
+<h2 id="1-项目定位">1. 项目定位<a class="heading-link" href="#1-项目定位" aria-label="链接到本节">#</a></h2><p>《远行商人》是一款适合微信小游戏场景的竖屏轻量策略 Roguelike 游戏。</p>
+<p>玩家扮演一名远行商人，在一场神秘旅途中通过探索、采集、开矿、搜罗、交易等行动积累盘缠。玩家不需要真正攻击敌人，而是在每个神秘场景中完成盘缠目标，穿过山神、树影、狐火、海雾等异象关隘。</p>
+<p>核心体验目标：</p>
+<ul>
+<li>低认知负担：每次只有 3 张手牌，5 个行动格，玩家能快速理解。</li>
+<li>短局爽感：单局约 10-15 分钟，适合微信小游戏。</li>
+<li>构筑乐趣：每小关后 3 选 1 强化，形成不同流派。</li>
+<li>连锁爆发：通过道具、工具牌、同源牌型产生数值爆发。</li>
+<li>东方神秘商旅气质：不是战斗打怪，而是远行、献礼、交易、穿越异象。</li>
+</ul>
+<hr>
+<h2 id="2-设计原则">2. 设计原则<a class="heading-link" href="#2-设计原则" aria-label="链接到本节">#</a></h2><h3 id="2-1-首版必须简化">2.1 首版必须简化<a class="heading-link" href="#2-1-首版必须简化" aria-label="链接到本节">#</a></h3><p>MVP 阶段不做以下系统：</p>
+<ul>
+<li>不做金币经济。</li>
+<li>不做商店购买。</li>
+<li>不做路线选择。</li>
+<li>不做基础牌点数。</li>
+<li>不做复杂负面牌库。</li>
+<li>不做局外成长。</li>
+<li>不做每关独立新场景。</li>
+</ul>
+<p>首版聚焦：</p>
+<ul>
+<li>5 种货源牌。</li>
+<li>5 格行动区。</li>
+<li>3 手牌。</li>
+<li>4 章 16 小关。</li>
+<li>每小关最多 4 次探索。</li>
+<li>每关后 3 选 1 构筑奖励。</li>
+<li>工具牌与道具连锁。</li>
+</ul>
+<h3 id="2-2-玩家每局主要做三类决策">2.2 玩家每局主要做三类决策<a class="heading-link" href="#2-2-玩家每局主要做三类决策" aria-label="链接到本节">#</a></h3><ol>
+<li>当前手牌怎么打，是否刷新。</li>
+<li>如何凑出更高倍率牌型。</li>
+<li>过关奖励选哪一个构筑方向。</li>
+</ol>
+<h3 id="2-3-不是战斗-是通过关隘">2.3 不是战斗，是通过关隘<a class="heading-link" href="#2-3-不是战斗-是通过关隘" aria-label="链接到本节">#</a></h3><p>游戏中不使用“攻击”“伤害”“敌人血量”等强战斗表达。</p>
+<p>建议使用：</p>
+<ul>
+<li>盘缠目标</li>
+<li>探索轮</li>
+<li>路段</li>
+<li>场景</li>
+<li>异象</li>
+<li>随身物</li>
+<li>货源牌</li>
+<li>工具牌</li>
+</ul>
+<hr>
+<h2 id="3-核心术语">3. 核心术语<a class="heading-link" href="#3-核心术语" aria-label="链接到本节">#</a></h2><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>术语</th><th>含义</th></tr></thead><tbody><tr><td>货源牌</td><td>基础牌，打入行动格参与结算</td></tr><tr><td>工具牌</td><td>一次性功能牌，不占行动格</td></tr><tr><td>行动格</td><td>中部 5 个出牌格</td></tr><tr><td>探索轮</td><td>打满 5 个行动格并结算一次</td></tr><tr><td>盘缠</td><td>当前关卡累计得分</td></tr><tr><td>盘缠目标</td><td>当前小关需要达到的目标分</td></tr><tr><td>随身物</td><td>类似遗物/小丑牌的全局或格子道具</td></tr><tr><td>底座道具</td><td>绑定在某个行动格上的道具</td></tr><tr><td>同源</td><td>多张货源牌颜色/类型相同</td></tr><tr><td>路段</td><td>16 个小关中的一个</td></tr><tr><td>章节</td><td>4 个大场景之一</td></tr></tbody></table></div><hr>
+<h2 id="4-单局结构">4. 单局结构<a class="heading-link" href="#4-单局结构" aria-label="链接到本节">#</a></h2><p>单局共 16 个路段，分为 4 章，每章 4 个路段。</p>
+<p>一整局只有 4 个主要场景：</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>章节</th><th>场景名</th><th>路段 1-3</th><th>路段 4</th></tr></thead><tbody><tr><td>第 1 章</td><td>山神索礼</td><td>普通目标递增</td><td>山神 Boss 规则</td></tr><tr><td>第 2 章</td><td>树影客栈</td><td>普通目标递增</td><td>树影 Boss 规则</td></tr><tr><td>第 3 章</td><td>狐火渡口</td><td>普通目标递增</td><td>狐火 Boss 规则</td></tr><tr><td>第 4 章</td><td>海雾集市</td><td>普通目标递增</td><td>海雾 Boss 规则</td></tr></tbody></table></div><p>每个路段通过后，立即进入一次 3 选 1 构筑奖励，然后自动进入下一个路段。</p>
+<p>不做商店，不做选路，不做金币奖励。</p>
+<hr>
+<h2 id="5-单关流程">5. 单关流程<a class="heading-link" href="#5-单关流程" aria-label="链接到本节">#</a></h2><p>每个路段最多进行 4 次探索轮。</p>
+<p>流程：</p>
+<ol>
+<li>进入路段，显示当前场景、盘缠目标、探索次数。</li>
+<li>玩家抽 3 张手牌。</li>
+<li>玩家将货源牌打入 5 个行动格。</li>
+<li>工具牌可直接使用，不占行动格。</li>
+<li>手牌少于 3 张时自动补满。</li>
+<li>5 个行动格填满后，自动结算一次探索轮。</li>
+<li>结算后累计盘缠。</li>
+<li>如果盘缠达到目标，立即通关。</li>
+<li>如果未达到目标，并且探索轮未用完，进入下一探索轮。</li>
+<li>如果 4 次探索轮结束仍未达到目标，则本局失败。</li>
+</ol>
+<p>关键规则：</p>
+<ul>
+<li>达到盘缠目标后立即过关，不需要打完 4 次探索。</li>
+<li>每个路段固定 2 次刷新机会。</li>
+<li>刷新只替换手牌，不清空行动格。</li>
+<li>刷新不消耗任何货币。</li>
+</ul>
+<p>UI 推荐显示：</p>
+<pre><code class="language-text">第1章 山神索礼
+第3路段
+盘缠 320 / 500
+探索 2 / 4
+刷新 1 / 2
+</code></pre>
+<hr>
+<h2 id="6-货源牌">6. 货源牌<a class="heading-link" href="#6-货源牌" aria-label="链接到本节">#</a></h2><p>货源牌是基础牌，负责打入 5 个行动格，形成同源牌型并产生盘缠。</p>
+<p>首版共有 5 种货源：</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>货源</th><th>颜色</th><th>图标方向</th><th>含义</th></tr></thead><tbody><tr><td>探路</td><td>青色</td><td>罗盘 / 脚印</td><td>找路、发现、开图</td></tr><tr><td>采集</td><td>绿色</td><td>叶子 / 草药</td><td>草药、木材、果实</td></tr><tr><td>开矿</td><td>金色</td><td>矿镐 / 矿石</td><td>矿石、盐、玉石</td></tr><tr><td>搜罗</td><td>紫色</td><td>旧罐 / 眼睛</td><td>古物、遗物、奇货</td></tr><tr><td>交易</td><td>红色</td><td>铜钱 / 握手</td><td>买卖、议价、换货</td></tr></tbody></table></div><h3 id="6-1-基础收益">6.1 基础收益<a class="heading-link" href="#6-1-基础收益" aria-label="链接到本节">#</a></h3><p>首版不做点数。所有货源牌初始收益相同：</p>
+<pre><code class="language-text">每张货源牌基础收益 = 10
+</code></pre>
+<p>后续通过构筑强化改变不同货源的收益。</p>
+<p>例如：</p>
+<ul>
+<li>探路基础收益 +2。</li>
+<li>所有交易牌基础收益 +3。</li>
+<li>打在第 3 格的采集牌收益翻倍。</li>
+<li>开矿牌在三同源及以上时额外 +2。</li>
+</ul>
+<h3 id="6-2-初始牌库">6.2 初始牌库<a class="heading-link" href="#6-2-初始牌库" aria-label="链接到本节">#</a></h3><p>MVP 建议初始牌库为：</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>货源</th><th style="text-align:right">数量</th></tr></thead><tbody><tr><td>探路</td><td style="text-align:right">5</td></tr><tr><td>采集</td><td style="text-align:right">5</td></tr><tr><td>开矿</td><td style="text-align:right">5</td></tr><tr><td>搜罗</td><td style="text-align:right">5</td></tr><tr><td>交易</td><td style="text-align:right">5</td></tr></tbody></table></div><p>合计 25 张货源牌。</p>
+<p>工具牌通过关后奖励加入牌库。</p>
+<hr>
+<h2 id="7-牌型系统">7. 牌型系统<a class="heading-link" href="#7-牌型系统" aria-label="链接到本节">#</a></h2><p>牌型只看货源类型，不看点数。</p>
+<p>牌型命名优先直观，让玩家立刻理解“同色越多越强”。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>牌型</th><th>条件</th><th style="text-align:right">倍率</th></tr></thead><tbody><tr><td>五同源</td><td>5 张同货源</td><td style="text-align:right">x5</td></tr><tr><td>四同源</td><td>4 张同货源</td><td style="text-align:right">x3</td></tr><tr><td>三同源</td><td>3 张同货源</td><td style="text-align:right">x2</td></tr><tr><td>双同源</td><td>2+2 同货源</td><td style="text-align:right">x2</td></tr><tr><td>五源齐备</td><td>5 种货源各 1 张</td><td style="text-align:right">x3</td></tr><tr><td>散货</td><td>不满足以上</td><td style="text-align:right">x1</td></tr></tbody></table></div><p>识别优先级建议：</p>
+<ol>
+<li>五同源</li>
+<li>五源齐备</li>
+<li>四同源</li>
+<li>三同源</li>
+<li>双同源</li>
+<li>散货</li>
+</ol>
+<p>说明：</p>
+<ul>
+<li>五源齐备是一个独立流派，用来避免玩法只追求单色。</li>
+<li>双同源指 5 张牌中出现两个对子，例如 2 探路 + 2 交易 + 1 开矿。</li>
+<li>如果后续出现特殊道具，可以让某些牌型同时视为另一个牌型。</li>
+</ul>
+<hr>
+<h2 id="8-结算公式">8. 结算公式<a class="heading-link" href="#8-结算公式" aria-label="链接到本节">#</a></h2><p>首版结算公式：</p>
+<pre><code class="language-text">本轮收益 = 5 张货源牌收益总和 x 牌型倍率 x 道具倍率
+</code></pre>
+<p>其中：</p>
+<ul>
+<li>货源牌收益包含基础收益、货源强化、格子强化、工具牌标签。</li>
+<li>牌型倍率由牌型决定。</li>
+<li>道具倍率由随身物触发决定。</li>
+</ul>
+<p>示例 1：五同源</p>
+<pre><code class="language-text">5 张开矿
+每张开矿收益 10
+基础收益总和 = 50
+牌型 = 五同源 x5
+本轮收益 = 50 x 5 = 250
+</code></pre>
+<p>示例 2：工具牌加价印</p>
+<pre><code class="language-text">探路 10
+采集 10
+开矿 10，贴有 x2 标签，所以计算为 20
+搜罗 10
+交易 10
+基础收益总和 = 60
+牌型 = 五源齐备 x3
+本轮收益 = 60 x 3 = 180
+</code></pre>
+<p>示例 3：道具加成</p>
+<pre><code class="language-text">基础收益总和 = 50
+牌型 = 三同源 x2
+道具倍率 = x1.5
+本轮收益 = 50 x 2 x 1.5 = 150
+</code></pre>
+<hr>
+<h2 id="9-手牌与刷新">9. 手牌与刷新<a class="heading-link" href="#9-手牌与刷新" aria-label="链接到本节">#</a></h2><h3 id="9-1-手牌规则">9.1 手牌规则<a class="heading-link" href="#9-1-手牌规则" aria-label="链接到本节">#</a></h3><ul>
+<li>手牌上限：3。</li>
+<li>打出 1 张货源牌后，如果手牌少于 3，立即从牌库补 1 张。</li>
+<li>使用 1 张工具牌后，如果手牌少于 3，也立即补 1 张。</li>
+<li>牌库抽空时，弃牌堆洗回牌库。</li>
+</ul>
+<h3 id="9-2-刷新规则">9.2 刷新规则<a class="heading-link" href="#9-2-刷新规则" aria-label="链接到本节">#</a></h3><ul>
+<li>每个路段固定 2 次刷新。</li>
+<li>刷新会弃掉当前手牌，并重新抽到 3 张。</li>
+<li>刷新不会清空已放入行动格的牌。</li>
+<li>刷新不消耗金币或资源。</li>
+<li>道具可以增加刷新次数或强化刷新后的手牌。</li>
+</ul>
+<hr>
+<h2 id="10-工具牌">10. 工具牌<a class="heading-link" href="#10-工具牌" aria-label="链接到本节">#</a></h2><p>工具牌是功能牌，不占行动格，使用后进入弃牌堆。</p>
+<p>MVP 先做 3 张工具牌。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>工具牌</th><th>效果</th><th>设计目的</th></tr></thead><tbody><tr><td>染货布</td><td>选择 1 张货源牌，将其改成指定货源</td><td>帮助凑同源牌型</td></tr><tr><td>加价印</td><td>选择 1 张货源牌，贴上 x2 标签，本次探索轮结算时该牌收益翻倍</td><td>制造单牌爆发</td></tr><tr><td>空货箱</td><td>复制 1 张手牌中的货源牌，加入手牌</td><td>提高构筑稳定性</td></tr></tbody></table></div><h3 id="10-1-工具牌使用细则">10.1 工具牌使用细则<a class="heading-link" href="#10-1-工具牌使用细则" aria-label="链接到本节">#</a></h3><p>染货布：</p>
+<ul>
+<li>可选择手牌中的货源牌。</li>
+<li>可选择已经放入行动格的货源牌。</li>
+<li>不能选择工具牌。</li>
+<li>改变货源后立即刷新牌型预览。</li>
+</ul>
+<p>加价印：</p>
+<ul>
+<li>可选择手牌中的货源牌。</li>
+<li>可选择已经放入行动格的货源牌。</li>
+<li>目标牌获得本轮有效的 x2 标签。</li>
+<li>结算后标签消失。</li>
+</ul>
+<p>空货箱：</p>
+<ul>
+<li>只能复制手牌中的货源牌。</li>
+<li>复制出来的牌保留当前货源类型。</li>
+<li>如果复制目标带有临时 x2 标签，默认不复制临时标签。</li>
+<li>复制牌加入手牌，如果手牌超过 3，可以临时允许到 4 张，直到玩家打出或使用一张牌。</li>
+</ul>
+<hr>
+<h2 id="11-行动格与道具底座">11. 行动格与道具底座<a class="heading-link" href="#11-行动格与道具底座" aria-label="链接到本节">#</a></h2><p>界面中部有 5 个行动格。</p>
+<p>每个行动格既是出牌位置，也是一个道具底座。</p>
+<p>这让《远行商人》的道具系统相比传统遗物有更多空间：</p>
+<ul>
+<li>有些道具影响全局。</li>
+<li>有些道具只影响所在格。</li>
+<li>有些道具影响相邻格。</li>
+<li>有些道具复制其他格子的道具效果。</li>
+<li>有些 Boss 规则会压制某个格子。</li>
+</ul>
+<p>行动格编号：</p>
+<pre><code class="language-text">格1  格2  格3  格4  格5
+</code></pre>
+<p>建议在代码中将格子编号固定为 <code>0-4</code>。</p>
+<hr>
+<h2 id="12-随身物系统">12. 随身物系统<a class="heading-link" href="#12-随身物系统" aria-label="链接到本节">#</a></h2><p>随身物是本作的核心构筑系统，类似遗物或小丑牌，但结合 5 个行动格底座。</p>
+<p>随身物分两类：</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>类型</th><th>说明</th></tr></thead><tbody><tr><td>全局随身物</td><td>不绑定格子，影响整局规则或结算</td></tr><tr><td>底座随身物</td><td>绑定在某个行动格，只在该格或相邻格触发</td></tr></tbody></table></div><h3 id="12-1-mvp-随身物列表">12.1 MVP 随身物列表<a class="heading-link" href="#12-1-mvp-随身物列表" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>名称</th><th>类型</th><th>效果</th></tr></thead><tbody><tr><td>旧罗盘</td><td>底座</td><td>本格打出探路牌时，该牌收益 x2</td></tr><tr><td>药草袋</td><td>全局</td><td>所有采集牌基础收益 +3</td></tr><tr><td>矿灯</td><td>全局</td><td>每张开矿牌收益 +2；若本轮为三同源及以上，额外再 +2</td></tr><tr><td>破货架</td><td>底座</td><td>本格与任一相邻格同源时，两张牌收益各 +5</td></tr><tr><td>红算盘</td><td>全局</td><td>每次形成交易牌三同源及以上，本轮倍率 +0.5</td></tr><tr><td>旧货铃</td><td>全局</td><td>每使用 1 张工具牌，本轮收益 +10</td></tr><tr><td>双层箱</td><td>底座</td><td>本格货源牌收益计算两次</td></tr><tr><td>狐火灯</td><td>全局</td><td>每次刷新后，新手牌中第一张货源牌自动贴 x2 标签</td></tr><tr><td>海市镜</td><td>底座</td><td>结算时复制左侧相邻底座道具的触发效果</td></tr><tr><td>山神符</td><td>全局</td><td>每章 Boss 关第一次负面效果无效</td></tr><tr><td>旅人靴</td><td>全局</td><td>每个路段刷新次数 +1</td></tr><tr><td>百色绳</td><td>全局</td><td>五源齐备倍率 +1</td></tr><tr><td>同源牌匣</td><td>全局</td><td>三同源、四同源、五同源倍率各 +0.5</td></tr><tr><td>中格铜印</td><td>底座</td><td>第 3 格的牌收益 x2</td></tr><tr><td>货郎旗</td><td>全局</td><td>每次探索轮开始，随机 1 张手牌基础收益 +5</td></tr></tbody></table></div><h3 id="12-2-道具触发时机">12.2 道具触发时机<a class="heading-link" href="#12-2-道具触发时机" aria-label="链接到本节">#</a></h3><p>建议统一为以下触发时机：</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>时机</th><th>说明</th></tr></thead><tbody><tr><td>onRoundStart</td><td>探索轮开始</td></tr><tr><td>onCardPlaced</td><td>货源牌放入行动格</td></tr><tr><td>onToolUsed</td><td>工具牌使用</td></tr><tr><td>beforeScore</td><td>结算计算前</td></tr><tr><td>onScore</td><td>结算过程中</td></tr><tr><td>afterScore</td><td>结算结束后</td></tr><tr><td>onRefresh</td><td>手牌刷新后</td></tr></tbody></table></div><h3 id="12-3-道具位规则">12.3 道具位规则<a class="heading-link" href="#12-3-道具位规则" aria-label="链接到本节">#</a></h3><ul>
+<li>最多持有 5 个随身物。</li>
+<li>底座随身物必须放在某个行动格上。</li>
+<li>全局随身物也占用 1 个随身物位，但不绑定具体格子。</li>
+<li>如果道具位已满，获得新道具时进入替换界面。</li>
+<li>替换时，被替换的道具永久移出本局。</li>
+</ul>
+<hr>
+<h2 id="13-boss-负面机制">13. Boss 负面机制<a class="heading-link" href="#13-boss-负面机制" aria-label="链接到本节">#</a></h2><p>负面机制只出现在每章第 4 个路段。</p>
+<p>不做常驻负面牌库，避免首版复杂度过高。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>场景</th><th>Boss 规则</th><th>设计目的</th></tr></thead><tbody><tr><td>山神索礼</td><td>每次探索轮开始，随机 1 个行动格被“山印”压住，该格牌收益减半</td><td>让玩家注意格子位置</td></tr><tr><td>树影客栈</td><td>每次探索轮中，第 5 张打出的牌被“树影”遮住，只计算收益，不参与牌型</td><td>打乱凑牌型节奏</td></tr><tr><td>狐火渡口</td><td>每次探索轮开始，随机指定 1 种货源为“狐火”，该货源本轮收益减半，但仍参与牌型</td><td>让玩家临时调整目标颜色</td></tr><tr><td>海雾集市</td><td>每次结算前，随机 1 张已打出的货源牌变为随机货源</td><td>检验改色与稳定性构筑</td></tr></tbody></table></div><h3 id="13-1-boss-规则显示">13.1 Boss 规则显示<a class="heading-link" href="#13-1-boss-规则显示" aria-label="链接到本节">#</a></h3><p>Boss 路段 UI 需要显示一条短规则：</p>
+<pre><code class="language-text">山印：每轮一格收益减半
+树影：第5张牌不参与牌型
+狐火：随机货源收益减半
+海雾：结算前随机变色
+</code></pre>
+<p>Boss 规则不需要长文本，点击规则标签后可弹出详细说明。</p>
+<hr>
+<h2 id="14-三选一构筑奖励">14. 三选一构筑奖励<a class="heading-link" href="#14-三选一构筑奖励" aria-label="链接到本节">#</a></h2><p>每个路段通关后，出现 3 个奖励选项。</p>
+<p>奖励池由三类组成：</p>
+<ol>
+<li>货源强化</li>
+<li>工具牌</li>
+<li>随身物</li>
+</ol>
+<h3 id="14-1-货源强化奖励">14.1 货源强化奖励<a class="heading-link" href="#14-1-货源强化奖励" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>奖励</th><th>效果</th></tr></thead><tbody><tr><td>探路熟练</td><td>探路基础收益 +2</td></tr><tr><td>采集熟练</td><td>采集基础收益 +2</td></tr><tr><td>开矿熟练</td><td>开矿基础收益 +2</td></tr><tr><td>搜罗熟练</td><td>搜罗基础收益 +2</td></tr><tr><td>交易熟练</td><td>交易基础收益 +2</td></tr><tr><td>广见闻</td><td>随机 2 种货源基础收益 +1</td></tr><tr><td>专精</td><td>选择 1 种货源基础收益 +3</td></tr></tbody></table></div><h3 id="14-2-工具牌奖励">14.2 工具牌奖励<a class="heading-link" href="#14-2-工具牌奖励" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>奖励</th><th>效果</th></tr></thead><tbody><tr><td>获得染货布</td><td>将 1 张染货布加入牌库</td></tr><tr><td>获得加价印</td><td>将 1 张加价印加入牌库</td></tr><tr><td>获得空货箱</td><td>将 1 张空货箱加入牌库</td></tr></tbody></table></div><h3 id="14-3-随身物奖励">14.3 随身物奖励<a class="heading-link" href="#14-3-随身物奖励" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>奖励</th><th>效果</th></tr></thead><tbody><tr><td>获得普通随身物</td><td>从普通随身物池中随机 1 个</td></tr><tr><td>获得稀有随身物</td><td>从稀有随身物池中随机 1 个</td></tr><tr><td>替换随身物</td><td>选择 1 个已有随身物替换为新随身物</td></tr><tr><td>升级随身物</td><td>选择 1 个已有随身物强化效果</td></tr></tbody></table></div><p>MVP 阶段可以先不做稀有度，只做统一随机池。</p>
+<hr>
+<h2 id="15-数值节奏">15. 数值节奏<a class="heading-link" href="#15-数值节奏" aria-label="链接到本节">#</a></h2><h3 id="15-1-初始数值">15.1 初始数值<a class="heading-link" href="#15-1-初始数值" aria-label="链接到本节">#</a></h3><pre><code class="language-text">每张货源牌基础收益 = 10
+每个路段最多探索轮 = 4
+每个路段刷新次数 = 2
+手牌上限 = 3
+行动格数量 = 5
+</code></pre>
+<h3 id="15-2-目标盘缠">15.2 目标盘缠<a class="heading-link" href="#15-2-目标盘缠" aria-label="链接到本节">#</a></h3><p>以下为首轮测试数值，需要根据实机体验调整。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th style="text-align:right">路段</th><th>场景</th><th style="text-align:right">目标盘缠</th></tr></thead><tbody><tr><td style="text-align:right">1</td><td>山神索礼</td><td style="text-align:right">160</td></tr><tr><td style="text-align:right">2</td><td>山神索礼</td><td style="text-align:right">240</td></tr><tr><td style="text-align:right">3</td><td>山神索礼</td><td style="text-align:right">340</td></tr><tr><td style="text-align:right">4</td><td>山神索礼 Boss</td><td style="text-align:right">480</td></tr><tr><td style="text-align:right">5</td><td>树影客栈</td><td style="text-align:right">620</td></tr><tr><td style="text-align:right">6</td><td>树影客栈</td><td style="text-align:right">780</td></tr><tr><td style="text-align:right">7</td><td>树影客栈</td><td style="text-align:right">980</td></tr><tr><td style="text-align:right">8</td><td>树影客栈 Boss</td><td style="text-align:right">1250</td></tr><tr><td style="text-align:right">9</td><td>狐火渡口</td><td style="text-align:right">1550</td></tr><tr><td style="text-align:right">10</td><td>狐火渡口</td><td style="text-align:right">1900</td></tr><tr><td style="text-align:right">11</td><td>狐火渡口</td><td style="text-align:right">2350</td></tr><tr><td style="text-align:right">12</td><td>狐火渡口 Boss</td><td style="text-align:right">2900</td></tr><tr><td style="text-align:right">13</td><td>海雾集市</td><td style="text-align:right">3500</td></tr><tr><td style="text-align:right">14</td><td>海雾集市</td><td style="text-align:right">4200</td></tr><tr><td style="text-align:right">15</td><td>海雾集市</td><td style="text-align:right">5000</td></tr><tr><td style="text-align:right">16</td><td>海雾集市 Boss</td><td style="text-align:right">6200</td></tr></tbody></table></div><h3 id="15-3-调参目标">15.3 调参目标<a class="heading-link" href="#15-3-调参目标" aria-label="链接到本节">#</a></h3><p>理想体验：</p>
+<ul>
+<li>第 1-3 路段：玩家不懂构筑也能过。</li>
+<li>第 4 路段：第一次感受到 Boss 规则，但不应明显卡人。</li>
+<li>第 5-8 路段：玩家开始形成一个方向。</li>
+<li>第 9-12 路段：道具之间开始出现连锁。</li>
+<li>第 13-16 路段：成型构筑可以提前 1-2 次探索过关。</li>
+</ul>
+<p>失败率建议：</p>
+<ul>
+<li>前 4 路段：低于 5%。</li>
+<li>中段：10%-20%。</li>
+<li>终段：20%-35%。</li>
+</ul>
+<hr>
+<h2 id="16-流派方向">16. 流派方向<a class="heading-link" href="#16-流派方向" aria-label="链接到本节">#</a></h2><h3 id="16-1-同源爆发流">16.1 同源爆发流<a class="heading-link" href="#16-1-同源爆发流" aria-label="链接到本节">#</a></h3><p>核心：</p>
+<ul>
+<li>追求三同源、四同源、五同源。</li>
+<li>通过染货布、空货箱和同源牌匣提高稳定性。</li>
+</ul>
+<p>关键组件：</p>
+<ul>
+<li>染货布</li>
+<li>空货箱</li>
+<li>同源牌匣</li>
+<li>破货架</li>
+<li>矿灯</li>
+</ul>
+<p>体验：</p>
+<ul>
+<li>简单直接，适合新手。</li>
+<li>凑出五同源时反馈强。</li>
+</ul>
+<h3 id="16-2-五源齐备流">16.2 五源齐备流<a class="heading-link" href="#16-2-五源齐备流" aria-label="链接到本节">#</a></h3><p>核心：</p>
+<ul>
+<li>追求 5 种货源各 1 张。</li>
+<li>稳定触发 x3 或更高倍率。</li>
+</ul>
+<p>关键组件：</p>
+<ul>
+<li>百色绳</li>
+<li>染货布</li>
+<li>旧罗盘</li>
+<li>旅人靴</li>
+</ul>
+<p>体验：</p>
+<ul>
+<li>看似杂色，实际稳定。</li>
+<li>能和工具牌、刷新构筑结合。</li>
+</ul>
+<h3 id="16-3-工具连锁流">16.3 工具连锁流<a class="heading-link" href="#16-3-工具连锁流" aria-label="链接到本节">#</a></h3><p>核心：</p>
+<ul>
+<li>多使用工具牌。</li>
+<li>用工具牌触发随身物收益。</li>
+</ul>
+<p>关键组件：</p>
+<ul>
+<li>旧货铃</li>
+<li>加价印</li>
+<li>空货箱</li>
+<li>狐火灯</li>
+</ul>
+<p>体验：</p>
+<ul>
+<li>玩家会在结算前先进行一连串操作。</li>
+<li>适合制造“这轮爆了”的感觉。</li>
+</ul>
+<h3 id="16-4-格子构筑流">16.4 格子构筑流<a class="heading-link" href="#16-4-格子构筑流" aria-label="链接到本节">#</a></h3><p>核心：</p>
+<ul>
+<li>利用底座道具和行动格位置。</li>
+<li>让某些格子变成高收益格。</li>
+</ul>
+<p>关键组件：</p>
+<ul>
+<li>双层箱</li>
+<li>中格铜印</li>
+<li>海市镜</li>
+<li>旧罗盘</li>
+<li>破货架</li>
+</ul>
+<p>体验：</p>
+<ul>
+<li>有一定策略深度。</li>
+<li>是本作和同类牌型游戏区分开的重点。</li>
+</ul>
+<hr>
+<h2 id="17-ui-布局">17. UI 布局<a class="heading-link" href="#17-ui-布局" aria-label="链接到本节">#</a></h2><p>游戏为竖屏界面。</p>
+<h3 id="17-1-顶部区域">17.1 顶部区域<a class="heading-link" href="#17-1-顶部区域" aria-label="链接到本节">#</a></h3><p>显示：</p>
+<ul>
+<li>游戏名或章节名。</li>
+<li>当前章节与路段。</li>
+<li>盘缠目标进度。</li>
+<li>探索次数。</li>
+<li>刷新次数。</li>
+</ul>
+<p>示例：</p>
+<pre><code class="language-text">远行商人
+第1章 山神索礼
+盘缠 320 / 500
+探索 2 / 4
+刷新 1 / 2
+</code></pre>
+<h3 id="17-2-中上场景区域">17.2 中上场景区域<a class="heading-link" href="#17-2-中上场景区域" aria-label="链接到本节">#</a></h3><p>显示：</p>
+<ul>
+<li>当前场景插画。</li>
+<li>场景名称。</li>
+<li>Boss 规则标签。</li>
+</ul>
+<p>普通路段场景表现可以保持一致，仅目标数值递增。</p>
+<p>Boss 路段增加特殊动效或视觉压迫：</p>
+<ul>
+<li>山神索礼：石印、山雾。</li>
+<li>树影客栈：影子、灯火。</li>
+<li>狐火渡口：蓝绿狐火、水面。</li>
+<li>海雾集市：雾、错位摊位。</li>
+</ul>
+<h3 id="17-3-中部行动区">17.3 中部行动区<a class="heading-link" href="#17-3-中部行动区" aria-label="链接到本节">#</a></h3><p>显示 5 个行动格。</p>
+<p>每个行动格：</p>
+<ul>
+<li>可拖入货源牌。</li>
+<li>显示绑定随身物。</li>
+<li>显示临时状态，例如山印、树影、x2。</li>
+<li>可点击查看详情。</li>
+</ul>
+<h3 id="17-4-底部手牌区">17.4 底部手牌区<a class="heading-link" href="#17-4-底部手牌区" aria-label="链接到本节">#</a></h3><p>显示：</p>
+<ul>
+<li>3 张手牌，扇形或横向展开。</li>
+<li>中间刷新按钮。</li>
+<li>左下牌库按钮。</li>
+<li>右下牌型按钮。</li>
+</ul>
+<p>按钮：</p>
+<pre><code class="language-text">牌库
+刷新
+牌型
+</code></pre>
+<h3 id="17-5-结算表现">17.5 结算表现<a class="heading-link" href="#17-5-结算表现" aria-label="链接到本节">#</a></h3><p>结算反馈顺序：</p>
+<ol>
+<li>显示牌型名称。</li>
+<li>显示货源收益总和。</li>
+<li>显示牌型倍率。</li>
+<li>逐个触发随身物。</li>
+<li>显示最终盘缠增加值。</li>
+<li>更新盘缠进度条。</li>
+</ol>
+<p>示例：</p>
+<pre><code class="language-text">三同源 x2
+货源收益 62
+旧货铃 +10
+本轮盘缠 +134
+</code></pre>
+<hr>
+<h2 id="18-美术风格">18. 美术风格<a class="heading-link" href="#18-美术风格" aria-label="链接到本节">#</a></h2><p>关键词：</p>
+<ul>
+<li>东方民俗</li>
+<li>商旅远行</li>
+<li>神秘但不恐怖</li>
+<li>旧纸、墨线、铜器、木纹</li>
+<li>温暖手绘质感</li>
+<li>卡牌仪式感</li>
+</ul>
+<p>可以参考的气质方向：</p>
+<ul>
+<li>《苏丹的游戏》的卡牌仪式感、旧纸和神秘质感。</li>
+<li>东方民俗绘卷。</li>
+<li>手账地图、旅人行囊、路引、货票。</li>
+</ul>
+<p>需要避免：</p>
+<ul>
+<li>西式赌场扑克牌风。</li>
+<li>过度恐怖。</li>
+<li>过度写实。</li>
+<li>过度儿童卡通。</li>
+<li>信息过密。</li>
+</ul>
+<h3 id="18-1-货源视觉">18.1 货源视觉<a class="heading-link" href="#18-1-货源视觉" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>货源</th><th>颜色</th><th>视觉元素</th></tr></thead><tbody><tr><td>探路</td><td>青色</td><td>罗盘、脚印、地图线</td></tr><tr><td>采集</td><td>绿色</td><td>叶子、草药、竹篮</td></tr><tr><td>开矿</td><td>金色</td><td>矿镐、矿石、盐晶</td></tr><tr><td>搜罗</td><td>紫色</td><td>旧罐、眼纹、奇物</td></tr><tr><td>交易</td><td>红色</td><td>铜钱、契纸、握手</td></tr></tbody></table></div><h3 id="18-2-ui-材质">18.2 UI 材质<a class="heading-link" href="#18-2-ui-材质" aria-label="链接到本节">#</a></h3><ul>
+<li>背景：旧纸、地图、淡墨山水。</li>
+<li>行动格：木质框、纸牌槽。</li>
+<li>随身物：护符、铃、罗盘、算盘、灯。</li>
+<li>工具牌：布、印、箱等实物图标。</li>
+</ul>
+<hr>
+<h2 id="19-cocos-模块拆分">19. Cocos 模块拆分<a class="heading-link" href="#19-cocos-模块拆分" aria-label="链接到本节">#</a></h2><h3 id="19-1-核心模块">19.1 核心模块<a class="heading-link" href="#19-1-核心模块" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>模块</th><th>职责</th></tr></thead><tbody><tr><td>GameManager</td><td>局内总流程、章节、路段、胜负判断</td></tr><tr><td>LevelManager</td><td>读取关卡配置、目标盘缠、Boss 规则</td></tr><tr><td>DeckManager</td><td>抽牌、弃牌、洗牌、加入工具牌</td></tr><tr><td>HandManager</td><td>手牌上限、补牌、刷新</td></tr><tr><td>BoardManager</td><td>5 个行动格、拖拽放置、清空格子</td></tr><tr><td>PatternManager</td><td>识别牌型</td></tr><tr><td>ScoreManager</td><td>计算收益、倍率、最终盘缠</td></tr><tr><td>ToolCardManager</td><td>工具牌使用、目标选择、效果执行</td></tr><tr><td>RelicManager</td><td>随身物持有、触发、替换、升级</td></tr><tr><td>RewardManager</td><td>生成 3 选 1 奖励</td></tr><tr><td>BossRuleManager</td><td>处理 Boss 特殊规则</td></tr><tr><td>UIManager</td><td>主界面刷新、弹窗、结算动画</td></tr></tbody></table></div><h3 id="19-2-推荐数据表">19.2 推荐数据表<a class="heading-link" href="#19-2-推荐数据表" aria-label="链接到本节">#</a></h3><p>建议使用 JSON 配置：</p>
+<pre><code class="language-text">configs/cards.json
+configs/tool_cards.json
+configs/relics.json
+configs/levels.json
+configs/rewards.json
+configs/boss_rules.json
+configs/patterns.json
+</code></pre>
+<h3 id="19-3-货源牌数据结构">19.3 货源牌数据结构<a class="heading-link" href="#19-3-货源牌数据结构" aria-label="链接到本节">#</a></h3><pre><code class="language-json">{
+  &quot;id&quot;: &quot;source_explore&quot;,
+  &quot;name&quot;: &quot;探路&quot;,
+  &quot;type&quot;: &quot;source&quot;,
+  &quot;sourceType&quot;: &quot;explore&quot;,
+  &quot;baseScore&quot;: 10,
+  &quot;color&quot;: &quot;#35B8C8&quot;,
+  &quot;icon&quot;: &quot;icon_compass&quot;
+}
+</code></pre>
+<h3 id="19-4-工具牌数据结构">19.4 工具牌数据结构<a class="heading-link" href="#19-4-工具牌数据结构" aria-label="链接到本节">#</a></h3><pre><code class="language-json">{
+  &quot;id&quot;: &quot;tool_dye_cloth&quot;,
+  &quot;name&quot;: &quot;染货布&quot;,
+  &quot;type&quot;: &quot;tool&quot;,
+  &quot;effectType&quot;: &quot;change_source&quot;,
+  &quot;targetType&quot;: &quot;source_card&quot;,
+  &quot;description&quot;: &quot;选择1张货源牌，将其改成指定货源。&quot;
+}
+</code></pre>
+<h3 id="19-5-随身物数据结构">19.5 随身物数据结构<a class="heading-link" href="#19-5-随身物数据结构" aria-label="链接到本节">#</a></h3><pre><code class="language-json">{
+  &quot;id&quot;: &quot;relic_old_compass&quot;,
+  &quot;name&quot;: &quot;旧罗盘&quot;,
+  &quot;relicType&quot;: &quot;slot&quot;,
+  &quot;trigger&quot;: &quot;onCardPlaced&quot;,
+  &quot;effectType&quot;: &quot;multiply_card_score&quot;,
+  &quot;condition&quot;: {
+    &quot;sourceType&quot;: &quot;explore&quot;
+  },
+  &quot;value&quot;: 2,
+  &quot;description&quot;: &quot;本格打出探路牌时，该牌收益x2。&quot;
+}
+</code></pre>
+<h3 id="19-6-关卡数据结构">19.6 关卡数据结构<a class="heading-link" href="#19-6-关卡数据结构" aria-label="链接到本节">#</a></h3><pre><code class="language-json">{
+  &quot;id&quot;: &quot;level_01&quot;,
+  &quot;chapter&quot;: 1,
+  &quot;stage&quot;: 1,
+  &quot;scene&quot;: &quot;mountain_god&quot;,
+  &quot;sceneName&quot;: &quot;山神索礼&quot;,
+  &quot;targetScore&quot;: 160,
+  &quot;maxExploreRounds&quot;: 4,
+  &quot;refreshCount&quot;: 2,
+  &quot;bossRule&quot;: null
+}
+</code></pre>
+<p>Boss 关示例：</p>
+<pre><code class="language-json">{
+  &quot;id&quot;: &quot;level_04&quot;,
+  &quot;chapter&quot;: 1,
+  &quot;stage&quot;: 4,
+  &quot;scene&quot;: &quot;mountain_god&quot;,
+  &quot;sceneName&quot;: &quot;山神索礼&quot;,
+  &quot;targetScore&quot;: 480,
+  &quot;maxExploreRounds&quot;: 4,
+  &quot;refreshCount&quot;: 2,
+  &quot;bossRule&quot;: &quot;mountain_seal&quot;
+}
+</code></pre>
+<h3 id="19-7-牌型数据结构">19.7 牌型数据结构<a class="heading-link" href="#19-7-牌型数据结构" aria-label="链接到本节">#</a></h3><pre><code class="language-json">{
+  &quot;id&quot;: &quot;five_same&quot;,
+  &quot;name&quot;: &quot;五同源&quot;,
+  &quot;priority&quot;: 100,
+  &quot;multiplier&quot;: 5,
+  &quot;conditionType&quot;: &quot;same_source_count&quot;,
+  &quot;conditionValue&quot;: 5
+}
+</code></pre>
+<hr>
+<h2 id="20-mvp-开发范围">20. MVP 开发范围<a class="heading-link" href="#20-mvp-开发范围" aria-label="链接到本节">#</a></h2><p>首版建议只做以下内容：</p>
+<h3 id="20-1-必做">20.1 必做<a class="heading-link" href="#20-1-必做" aria-label="链接到本节">#</a></h3><ul>
+<li>16 个路段。</li>
+<li>4 个场景。</li>
+<li>5 种货源牌。</li>
+<li>3 张工具牌。</li>
+<li>15 个随身物。</li>
+<li>6 种牌型。</li>
+<li>4 个 Boss 规则。</li>
+<li>3 选 1 奖励。</li>
+<li>5 个行动格。</li>
+<li>3 手牌。</li>
+<li>每关 2 次刷新。</li>
+<li>结算动画。</li>
+</ul>
+<h3 id="20-2-暂不做">20.2 暂不做<a class="heading-link" href="#20-2-暂不做" aria-label="链接到本节">#</a></h3><ul>
+<li>局外成长。</li>
+<li>商店。</li>
+<li>金币。</li>
+<li>路线选择。</li>
+<li>随机事件。</li>
+<li>复杂稀有度。</li>
+<li>复杂负面牌。</li>
+<li>基础牌点数。</li>
+<li>多职业。</li>
+</ul>
+<hr>
+<h2 id="21-后续版本方向">21. 后续版本方向<a class="heading-link" href="#21-后续版本方向" aria-label="链接到本节">#</a></h2><h3 id="21-1-v0-2">21.1 v0.2<a class="heading-link" href="#21-1-v0-2" aria-label="链接到本节">#</a></h3><ul>
+<li>增加更多工具牌。</li>
+<li>增加更多随身物。</li>
+<li>增加随身物稀有度。</li>
+<li>增加道具升级系统。</li>
+<li>优化 Boss 规则表现。</li>
+</ul>
+<h3 id="21-2-v0-3">21.2 v0.3<a class="heading-link" href="#21-2-v0-3" aria-label="链接到本节">#</a></h3><ul>
+<li>增加局外解锁。</li>
+<li>增加不同初始商人。</li>
+<li>增加新场景。</li>
+<li>增加新章节组合。</li>
+</ul>
+<h3 id="21-3-v0-4">21.3 v0.4<a class="heading-link" href="#21-3-v0-4" aria-label="链接到本节">#</a></h3><ul>
+<li>增加随机事件。</li>
+<li>增加更复杂的场景规则组合。</li>
+<li>增加每日挑战。</li>
+<li>增加排行榜或轻社交分享。</li>
+</ul>
+<hr>
+<h2 id="22-首轮验证目标">22. 首轮验证目标<a class="heading-link" href="#22-首轮验证目标" aria-label="链接到本节">#</a></h2><p>原型阶段需要重点验证：</p>
+<ol>
+<li>玩家是否能在 30 秒内理解“打满 5 格结算”。</li>
+<li>3 手牌是否足够轻量，又不至于无聊。</li>
+<li>5 同源、五源齐备是否都能形成流派。</li>
+<li>工具牌是否能明显提高玩家掌控感。</li>
+<li>道具底座是否带来了区别于同类游戏的策略感。</li>
+<li>每小关 3 选 1 是否比商店更适合微信小游戏节奏。</li>
+<li>单局是否能控制在 10-15 分钟。</li>
+<li>第 8 路段前是否能形成初步构筑。</li>
+<li>第 12 路段后是否开始出现连锁爆发。</li>
+<li>第 16 路段是否能成为一次爽感检验。</li>
+</ol>
+<hr>
+<h2 id="23-一局体验示例">23. 一局体验示例<a class="heading-link" href="#23-一局体验示例" aria-label="链接到本节">#</a></h2><p>第 1 路段：</p>
+<ul>
+<li>玩家进入山神索礼。</li>
+<li>目标盘缠 160。</li>
+<li>玩家通过三同源和散货两次探索达到目标。</li>
+<li>过关后获得 3 选 1：探路收益 +2 / 获得染货布 / 获得旧罗盘。</li>
+</ul>
+<p>第 2 路段：</p>
+<ul>
+<li>玩家选择旧罗盘。</li>
+<li>旧罗盘绑定到第 1 格。</li>
+<li>第 1 格打出探路牌收益 x2。</li>
+<li>玩家开始有意识地把探路牌放到第 1 格。</li>
+</ul>
+<p>第 4 路段 Boss：</p>
+<ul>
+<li>山神索礼 Boss 出现山印。</li>
+<li>每轮随机一个行动格收益减半。</li>
+<li>玩家需要避开山印格，或者用工具牌调整收益。</li>
+</ul>
+<p>第 8 路段：</p>
+<ul>
+<li>玩家已经拥有 2-3 个随身物。</li>
+<li>染货布和空货箱帮助凑出四同源。</li>
+<li>结算开始出现明显爆发。</li>
+</ul>
+<p>第 16 路段：</p>
+<ul>
+<li>玩家构筑成型。</li>
+<li>海雾随机变色干扰最终牌型。</li>
+<li>如果玩家拥有染货布、百色绳、同源牌匣等构筑，可以稳定冲过最终目标。</li>
+</ul>
+<hr>
+<h2 id="24-当前版本结论">24. 当前版本结论<a class="heading-link" href="#24-当前版本结论" aria-label="链接到本节">#</a></h2><p>《远行商人》MVP 的核心不是复杂牌库，而是：</p>
+<pre><code class="language-text">3 手牌轻决策
++ 5 格探索轮
++ 同源牌型倍率
++ 工具牌微调
++ 随身物连锁
++ 每关 3 选 1 构筑
+= 微信小游戏可接受的轻量肉鸽爽感
+</code></pre>
+<p>首版开发应优先完成可玩闭环，而不是追求内容量。</p>
+<p>最小可验证版本只需要：</p>
+<ul>
+<li>色块牌</li>
+<li>5 个行动格</li>
+<li>简单结算</li>
+<li>3 张工具牌</li>
+<li>10-15 个随身物</li>
+<li>16 个目标数值</li>
+</ul>
+<p>只要这个版本能让玩家在第 5-8 路段开始期待“下一次 3 选 1 会不会让我爆起来”，核心方向就是成立的。</p>
+</article><section class="source-record" id="source-record"><p class="eyebrow">SOURCE & REVISIONS</p><h2>来源与修改记录</h2><dl><dt>原文标题</dt><dd>《远行商人》游戏策划案</dd><dt>工程内文件</dt><dd><code>docs/v2-traveling-merchant/yuanxing-shangren-gdd.md</code></dd><dt>收录方式</dt><dd>从现存工程文件收录，保留原段落与参数；仅做网页排版、本机路径匿名化与链接整理。</dd><dt>日期依据</dt><dd>正文日期 · 2026-05-19。正文日期、首次入库日期与修订日期可能不同。</dd></dl><details class="history" open><summary>查看 1 次文件提交记录</summary><p>以下为包含此文件变化的提交。提交说明可能涉及整个项目，不代表该文档单独完成了所有列出的功能。</p><ol><li><time>2026-05-29</time><div><code>edc90e8</code><p>chore: snapshot buildscore ui iteration</p><a href="merchant-mvp-edc90e8.html">阅读当次文本 →</a></div></li></ol></details></section><nav class="adjacent" aria-label="相邻文档"><a href="merchant-prd.html"><small>上一篇</small>远行商人（Travelling Merchant）- 产品需求文档（PRD）</a><a href="settlement-next.html"><small>下一篇</small>结算体验与构筑扩展讨论稿</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>两个独立游戏，从原型到迭代的设计记录。</p></div><p>整理于 2026.09.19<br><a href="../index.html#about">收录与日期说明</a> · <a href="../../index.html">返回作品集 ↗</a></p></footer></body></html>

@@ -1,0 +1,97 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f4f2eb"><title>触发网与特殊辅助道具候选 v0.1 · Symbol 策划档案</title><meta name="description" content="触发网与特殊辅助道具的候选探索；不能据此认定整套方案已经上线。"><link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css"><script src="../archive.js" defer></script></head><body class="document-page merchant"><a class="skip" href="#main">跳到正文</a><header class="site-header"><a class="wordmark" href="../index.html">SYMBOL<span>设计档案 / 2026</span></a><nav aria-label="主导航"><a href="../index.html#timeline">版本时间线</a><a href="../index.html#catalog">全部文档</a><a class="back-portfolio" href="../../index.html">作品集 <span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="doc-top"><a class="back-link" href="../index.html?project=merchant#catalog">← 返回远行商人文档</a><div class="doc-tags"><span>远行商人</span><span>候选设计</span><span>构筑成长</span></div><h1>触发网与特殊辅助道具候选 v0.1</h1><p class="doc-intro">触发网与特殊辅助道具的候选探索；不能据此认定整套方案已经上线。</p><div class="doc-metadata"><span><strong>2026-09-12</strong>首次入库</span><span><strong>9 分钟</strong>预计阅读</span><span><strong>1</strong>次可查提交</span><a class="download" href="../sources/trigger-network.md" download>下载本文 ↓</a></div></div><div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><a class="level-2" href="#1-这一批要补的不只是-道具数量">1. 这一批要补的不只是“道具数量”</a><a class="level-2" href="#2-本轮锁定的候选规则">2. 本轮锁定的候选规则</a><a class="level-2" href="#3-18-件候选道具">3. 18 件候选道具</a><a class="level-2" href="#4-核心联动不是-一件道具加大数">4. 核心联动不是“一件道具加大数”</a><a class="level-3" href="#4-1-标签接力网">4.1 标签接力网</a><a class="level-3" href="#4-2-金币标签的飞轮">4.2 金币标签的飞轮</a><a class="level-3" href="#4-3-同色牌库不是只提高五连几率">4.3 同色牌库不是只提高五连几率</a><a class="level-2" href="#5-牌库浓度与重抽模拟">5. 牌库浓度与重抽模拟</a><a class="level-2" href="#6-候选分组结论">6. 候选分组结论</a><a class="level-3" href="#优先进入联合测试-12-件">优先进入联合测试（12 件）</a><a class="level-3" href="#先做概念验证-4-件">先做概念验证（4 件）</a><a class="level-3" href="#暂缓-2-件">暂缓（2 件）</a><a class="level-2" href="#7-建议的支持型奇遇-信条-同样未实装">7. 建议的支持型奇遇 / 信条（同样未实装）</a><a class="level-2" href="#8-真正接入游戏前还需要的验收">8. 真正接入游戏前还需要的验收</a><a class="level-2" href="#9-当前结论">9. 当前结论</a><a href="#source-record">来源与修改记录</a></nav></details><a class="to-top" href="#main">回到页首 ↑</a></aside><div class="doc-reading"><div class="archive-note"><span class="note-marker">档案说明</span><p>这是 2026-09-19 从工程收录的文本，可能包含后来补写的注释。正文中的“当前”“已实现”保留原有语境，不代表本站试玩版已逐项复验。</p></div><article class="prose" id="article"><blockquote>
+<p>状态：只用于设计和隔离模拟，尚未进入正式道具池、运行配置、Core、UI 或 Prefab。<br>数据表：<code>mushroom-trigger-network-special-items-v0.1-candidate.json</code><br>模拟脚本：<code>scripts/simulate-candidate-trigger-network-v01.mjs</code></p>
+</blockquote>
+<h2 id="1-这一批要补的不只是-道具数量">1. 这一批要补的不只是“道具数量”<a class="heading-link" href="#1-这一批要补的不只是-道具数量" aria-label="链接到本节">#</a></h2><p>当前 30 件道具已经能让“加分标签→重放→乘分”发生爆发，但仍有六个结构缺口：</p>
+<ol>
+<li><strong>载体供给较薄</strong>：拿到养成道具时，可能没有足够的标签牌承接。</li>
+<li><strong>重放缺少中继节点</strong>：引路灯可以把触发存给下一张，余烬炉可以在本格加深，但两者之间还缺“这张的重放变成下一张的重放”。</li>
+<li><strong>金币标签与爆分网联系较弱</strong>：它能买更多道具，但不容易变成触发次数、重放深度或乘分成长。</li>
+<li><strong>重抽手牌只是基础操作</strong>：现在每关 2 次，但缺少“供给重抽→消耗重抽→转成触发/标签重放”的构筑线。</li>
+<li><strong>25 张牌始终 5/5/5/5/5</strong>：玩家只能每轮修手牌，不能把整副牌逐渐塑造成自己的构筑资产。</li>
+<li><strong>成型上限已高，但缺件形状还不够清楚</strong>：需要让“有种子没转化”、“有转化没收束”、“有收束没供给”都呈现不同的不完整体验，不是只比较最终分数。</li>
+</ol>
+<h2 id="2-本轮锁定的候选规则">2. 本轮锁定的候选规则<a class="heading-link" href="#2-本轮锁定的候选规则" aria-label="链接到本节">#</a></h2><ul>
+<li>“永久改色”指<strong>本次远行后续关卡保留</strong>，不是局外永久。</li>
+<li>改色作用于 25 张真实具体蘑菇。牌的唯一身份、蘑菇分数、普通标签、标签当前数值和炫彩全部保留。</li>
+<li>改色不移动标签，不创建或删除牌，不作用于临时生成牌。</li>
+<li>单种颜色暂设上限 10 张。这个数值用来防止单色路线在中期直接成为无条件答案，后续可根据真人决策数据改成 9 或 11。</li>
+<li>额外普通标签结算在进入该牌时一次性锁定，每次仍完整执行“加分→乘分→金币”。它不重复炫彩，也不递归生成新重放。</li>
+<li>金币转爆分的两件核心道具是<strong>转换器</strong>：该格放弃金币入账，换取标签重放或乘分成长，避免同时爆分和无限刷钱。</li>
+</ul>
+<h2 id="3-18-件候选道具">3. 18 件候选道具<a class="heading-link" href="#3-18-件候选道具" aria-label="链接到本节">#</a></h2><p>其中 10 件是触发网核心，8 件是修手牌、改牌库或补经济的特殊辅助。玩家文案、完整上下游、风险与 Icon brief 以候选 JSON 和策划表为准。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>组别</th><th>道具</th><th>数学职责</th><th>主要连接</th></tr></thead><tbody><tr><td>标签触发网</td><td>封蜡盒</td><td>供给标签载体</td><td>标签载体→月之眼/断线鸢/空心铃/余烬炉</td></tr><tr><td>标签触发网</td><td>显影片</td><td>标签成熟度→触发</td><td>标签外观阶段→引路灯/灰信鸽</td></tr><tr><td>标签触发网</td><td>接力章</td><td>当前牌重放深度→下一张重放深度</td><td>引路灯/复响→接力章→余烬炉</td></tr><tr><td>标签触发网</td><td>复写纸</td><td>复制一次其他重放时机</td><td>引路灯/接力章/换页签→复写</td></tr><tr><td>标签触发网</td><td>合账盖</td><td>重放深度→末端倍率</td><td>多次完整标签结算→×1.1，最多3次</td></tr><tr><td>金币飞轮</td><td>铜雨铃</td><td>金币标签值→额外触发</td><td>金币养成→引路灯/灰信鸽</td></tr><tr><td>金币飞轮</td><td>叠账夹</td><td>放弃本格金币→下一张重放</td><td>金币标签→重放深度</td></tr><tr><td>金币飞轮</td><td>金线账</td><td>放弃本格金币→乘分标签成长</td><td>多次金币标签结算→永久倍率</td></tr><tr><td>金币飞轮</td><td>铜钱匣</td><td>金币产出→下店折扣</td><td>补前期购买和中途转型</td></tr><tr><td>牌库塑形</td><td>染匠顶针</td><td>每章1次定向改色</td><td>高连段→指定颜色数量成长</td></tr><tr><td>牌库塑形</td><td>菌谱册</td><td>同色牌数量→额外触发</td><td>7/9张同色时获得1/2次额外触发</td></tr><tr><td>牌库塑形</td><td>五折灯</td><td>五连→标签重放收束</td><td>第5张的普通标签额外完整结算2次</td></tr><tr><td>牌库塑形</td><td>色票簿</td><td>改色事件→具体牌成长</td><td>被改色牌永久+10蘑菇分数</td></tr><tr><td>牌库塑形</td><td>洗色盘</td><td>未成三连→下关恢复</td><td>失败形状→下关+1重抽</td></tr><tr><td>重抽构筑</td><td>折页扇</td><td>增加重抽供给</td><td>每关 2→3 次</td></tr><tr><td>重抽构筑</td><td>回程票</td><td>重抽→下一张触发</td><td>修手牌同时点火每次触发道具</td></tr><tr><td>重抽构筑</td><td>换页签</td><td>第2次重抽→标签重放</td><td>重抽消耗→加分/乘分/金币整包</td></tr><tr><td>重抽构筑</td><td>水滴染盏</td><td>特定重抽手牌→自动改色</td><td>2同色+1异色→异色牌永久改色</td></tr></tbody></table></div><h2 id="4-核心联动不是-一件道具加大数">4. 核心联动不是“一件道具加大数”<a class="heading-link" href="#4-核心联动不是-一件道具加大数" aria-label="链接到本节">#</a></h2><h3 id="4-1-标签接力网">4.1 标签接力网<a class="heading-link" href="#4-1-标签接力网" aria-label="链接到本节">#</a></h3><pre><code class="language-text">第3格 引路灯
+  3次基础触发 → 为下一张储存1次额外标签结算
+        ↓
+第4格 接力章
+基础1次 + 上游1次 = 完整结算2次
+  → 为下一张储存2次
+        ↓
+第5格 余烬炉
+  基础1次 + 余烬炉3次 + 上游2次 = 完整结算6次
+  → 每次都是加分→乘分→金币
+</code></pre>
+<p>初成标签仍只是 <code>+10 / ×2</code>，这条网也能把模型分数从 880 推到 54,380。缺上游、缺中继或缺深度时，同期分别约为 14,380 / 13,580 / 6,780，因此三个组件是真正的相互触发，不是三件平行加分件。</p>
+<p>标签进入 <code>+200 / ×5</code> 的成型视觉阶段后，同一可读模型的完整网上限约 155 亿分。这是<strong>理想载体和理想摆位的上限证明</strong>，不是玩家平均分。它与现有扶持模拟 503 亿的最高长尾在同一量级，还没有出现 <code>10^49</code> 式失控。</p>
+<h3 id="4-2-金币标签的飞轮">4.2 金币标签的飞轮<a class="heading-link" href="#4-2-金币标签的飞轮" aria-label="链接到本节">#</a></h3><pre><code class="language-text">金币标签数值
+  → 叠账夹：放弃本格金币，换下一张标签重放
+  → 金线账：再放弃本格金币，把重放次数换乘分标签永久成长
+  → 后续每次标签重放都使用更高倍率
+</code></pre>
+<p>在“同一枚金币+乘分双标签核心能稳定落到收束格”的理想投影中：</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th style="text-align:right">金币标签值</th><th style="text-align:right">第1关后乘分</th><th style="text-align:right">第10关后乘分</th><th style="text-align:right">第10关单轮峰值</th></tr></thead><tbody><tr><td style="text-align:right">1</td><td style="text-align:right">2.0</td><td style="text-align:right">2.0</td><td style="text-align:right">1,150</td></tr><tr><td style="text-align:right">3</td><td style="text-align:right">2.2</td><td style="text-align:right">4.0</td><td style="text-align:right">182,360</td></tr><tr><td style="text-align:right">5</td><td style="text-align:right">2.2</td><td style="text-align:right">4.0</td><td style="text-align:right">843,130</td></tr></tbody></table></div><p>其局部数值仍是 <code>1 / 3 / 5 / +0.1</code>，放大来自重放次数、持续成长和乘分标签反复应用。两个转换格的金币都不入账，所以玩家必须在“经济”与“爆分”之间做真实选择。</p>
+<h3 id="4-3-同色牌库不是只提高五连几率">4.3 同色牌库不是只提高五连几率<a class="heading-link" href="#4-3-同色牌库不是只提高五连几率" aria-label="链接到本节">#</a></h3><p>完整路线是：</p>
+<pre><code class="language-text">折页扇 / 重抽机会
+  → 水滴染盏的自动修色，或染匠顶针的章末定向改色
+  → 菌谱册把7/9张同色换成1/2次触发
+  → 更多同类相接和五连
+  → 五折灯把第5张五连换成3次完整标签结算
+</code></pre>
+<p>五折灯在五连已成的条件下，对第5格的局部收束放大为：</p>
+<ul>
+<li><code>+10 / ×2</code>：约 4.19 倍。</li>
+<li><code>+50 / ×3</code>：约 10 倍。</li>
+<li><code>+200 / ×5</code>：约 28.43 倍。</li>
+</ul>
+<p>道具自己仍只写“额外完整结算 2 次”，放大来自玩家之前已经养成的三种标签。</p>
+<h2 id="5-牌库浓度与重抽模拟">5. 牌库浓度与重抽模拟<a class="heading-link" href="#5-牌库浓度与重抽模拟" aria-label="链接到本节">#</a></h2><p>以真实 25 张牌、3 张手牌、打 1 补 1、每关 3 轮、重抽次数在三轮共享为模型。策略优先追当前牌库数量最多的颜色，五色均衡时追手里最多的颜色。每行 100,000 个固定种子。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>牌库数量</th><th style="text-align:right">基础2次重抽：本关至少1次五连</th><th style="text-align:right">折页扇3次：本关至少1次五连</th></tr></thead><tbody><tr><td>5/5/5/5/5</td><td style="text-align:right">5.90%</td><td style="text-align:right">14.56%</td></tr><tr><td>6/5/5/5/4</td><td style="text-align:right">10.61%</td><td style="text-align:right">25.27%</td></tr><tr><td>7/5/5/4/4</td><td style="text-align:right">20.45%</td><td style="text-align:right">41.45%</td></tr><tr><td>8/5/4/4/4</td><td style="text-align:right">34.32%</td><td style="text-align:right">57.60%</td></tr><tr><td>9/4/4/4/4</td><td style="text-align:right">49.80%</td><td style="text-align:right">70.25%</td></tr><tr><td>10/4/4/4/3</td><td style="text-align:right">65.16%</td><td style="text-align:right">79.68%</td></tr></tbody></table></div><p>因此：</p>
+<ul>
+<li>折页扇在初始牌库把五连关卡覆盖从 5.90% 提到 14.56%，是强辅助，但不会自动完成五连。</li>
+<li>10 张同色 + 3 次重抽时达到 79.68%，仍保留失败和决策空间，因此 10 张上限可以进入首批原型。</li>
+<li>7—9 张是路线的主要成型区，菌谱册也正好在 7/9 张时给出 1/2 次触发，玩家不必等到10张才开始变强。</li>
+</ul>
+<p>水滴染盏的自动改色不会固定朝同一种颜色集中。单独使用它时：</p>
+<ul>
+<li>2 次重抽：10 关后平均改色 6.91 张，牌库最多颜色平均 7.86 张，达到10张的比例 13.57%。</li>
+<li>3 次重抽：10 关后平均改色 8.17 张，牌库最多颜色平均 8.24 张，达到10张的比例 22.01%。</li>
+</ul>
+<p>这说明它是“自然往当前手牌靠拢”的辅助，不是定向压牌库的核心。真正的定向集中由每章仅1次的染匠顶针承担；顶针单件最多把 5 张变成 9 张，要到 10 张还需要一次水滴染盏或奇遇，使稀有高光有明确构筑路径。</p>
+<h2 id="6-候选分组结论">6. 候选分组结论<a class="heading-link" href="#6-候选分组结论" aria-label="链接到本节">#</a></h2><h3 id="优先进入联合测试-12-件">优先进入联合测试（12 件）<a class="heading-link" href="#优先进入联合测试-12-件" aria-label="链接到本节">#</a></h3><p>显影片、接力章、铜雨铃、叠账夹、金线账、染匠顶针、菌谱册、五折灯、折页扇、回程票、换页签、水滴染盏。</p>
+<p>这 12 件分别提供标签成熟度转触发、重放中继、金币转换、牌库塑形和重抽构筑，是本轮体验缺口的主体。</p>
+<h3 id="先做概念验证-4-件">先做概念验证（4 件）<a class="heading-link" href="#先做概念验证-4-件" aria-label="链接到本节">#</a></h3><p>封蜡盒、复写纸、合账盖、洗色盘。</p>
+<ul>
+<li>封蜡盒需要用真实商店暴露率验证标签载体是否扩张过快。</li>
+<li>复写纸和合账盖直接抬高长尾，要在完整获取模拟中检查 P80/P95，不能只看理想上限。</li>
+<li>洗色盘是断档恢复件，需要确认玩家会不会为了领下关刷新而故意不打三连。</li>
+</ul>
+<h3 id="暂缓-2-件">暂缓（2 件）<a class="heading-link" href="#暂缓-2-件" aria-label="链接到本节">#</a></h3><p>铜钱匣、色票簿。</p>
+<ul>
+<li>铜钱匣与既有经济件、<code>1→2→3</code> 换货已有一定职责重叠。</li>
+<li>色票簿直接监听全局改色事件，与当前“普通道具只读取所在格”的边界冲突最大。</li>
+</ul>
+<h2 id="7-建议的支持型奇遇-信条-同样未实装">7. 建议的支持型奇遇 / 信条（同样未实装）<a class="heading-link" href="#7-建议的支持型奇遇-信条-同样未实装" aria-label="链接到本节">#</a></h2><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>名称</th><th>类型</th><th>收益</th><th>代价</th><th>作用</th></tr></thead><tbody><tr><td>染坊</td><td>定向改色奇遇</td><td>从3张其他颜色蘑菇中选1张，永久改为本章最高连段颜色</td><td>下一场战斗目标+20%</td><td>让顶针路线可以主动到10张</td></tr><tr><td>旧车站</td><td>重抽奇遇</td><td>接下来2关各+1次重抽手牌</td><td>放弃本路段金币</td><td>短期强化回程票/换页签/水滴染盏</td></tr><tr><td>褪色井</td><td>改色恢复奇遇</td><td>选1张曾被永久改色的蘑菇，恢复成它的初始颜色，分数和标签保留</td><td>本路段无其他奖励</td><td>给误判流派或 Boss 针对后的可见恢复口</td></tr><tr><td>翻页</td><td>候选信条</td><td>每关第一次重抽后，下一张带普通标签的蘑菇额外完整结算1次</td><td>占用本局信条</td><td>让重抽线在没拿到换页签时也可以成为一局方向</td></tr></tbody></table></div><h2 id="8-真正接入游戏前还需要的验收">8. 真正接入游戏前还需要的验收<a class="heading-link" href="#8-真正接入游戏前还需要的验收" aria-label="链接到本节">#</a></h2><ol>
+<li><strong>完整获取模拟</strong>：把 12 件优先候选放进与 30 件正式道具同一个商店暴露模型，而不是假设玩家已拥有全部核心。</li>
+<li><strong>不完整构筑</strong>：分别统计缺种子、缺中继、缺收束、缺目标载体的第2/3/4章分布和恢复率。</li>
+<li><strong>经济守恒</strong>：金币转换格必须记录“本应获得但被转换的金币”，不得同时入账。</li>
+<li><strong>改色的真实数据结构</strong>：现有临时改色会在弃牌时把 <code>playerType</code> 恢复到 <code>baseType</code>。后续实装应新增“本次远行持久颜色”字段，不要直接覆盖稳定身份或利用临时字段伪装。</li>
+<li><strong>存档与筛选</strong>：持久颜色必须进入远行快照；牌库、手牌、抽牌堆、弃牌堆看到的是同一张具体牌。</li>
+<li><strong>UI 选目标边界</strong>：若需三选一改色，继续留在 <code>game_main</code> 的牌库候选态，不新建 Dialog 或全屏遮罩。</li>
+<li><strong>统计指标</strong>：除第4章到达率和通关率外，必须记录同色最大数量、永久改色次数、每关重抽使用、标签重放最大深度、被转换的金币、P50/P80/P95 单轮分数与一件单卡的边际贡献。</li>
+</ol>
+<h2 id="9-当前结论">9. 当前结论<a class="heading-link" href="#9-当前结论" aria-label="链接到本节">#</a></h2><ul>
+<li>“牌库永久改色”值得保留，因为它创造的是跨关可见的<strong>牌库结构资产</strong>，不是一次性修手牌。</li>
+<li>单色不应只通过“更容易五连”得利；菌谱册提供中途触发收益，五折灯提供末端标签重放，色票簿作为改色成长概念仍需重审全局边界。</li>
+<li>额外重抽不应只是“更容易抽到好牌”；回程票、换页签和水滴染盏分别把它转成触发、标签重放和牌库塑形。</li>
+<li>本轮最关键的核心新件是<strong>接力章</strong>。它补上了“上游产生重放→中游延续重放→末端按倍率收束”的缺口，也最接近想要的那种“单件容易理解，放在一起指数增长”。</li>
+</ul>
+</article><section class="source-record" id="source-record"><p class="eyebrow">SOURCE & REVISIONS</p><h2>来源与修改记录</h2><dl><dt>原文标题</dt><dd>《远行商人》触发网与特殊辅助道具候选 v0.1</dd><dt>工程内文件</dt><dd><code>docs/v05-five-animal-caravan/mushroom-trigger-network-special-items-v0.1-candidate.md</code></dd><dt>收录方式</dt><dd>从现存工程文件收录，保留原段落与参数；仅做网页排版、本机路径匿名化与链接整理。</dd><dt>日期依据</dt><dd>首次入库 · 2026-09-12。用于证明此时文件已经存在，不等于实际写作日期。</dd></dl><details class="history" open><summary>查看 1 次文件提交记录</summary><p>以下为包含此文件变化的提交。提交说明可能涉及整个项目，不代表该文档单独完成了所有列出的功能。</p><ol><li><time>2026-09-12</time><div><code>a995664</code><p>feat: checkpoint mushroom trigger network and platform exports</p></div></li></ol></details></section><nav class="adjacent" aria-label="相邻文档"><a href="shop-v4.html"><small>上一篇</small>蘑菇商店与分层成长道具目录 v0.4</a><a href="cargo-pipeline.html"><small>下一篇</small>薯团搬宝流水线 v0.2</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>两个独立游戏，从原型到迭代的设计记录。</p></div><p>整理于 2026.09.19<br><a href="../index.html#about">收录与日期说明</a> · <a href="../../index.html">返回作品集 ↗</a></p></footer></body></html>

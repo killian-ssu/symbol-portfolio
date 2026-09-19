@@ -1,0 +1,125 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f4f2eb"><title>动效预设实验室 · Symbol 策划档案</title><meta name="description" content="建立预设比较入口，反复调整界面动作的速度和幅度。"><link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css"><script src="../archive.js" defer></script></head><body class="document-page merchant"><a class="skip" href="#main">跳到正文</a><header class="site-header"><a class="wordmark" href="../index.html">SYMBOL<span>设计档案 / 2026</span></a><nav aria-label="主导航"><a href="../index.html#timeline">版本时间线</a><a href="../index.html#catalog">全部文档</a><a class="back-portfolio" href="../../index.html">作品集 <span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="doc-top"><a class="back-link" href="../index.html?project=merchant#catalog">← 返回远行商人文档</a><div class="doc-tags"><span>远行商人</span><span>迭代方案</span><span>交互表现</span></div><h1>动效预设实验室</h1><p class="doc-intro">建立预设比较入口，反复调整界面动作的速度和幅度。</p><div class="doc-metadata"><span><strong>2026-07-15</strong>文件名日期</span><span><strong>10 分钟</strong>预计阅读</span><span><strong>3</strong>次可查提交</span><a class="download" href="../sources/2026-07-15-ui-motion-preset-lab-design.md" download>下载本文 ↓</a></div></div><div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><a class="level-2" href="#1-目标与范围">1. 目标与范围</a><a class="level-2" href="#2-现有问题">2. 现有问题</a><a class="level-2" href="#3-采用的架构">3. 采用的架构</a><a class="level-3" href="#3-1-分层">3.1 分层</a><a class="level-3" href="#3-2-缺失预设处理">3.2 缺失预设处理</a><a class="level-2" href="#4-预设规格">4. 预设规格</a><a class="level-3" href="#4-1-button-press-snappy-v1">4.1 buttonpresssnappyv1</a><a class="level-3" href="#4-2-board-impact-combo-strong-v1">4.2 boardimpactcombostrongv1</a><a class="level-2" href="#5-结算数据与连击映射">5. 结算数据与连击映射</a><a class="level-2" href="#6-cocos-动效实验室">6. Cocos 动效实验室</a><a class="level-2" href="#7-动效目录和版本规则">7. 动效目录和版本规则</a><a class="level-2" href="#8-预计文件">8. 预计文件</a><a class="level-2" href="#9-测试与验收">9. 测试与验收</a><a class="level-3" href="#自动测试">自动测试</a><a class="level-3" href="#cocos-手工验收">Cocos 手工验收</a><a class="level-2" href="#10-非目标">10. 非目标</a><a href="#source-record">来源与修改记录</a></nav></details><a class="to-top" href="#main">回到页首 ↑</a></aside><div class="doc-reading"><div class="archive-note"><span class="note-marker">档案说明</span><p>这是 2026-09-19 从工程收录的文本，可能包含后来补写的注释。正文中的“当前”“已实现”保留原有语境，不代表本站试玩版已逐项复验。</p></div><article class="prose" id="article"><p>日期：2026-07-15<br>状态：用户已复核，进入实施</p>
+<h2 id="1-目标与范围">1. 目标与范围<a class="heading-link" href="#1-目标与范围" aria-label="链接到本节">#</a></h2><p>本轮把已确认的两种动效从“分散的 Prefab 数值”升级为可命名、可重复播放、可在后续项目中导出复用的第一版 UI 动效资产库：</p>
+<ul>
+<li><code>button_press_snappy_v1</code>：按钮“干脆快弹”，用于开始游戏和刷新按钮。</li>
+<li><code>board_impact_combo_strong_v1</code>：行动格“强烈递进重弹”，重复触发时越来越重、越来越快。</li>
+<li>新增一个不参与正式构建的 Cocos 动效实验室场景，用真实运行时播放器自动重复播放两个预设。</li>
+<li>新增动效目录，记录稳定 ID、中文名称、用途、参数、使用位置和版本规则。</li>
+</ul>
+<p>分数动画不混入本轮实现。本轮验收后，以同一预设库和实验室为基础，单独设计“行动格短延迟爆分”和“分数区加分弹跳”。</p>
+<h2 id="2-现有问题">2. 现有问题<a class="heading-link" href="#2-现有问题" aria-label="链接到本节">#</a></h2><p>当前代码有两组 TypeScript 默认参数，但按钮和行动格 Prefab 又各自序列化了一份数值。动画曲线固定为 <code>backOut</code>，不能在 Inspector 中切换。这会导致：</p>
+<ul>
+<li>修改代码默认值不会自动更新已有 Prefab。</li>
+<li>不同控件各自调整后，无法知道它们是否仍在使用同一模板。</li>
+<li>没有稳定名称、参数目录和变更记录。</li>
+<li>真实游戏流程不适合高频重复试播。</li>
+<li>当连续冲击间隔变短时，现有播放器会先恢复基准变换，再播放新冲击，可能出现重置感而不是连击感。</li>
+</ul>
+<h2 id="3-采用的架构">3. 采用的架构<a class="heading-link" href="#3-采用的架构" aria-label="链接到本节">#</a></h2><h3 id="3-1-分层">3.1 分层<a class="heading-link" href="#3-1-分层" aria-label="链接到本节">#</a></h3><pre><code class="language-text">UIMotionPresetLibraryComp（Prefab 中的参数真相源）
+        |
+        +-- button_press_snappy_v1
+        +-- board_impact_combo_strong_v1
+        |
+UIMotionPlayer（只负责播放、打断、基准变换）
+        |
+        +-- PressFeedbackComp（触摸生命周期）
+        +-- BoardCellStampComp（结算连击入口）
+        +-- UIMotionLabComp（开发试播）
+</code></pre>
+<p><code>ui_motion_library.prefab</code> 是运行时参数真相源。其组件使用 <code>@ccclass</code> 序列化预设结构，使用 <code>@property</code> 把曲线、缩放、旋转、X/Y 时长与连击参数暴露给 Inspector。正式组件只保存 <code>presetId</code>，不再序列化整套参数副本。</p>
+<p>主场景与实验室场景都实例化同一个 <code>ui_motion_library.prefab</code>，因此两个场景读取同一份参数。库组件在 <code>onLoad</code> 时注册当前实例；主菜单和局内 UI 预制体后续实例化时直接按 ID 读取。</p>
+<h3 id="3-2-缺失预设处理">3.2 缺失预设处理<a class="heading-link" href="#3-2-缺失预设处理" aria-label="链接到本节">#</a></h3><ul>
+<li>找不到库或 ID 时，使用 TypeScript 中与库预制体一致的安全回退值，不阻止按钮和结算。</li>
+<li>开发构建输出一次明确警告，包含缺失的 <code>presetId</code>。</li>
+<li>契约测试比对 Prefab 数值与 TypeScript 回退值，防止两份值静默分叉。</li>
+</ul>
+<h2 id="4-预设规格">4. 预设规格<a class="heading-link" href="#4-预设规格" aria-label="链接到本节">#</a></h2><h3 id="4-1-button-press-snappy-v1">4.1 <code>button_press_snappy_v1</code><a class="heading-link" href="#4-1-button-press-snappy-v1" aria-label="链接到本节">#</a></h3><p>显示名：按钮·干脆快弹<br>使用位置：<code>StartBtn</code>、<code>RefreshBtn</code></p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>参数</th><th style="text-align:right">值</th></tr></thead><tbody><tr><td>曲线</td><td style="text-align:right"><code>quadOut</code></td></tr><tr><td>缩放增量</td><td style="text-align:right"><code>0.11</code></td></tr><tr><td>参考宽度</td><td style="text-align:right"><code>320px</code></td></tr><tr><td>宽控件最小强度比</td><td style="text-align:right"><code>0.65</code></td></tr><tr><td>X 轴按下时长</td><td style="text-align:right"><code>0.08s</code></td></tr><tr><td>Y 轴按下时长</td><td style="text-align:right"><code>0.12s</code></td></tr><tr><td>旋转</td><td style="text-align:right">随机 <code>±2°</code></td></tr><tr><td>旋转到达时长</td><td style="text-align:right"><code>0.06s</code></td></tr><tr><td>旋转回正延迟 / 时长</td><td style="text-align:right"><code>0.06s / 0.08s</code></td></tr><tr><td>X 轴松开恢复</td><td style="text-align:right"><code>0.10s</code></td></tr><tr><td>Y 轴松开恢复</td><td style="text-align:right"><code>0.14s</code></td></tr><tr><td>松开旋转恢复</td><td style="text-align:right"><code>0.08s</code></td></tr></tbody></table></div><p><code>StartBtn</code> 宽 <code>320px</code>，<code>RefreshBtn</code> 宽 <code>250px</code>，因此两者都使用完整 <code>11%</code> 强度。更宽的按钮才逐步衰减，但不低于 <code>65%</code> 强度。</p>
+<p>触摸行为保持手机优先：<code>TOUCH_START</code> 立即播放，<code>TOUCH_END</code> 恢复，<code>TOUCH_CANCEL</code> 安全恢复，不依赖 hover，不延迟原业务回调。</p>
+<h3 id="4-2-board-impact-combo-strong-v1">4.2 <code>board_impact_combo_strong_v1</code><a class="heading-link" href="#4-2-board-impact-combo-strong-v1" aria-label="链接到本节">#</a></h3><p>显示名：行动格·强烈递进重弹<br>使用位置：5 个行动格的 <code>ActionRoot</code></p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>参数</th><th style="text-align:right">值</th></tr></thead><tbody><tr><td>曲线</td><td style="text-align:right"><code>backOut</code></td></tr><tr><td>基础缩放增量</td><td style="text-align:right"><code>0.24</code></td></tr><tr><td>X 轴打击时长</td><td style="text-align:right"><code>0.09s</code></td></tr><tr><td>Y 轴打击时长</td><td style="text-align:right"><code>0.16s</code></td></tr><tr><td>X 轴回弹时长</td><td style="text-align:right"><code>0.18s</code></td></tr><tr><td>Y 轴回弹时长</td><td style="text-align:right"><code>0.24s</code></td></tr><tr><td>基础旋转</td><td style="text-align:right"><code>8°</code></td></tr><tr><td>旋转到达时长</td><td style="text-align:right"><code>0.08s</code></td></tr><tr><td>旋转回正时长</td><td style="text-align:right"><code>0.14s</code></td></tr><tr><td>每击强度增长</td><td style="text-align:right"><code>0.18</code></td></tr><tr><td>强度上限</td><td style="text-align:right"><code>1.95</code></td></tr><tr><td>第 1→2 击间隔</td><td style="text-align:right"><code>0.31s</code></td></tr><tr><td>每击间隔倍率</td><td style="text-align:right"><code>0.82</code></td></tr><tr><td>最短间隔</td><td style="text-align:right"><code>0.09s</code></td></tr><tr><td>连击重置空档</td><td style="text-align:right"><code>0.70s</code></td></tr><tr><td>末击后计分同步点</td><td style="text-align:right"><code>0.10s</code></td></tr></tbody></table></div><p>第 <code>n</code> 击强度：</p>
+<pre><code class="language-text">intensity(n) = min(1.95, 1 + (n - 1) * 0.18)
+</code></pre>
+<p>第 <code>n</code> 个间隔：</p>
+<pre><code class="language-text">gap(n) = max(0.09, 0.31 * 0.82 ^ (n - 1))
+</code></pre>
+<p>缩放和角度达到上限后不再增大，后续冲击感由更短的间隔、后续分数动画、音效与粒子承担。连续旋转使用“随机首方向 + 后续左右交替”，避免纯随机连续偏向同一侧。</p>
+<h2 id="5-结算数据与连击映射">5. 结算数据与连击映射<a class="heading-link" href="#5-结算数据与连击映射" aria-label="链接到本节">#</a></h2><p>UI 不推断道具规则。它只消费 Core 已输出的 <code>SettlementBatch</code>：</p>
+<ol>
+<li>对当前行动格，只统计 <code>targetRegion</code> 等于该格且 <code>eventType</code> 为 <code>ORIGINAL_ACTION</code> 或 <code>RETRIGGER_ACTION</code> 的 <code>repeatCount</code>。</li>
+<li>该总数就是实际伙伴行动次数；每一次实际行动都播放一击，视觉击数不设上限。</li>
+<li>原始行动也算第 1 击，没有再次行动时只播放一击。</li>
+<li>缩放和旋转强度仍按 <code>1.95</code> 封顶，但封顶后的真实触发继续播放，并保持最短 <code>0.09s</code> 间隔。</li>
+<li><code>perCardBaseAdds</code> 仍然在该格整段连击结束后一次加入分数区。本轮不伪造 Core 没有给出的单击分数拆分。</li>
+</ol>
+<p>新连击到来时，播放器不先回到基准变换。新击从当前视觉状态接管，冲到更高的目标，再尝试回弹；如果下一击已到，当前回弹被平滑接管。整段连击结束或被页面销毁后才精确恢复基准缩放与角度。</p>
+<h2 id="6-cocos-动效实验室">6. Cocos 动效实验室<a class="heading-link" href="#6-cocos-动效实验室" aria-label="链接到本节">#</a></h2><p>新建 <code>assets/dev/ui-motion-lab/ui_motion_lab.scene</code>，不加入正式 Build 场景列表，不使用 <code>UIID</code>，不通过 <code>oops.gui</code> 打开。它是开发资产，只在 Cocos Creator 中手动打开预览。</p>
+<p>场景包含：</p>
+<ul>
+<li>一个按钮演示节点，使用真实 <code>PressFeedbackComp</code> 和 <code>button_press_snappy_v1</code>。</li>
+<li>一个行动格演示节点，使用真实 <code>BoardCellStampComp</code>/<code>UIMotionPlayer</code> 与 <code>board_impact_combo_strong_v1</code>。</li>
+<li>按钮自动播放：按下、短暂保持、松开，每 <code>1.20s</code> 循环。</li>
+<li>行动格自动播放：默认 8 击强烈递进，连击结束 <code>0.90s</code> 后重复；演示击数为 Inspector 正整数，不设代码上限。</li>
+<li>两个自动循环可在 <code>UIMotionLabComp</code> Inspector 中分别关闭。</li>
+<li>演示节点的尺寸、颜色、字体、锚点与布局全部保存在场景 Inspector，运行时代码不重写。</li>
+</ul>
+<p>第一版实验室不实现“运行时拖滑杆后一键写回 Prefab”。调参时打开 <code>ui_motion_library.prefab</code> 修改 Inspector 并保存，然后回到实验室预览。一键写回需要编辑器扩展，等预设系统稳定后再做。</p>
+<h2 id="7-动效目录和版本规则">7. 动效目录和版本规则<a class="heading-link" href="#7-动效目录和版本规则" aria-label="链接到本节">#</a></h2><p>新建 <code>docs/ui-motion/UI_MOTION_CATALOG.md</code>，每个预设记录：</p>
+<ul>
+<li>稳定 ID 和中文名。</li>
+<li>交互用途和不应使用的场景。</li>
+<li>当前关键参数快照。</li>
+<li>正在使用该预设的 Prefab/节点。</li>
+<li>创建日期、状态和变更记录。</li>
+</ul>
+<p>调参期使用 <code>_draft</code>。确认后发布为 <code>_v1</code>。稳定版开始被多个组件使用后，明显改变手感时复制为 <code>_v2</code>，由使用方显式迁移；不静默改掉所有项目已发布的手感。</p>
+<h2 id="8-预计文件">8. 预计文件<a class="heading-link" href="#8-预计文件" aria-label="链接到本节">#</a></h2><p>新增：</p>
+<ul>
+<li><code>assets/script/game/common/ui-motion/UIMotionPresetLibraryComp.ts</code>：可序列化预设数据和当前库查询。</li>
+<li><code>assets/resources/common/prefab/ui_motion_library.prefab</code>：两个命名预设的真相源。</li>
+<li><code>assets/dev/ui-motion-lab/UIMotionLabComp.ts</code>：开发循环播放。</li>
+<li><code>assets/dev/ui-motion-lab/ui_motion_lab.scene</code>：独立实验室。</li>
+<li>对应 Cocos <code>.meta</code> 文件。</li>
+<li><code>docs/ui-motion/UI_MOTION_CATALOG.md</code>：资产目录与使用记录。</li>
+</ul>
+<p>修改：</p>
+<ul>
+<li><code>assets/script/game/common/ui-motion/UIMotionProfiles.ts</code>：扩展 <code>quadOut</code> 和连击纯函数，保留安全回退值。</li>
+<li><code>assets/script/game/common/ui-motion/UIMotion.ts</code>：按命名预设播放，支持不重置基准的连击接管。</li>
+<li><code>assets/script/game/common/ui-motion/PressFeedbackComp.ts</code>：只保存按钮预设 ID 和目标节点。</li>
+<li><code>assets/script/game/buildscore/ui/BoardCellStampComp.ts</code>：只保存冲击预设 ID 和目标节点，提供连击入口。</li>
+<li><code>assets/script/game/buildscore/ui/BoardViewComp.ts</code>：转发连击播放。</li>
+<li><code>assets/script/game/buildscore/ui/GameMainViewComp.ts</code>：从 <code>SettlementBatch</code> 取可视行动次数，不再使用旧的“格子序号 + log2 连锁”单击强度公式。</li>
+<li><code>assets/resources/gui/prefab/main_menu.prefab</code>、<code>game_main.prefab</code>、<code>assets/resources/game/poker/prefab/board_cell.prefab</code>：把分散参数替换为稳定预设 ID，不改布局、锚点和美术。</li>
+<li><code>assets/main.scene</code>：实例化 <code>ui_motion_library.prefab</code>，不改现有 Canvas 和启动流程。</li>
+<li><code>scripts/test-ui-motion-contract.js</code>：纯函数、预设、Prefab 和场景接线契约。</li>
+</ul>
+<h2 id="9-测试与验收">9. 测试与验收<a class="heading-link" href="#9-测试与验收" aria-label="链接到本节">#</a></h2><h3 id="自动测试">自动测试<a class="heading-link" href="#自动测试" aria-label="链接到本节">#</a></h3><ul>
+<li>先写失败测试，验证两个稳定 ID、按钮 B 参数和强烈递进 B 参数。</li>
+<li>验证强度序列为 <code>1.00, 1.18, 1.36, 1.54, 1.72, 1.90, 1.95, 1.95</code>。</li>
+<li>验证间隔按 <code>0.31 * 0.82^n</code> 下降且不低于 <code>0.09s</code>。</li>
+<li>验证只统计目标格的 <code>ORIGINAL_ACTION/RETRIGGER_ACTION</code>，不把道具自身批次当成伙伴打击。</li>
+<li>验证视觉击数等于 Core 给出的实际伙伴行动总数，包括大于 8 的情况。</li>
+<li>验证主场景与实验室都引用同一个库 Prefab。</li>
+<li>验证三个业务 Prefab 只保存预设 ID，不再保存旧的整组参数副本。</li>
+<li>验证稳定 ID 出现在动效目录。</li>
+<li>运行全量 v0.5 Core/UI 契约与 TypeScript 类型检查，保证不改分数和玩法。</li>
+</ul>
+<h3 id="cocos-手工验收">Cocos 手工验收<a class="heading-link" href="#cocos-手工验收" aria-label="链接到本节">#</a></h3><ol>
+<li>Creator 标题栏/进程必须指向项目根目录，不是 <code>.worktrees</code>。</li>
+<li>打开实验室，按钮 B 和行动格 8 击强烈递进会自动循环，不需要进入正式游戏。</li>
+<li>按钮 B 使用 <code>Quad Out</code>，手感比当前 <code>Back Out +20%</code> 更短、更干脆，触摸取消和连续快点后精确归位。</li>
+<li>行动格每击逐渐放大且间隔逐渐缩短，新击不会先把卡片瞬间重置为原尺寸。</li>
+<li>旋转首方向随机，后续左右交替；强度封顶后不继续遮挡相邻行动格。</li>
+<li>正式游戏的开始、刷新和结算逻辑不变；动效不改变 Core 分数、<code>SettlementBatch</code> 或节点命中区域。</li>
+<li>关闭实验室、退出局内页面或中断连击后，目标节点恢复原缩放和原角度，没有未完成 Promise 卡住结算。</li>
+</ol>
+<h2 id="10-非目标">10. 非目标<a class="heading-link" href="#10-非目标" aria-label="链接到本节">#</a></h2><ul>
+<li>不做鼠标悬停。</li>
+<li>不做运行时一键写回 Prefab 的编辑器扩展。</li>
+<li>不改变音效、粒子、美术图片、节点布局、锚点或颜色。</li>
+<li>不把实验室场景加入正式构建。</li>
+<li>不在 UI 内重新计算道具、向右链、牌型或分数。</li>
+<li>不在本轮实现分数区、倍率和资源数值动画。</li>
+</ul>
+</article><section class="source-record" id="source-record"><p class="eyebrow">SOURCE & REVISIONS</p><h2>来源与修改记录</h2><dl><dt>原文标题</dt><dd>《远行商人》UI 动效预设库与 Cocos 实验室设计</dd><dt>工程内文件</dt><dd><code>docs/superpowers/specs/2026-07-15-ui-motion-preset-lab-design.md</code></dd><dt>收录方式</dt><dd>从现存工程文件收录，保留原段落与参数；仅做网页排版、本机路径匿名化与链接整理。</dd><dt>日期依据</dt><dd>文件名日期 · 2026-07-15。正文日期、首次入库日期与修订日期可能不同。</dd></dl><details class="history" open><summary>查看 3 次文件提交记录</summary><p>以下为包含此文件变化的提交。提交说明可能涉及整个项目，不代表该文档单独完成了所有列出的功能。</p><ol><li><time>2026-07-15</time><div><code>b966f45</code><p>docs: plan ui motion preset lab implementation</p></div></li><li><time>2026-07-15</time><div><code>fc31aac</code><p>docs: follow actual ui impact hit count</p></div></li><li><time>2026-07-15</time><div><code>daa12a6</code><p>docs: specify ui motion preset lab</p></div></li></ol></details></section><nav class="adjacent" aria-label="相邻文档"><a href="2026-07-15-five-animal-partner-naming-migration-design.html"><small>上一篇</small>五兽伙伴与命名</a><a href="2026-07-16-card-target-flow-border-design.html"><small>下一篇</small>选目标与流动描边</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>两个独立游戏，从原型到迭代的设计记录。</p></div><p>整理于 2026.09.19<br><a href="../index.html#about">收录与日期说明</a> · <a href="../../index.html">返回作品集 ↗</a></p></footer></body></html>

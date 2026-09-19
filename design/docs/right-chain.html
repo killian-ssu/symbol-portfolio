@@ -1,0 +1,262 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f4f2eb"><title>当前策划案 · Symbol 策划档案</title><meta name="description" content="右向连锁阶段的完整规则，记录五格排列、结算与构筑的关系。"><link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css"><script src="../archive.js" defer></script></head><body class="document-page merchant"><a class="skip" href="#main">跳到正文</a><header class="site-header"><a class="wordmark" href="../index.html">SYMBOL<span>设计档案 / 2026</span></a><nav aria-label="主导航"><a href="../index.html#timeline">版本时间线</a><a href="../index.html#catalog">全部文档</a><a class="back-portfolio" href="../../index.html">作品集 <span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="doc-top"><a class="back-link" href="../index.html?project=merchant#catalog">← 返回远行商人文档</a><div class="doc-tags"><span>远行商人</span><span>历史方案</span><span>核心玩法</span></div><h1>当前策划案</h1><p class="doc-intro">右向连锁阶段的完整规则，记录五格排列、结算与构筑的关系。</p><div class="doc-metadata"><span><strong>2026-07-11</strong>正文日期</span><span><strong>9 分钟</strong>预计阅读</span><span><strong>1</strong>次可查提交</span><a class="download" href="../sources/right-chain.md" download>下载本文 ↓</a></div></div><div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><a class="level-2" href="#1-项目定位">1. 项目定位</a><a class="level-2" href="#2-基础体验表达">2. 基础体验表达</a><a class="level-2" href="#3-单局结构">3. 单局结构</a><a class="level-2" href="#4-行动牌">4. 行动牌</a><a class="level-3" href="#4-1-行动累计">4.1 行动累计</a><a class="level-2" href="#5-牌型系统">5. 牌型系统</a><a class="level-2" href="#6-手牌-刷新与工具牌">6. 手牌、刷新与工具牌</a><a class="level-2" href="#7-行动格与道具">7. 行动格与道具</a><a class="level-2" href="#8-随机-boss-场景规则">8. 随机 Boss 场景规则</a><a class="level-2" href="#9-局末与货仓">9. 局末与货仓</a><a class="level-2" href="#10-美术与-ui-方向">10. 美术与 UI 方向</a><a class="level-2" href="#11-当前落地优先级">11. 当前落地优先级</a><a href="#source-record">来源与修改记录</a></nav></details><a class="to-top" href="#main">回到页首 ↑</a></aside><div class="doc-reading"><div class="archive-note"><span class="note-marker">档案说明</span><p>这是 2026-09-19 从工程收录的文本，可能包含后来补写的注释。正文中的“当前”“已实现”保留原有语境，不代表本站试玩版已逐项复验。</p></div><article class="prose" id="article"><p>版本：v0.4 右向连锁与行动累计版<br>日期：2026-07-11<br>平台：微信小游戏<br>方向：竖屏轻量 Roguelike 构筑 / 牌型结算 / 探索推进 / 货仓收藏 / 每日行情 / 好友轻社交</p>
+<hr>
+<h2 id="1-项目定位">1. 项目定位<a class="heading-link" href="#1-项目定位" aria-label="链接到本节">#</a></h2><p>《远行商人》是一款适合微信小游戏的轻量策略构筑游戏。</p>
+<p>玩家扮演一名远行商人，进入不同地点，通过行动牌完成探索，积累探索度。探索完成后，玩家带回资源和货品，在局外货仓中收藏、出售、等待行情变化或与好友互动。</p>
+<p>核心体验：</p>
+<pre><code class="language-text">3 手牌轻决策
++ 5 个行动格
++ 一轮探索结算探索度
++ 同类连携倍率
++ 五类行动累计成长
++ 从左到右的道具爆分连锁
++ 随机 Boss 场景限制
++ 每关 3 选 1 构筑
++ 局末带回货品
++ 货仓收藏与出售
++ 每日行情变化
++ 好友赠礼与展示
+= 微信小游戏可持续回访的轻量探索行商肉鸽
+</code></pre>
+<p>设计目标：</p>
+<ul>
+<li>低认知负担：玩家只需要理解“打牌填格子，结算探索度”。</li>
+<li>短局节奏：单局适合碎片时间，不引入复杂局内经济。</li>
+<li>构筑爽感：道具从区域1向区域5频繁触发，成型后允许产生万、百万乃至更高分数。</li>
+<li>行动选择：原始行动同时积累本局成长、Boss 应对进度与藏品品类权重。</li>
+<li>局外牵引：探索结果转化为货仓收藏、行情和社交展示。</li>
+<li>美术直观：粗黑描边、圆润角色、强图标、少文字。</li>
+</ul>
+<hr>
+<h2 id="2-基础体验表达">2. 基础体验表达<a class="heading-link" href="#2-基础体验表达" aria-label="链接到本节">#</a></h2><p>玩家第一眼应理解：</p>
+<pre><code class="language-text">把行动牌放进 5 个行动格。
+填满后结算一轮探索。
+探索度满了，通过当前地点。
+</code></pre>
+<p>局内不需要解释为什么是 5 个格子。5 个行动格就是小游戏的核心回合长度。</p>
+<p>推荐 UI 文案：</p>
+<pre><code class="language-text">当前地点：雾林
+探索度 68 / 100
+行动 3 / 5
+刷新 1 / 2
+</code></pre>
+<p>结算文案：</p>
+<pre><code class="language-text">一轮探索完成
+同类连携 x2
+探索度 +120
+</code></pre>
+<p>通关文案：</p>
+<pre><code class="language-text">探索完成
+发现新地点
+</code></pre>
+<hr>
+<h2 id="3-单局结构">3. 单局结构<a class="heading-link" href="#3-单局结构" aria-label="链接到本节">#</a></h2><p>单局探索 4 个地点。每个地点包含若干小关，MVP 可沿用每个地点 4 小关的节奏。</p>
+<p>推荐地点：</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th style="text-align:right">序号</th><th>地点</th><th>视觉关键词</th><th>地点阻碍方向</th></tr></thead><tbody><tr><td style="text-align:right">1</td><td>雾林</td><td>树影、木桩、浅雾</td><td>浓雾、倒木、迷途等5条规则随机1条</td></tr><tr><td style="text-align:right">2</td><td>河湾</td><td>水面、鱼群、浅滩</td><td>急流、涨潮、漂木等5条规则随机1条</td></tr><tr><td style="text-align:right">3</td><td>荒坡</td><td>草坡、风沙、营地旗</td><td>逆风、风沙、落石等5条规则随机1条</td></tr><tr><td style="text-align:right">4</td><td>金砂谷</td><td>矿砂、岩壁、金光</td><td>流沙、假金、金砂税等5条规则随机1条</td></tr></tbody></table></div><p>单关流程：</p>
+<ol>
+<li>进入当前地点的小关，显示探索度目标；Boss 关先公开本局随机场景规则。</li>
+<li>抽 3 张手牌。</li>
+<li>玩家按顺序把行动牌放入 5 个行动格。</li>
+<li>工具牌可直接使用，不占行动格，也不占3张行动手牌。</li>
+<li>行动手牌少于3张时自动补满；使用工具牌不补牌。</li>
+<li>5 个行动格填满后，自动结算一轮探索。</li>
+<li>结算后累计探索度。</li>
+<li>探索度达到目标，立即通过当前小关。</li>
+<li>未达目标且探索次数未用完，进入下一轮探索。</li>
+<li>探索次数耗尽仍未达目标，则本局结束并进入局末结算。</li>
+</ol>
+<p>基础规则：</p>
+<ul>
+<li>每个小关最多 4 轮探索。</li>
+<li>每个小关固定 2 次刷新机会。</li>
+<li>刷新只替换手牌，不清空行动格。</li>
+<li>刷新不消耗局外货币。</li>
+<li>通过小关后出现一次 3 选 1 构筑奖励。</li>
+<li>Boss 规则公开后、开始第一轮前，可重新排列5件道具。</li>
+</ul>
+<hr>
+<h2 id="4-行动牌">4. 行动牌<a class="heading-link" href="#4-行动牌" aria-label="链接到本节">#</a></h2><p>行动牌是局内基础牌。玩家把行动牌放入行动格，形成牌型并产生探索度。</p>
+<p>首版 5 类行动：</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>行动牌</th><th>识别色</th><th>图标方向</th><th>直观含义</th></tr></thead><tbody><tr><td>伐木</td><td>绿色 / 木色</td><td>斧头、木桩、树干</td><td>清障、取材</td></tr><tr><td>渔猎</td><td>橙色 / 赤褐</td><td>鱼叉、网、足迹</td><td>获得补给</td></tr><tr><td>垦荒</td><td>黄土色</td><td>锄头、田埂、营地旗</td><td>整理地面</td></tr><tr><td>采药</td><td>青绿色</td><td>草药、药瓶、叶片</td><td>寻找药材</td></tr><tr><td>淘金</td><td>金色</td><td>砂盘、矿粒、金石</td><td>寻找高价值资源</td></tr></tbody></table></div><p>牌面原则：</p>
+<ul>
+<li>大图标。</li>
+<li>大数字。</li>
+<li>强识别色。</li>
+<li>少文字，只保留牌名。</li>
+<li>不写长规则说明。</li>
+</ul>
+<p>基础数值：</p>
+<pre><code class="language-text">每张行动牌基础探索度 = 10
+</code></pre>
+<p>后续通过奖励、工具牌和道具改变不同牌的收益。</p>
+<h3 id="4-1-行动累计">4.1 行动累计<a class="heading-link" href="#4-1-行动累计" aria-label="链接到本节">#</a></h3><p>顶部同时显示五类行动的累计进度和本局分数加成：</p>
+<pre><code class="language-text">伐木 7/10 +4  渔猎 3/10 +2  垦荒 5/10 +0
+采药 1/10 +2  淘金 8/10 +0
+</code></pre>
+<p>规则：</p>
+<ul>
+<li>只统计真正放入5个区域的原始行动。</li>
+<li>每打出10张同类行动，该类型本局永久 <code>+2</code>，进度扣除10后继续累计。</li>
+<li>工具改色按改色后的类型累计。</li>
+<li>Boss 强制改色不改写累计，仍记录玩家选择的类型。</li>
+<li>行动再次触发、道具再次触发不增加累计。</li>
+<li>达到10张的成长在当轮结算前生效。</li>
+</ul>
+<p>完整状态、配置和测试见 <a href="../docs/right-chain-boss.html">行动累计与随机 Boss 开发说明</a>。</p>
+<p>MVP 初始牌库：</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>行动牌</th><th style="text-align:right">数量</th></tr></thead><tbody><tr><td>伐木</td><td style="text-align:right">5</td></tr><tr><td>渔猎</td><td style="text-align:right">5</td></tr><tr><td>垦荒</td><td style="text-align:right">5</td></tr><tr><td>采药</td><td style="text-align:right">5</td></tr><tr><td>淘金</td><td style="text-align:right">5</td></tr></tbody></table></div><p>合计 25 张行动牌。</p>
+<hr>
+<h2 id="5-牌型系统">5. 牌型系统<a class="heading-link" href="#5-牌型系统" aria-label="链接到本节">#</a></h2><p>牌型只看行动牌类型，不看点数。</p>
+<p>首版牌型：</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>牌型</th><th>条件</th><th style="text-align:right">倍率</th></tr></thead><tbody><tr><td>五同类</td><td>5 张同类型行动牌</td><td style="text-align:right">x5</td></tr><tr><td>四同类</td><td>4 张同类型行动牌</td><td style="text-align:right">x3</td></tr><tr><td>三同类</td><td>3 张同类型行动牌</td><td style="text-align:right">x2</td></tr><tr><td>双对子</td><td>2+2 同类型行动牌</td><td style="text-align:right">x2</td></tr><tr><td>散牌</td><td>不满足以上牌型</td><td style="text-align:right">x1</td></tr></tbody></table></div><p>识别优先级：</p>
+<ol>
+<li>五同类</li>
+<li>四同类</li>
+<li>三同类</li>
+<li>双对子</li>
+<li>散牌</li>
+</ol>
+<p>明确规则：</p>
+<ul>
+<li>5 种行动牌各 1 张不设特殊牌型，按散牌 x1 处理。</li>
+<li>牌型文案优先让玩家理解“同类越多越强”。</li>
+</ul>
+<p>结算公式：</p>
+<pre><code class="language-text">本轮探索度 = Σ（行动当前分数 × 行动触发次数）× 当前牌型倍率
+</code></pre>
+<hr>
+<h2 id="6-手牌-刷新与工具牌">6. 手牌、刷新与工具牌<a class="heading-link" href="#6-手牌-刷新与工具牌" aria-label="链接到本节">#</a></h2><p>手牌规则：</p>
+<ul>
+<li>行动手牌固定保持3张。</li>
+<li>打出1张行动牌后，立即补1张行动牌。</li>
+<li>工具牌显示在同一手牌区，但不占3张行动手牌。</li>
+<li>工具牌不进入行动牌库，只通过奖励和道具效果获得。</li>
+<li>未使用工具整局保留，同一轮可以连续使用任意数量。</li>
+<li>使用工具牌不会补牌。</li>
+</ul>
+<p>刷新规则：</p>
+<ul>
+<li>每个小关默认 2 次刷新。</li>
+<li>刷新会弃掉当前手牌，并重新抽到 3 张。</li>
+<li>刷新不会清空已放入行动格的牌。</li>
+</ul>
+<p>首批工具包括彩布、磨石、印板、挂钩、网兜、镜筒、木哨、扳手、拓纸和麻绳。工具可改手牌、改已入场行动或登记额外触发；所有登记在第5张行动打出后统一结算。完整文本、目标和开发字段见 <a href="../docs/right-chain-items.html">道具与工具牌完整策划表</a> 和 <code>data/tools.json</code>。</p>
+<hr>
+<h2 id="7-行动格与道具">7. 行动格与道具<a class="heading-link" href="#7-行动格与道具" aria-label="链接到本节">#</a></h2><p>行动区包含 5 个行动格：</p>
+<pre><code class="language-text">行动格 1  行动格 2  行动格 3  行动格 4  行动格 5
+</code></pre>
+<p>每轮探索中，玩家按顺序把行动牌放入行动格。当前可放置格用高亮、脉冲或编号强调。</p>
+<p>道具规则：</p>
+<ul>
+<li>所有道具都必须放入区域1–5，每个区域最多1件。</li>
+<li>道具没有独立的“全局位”；区别只在效果作用于此区域、相邻区域或所有行动。</li>
+<li>区域按 <code>1 → 5</code> 从左到右结算。</li>
+<li>制造新触发的效果只能影响紧邻右侧区域。</li>
+<li>“右侧”只指下一个区域，不表示右边全部区域。</li>
+<li>行动再次触发会再次触发此区域道具；道具再次触发只重放道具效果。</li>
+<li>全场效果道具同样可被重复触发。</li>
+<li>每小关结束后可以自由重新排列全部道具。</li>
+</ul>
+<p>道具表现：</p>
+<ul>
+<li>道具显示为行动区域内的小图标、小印记或角标。</li>
+<li>此区域触发时，区域边框和道具图标亮起。</li>
+<li>右向触发时，两区域之间出现由左向右的短促连线。</li>
+<li>不在行动格上方额外堆一层道具架。</li>
+</ul>
+<p>道具文本示例：</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>道具</th><th>效果</th></tr></thead><tbody><tr><td>斧头</td><td>此区域行动 +5。</td></tr><tr><td>草叉</td><td>右侧行动再触发1次。</td></tr><tr><td>药铲</td><td>右侧道具触发1次；每触发4次永久 +1次。</td></tr><tr><td>罗盘</td><td>所有行动 +5。</td></tr><tr><td>锄头</td><td>每触发5次，当前牌型永久 +0.5 倍率。</td></tr></tbody></table></div><p>首批完整40件道具、触发字段、成长字段和组合纸测见 <a href="../docs/right-chain-items.html">道具与工具牌完整策划表</a> 和 <code>data/relics.json</code>。</p>
+<hr>
+<h2 id="8-随机-boss-场景规则">8. 随机 Boss 场景规则<a class="heading-link" href="#8-随机-boss-场景规则" aria-label="链接到本节">#</a></h2><ul>
+<li>每个地点准备5条主题规则，每局等概率抽取1条。</li>
+<li>抽取不读取玩家构筑，避免系统针对高分组件。</li>
+<li>可解除规则显示一种应对行动和所需数量，只统计当前Boss关的原始行动。</li>
+<li>达到数量后，当轮结算前立即解除限制。</li>
+<li>玩家也可以不解除，依靠构筑强度直接过关。</li>
+<li>解除普通规则后，本地点藏品额外生成1个候选，保留稀有度较高者。</li>
+<li>金砂税不可解除，改为通关后获得额外藏品候选。</li>
+</ul>
+<p>Boss基础目标：</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>地点</th><th style="text-align:right">基础目标</th><th style="text-align:right">规则数</th></tr></thead><tbody><tr><td>雾林</td><td style="text-align:right">1,000</td><td style="text-align:right">5</td></tr><tr><td>河湾</td><td style="text-align:right">10,000</td><td style="text-align:right">5</td></tr><tr><td>荒坡</td><td style="text-align:right">100,000</td><td style="text-align:right">5</td></tr><tr><td>金砂谷</td><td style="text-align:right">1,000,000</td><td style="text-align:right">5</td></tr></tbody></table></div><p>最终目标按 <code>基础目标 × 规则目标系数</code> 计算，玩家只看到最终整数。完整20条规则见 <a href="../docs/right-chain-boss.html">行动累计与随机 Boss 开发说明</a> 和 <code>data/boss_rules.json</code>。</p>
+<hr>
+<h2 id="9-局末与货仓">9. 局末与货仓<a class="heading-link" href="#9-局末与货仓" aria-label="链接到本节">#</a></h2><p>局末根据玩家本局表现生成带回货品。</p>
+<p>影响因素：</p>
+<ul>
+<li>到达地点。</li>
+<li>通过小关数量。</li>
+<li>是否完整通关。</li>
+<li>最高单轮探索度。</li>
+<li>触发过的高阶牌型。</li>
+<li>五类原始行动的整局使用次数。</li>
+<li>是否解除过各地点Boss规则。</li>
+</ul>
+<p>使用次数最高的行动使对应藏品标签权重 <code>×2</code>，第二高为 <code>×1.5</code>；并列同时生效。行动次数只影响藏品品类，不影响稀有度。</p>
+<p>货仓功能：</p>
+<ul>
+<li>收藏货品。</li>
+<li>出售货品获得银币。</li>
+<li>查看每日行情。</li>
+<li>锁定或标记重要货品。</li>
+<li>分享稀有货品。</li>
+<li>好友赠送普通或精良货品。</li>
+</ul>
+<p>局外仍然保留“商人”身份。局内负责探索，局外负责把探索结果转化为货品、行情和社交展示。</p>
+<hr>
+<h2 id="10-美术与-ui-方向">10. 美术与 UI 方向<a class="heading-link" href="#10-美术与-ui-方向" aria-label="链接到本节">#</a></h2><p>一句话风格：</p>
+<blockquote>
+<p>雾野行商卡通风：粗黑描边、圆润小角色、清楚行动图标、明亮但不过度花哨的资源色块，用轻量迷雾和弹性动效表现探索推进。</p>
+</blockquote>
+<p>可借鉴《枪豆人》的点：</p>
+<ul>
+<li>圆润小角色。</li>
+<li>粗黑描边。</li>
+<li>高对比剪影。</li>
+<li>大色块、少细节。</li>
+<li>快速、夸张、清楚的反馈动效。</li>
+<li>让玩家一眼知道可交互对象在哪里。</li>
+</ul>
+<p>不借鉴：</p>
+<ul>
+<li>枪械题材。</li>
+<li>海上题材。</li>
+<li>复杂多人战斗表达。</li>
+<li>恐怖怪物表达。</li>
+</ul>
+<p>主界面布局：</p>
+<ol>
+<li>顶部：地点名、探索度、探索轮次、刷新次数，以及五类行动累计。</li>
+<li>中上：轻量地点氛围区，可放迷雾、地形剪影和小角色。</li>
+<li>中部：5 个行动格。</li>
+<li>下部：固定3张行动手牌，以及额外持有的工具牌。</li>
+<li>底部：刷新、牌库、牌型按钮。</li>
+</ol>
+<p>行动格视觉：</p>
+<ul>
+<li>5 个明确卡槽。</li>
+<li>编号清楚。</li>
+<li>当前格高亮。</li>
+<li>道具图标放在格内角标或底部小印记。</li>
+<li>右向触发用双格闪光和由左向右的短促连线。</li>
+</ul>
+<p>行动牌视觉：</p>
+<ul>
+<li>大图标。</li>
+<li>大数字。</li>
+<li>粗边框。</li>
+<li>强识别色。</li>
+<li>少文字。</li>
+</ul>
+<p>背景视觉：</p>
+<ul>
+<li>不做复杂整屏插画。</li>
+<li>场景只提供气氛，不抢行动格和手牌。</li>
+<li>迷雾、剪影、粒子和弹性动效优先。</li>
+</ul>
+<hr>
+<h2 id="11-当前落地优先级">11. 当前落地优先级<a class="heading-link" href="#11-当前落地优先级" aria-label="链接到本节">#</a></h2><ol>
+<li>灰盒实现 <code>data/action_progression.json</code> 的五类累计与满10张成长反馈。</li>
+<li>灰盒实现 <code>data/boss_rules.json</code> 的地点规则抽取、应对进度和目标系数。</li>
+<li>实现区域1→5的右向触发队列，验证行动再触发与道具再触发的区别。</li>
+<li>主界面加入五类行动累计；手牌区固定3张行动，并允许额外工具牌横向扩展。</li>
+<li>局末按行动使用次数调整藏品标签权重，并接入Boss额外候选。</li>
+</ol>
+</article><section class="source-record" id="source-record"><p class="eyebrow">SOURCE & REVISIONS</p><h2>来源与修改记录</h2><dl><dt>原文标题</dt><dd>《远行商人》当前策划案</dd><dt>工程内文件</dt><dd><code>docs/v04-rightward-chain/yuanxing-shangren-current-gdd.md</code></dd><dt>收录方式</dt><dd>从现存工程文件收录，保留原段落与参数；仅做网页排版、本机路径匿名化与链接整理。</dd><dt>日期依据</dt><dd>正文日期 · 2026-07-11。正文日期、首次入库日期与修订日期可能不同。</dd></dl><details class="history" open><summary>查看 1 次文件提交记录</summary><p>以下为包含此文件变化的提交。提交说明可能涉及整个项目，不代表该文档单独完成了所有列出的功能。</p><ol><li><time>2026-07-11</time><div><code>d4a8037</code><p>feat: implement v0.4 rightward chain gameplay</p></div></li></ol></details></section><nav class="adjacent" aria-label="相邻文档"><a href="settlement-next.html"><small>上一篇</small>结算体验与构筑扩展讨论稿</a><a href="right-chain-boss.html"><small>下一篇</small>行动累计与随机 Boss 开发说明</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>两个独立游戏，从原型到迭代的设计记录。</p></div><p>整理于 2026.09.19<br><a href="../index.html#about">收录与日期说明</a> · <a href="../../index.html">返回作品集 ↗</a></p></footer></body></html>

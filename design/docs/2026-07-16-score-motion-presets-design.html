@@ -1,0 +1,70 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f4f2eb"><title>得分动效预设 · Symbol 策划档案</title><meta name="description" content="整理得分反馈预设，比较数字与动作的配合方式。"><link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css"><script src="../archive.js" defer></script></head><body class="document-page merchant"><a class="skip" href="#main">跳到正文</a><header class="site-header"><a class="wordmark" href="../index.html">SYMBOL<span>设计档案 / 2026</span></a><nav aria-label="主导航"><a href="../index.html#timeline">版本时间线</a><a href="../index.html#catalog">全部文档</a><a class="back-portfolio" href="../../index.html">作品集 <span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="doc-top"><a class="back-link" href="../index.html?project=merchant#catalog">← 返回远行商人文档</a><div class="doc-tags"><span>远行商人</span><span>迭代方案</span><span>交互表现</span></div><h1>得分动效预设</h1><p class="doc-intro">整理得分反馈预设，比较数字与动作的配合方式。</p><div class="doc-metadata"><span><strong>2026-07-16</strong>文件名日期</span><span><strong>4 分钟</strong>预计阅读</span><span><strong>1</strong>次可查提交</span><a class="download" href="../sources/2026-07-16-score-motion-presets-design.md" download>下载本文 ↓</a></div></div><div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><a class="level-2" href="#目标">目标</a><a class="level-2" href="#保存的预设">保存的预设</a><a class="level-2" href="#固定数值区-b">固定数值区：B</a><a class="level-3" href="#使用范围">使用范围</a><a class="level-3" href="#行为">行为</a><a class="level-2" href="#行动格-c-d-合成版">行动格：C+D 合成版</a><a class="level-3" href="#单一节拍源">单一节拍源</a><a class="level-3" href="#连击规则">连击规则</a><a class="level-3" href="#分数数据">分数数据</a><a class="level-2" href="#组件边界">组件边界</a><a class="level-2" href="#失败与中断处理">失败与中断处理</a><a class="level-2" href="#验收">验收</a><a href="#source-record">来源与修改记录</a></nav></details><a class="to-top" href="#main">回到页首 ↑</a></aside><div class="doc-reading"><div class="archive-note"><span class="note-marker">档案说明</span><p>这是 2026-09-19 从工程收录的文本，可能包含后来补写的注释。正文中的“当前”“已实现”保留原有语境，不代表本站试玩版已逐项复验。</p></div><article class="prose" id="article"><p>日期：2026-07-16</p>
+<h2 id="目标">目标<a class="heading-link" href="#目标" aria-label="链接到本节">#</a></h2><p>把网页试播中的四种分数动效保存为可长期检索、可跨组件复用的预设，并确定《远行商人》当前使用方向：</p>
+<ul>
+<li>分数区、倍率区、目标分等固定位置数值统一使用 B“累计滚分弹跳”。</li>
+<li>行动格使用 C“短延迟爆分”和 D“连击递进”的合成版；每次行动都产生一条独立上浮分数，并与行动格重击保持同一节拍。</li>
+</ul>
+<p>本设计只改变表现，不改变计分公式、触发次数或目标判定。</p>
+<h2 id="保存的预设">保存的预设<a class="heading-link" href="#保存的预设" aria-label="链接到本节">#</a></h2><p>四个原始候选必须保留，不能因为当前未接入而删除：</p>
+<ol>
+<li>A <code>score_setter_pop_video_v1</code>：视频原版 Setter 数值弹跳。</li>
+<li>B <code>score_value_roll_pop_v1</code>：累计滚分弹跳。</li>
+<li>C <code>score_cell_burst_v1</code>：单击后的短延迟上浮爆分。</li>
+<li>D <code>score_combo_ramp_v1</code>：同一个计数器在连击中递进弹跳。</li>
+</ol>
+<p>新增第五个组合预设：</p>
+<ol start="5">
+<li><code>score_cell_combo_burst_v1</code>：每一击独立上浮淡出，同时采用递减间隔和递增强度。</li>
+</ol>
+<p>稳定 ID、中文名、首版参数和使用记录统一登记在 <code>docs/ui-motion/UI_MOTION_CATALOG.md</code>。实现后五个条目都写入共享 <code>ui_motion_library.prefab</code>，业务 Prefab 只保存稳定 ID。</p>
+<h2 id="固定数值区-b">固定数值区：B<a class="heading-link" href="#固定数值区-b" aria-label="链接到本节">#</a></h2><h3 id="使用范围">使用范围<a class="heading-link" href="#使用范围" aria-label="链接到本节">#</a></h3><ul>
+<li>结算分数区</li>
+<li>倍率区</li>
+<li>目标分</li>
+<li>后续其他固定位置的资源数值</li>
+</ul>
+<h3 id="行为">行为<a class="heading-link" href="#行为" aria-label="链接到本节">#</a></h3><ul>
+<li>数字从当前画面值滚动至目标值，递增和递减使用同一模板。</li>
+<li>数值变化开始时播放一次克制的 Back Out 弹跳和轻微随机旋转。</li>
+<li>动画尚未结束又收到新值时，从当前画面值和当前变换接管，不先跳回旧值或原尺寸。</li>
+<li>数字格式继续使用现有格式化函数；动效组件不决定小数位、倍率前缀或大数缩写。</li>
+</ul>
+<h2 id="行动格-c-d-合成版">行动格：C+D 合成版<a class="heading-link" href="#行动格-c-d-合成版" aria-label="链接到本节">#</a></h2><h3 id="单一节拍源">单一节拍源<a class="heading-link" href="#单一节拍源" aria-label="链接到本节">#</a></h3><p>行动格和浮字不得各自计算一遍连击时间。<code>board_impact_combo_strong_v1</code> 产生唯一的击次调度；每个调度点同时执行：</p>
+<ol>
+<li>行动格打击回弹。</li>
+<li>创建该击专属的分数浮字。</li>
+</ol>
+<p>这样两者始终处于同一帧，不会随着击数增加逐渐错拍。</p>
+<h3 id="连击规则">连击规则<a class="heading-link" href="#连击规则" aria-label="链接到本节">#</a></h3><ul>
+<li>击数等于 Core 实际 <code>ORIGINAL_ACTION</code> 与 <code>RETRIGGER_ACTION</code> 次数，不设上限。</li>
+<li>第 1 击到第 2 击间隔 <code>0.31s</code>，之后每次乘 <code>0.82</code>，最短 <code>0.09s</code>。</li>
+<li>强度从 <code>1.0</code> 开始，每击增加 <code>0.18</code>，在 <code>1.95</code> 封顶。</li>
+<li>首击方向随机，后续左右交替；浮字与行动格使用相同方向。</li>
+<li>每击浮字都是独立实例，按自己的 <code>0.78s</code> 上浮淡出。高连击允许多条浮字同时存在。</li>
+<li>幅度可以封顶，击数不能封顶。</li>
+</ul>
+<h3 id="分数数据">分数数据<a class="heading-link" href="#分数数据" aria-label="链接到本节">#</a></h3><p>每击显示值必须来自 Core。实现时由结算结果增加按区域组织的行动分数表现批次，至少表达：区域、真实击数和每击分数增量。UI 只按顺序播放，不得将该格总分除以击数，也不得自行应用倍率或道具规则。</p>
+<p>如果 Core 将大量相同击次压缩为批次，表现数据可以用“重复次数 + 单击值”保存；只有单击值确实变化时才需要值序列。无论采用哪种结构，展开后的视觉击数必须与 Core 一致。</p>
+<h2 id="组件边界">组件边界<a class="heading-link" href="#组件边界" aria-label="链接到本节">#</a></h2><ul>
+<li><code>UIMotionPresetLibraryComp</code>：保存和按 ID 查找五种分数预设。</li>
+<li>固定数值播放器：负责数字插值、X/Y 缩放和旋转接管，不负责格式化或业务计算。</li>
+<li>行动格连击调度：继续负责唯一击次时钟，并在每击回调中同时通知格子和浮字。</li>
+<li>浮字播放器：负责单条浮字的缩放、旋转、上浮、淡出和回收。</li>
+<li><code>GameMainViewComp</code>：只连接 Core 输出、HUD 与行动格表现，不保存曲线参数。</li>
+</ul>
+<p>所有颜色、字体、锚点、浮字偏移和模板参数由 Prefab 与 <code>@property</code> 控制；运行时代码不覆盖 Creator 中调好的美术值。</p>
+<h2 id="失败与中断处理">失败与中断处理<a class="heading-link" href="#失败与中断处理" aria-label="链接到本节">#</a></h2><ul>
+<li>节点被关闭或销毁时，停止本组件拥有的 Tween，并恢复需要复用的固定节点。</li>
+<li>固定数值动画被新值打断时接管当前状态。</li>
+<li>行动格开始新一轮结算时停止旧调度；已经生成的独立浮字可以完成淡出，但不能继续修改 HUD 数值。</li>
+<li>找不到预设 ID 时记录一次警告并使用安全后备参数，不能中断结算。</li>
+</ul>
+<h2 id="验收">验收<a class="heading-link" href="#验收" aria-label="链接到本节">#</a></h2><ul>
+<li>资产库按稳定 ID 能找到 A、B、C、D 和 C+D 五个预设。</li>
+<li>分数区、倍率区、目标分都使用 B，并能正确展示递增、递减和中途改值。</li>
+<li>13 次行动触发产生 13 次行动格打击和 13 条独立浮字，不存在 8 次上限。</li>
+<li>每一击的格子打击与浮字生成发生在同一个调度回调；时间间隔和强度序列与 <code>board_impact_combo_strong_v1</code> 一致。</li>
+<li>每击浮字显示 Core 提供的值，UI 不反推分数。</li>
+<li>实验室能分别循环预览 B、原始 C、原始 D 和 C+D 合成版，并可修改演示击数。</li>
+</ul>
+</article><section class="source-record" id="source-record"><p class="eyebrow">SOURCE & REVISIONS</p><h2>来源与修改记录</h2><dl><dt>原文标题</dt><dd>分数动效预设设计</dd><dt>工程内文件</dt><dd><code>docs/superpowers/specs/2026-07-16-score-motion-presets-design.md</code></dd><dt>收录方式</dt><dd>从现存工程文件收录，保留原段落与参数；仅做网页排版、本机路径匿名化与链接整理。</dd><dt>日期依据</dt><dd>文件名日期 · 2026-07-16。正文日期、首次入库日期与修订日期可能不同。</dd></dl><details class="history" open><summary>查看 1 次文件提交记录</summary><p>以下为包含此文件变化的提交。提交说明可能涉及整个项目，不代表该文档单独完成了所有列出的功能。</p><ol><li><time>2026-07-16</time><div><code>8c81492</code><p>docs: define reusable score motion presets</p></div></li></ol></details></section><nav class="adjacent" aria-label="相邻文档"><a href="2026-07-16-card-target-flow-border-design.html"><small>上一篇</small>选目标与流动描边</a><a href="2026-07-17-game-polish-and-build-validation-design.html"><small>下一篇</small>体验打磨与构建验证</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>两个独立游戏，从原型到迭代的设计记录。</p></div><p>整理于 2026.09.19<br><a href="../index.html#about">收录与日期说明</a> · <a href="../../index.html">返回作品集 ↗</a></p></footer></body></html>

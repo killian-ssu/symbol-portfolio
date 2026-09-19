@@ -1,0 +1,35 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f4f2eb"><title>午时已到：首轮美术与战斗动效落地 · Symbol 策划档案</title><meta name="description" content="地鼠出洞、长按锁定、齐射命中这一条动作链的首轮美术方案。"><link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css"><script src="../archive.js" defer></script></head><body class="document-page midnight"><a class="skip" href="#main">跳到正文</a><header class="site-header"><a class="wordmark" href="../index.html">SYMBOL<span>设计档案 / 2026</span></a><nav aria-label="主导航"><a href="../index.html#timeline">版本时间线</a><a href="../index.html#catalog">全部文档</a><a class="back-portfolio" href="../../index.html">作品集 <span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="doc-top"><a class="back-link" href="../index.html?project=midnight#catalog">← 返回子时已到文档</a><div class="doc-tags"><span>子时已到</span><span>历史方案</span><span>交互表现</span></div><h1>午时已到：首轮美术与战斗动效落地</h1><p class="doc-intro">地鼠出洞、长按锁定、齐射命中这一条动作链的首轮美术方案。</p><div class="doc-metadata"><span><strong>未署日期</strong>未署日期</span><span><strong>2 分钟</strong>预计阅读</span><span><strong>—</strong>无 Git 历史</span><a class="download" href="../sources/mole-art.md" download>下载本文 ↓</a></div></div><div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><a class="level-2" href="#本轮优先级">本轮优先级</a><a class="level-2" href="#已使用素材与规格">已使用素材与规格</a><a class="level-2" href="#动效时序">动效时序</a><a class="level-2" href="#后续批次">后续批次</a><a href="#source-record">来源与修改记录</a></nav></details><a class="to-top" href="#main">回到页首 ↑</a></aside><div class="doc-reading"><div class="archive-note"><span class="note-marker">档案说明</span><p>这是 2026-09-19 从工程收录的文本，可能包含后来补写的注释。正文中的“当前”“已实现”保留原有语境，不代表本站试玩版已逐项复验。</p><p>原文件未署完整写作日期。版本顺序可供追溯，具体日期未补写。</p></div><article class="prose" id="article"><blockquote>
+<p>状态：地鼠主题历史美术方案，仅用于追溯旧素材结构；当前《子时已到》幽灵白盒规则以 <code>PROTOTYPE_RULES.md</code> 为准。</p>
+</blockquote>
+<h2 id="本轮优先级">本轮优先级<a class="heading-link" href="#本轮优先级" aria-label="链接到本节">#</a></h2><ol>
+<li>先完成玩家能连续感知到的战斗链：地鼠出洞 → 长按减速 → 锁定 → 松手齐射 → 命中爆炸 → 爆分。</li>
+<li>再替换固定画面资产：浅色场景背景、拆件牛仔猫、心、子弹和底部卡片。</li>
+<li>天赋与大量备用 icon 暂不全量导入，等升级系统的选择语义稳定后再匹配。</li>
+</ol>
+<h2 id="已使用素材与规格">已使用素材与规格<a class="heading-link" href="#已使用素材与规格" aria-label="链接到本节">#</a></h2><ul>
+<li>背景：<code>午时已到/背景/背景.png</code>，铺满 720×1280。</li>
+<li>玩家：帽头、正常/受击/失败表情、身体、持枪手拆成独立层；运行显示约 120px，源图保留约 2 倍清晰度。</li>
+<li>地鼠：普通土帽、头带战士、无线电射手三种；基础单位和土堆缩为上一版约 <code>52%</code>，为成片单位和 Boss 留出层级。</li>
+<li>土堆：闭合、裂开、小洞、完整洞口四态，另用前景洞沿遮挡地鼠下半身。</li>
+<li>功能 icon：心、子弹、瞄准图约 96–128px 资源规格。</li>
+<li>小粒子：石粒和灰白通用粒子最长边约 64px，在 Cocos 中按需要染色。</li>
+<li>命中爆炸：保留红、黄、奶白三色六帧序列，不做去色。</li>
+</ul>
+<h2 id="动效时序">动效时序<a class="heading-link" href="#动效时序" aria-label="链接到本节">#</a></h2><ul>
+<li>出洞：尘土和松土石粒提前分批抛出 → 土堆四态正播 → 地鼠延后钻出并拉伸 → 露头后做明显但小幅的浮动、挤压和摆动。</li>
+<li>缩回：地鼠下沉并压扁 → 土堆四态倒播 → 闭合末段整体淡出。</li>
+<li>锁定：素材只承担底环和准星；真实进度用程序绘制的高对比连续圆弧、12 格刻度和运动端点表达。完成后在目标中心叠加红色击杀骷髅标记。</li>
+<li>耐力：不再塞进蓝色卡片，改为顶部独立蓝色水平专注条；耐力过低时会用缩放脉冲提示。</li>
+<li>子弹时间：世界运动降为 0.26 倍，场景叠加中灰混色层；玩家、瞄准环和顶部 HUD 位于蒙板上方。</li>
+<li>玩家射击：每一发都有“持枪层快速后撤与拉伸 → 小幅超调 → 回位”，身体同步反向位移、挤压和倾斜；连射越后面后坐越明显，最后一发较重。</li>
+<li>弹道：短暂奶白核心线 + 珊瑚色弱外层 + 实体子弹残影 + Cocos <code>MotionStreak</code> 带状渐隐拖尾。</li>
+<li>敌方投射物：石块旋转，删除固定胶囊核心；复用《远行商人》的 <code>MotionStreak</code> 与实心纹理作为柔光外层，再用轨迹历史绘制渐细的连续主光带，避免低速采样暴露为碎点。</li>
+<li>命中：六帧彩色爆炸 + 红/黄/奶白粒子外抛 + 分数缩放弹出；连续命中追加 <code>×N</code>。</li>
+<li>受击/失败：切换玩家表情；短暂受击后恢复正常，失败时保持失败表情。</li>
+</ul>
+<h2 id="后续批次">后续批次<a class="heading-link" href="#后续批次" aria-label="链接到本节">#</a></h2><ul>
+<li>底部升级卡当前完整隐藏；当升级语义与 icon 确定后，再把获得项放到玩家下方。</li>
+<li>为三种地鼠补充差异化攻击前摇，而不只区分投射物速度。</li>
+<li>增加关卡切入、升级弹窗和结算界面的同风格过渡。</li>
+</ul>
+</article><section class="source-record" id="source-record"><p class="eyebrow">SOURCE & REVISIONS</p><h2>来源与修改记录</h2><dl><dt>原文标题</dt><dd>午时已到：首轮美术与战斗动效落地</dd><dt>工程内文件</dt><dd><code>docs/noon-art-motion-pass.md</code></dd><dt>收录方式</dt><dd>从现存工程文件收录，保留原段落与参数；仅做网页排版、本机路径匿名化与链接整理。</dd><dt>日期依据</dt><dd>未署日期。正文日期、首次入库日期与修订日期可能不同。</dd></dl><p class="muted">此工程未找到 Git 历史，暂不展示逐次修改日期。不会以文件复制时间推定写作时间。</p></section><nav class="adjacent" aria-label="相邻文档"><a href="birds-v5.html"><small>上一篇</small>Noon v0.5「十关压力与齐射成长版」策划</a><a href="art-roadmap.html"><small>下一篇</small>《刀刀厨神》式简洁表现迁移清单</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>两个独立游戏，从原型到迭代的设计记录。</p></div><p>整理于 2026.09.19<br><a href="../index.html#about">收录与日期说明</a> · <a href="../../index.html">返回作品集 ↗</a></p></footer></body></html>

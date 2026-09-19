@@ -1,0 +1,118 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f4f2eb"><title>道具与工具执行设计 v0.1 · Symbol 策划档案</title><meta name="description" content="重新定义道具与工具的执行效果和适用位置。"><link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css"><script src="../archive.js" defer></script></head><body class="document-page merchant"><a class="skip" href="#main">跳到正文</a><header class="site-header"><a class="wordmark" href="../index.html">SYMBOL<span>设计档案 / 2026</span></a><nav aria-label="主导航"><a href="../index.html#timeline">版本时间线</a><a href="../index.html#catalog">全部文档</a><a class="back-portfolio" href="../../index.html">作品集 <span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="doc-top"><a class="back-link" href="../index.html?project=merchant#catalog">← 返回远行商人文档</a><div class="doc-tags"><span>远行商人</span><span>历史方案</span><span>构筑成长</span></div><h1>道具与工具执行设计 v0.1</h1><p class="doc-intro">重新定义道具与工具的执行效果和适用位置。</p><div class="doc-metadata"><span><strong>2026-07-19</strong>正文日期</span><span><strong>12 分钟</strong>预计阅读</span><span><strong>1</strong>次可查提交</span><a class="download" href="../sources/items-execution-v1.md" download>下载本文 ↓</a></div></div><div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><a class="level-2" href="#1-执行结论">1. 执行结论</a><a class="level-2" href="#2-统一后的底层决策">2. 统一后的底层决策</a><a class="level-2" href="#3-六个构筑家族">3. 六个构筑家族</a><a class="level-3" href="#3-1-领队集结">3.1 领队集结</a><a class="level-3" href="#3-2-五伴接力">3.2 五伴接力</a><a class="level-3" href="#3-3-行动回声与机关共振">3.3 行动回声与机关共振</a><a class="level-3" href="#3-4-旅途养成">3.4 旅途养成</a><a class="level-3" href="#3-5-工具工坊">3.5 工具工坊</a><a class="level-2" href="#4-30件候选道具">4. 30件候选道具</a><a class="level-3" href="#4-1-领队集结">4.1 领队集结</a><a class="level-3" href="#4-2-五伴接力">4.2 五伴接力</a><a class="level-3" href="#4-3-行动回声">4.3 行动回声</a><a class="level-3" href="#4-4-机关共振">4.4 机关共振</a><a class="level-3" href="#4-5-旅途养成">4.5 旅途养成</a><a class="level-3" href="#4-6-工具工坊">4.6 工具工坊</a><a class="level-3" href="#4-7-中立桥接与载荷">4.7 中立桥接与载荷</a><a class="level-2" href="#5-12张候选工具">5. 12张候选工具</a><a class="level-2" href="#6-旧目录处理">6. 旧目录处理</a><a class="level-2" href="#7-16关目标相对模拟">7. 16关目标相对模拟</a><a class="level-3" href="#7-1-模型边界">7.1 模型边界</a><a class="level-3" href="#7-2-中位曲线关键点">7.2 中位曲线关键点</a><a class="level-3" href="#7-3-当前曲线结论">7.3 当前曲线结论</a><a class="level-2" href="#8-20条特别状况审计">8. 20条特别状况审计</a><a class="level-3" href="#8-1-必须优先重做的状况">8.1 必须优先重做的状况</a><a class="level-3" href="#8-2-可作为良性局部题的状况">8.2 可作为良性局部题的状况</a><a class="level-2" href="#9-实现门槛">9. 实现门槛</a><a class="level-2" href="#10-给其他ai的后续任务">10. 给其他AI的后续任务</a><a href="#source-record">来源与修改记录</a></nav></details><a class="to-top" href="#main">回到页首 ↑</a></aside><div class="doc-reading"><div class="archive-note"><span class="note-marker">档案说明</span><p>这是 2026-09-19 从工程收录的文本，可能包含后来补写的注释。正文中的“当前”“已实现”保留原有语境，不代表本站试玩版已逐项复验。</p></div><article class="prose" id="article"><p>日期：2026-07-19</p>
+<p>状态：<strong>候选设计，尚未进入运行时</strong></p>
+<p>设计数据：<code>relic-tool-redesign-data-v0.1.json</code></p>
+<p>本文是 <code>yuanxing-shangren-right-chain-relic-tool-ai-brief.md</code> 的第一份执行结果。它已经完成构筑家族、候选目录、旧目录映射、16关目标相对模拟和20条特别状况审计，但没有覆盖当前 <code>relics.json</code> 与 <code>tools.json</code>。</p>
+<hr>
+<h2 id="1-执行结论">1. 执行结论<a class="heading-link" href="#1-执行结论" aria-label="链接到本节">#</a></h2><p>候选目录从当前 <strong>40件道具 + 10张工具</strong> 收敛为：</p>
+<ul>
+<li><strong>30件道具</strong>：6个构筑家族×4件核心道具 + 6件中立桥接/载荷。</li>
+<li><strong>12张工具</strong>：保留当前10个稳定ID，新增排列工具 <code>rotate_compass</code> 和成长转移工具 <code>shared_rations</code>。</li>
+<li><strong>6个构筑家族</strong>：领队集结、五伴接力、行动回声、机关共振、旅途养成、工具工坊。</li>
+<li>当前40个道具ID已全部归类：7件保留、23件重做、8件合并、2件退役。</li>
+</ul>
+<p>这个数量不是为了比40少而少，而是删除“+5/+10”、“触发1次/2次”这类纯数值镜像，使每个奖励候选更可能改变构筑方向。</p>
+<hr>
+<h2 id="2-统一后的底层决策">2. 统一后的底层决策<a class="heading-link" href="#2-统一后的底层决策" aria-label="链接到本节">#</a></h2><pre><code class="language-text">伙伴组合 = 本轮队势与倍率（我派谁）
+伙伴排列 = 相邻条件与传导路径（怎么排）
+道具布置 = 1→5的加工机器（如何放大）
+工具牌 = 临场修型、改链和点火（何时调整）
+</code></pre>
+<p>五种牌型不再只在结算尾部乘一下分数：</p>
+<ul>
+<li><strong>成双→成势→领衔→满贯</strong> 产生“主导伙伴”和“集中层级”，供领队集结道具读取。</li>
+<li><strong>齐行</strong> 产生“不同伙伴数”和“已经过的伙伴信号”，供五伴接力道具读取。</li>
+<li>行动回声、机关共振、养成和工具工坊不绑定某一牌型，但必须在链尾选择集中或齐行载荷，才会形成不同玩法。</li>
+</ul>
+<p>所有新触发仍只能去紧邻右侧。“统计已经过的伙伴”是随结算向右携带的状态，不是跳格触发。</p>
+<hr>
+<h2 id="3-六个构筑家族">3. 六个构筑家族<a class="heading-link" href="#3-六个构筑家族" aria-label="链接到本节">#</a></h2><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>家族</th><th>核心输入</th><th>前期种子</th><th>中期转换</th><th>后期兑现</th><th>主要风险</th></tr></thead><tbody><tr><td>领队集结</td><td>主导伙伴、集中层级</td><td>集结旗</td><td>领队结+传动木偶</td><td>领队铃+凯旋号</td><td>主导伙伴被变身/排除</td></tr><tr><td>五伴接力</td><td>不同伙伴、异类相邻</td><td>五色册</td><td>接力彩带+旅行邮戳</td><td>会合箱</td><td>齐行难以成型或强制变身</td></tr><tr><td>行动回声</td><td>伙伴再行动</td><td>海螺</td><td>回声沙漏+传动木偶</td><td>回声笛+回声账本</td><td>动画过长、伪光削弱</td></tr><tr><td>机关共振</td><td>道具再次触发</td><td>定时磁石</td><td>风车+蓄力珠串+接力瓶</td><td>余烬水壶</td><td>全局右触发-1、随机关闭节点</td></tr><tr><td>旅途养成</td><td>伙伴永久成长、成长里程碑</td><td>种子/旅行日志</td><td>磨砺石雕</td><td>成长香炉</td><td>太晚获得无法回本</td></tr><tr><td>工具工坊</td><td>工具数量和类别</td><td>工具行囊</td><td>点火鼓槌+分类宝箱</td><td>铜镜匣</td><td>生成—复制—再生成循环</td></tr></tbody></table></div><h3 id="3-1-领队集结">3.1 领队集结<a class="heading-link" href="#3-1-领队集结" aria-label="链接到本节">#</a></h3><p>参考布局：</p>
+<pre><code class="language-text">1 集结旗 → 2 领队结 → 3 传动木偶 → 4 领队铃 → 5 凯旋号
+</code></pre>
+<ul>
+<li>成势已经能启动，不需等满贯才有用。</li>
+<li>玩家会主动思考主导伙伴应放在哪几格，而不是只管凑五张同类。</li>
+<li>凯旋号上限+3倍率，防止再行动数以几何速度直接把倍率推爆。</li>
+</ul>
+<h3 id="3-2-五伴接力">3.2 五伴接力<a class="heading-link" href="#3-2-五伴接力" aria-label="链接到本节">#</a></h3><p>参考布局：</p>
+<pre><code class="language-text">1 五色册 → 2 接力彩带 → 3 旅行邮戳 → 4 接力瓶 → 5 会合箱
+</code></pre>
+<ul>
+<li>五色册在只有3–4种伙伴时仍有即时价值，避免齐行成型前全套白板。</li>
+<li>变换伙伴不只改变×7是否成立，也会改变异类相邻数和信号经过顺序。</li>
+<li>会合箱最多+2倍率，因为齐行已经有×7并且五色册另有全体加分。</li>
+</ul>
+<h3 id="3-3-行动回声与机关共振">3.3 行动回声与机关共振<a class="heading-link" href="#3-3-行动回声与机关共振" aria-label="链接到本节">#</a></h3><p>这两个家族共用一对桥接：</p>
+<ul>
+<li>回声沙漏：伙伴再行动 → 右侧道具触发。</li>
+<li>传动木偶：道具再触发 → 右侧伙伴再行动。</li>
+</ul>
+<p>它们允许混搭，但所有转换都只向右，并要为单个事件加“最多转化1次”守卫，避免回声沙漏与传动木偶之间反复生成同一事件。</p>
+<h3 id="3-4-旅途养成">3.4 旅途养成<a class="heading-link" href="#3-4-旅途养成" aria-label="链接到本节">#</a></h3><ul>
+<li>种子是单伙伴的可见投资，每轮最多长4点。</li>
+<li>磨砺石雕将高频道具链转成五伙伴共同成长，是齐行养成的核心。</li>
+<li>成长香炉每10点总成长换0.25永久队势倍率，最多+3。它是后期兑现，不能在第13页才出现仍被当作同价值奖励。</li>
+</ul>
+<h3 id="3-5-工具工坊">3.5 工具工坊<a class="heading-link" href="#3-5-工具工坊" aria-label="链接到本节">#</a></h3><ul>
+<li>新生成工具从下一轮可用，继续保持当前防循环原则。</li>
+<li>工具行囊每页最多1张，分类宝箱每页最多2张，铜镜匣每页最多1张。</li>
+<li>铜镜不得复制铜镜自身，也不得将“生成铜镜”作为可复制的上一个工具效果。</li>
+</ul>
+<hr>
+<h2 id="4-30件候选道具">4. 30件候选道具<a class="heading-link" href="#4-30件候选道具" aria-label="链接到本节">#</a></h2><h3 id="4-1-领队集结">4.1 领队集结<a class="heading-link" href="#4-1-领队集结" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>ID</th><th>名称</th><th>职责</th><th>候选文案</th></tr></thead><tbody><tr><td><code>linkage_flag</code></td><td>集结旗</td><td>种子/点火</td><td>首次触发时，成势/领衔/满贯使右侧道具额外触发1/2/3次。</td></tr><tr><td><code>hinge_box</code></td><td>领队结</td><td>传导</td><td>本格与右格均为主导伙伴时，右侧道具触发1次。</td></tr><tr><td><code>echo_jar</code></td><td>领队铃</td><td>载荷</td><td>本格主导伙伴再行动时+12，每轮前10次。</td></tr><tr><td><code>peddler_flag</code></td><td>凯旋号</td><td>终点</td><td>集中队势下，每次主导伙伴再行动使本轮队势倍率+0.15，最多+3。</td></tr></tbody></table></div><h3 id="4-2-五伴接力">4.2 五伴接力<a class="heading-link" href="#4-2-五伴接力" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>ID</th><th>名称</th><th>职责</th><th>候选文案</th></tr></thead><tbody><tr><td><code>five_color_book</code></td><td>五色册</td><td>种子/载荷</td><td>每种不同伙伴使所有伙伴+2。</td></tr><tr><td><code>offset_clasp</code></td><td>接力彩带</td><td>传导</td><td>相邻为不同伙伴时，右侧道具触发1次。</td></tr><tr><td><code>fold_clip</code></td><td>旅行邮戳</td><td>放大</td><td>本轮每首次见到1种伙伴，右侧道具触发1次。</td></tr><tr><td><code>full_crate</code></td><td>会合箱</td><td>终点</td><td>齐行时，左侧至本格每经过1种伙伴，本轮队势倍率+0.4，最多+2。</td></tr></tbody></table></div><h3 id="4-3-行动回声">4.3 行动回声<a class="heading-link" href="#4-3-行动回声" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>ID</th><th>名称</th><th>职责</th><th>候选文案</th></tr></thead><tbody><tr><td><code>echo_box</code></td><td>海螺</td><td>种子</td><td>右侧伙伴再次行动1次。</td></tr><tr><td><code>resonance_box</code></td><td>回声笛</td><td>成长放大</td><td>右侧伙伴再行动1次；每触发8次本局永久+1次，最多+3。</td></tr><tr><td><code>rebound_board</code></td><td>回声沙漏</td><td>转换</td><td>本格伙伴再行动时，右侧道具触发1次。</td></tr><tr><td><code>double_entry_book</code></td><td>回声账本</td><td>终点</td><td>每次伙伴再行动使本轮队势倍率+0.1，最多+3。</td></tr></tbody></table></div><h3 id="4-4-机关共振">4.4 机关共振<a class="heading-link" href="#4-4-机关共振" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>ID</th><th>名称</th><th>职责</th><th>候选文案</th></tr></thead><tbody><tr><td><code>timing_bell</code></td><td>定时磁石</td><td>种子</td><td>每轮第1次触发时，右侧道具触发3次。</td></tr><tr><td><code>drive_shaft</code></td><td>风车</td><td>成长传导</td><td>右侧道具触发1次；每触发8次本局永久+1次，最多+2。</td></tr><tr><td><code>old_mainspring</code></td><td>蓄力珠串</td><td>批量转换</td><td>每承受3次道具再触发，右侧道具触发2次；余数本轮保留。</td></tr><tr><td><code>ember_stove</code></td><td>余烬水壶</td><td>终点载荷</td><td>本轮前40次道具触发，每次使所有伙伴+1。</td></tr></tbody></table></div><h3 id="4-5-旅途养成">4.5 旅途养成<a class="heading-link" href="#4-5-旅途养成" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>ID</th><th>名称</th><th>职责</th><th>候选文案</th></tr></thead><tbody><tr><td><code>living_scale</code></td><td>种子</td><td>单伙伴成长</td><td>本格伙伴+2；每轮前4次触发使该伙伴本局永久+1。</td></tr><tr><td><code>old_travel_log</code></td><td>旅行日志</td><td>位置成长</td><td>本格同一伙伴每完成3次原始行动，该伙伴本局永久+1，每页最多+3。</td></tr><tr><td><code>tempering_furnace</code></td><td>磨砺石雕</td><td>全体成长</td><td>本页每累计8次道具触发，所有伙伴本局永久+1，每页最多3次。</td></tr><tr><td><code>old_scorebook</code></td><td>成长香炉</td><td>终点</td><td>伙伴永久成长总计每达到10点，队势倍率本局永久+0.25，最多+3。</td></tr></tbody></table></div><h3 id="4-6-工具工坊">4.6 工具工坊<a class="heading-link" href="#4-6-工具工坊" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>ID</th><th>名称</th><th>职责</th><th>候选文案</th></tr></thead><tbody><tr><td><code>tool_bag</code></td><td>工具行囊</td><td>供应种子</td><td>每页首次触发时，下一轮获得1张基础工具。</td></tr><tr><td><code>tool_pack_bell</code></td><td>点火鼓槌</td><td>工具→道具</td><td>每使用1张工具，此道具下次触发时使右侧道具额外触发1次。</td></tr><tr><td><code>tool_case</code></td><td>分类宝箱</td><td>定向供应</td><td>每触发6次，下一轮获得1张与本页上张工具同类的工具，每页最多2张。</td></tr><tr><td><code>old_mold</code></td><td>铜镜匣</td><td>终点供应</td><td>本页使用过3种不同工具后，此道具下次触发时，下一轮获得1张铜镜。</td></tr></tbody></table></div><h3 id="4-7-中立桥接与载荷">4.7 中立桥接与载荷<a class="heading-link" href="#4-7-中立桥接与载荷" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>ID</th><th>名称</th><th>职责</th><th>候选文案</th></tr></thead><tbody><tr><td><code>old_scale</code></td><td>铜钱</td><td>简单本格载荷</td><td>本格伙伴+8。</td></tr><tr><td><code>spring_scale</code></td><td>回弹木雕</td><td>机关再触发载荷</td><td>此道具再次触发时，本格伙伴+10。</td></tr><tr><td><code>transmission_wheel</code></td><td>传动木偶</td><td>道具→行动</td><td>此道具再次触发时，右侧伙伴再次行动1次。</td></tr><tr><td><code>pressure_board</code></td><td>压差背包</td><td>分数比较</td><td>本格分数低于右格时，右格伙伴再次行动1次。</td></tr><tr><td><code>red_abacus</code></td><td>罗盘</td><td>简单全体载荷</td><td>所有伙伴+4。</td></tr><tr><td><code>relay_baton</code></td><td>接力瓶</td><td>道具复写桥</td><td>此道具再次触发时，右侧道具触发2次。</td></tr></tbody></table></div><hr>
+<h2 id="5-12张候选工具">5. 12张候选工具<a class="heading-link" href="#5-12张候选工具" aria-label="链接到本节">#</a></h2><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>ID</th><th>名称</th><th>类别</th><th>候选文案</th></tr></thead><tbody><tr><td><code>recolor_cloth</code></td><td>彩布</td><td>队势</td><td>1张伙伴牌变为任意伙伴。</td></tr><tr><td><code>copy_board</code></td><td>印章</td><td>队势</td><td>下一张补牌复制所选伙伴。</td></tr><tr><td><code>search_hook</code></td><td>网兜</td><td>抽牌</td><td>丢弃1张伙伴手牌，补1张。</td></tr><tr><td><code>telescope</code></td><td>望远镜</td><td>抽牌</td><td>重抽1张伙伴手牌，可选3张。</td></tr><tr><td><code>swap_hook</code></td><td>挂钩</td><td>排列</td><td>交换两名已入场伙伴。</td></tr><tr><td><code>rotate_compass</code></td><td>转盘</td><td>排列</td><td>选择连续3名已入场伙伴，整体向右轮换1格。</td></tr><tr><td><code>trigger_bell</code></td><td>口哨</td><td>行动点火</td><td>1个行动格的伙伴再次行动1次。</td></tr><tr><td><code>winding_key</code></td><td>发条钥匙</td><td>道具点火</td><td>1个行动格的道具再次触发1次。</td></tr><tr><td><code>packing_rope</code></td><td>号角</td><td>全队点火</td><td>本轮所有伙伴再次行动1次。</td></tr><tr><td><code>copy_paper</code></td><td>铜镜</td><td>复写</td><td>上一张工具再生效1次，不能复制铜镜。</td></tr><tr><td><code>whetstone</code></td><td>磨石</td><td>载荷</td><td>1张伙伴牌本轮+10。</td></tr><tr><td><code>shared_rations</code></td><td>分粮袋</td><td>成长转移</td><td>将一种伙伴本局永久成长中的2点转给另一种伙伴。</td></tr></tbody></table></div><hr>
+<h2 id="6-旧目录处理">6. 旧目录处理<a class="heading-link" href="#6-旧目录处理" aria-label="链接到本节">#</a></h2><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>处理</th><th style="text-align:right">数量</th><th>代表</th></tr></thead><tbody><tr><td>保留</td><td style="text-align:right">7</td><td>海螺、定时磁石、回声沙漏、传动木偶</td></tr><tr><td>保留ID重做</td><td style="text-align:right">23</td><td>集结旗、五色册、旅行邮戳、成长香炉、分类宝箱</td></tr><tr><td>合并</td><td style="text-align:right">8</td><td>玉佩→铜钱，手鼓→回声笛，天平→蓄力珠串，瓷盘→成长香炉</td></tr><tr><td>退役</td><td style="text-align:right">2</td><td>斗篷、竹筒；刷新/保留资源后续改为场景奖励或主动工具</td></tr></tbody></table></div><p>完整的40行映射、每件理由和候选ID见设计数据和工作簿。</p>
+<hr>
+<h2 id="7-16关目标相对模拟">7. 16关目标相对模拟<a class="heading-link" href="#7-16关目标相对模拟" aria-label="链接到本节">#</a></h2><h3 id="7-1-模型边界">7.1 模型边界<a class="heading-link" href="#7-1-模型边界" aria-label="链接到本节">#</a></h3><p>这是候选设计层的参数模型，不是运行时逐事件回放。公式为：</p>
+<pre><code class="language-text">单轮探索度 = floor(
+    5
+  × 当前伙伴分
+  × 预期队势倍率
+  × 已装备道具数对应的链路因子
+  × 满构筑后的成熟因子
+  × 终页敏感因子
+  × 运气因子
+)
+</code></pre>
+<ul>
+<li>不顺：0.80。</li>
+<li>中位：1.00。</li>
+<li>顺利：1.40。</li>
+<li>假设获得构筑内道具的数量为 <code>0,1,1,2,2,3,3,4,4,5,5,5,5,5,5,5</code>。</li>
+<li>第10页之后开始计算满构筑成熟因子，用于表达道具和伙伴的跨页成长。</li>
+</ul>
+<p>该公式的作用是筛掉明显无法追上目标、或中期就永久溢出的方向。在候选机制进入沙盒后，必须用真实队列取代“链路因子”。</p>
+<h3 id="7-2-中位曲线关键点">7.2 中位曲线关键点<a class="heading-link" href="#7-2-中位曲线关键点" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>家族</th><th style="text-align:right">1页</th><th style="text-align:right">5页</th><th style="text-align:right">8页</th><th style="text-align:right">9页</th><th style="text-align:right">12页</th><th style="text-align:right">13页</th><th style="text-align:right">16页</th><th>体验判读</th></tr></thead><tbody><tr><td>领队集结</td><td style="text-align:right">100</td><td style="text-align:right">770</td><td style="text-align:right">10,800</td><td style="text-align:right">13,500</td><td style="text-align:right">127,710</td><td style="text-align:right">237,765</td><td style="text-align:right">666,468</td><td>第5页压力，8/12页爆发，终局回到2轮</td></tr><tr><td>五伴接力</td><td style="text-align:right">350</td><td style="text-align:right">882</td><td style="text-align:right">7,560</td><td style="text-align:right">9,800</td><td style="text-align:right">88,200</td><td style="text-align:right">182,000</td><td style="text-align:right">504,000</td><td>最稳定，上限低于指数链，终局3轮以内</td></tr><tr><td>行动回声</td><td style="text-align:right">100</td><td style="text-align:right">690</td><td style="text-align:right">12,600</td><td style="text-align:right">17,500</td><td style="text-align:right">146,534</td><td style="text-align:right">380,160</td><td style="text-align:right">957,312</td><td>8页开始爆发，终页敏感因子把16页拉回2轮</td></tr><tr><td>机关共振</td><td style="text-align:right">100</td><td style="text-align:right">660</td><td style="text-align:right">11,700</td><td style="text-align:right">17,500</td><td style="text-align:right">162,162</td><td style="text-align:right">399,600</td><td style="text-align:right">994,032</td><td>高上限、高状况敏感，16页中位刚好不足1轮</td></tr><tr><td>旅途养成</td><td style="text-align:right">100</td><td style="text-align:right">660</td><td style="text-align:right">4,032</td><td style="text-align:right">7,200</td><td style="text-align:right">98,982</td><td style="text-align:right">201,150</td><td style="text-align:right">903,150</td><td>前中期最苦，后期回报高，需要防止晚获得陷阱</td></tr><tr><td>工具工坊</td><td style="text-align:right">100</td><td style="text-align:right">750</td><td style="text-align:right">11,088</td><td style="text-align:right">12,600</td><td style="text-align:right">138,969</td><td style="text-align:right">250,320</td><td style="text-align:right">741,787</td><td>中期稳定爆发，终局受工具库存和终页限制</td></tr></tbody></table></div><p>对应目标为：1页250、5页2,500、8页10,000、9页25,000、12页100,000、13页250,000、16页1,000,000。</p>
+<h3 id="7-3-当前曲线结论">7.3 当前曲线结论<a class="heading-link" href="#7-3-当前曲线结论" aria-label="链接到本节">#</a></h3><ul>
+<li>中位曲线的6个家族均能在4轮内通过16页。</li>
+<li>不顺曲线的主要失败集中在第5页；旅途养成还会在6/7/9页继续承压，这是有意设计的高风险曲线，但需要补充转型奖励和预计回本提示。</li>
+<li>中位行动回声和机关共振在10–15页可多次一轮达标，但第16页终页敏感因子将它们拉回2轮；顺利曲线仍可一轮通关，保留构筑成功的爽感。</li>
+<li>五伴接力的理论1页分高，但它以成功凑出齐行为前提；工作簿中的不顺曲线用0.80统一折损表达成型成本。</li>
+</ul>
+<hr>
+<h2 id="8-20条特别状况审计">8. 20条特别状况审计<a class="heading-link" href="#8-20条特别状况审计" aria-label="链接到本节">#</a></h2><p>严重度：0=基本无关，1=局部调整，2=明显受压，3=可能破坏家族或底层语法。</p>
+<h3 id="8-1-必须优先重做的状况">8.1 必须优先重做的状况<a class="heading-link" href="#8-1-必须优先重做的状况" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>状况</th><th>问题</th><th>建议</th></tr></thead><tbody><tr><td>逆风</td><td>所有右侧道具触发-1，攻击全构筑共用语法</td><td>改为一个提前公开的连接，每轮第1次经过该连接的右触发-1</td></tr><tr><td>迷途/暗礁</td><td>排除1张使齐行与满贯必然失效</td><td>保留四张牌型压力和低目标系数，但不再额外禁用队势道具；需实测是否过于惩罚</td></tr><tr><td>流砂</td><td>结算前随机格+随机伙伴，无法规划</td><td>进章时公开目标格和变化后伙伴</td></tr><tr><td>塌方/漂木</td><td>可能随机关闭唯一核心节点</td><td>进章时公开被影响道具，允许在第1张伙伴前重排</td></tr><tr><td>冲散</td><td>随机交换使玩家的相邻排列失去因果</td><td>改为进章时公开的确定交换对</td></tr></tbody></table></div><h3 id="8-2-可作为良性局部题的状况">8.2 可作为良性局部题的状况<a class="heading-link" href="#8-2-可作为良性局部题的状况" aria-label="链接到本节">#</a></h3><ul>
+<li>倒木、落石、裂地和急流只取消一次或一个连接，玩家可用廉价点火吸收。</li>
+<li>藏径和诱光可以是公开排列题，前提是结果确定。</li>
+<li>涨潮迫使玩家不要永远把分数载荷放在5格，可保留。</li>
+<li>满载只增加目标25%，不关闭构筑，可作为终局压力基准。</li>
+</ul>
+<p>完整的20行×6家族严重度矩阵在工作簿与设计数据中。</p>
+<hr>
+<h2 id="9-实现门槛">9. 实现门槛<a class="heading-link" href="#9-实现门槛" aria-label="链接到本节">#</a></h2><p>本候选目录不应直接覆盖运行时。进入游戏前必须按顺序完成：</p>
+<ol>
+<li><strong>队势上下文沙盒</strong>：输出主导伙伴、集中层级、不同伙伴数和向右携带的伙伴信号。</li>
+<li><strong>新状态与上限</strong>：实现每轮已见伙伴、工具类别、成长里程碑、事件转换守卫和所有封顶。</li>
+<li><strong>候选配置独立加载</strong>：实验室读候选JSON，正式局仍读当前JSON。</li>
+<li><strong>真实队列模拟</strong>：6家族×16页×3运气×20条状况，检查无限循环、触发数、动画时长和目标比。</li>
+<li><strong>只在通过后迁移</strong>：重算关卡目标、终页目标系数、奖励权重和稀有度，最后再替换正式目录。</li>
+</ol>
+<hr>
+<h2 id="10-给其他ai的后续任务">10. 给其他AI的后续任务<a class="heading-link" href="#10-给其他ai的后续任务" aria-label="链接到本节">#</a></h2><p>读取本文和 <code>relic-tool-redesign-data-v0.1.json</code> 后，不要继续随意添加道具。下一份交付应是“沙盒机制与真实队列模拟方案”，必须回答：</p>
+<ul>
+<li>主导伙伴、已经过的伙伴信号和工具类别如何进入 Core，UI不重复判定。</li>
+<li>每件新道具属于现有通用效果、新条件、新转换还是新永久状态。</li>
+<li>回声沙漏、传动木偶、蓄力珠串和接力瓶的单事件守卫如何证明不会无限。</li>
+<li>每个家族在不顺/中位/顺利曲线下的真实单轮分、触发数和动画批次。</li>
+<li>实测结果是要调道具数值，还是调当前16关目标，不得为了保留某个数字而倒推结论。</li>
+</ul>
+</article><section class="source-record" id="source-record"><p class="eyebrow">SOURCE & REVISIONS</p><h2>来源与修改记录</h2><dl><dt>原文标题</dt><dd>《远行商人》道具与工具执行设计 v0.1</dd><dt>工程内文件</dt><dd><code>docs/v05-five-animal-caravan/relic-tool-redesign-execution-v0.1.md</code></dd><dt>收录方式</dt><dd>从现存工程文件收录，保留原段落与参数；仅做网页排版、本机路径匿名化与链接整理。</dd><dt>日期依据</dt><dd>正文日期 · 2026-07-19。正文日期、首次入库日期与修订日期可能不同。</dd></dl><details class="history" open><summary>查看 1 次文件提交记录</summary><p>以下为包含此文件变化的提交。提交说明可能涉及整个项目，不代表该文档单独完成了所有列出的功能。</p><ol><li><time>2026-07-24</time><div><code>a0cff4e</code><p>feat: 建立五兽商队 v0.6 当前版本基线</p></div></li></ol></details></section><nav class="adjacent" aria-label="相邻文档"><a href="caravan-items.html"><small>上一篇</small>道具与工具目录（历史 v0.5 / v0.3）</a><a href="items-execution-v2.html"><small>下一篇</small>道具、工具与伙伴组合执行设计 v0.2</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>两个独立游戏，从原型到迭代的设计记录。</p></div><p>整理于 2026.09.19<br><a href="../index.html#about">收录与日期说明</a> · <a href="../../index.html">返回作品集 ↗</a></p></footer></body></html>

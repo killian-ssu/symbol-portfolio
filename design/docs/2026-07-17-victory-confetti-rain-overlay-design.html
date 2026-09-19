@@ -1,0 +1,83 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f4f2eb"><title>胜利彩屑反馈 · Symbol 策划档案</title><meta name="description" content="胜利时的彩屑表现、层级和覆盖范围。"><link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css"><script src="../archive.js" defer></script></head><body class="document-page merchant"><a class="skip" href="#main">跳到正文</a><header class="site-header"><a class="wordmark" href="../index.html">SYMBOL<span>设计档案 / 2026</span></a><nav aria-label="主导航"><a href="../index.html#timeline">版本时间线</a><a href="../index.html#catalog">全部文档</a><a class="back-portfolio" href="../../index.html">作品集 <span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="doc-top"><a class="back-link" href="../index.html?project=merchant#catalog">← 返回远行商人文档</a><div class="doc-tags"><span>远行商人</span><span>迭代方案</span><span>交互表现</span></div><h1>胜利彩屑反馈</h1><p class="doc-intro">胜利时的彩屑表现、层级和覆盖范围。</p><div class="doc-metadata"><span><strong>2026-07-17</strong>文件名日期</span><span><strong>5 分钟</strong>预计阅读</span><span><strong>1</strong>次可查提交</span><a class="download" href="../sources/2026-07-17-victory-confetti-rain-overlay-design.md" download>下载本文 ↓</a></div></div><div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><a class="level-2" href="#目标">目标</a><a class="level-2" href="#参考拆解">参考拆解</a><a class="level-2" href="#方案选择">方案选择</a><a class="level-2" href="#彩带雨资产">彩带雨资产</a><a class="level-3" href="#稳定资产">稳定资产</a><a class="level-3" href="#时间结构">时间结构</a><a class="level-3" href="#前后景比例">前后景比例</a><a class="level-3" href="#造型与颜色">造型与颜色</a><a class="level-3" href="#移动端预算">移动端预算</a><a class="level-2" href="#粉黄遮罩-shader">粉黄遮罩 Shader</a><a class="level-3" href="#稳定资产-2">稳定资产</a><a class="level-3" href="#视觉结构">视觉结构</a><a class="level-3" href="#动态">动态</a><a class="level-2" href="#独立实验室">独立实验室</a><a class="level-2" href="#通用边界">通用边界</a><a class="level-2" href="#验证">验证</a><a href="#source-record">来源与修改记录</a></nav></details><a class="to-top" href="#main">回到页首 ↑</a></aside><div class="doc-reading"><div class="archive-note"><span class="note-marker">档案说明</span><p>这是 2026-09-19 从工程收录的文本，可能包含后来补写的注释。正文中的“当前”“已实现”保留原有语境，不代表本站试玩版已逐项复验。</p></div><article class="prose" id="article"><p>日期：2026-07-17</p>
+<h2 id="目标">目标<a class="heading-link" href="#目标" aria-label="链接到本节">#</a></h2><p>参考花瓣素材的竖向彩带飘落节奏，为《远行商人》的胜利画面制作一套可复用、移动端可控、全部由 Prefab / Inspector 调参的表现资产：</p>
+<ol>
+<li>全屏从顶部持续落下的双层彩带雨。</li>
+<li>四周高饱和粉色、中心暖黄色的强半透明动态遮罩 Shader。</li>
+<li>独立的 <code>720 × 1280</code> 胜利动效实验室，用于先调效果、后接正式胜利弹窗。</li>
+</ol>
+<p>本轮不修改 <code>game_end_popup.prefab</code>、<code>GameEndPopupComp.ts</code>、<code>GameMainViewComp.ts</code> 或胜负流程。正式游戏接入必须等待用户在实验室体验并确认。</p>
+<h2 id="参考拆解">参考拆解<a class="heading-link" href="#参考拆解" aria-label="链接到本节">#</a></h2><p>花瓣参考不是三点爆发礼花，而是约 6.9 秒的竖向彩纸/彩带飘落：粒子从画面上边界外生成，沿全宽分布，向下移动并持续旋转；大小、下落速度和水平漂移均有差异。</p>
+<p>用户胜利稿的背景表现为：原游戏画面仍可辨认，屏幕四周由高饱和洋红覆盖，中央形成横向椭圆状暖黄区域，粉色和黄色之间柔和过渡。标题和按钮位于遮罩与大部分彩带之上，少量前景彩带从文字前经过。</p>
+<h2 id="方案选择">方案选择<a class="heading-link" href="#方案选择" aria-label="链接到本节">#</a></h2><p>采用“两层 <code>ParticleSystem2D</code> 彩带雨 + 独立全屏 Sprite Shader”。不采用纯 Shader 彩带，因为无法获得可靠的单片旋转和前后景层次；不采用透明视频，因为体积大、参数不可调且不利于跨项目复用。</p>
+<h2 id="彩带雨资产">彩带雨资产<a class="heading-link" href="#彩带雨资产" aria-label="链接到本节">#</a></h2><h3 id="稳定资产">稳定资产<a class="heading-link" href="#稳定资产" aria-label="链接到本节">#</a></h3><ul>
+<li>组合 ID：<code>fx_confetti_rain_v1</code></li>
+<li>后景 Prefab：<code>fx_confetti_rain_back_v1.prefab</code></li>
+<li>前景 Prefab：<code>fx_confetti_rain_front_v1.prefab</code></li>
+<li>每个 Prefab 内部固定拆成 <code>OpeningRoot</code> 和 <code>AmbientRoot</code>，分别挂载通用 <code>ParticleFxPlayerComp</code>。</li>
+<li>根节点使用轻量通用分层播放器，只组合 <code>playOpening()</code>、<code>playAmbient()</code>、<code>playFull()</code> 和 <code>stopAndClear()</code>；业务/实验室不直接改发射参数。</li>
+</ul>
+<p>拆成前后两个 Prefab，是为了让调用方能够按 <code>后景彩带 → 标题与按钮 → 前景彩带</code> 的节点顺序组合，不需要在运行时重写渲染顺序。</p>
+<h3 id="时间结构">时间结构<a class="heading-link" href="#时间结构" aria-label="链接到本节">#</a></h3><ul>
+<li>开场高密度阶段：<code>3.0s</code>。</li>
+<li>持续阶段：胜利界面存在期间保持约开场 <code>25%</code> 的密度。</li>
+<li>实验室自动循环预览：每 <code>8.0s</code> 重播一次，既能看到开场，也能观察持续阶段。</li>
+<li><code>ParticleSystem2D</code> 的视觉参数固定保存在 Prefab：高密度发射层使用有限 <code>duration</code>，低密度发射层使用持续发射；运行时不修改 <code>emissionRate</code>。</li>
+</ul>
+<h3 id="前后景比例">前后景比例<a class="heading-link" href="#前后景比例" aria-label="链接到本节">#</a></h3><ul>
+<li>后景约占总视觉数量 <code>75%</code>：纸片较小、速度较慢、透明度略低，主要从标题后方落下。</li>
+<li>前景约占 <code>25%</code>：数量较少、尺寸更大、速度略快，从标题与按钮前方经过。</li>
+<li>两层都覆盖完整 <code>720px</code> 宽度，发射带位于屏幕上边界之外，避免粒子从屏幕中段凭空出现。</li>
+</ul>
+<h3 id="造型与颜色">造型与颜色<a class="heading-link" href="#造型与颜色" aria-label="链接到本节">#</a></h3><ul>
+<li>复用 <code>confetti_chip.png</code> 作为小型纸片。</li>
+<li>新增原创透明白色 <code>confetti_ribbon_curve.png</code>，提供弯曲长彩带轮廓；由粒子颜色统一着色。</li>
+<li>色板：洋红、青蓝、明黄、翠绿、紫色、少量白色。</li>
+<li>通过 <code>Start Spin / End Spin / Spin Var</code>、不同速度和水平扰动模拟翻转与摆动；不依赖业务 Tween。</li>
+</ul>
+<h3 id="移动端预算">移动端预算<a class="heading-link" href="#移动端预算" aria-label="链接到本节">#</a></h3><ul>
+<li>两层总粒子容量控制在 <code>240</code> 以内。</li>
+<li>后景承担主要密度；前景使用更少粒子换取更大尺寸，避免全屏透明粒子过度叠加。</li>
+<li>只使用 <code>ParticleSystem2D</code>，不使用 3D 粒子系统。</li>
+</ul>
+<h2 id="粉黄遮罩-shader">粉黄遮罩 Shader<a class="heading-link" href="#粉黄遮罩-shader" aria-label="链接到本节">#</a></h2><h3 id="稳定资产-2">稳定资产<a class="heading-link" href="#稳定资产-2" aria-label="链接到本节">#</a></h3><ul>
+<li>Effect：<code>VictoryPinkGoldOverlay.effect</code></li>
+<li>Material：<code>VictoryPinkGoldOverlay.mtl</code></li>
+<li>使用全屏白色 Sprite 承载，alpha blend，位于背景与后景彩带之上、标题与前景彩带之下。</li>
+</ul>
+<h3 id="视觉结构">视觉结构<a class="heading-link" href="#视觉结构" aria-label="链接到本节">#</a></h3><ul>
+<li>边缘颜色：高饱和洋红/玫红。</li>
+<li>中心颜色：暖黄到橙黄，形成横向椭圆光区。</li>
+<li>粉黄之间使用双层 smoothstep 过渡，避免明显圆形硬边。</li>
+<li>整体覆盖强度按用户选择设为 <code>70%–80%</code>，但保留底下游戏画面的形状与主要明暗。</li>
+<li>中心位置、椭圆半径、粉色/黄色、整体透明度均为 Material Inspector 参数。</li>
+</ul>
+<h3 id="动态">动态<a class="heading-link" href="#动态" aria-label="链接到本节">#</a></h3><ul>
+<li>中心黄光以很慢的幅度呼吸扩散和收缩。</li>
+<li>叠加低强度二维噪声/流动扰动，使渐变边缘缓慢漂移。</li>
+<li>不做明显颜料翻涌，不让 Shader 抢过标题和彩带。</li>
+<li>动态使用 <code>cc_time</code>；业务代码不逐帧改材质参数。</li>
+</ul>
+<h2 id="独立实验室">独立实验室<a class="heading-link" href="#独立实验室" aria-label="链接到本节">#</a></h2><p>新增 <code>assets/dev/victory-fx-lab/victory_fx_lab.scene</code>：</p>
+<ul>
+<li>设计分辨率 <code>720 × 1280</code>。</li>
+<li>使用项目现有背景 SpriteFrame 作为透明度参照，不启动 Core 或正式游戏流程。</li>
+<li>节点层级固定为：背景 → 后景彩带 → 粉黄遮罩 → “满载而归”示意标题/按钮 → 前景彩带。</li>
+<li>控制按钮：<code>完整重播</code>、<code>只看开场</code>、<code>模拟持续</code>、<code>遮罩开关</code>。<code>只看开场</code> 只播放两层 <code>OpeningRoot</code>，<code>模拟持续</code> 只播放两层 <code>AmbientRoot</code>，不动态重写任何粒子参数。</li>
+<li>自动模式每 <code>8.0s</code> 完整重播。</li>
+<li>所有位置、颜色、粒子参数、Shader 参数由场景/Prefab/Material 保存。</li>
+</ul>
+<h2 id="通用边界">通用边界<a class="heading-link" href="#通用边界" aria-label="链接到本节">#</a></h2><ul>
+<li>新资产写入现有 <code>assets/resources/common/particle-fx/</code> 与 <code>assets/resources/common/shader/</code> 共享库。</li>
+<li>原三点爆发礼花 <code>fx_confetti_celebration_v1</code> 保持不变。</li>
+<li>实验室只负责播放和切换，不在运行时覆盖美术参数。</li>
+<li>后续正式接入时，胜利状态启用 Shader 与双层彩带；失败状态保持现有深色表现。该接入不属于本轮。</li>
+</ul>
+<h2 id="验证">验证<a class="heading-link" href="#验证" aria-label="链接到本节">#</a></h2><ul>
+<li>资源契约检查新贴图为 RGBA、新 Prefab 只使用 <code>ParticleSystem2D</code>、<code>playOnLoad=false</code>、<code>custom=true</code>、总容量不超过 240。</li>
+<li>契约检查开场发射层为 <code>3.0s</code>，持续发射层存在，前后景 Prefab 和 Shader Material 均可按稳定路径找到。</li>
+<li>契约检查实验室包含 720/1280、示意标题、四个控制入口与正确节点顺序。</li>
+<li>契约检查 <code>game_end_popup</code>、<code>GameEndPopupComp</code> 和 <code>GameMainViewComp</code> 未引用新资产。</li>
+<li>执行 <code>npx tsc --noEmit</code>、新动效契约、<code>npm run test:v04</code>。</li>
+<li>在真实 Cocos 当前场景预览中检查：完整覆盖、3 秒密集转持续、前后层遮挡、粉黄强透明遮罩和移动端帧率。</li>
+</ul>
+</article><section class="source-record" id="source-record"><p class="eyebrow">SOURCE & REVISIONS</p><h2>来源与修改记录</h2><dl><dt>原文标题</dt><dd>胜利彩带雨与粉黄遮罩动效设计</dd><dt>工程内文件</dt><dd><code>docs/superpowers/specs/2026-07-17-victory-confetti-rain-overlay-design.md</code></dd><dt>收录方式</dt><dd>从现存工程文件收录，保留原段落与参数；仅做网页排版、本机路径匿名化与链接整理。</dd><dt>日期依据</dt><dd>文件名日期 · 2026-07-17。正文日期、首次入库日期与修订日期可能不同。</dd></dl><details class="history" open><summary>查看 1 次文件提交记录</summary><p>以下为包含此文件变化的提交。提交说明可能涉及整个项目，不代表该文档单独完成了所有列出的功能。</p><ol><li><time>2026-07-17</time><div><code>ebf22c9</code><p>docs: design victory confetti rain and overlay</p></div></li></ol></details></section><nav class="adjacent" aria-label="相邻文档"><a href="2026-07-17-pattern-multiplier-and-reveal-motion-design.html"><small>上一篇</small>组合倍率与揭示动效</a><a href="2026-07-18-chapter-pattern-wave-background-design.html"><small>下一篇</small>章节背景波纹</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>两个独立游戏，从原型到迭代的设计记录。</p></div><p>整理于 2026.09.19<br><a href="../index.html#about">收录与日期说明</a> · <a href="../../index.html">返回作品集 ↗</a></p></footer></body></html>

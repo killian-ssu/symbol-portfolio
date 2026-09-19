@@ -1,0 +1,211 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f4f2eb"><title>局内商店与数字标签系统分析 v0.1 · Symbol 策划档案</title><meta name="description" content="为什么需要局内商店、数字标签装在哪里，以及成长如何被感知。"><link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css"><script src="../archive.js" defer></script></head><body class="document-page merchant"><a class="skip" href="#main">跳到正文</a><header class="site-header"><a class="wordmark" href="../index.html">SYMBOL<span>设计档案 / 2026</span></a><nav aria-label="主导航"><a href="../index.html#timeline">版本时间线</a><a href="../index.html#catalog">全部文档</a><a class="back-portfolio" href="../../index.html">作品集 <span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="doc-top"><a class="back-link" href="../index.html?project=merchant#catalog">← 返回远行商人文档</a><div class="doc-tags"><span>远行商人</span><span>讨论稿</span><span>构筑成长</span></div><h1>局内商店与数字标签系统分析 v0.1</h1><p class="doc-intro">为什么需要局内商店、数字标签装在哪里，以及成长如何被感知。</p><div class="doc-metadata"><span><strong>2026-08-02</strong>正文日期</span><span><strong>13 分钟</strong>预计阅读</span><span><strong>1</strong>次可查提交</span><a class="download" href="../sources/shop-analysis.md" download>下载本文 ↓</a></div></div><div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><a class="level-2" href="#一-先给结论">一、先给结论</a><a class="level-2" href="#二-模拟范围与边界">二、模拟范围与边界</a><a class="level-2" href="#三-标签本身的数值结构">三、标签本身的数值结构</a><a class="level-3" href="#3-1-基础排列">3.1 基础排列</a><a class="level-3" href="#3-2-具体牌的抽取可靠性">3.2 具体牌的抽取可靠性</a><a class="level-2" href="#四-标签触发语义必须改名">四、标签触发语义必须改名</a><a class="level-2" href="#五-商店经济不是把免费奖励标个价格">五、商店经济不是把免费奖励标个价格</a><a class="level-3" href="#5-1-偏保守经济完全断档">5.1 偏保守经济完全断档</a><a class="level-3" href="#5-2-货架必须保护构筑角色-不保护固定答案">5.2 货架必须保护构筑角色，不保护固定答案</a><a class="level-3" href="#5-3-第一次商店前不能要求玩家已经按路线出牌">5.3 第一次商店前不能要求玩家已经按路线出牌</a><a class="level-2" href="#六-现有道具为何必须重排">六、现有道具为何必须重排</a><a class="level-3" href="#6-1-当前标签仍然是可跳过的消费">6.1 当前标签仍然是可跳过的消费</a><a class="level-3" href="#6-2-纯叠行动不是同色成长路线">6.2 纯叠行动不是同色成长路线</a><a class="level-2" href="#七-30-件道具的首轮处理建议">七、30 件道具的首轮处理建议</a><a class="level-3" href="#7-1-第一次四件重做原型没有通过">7.1 第一次四件重做原型没有通过</a><a class="level-3" href="#7-2-必须先锁定语义的-5-件">7.2 必须先锁定语义的 5 件</a><a class="level-3" href="#7-3-不再把所有-行动-1-视为标签重复">7.3 不再把所有“行动 +1”视为标签重复</a><a class="level-3" href="#7-4-下一轮单件实验方向">7.4 下一轮单件实验方向</a><a class="level-2" href="#八-标签获取节奏建议">八、标签获取节奏建议</a><a class="level-2" href="#九-下一版建议构筑路线">九、下一版建议构筑路线</a><a class="level-3" href="#同色成长">同色成长</a><a class="level-3" href="#异色传递">异色传递</a><a class="level-3" href="#前异后同的混合路线">前异后同的混合路线</a><a class="level-3" href="#工具与标签调整">工具与标签调整</a><a class="level-2" href="#十-下一轮验收门槛">十、下一轮验收门槛</a><a class="level-2" href="#十一-实现顺序">十一、实现顺序</a><a href="#source-record">来源与修改记录</a></nav></details><a class="to-top" href="#main">回到页首 ↑</a></aside><div class="doc-reading"><div class="archive-note"><span class="note-marker">档案说明</span><p>这是 2026-09-19 从工程收录的文本，可能包含后来补写的注释。正文中的“当前”“已实现”保留原有语境，不代表本站试玩版已逐项复验。</p></div><article class="prose" id="article"><p>日期：2026-08-02</p>
+<p>状态：历史模拟。预设同色、异色、混合路线的胜率方法已经停用；当前蘑菇主题、42 件候选目录和“有意义出牌率 / 构筑收敛率”结果见 <code>mushroom-shop-item-catalog-v0.1.md</code>。本文只保留旧方案为何失败的对照证据。</p>
+<p>关联文档：</p>
+<ul>
+<li><code>in-run-shop-and-number-tag-handoff.md</code></li>
+<li><code>value-pipeline-design-v0.4.md</code></li>
+<li><code>relic-tool-catalog.md</code></li>
+<li><code>balance-tables.md</code></li>
+</ul>
+<p>关联模拟：</p>
+<ul>
+<li><code>scripts/simulate-in-run-shop-tags-v01.mjs</code></li>
+<li><code>outputs/in-run-shop-number-tags-v0.1-simulation.json</code></li>
+</ul>
+<h2 id="一-先给结论">一、先给结论<a class="heading-link" href="#一-先给结论" aria-label="链接到本节">#</a></h2><p>局内商店和数字标签值得继续做，但不能作为两个独立功能直接盖到现有奖励系统上。</p>
+<p>商店改变的是构筑的获得顺序：玩家不再每关免费拿一件，而是要在核心道具、标签、工具、刷新和存钱之间分配同一笔资源。数字标签改变的是牌库中的具体卡牌、位置价值和额外运算来源。两者合在一起后，现有 30 件道具中有 10 件直接提供额外行动，另有 5 件依赖“每次行动后”的触发语义，已经与标签发生大面积重叠。</p>
+<p>本轮模拟得到四个核心结论：</p>
+<ol>
+<li>现有偏保守的商店收入无法替代“每关免费一件道具”。即使货架有定向保护，三条路线通关率仍然都是 <code>0%</code>。</li>
+<li>单张标签太不稳定。一个关卡内至少命中一次的概率只有约 <code>34%—48%</code>，平均分数提升只有约 <code>2%—3%</code>。</li>
+<li>标签达到 3—5 张后才开始形成可感知系统；达到 8 张并出现炫彩后，同色路线会产生明显的非线性爆发。</li>
+<li>现有道具不改时，标签不是构筑轴，而是会抢走购买核心道具的钱。推荐经济下，无标签对照的通关率与有标签相当甚至更高。</li>
+</ol>
+<p>因此下一版不应先实现完整商店，而应先完成三件事：</p>
+<ul>
+<li>把标签的触发单位从“额外行动”明确改成“补算”，锁死它只重复基础加法或乘法。</li>
+<li>保留现有关系路线的关键成长件作为对照，不要一次替换四件核心道具。</li>
+<li>用“首枚标签双贴 + 单件标签道具”的方式逐项模拟，再决定哪些旧道具真的适合让位。</li>
+</ul>
+<h2 id="二-模拟范围与边界">二、模拟范围与边界<a class="heading-link" href="#二-模拟范围与边界" aria-label="链接到本节">#</a></h2><p>本轮共进行了：</p>
+<ul>
+<li>标签牌库可靠性：每种路线、每个标签数量 <code>6000</code> 次。</li>
+<li>商店完整远行：每个经济方案、路线和货架组合 <code>240</code> 次。</li>
+<li>静态标签测试：遍历全部 <code>5^5 = 3125</code> 种五牌排列。</li>
+</ul>
+<p>完整远行模拟包含：</p>
+<ul>
+<li>25 张具体伙伴牌，而不是只记录五种颜色。</li>
+<li>手牌 3 张、打 1 补 1、每关 2 次刷新。</li>
+<li>标签随具体牌经历抽牌、弃牌、刷新和洗牌。</li>
+<li>工具改色时保留原牌标签；临时复制上一伙伴时只复制颜色，不复制标签。</li>
+<li>每关最多 4 轮，16 个现有目标分。</li>
+<li>过关收入、商店货架、连续购买、跳过、付费刷新、道具满位替换和工具容量。</li>
+<li>当前 30 件道具和 8 张工具的主要数值效果与成长。</li>
+</ul>
+<p>为隔离底层问题，本轮没有混入信念、特别状况和冒险路线目标加成；按局外已完成 3 次远行处理解锁。道具摆位使用最优合法摆位，因此结果偏向“知道怎么构筑和摆放的玩家上限”，不能直接当作新玩家胜率。</p>
+<h2 id="三-标签本身的数值结构">三、标签本身的数值结构<a class="heading-link" href="#三-标签本身的数值结构" aria-label="链接到本节">#</a></h2><h3 id="3-1-基础排列">3.1 基础排列<a class="heading-link" href="#3-1-基础排列" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>排列</th><th style="text-align:right">无标签</th><th style="text-align:right">普通标签</th><th style="text-align:right">炫彩标签</th></tr></thead><tbody><tr><td>五张全同色，标签在 2—5 号位</td><td style="text-align:right">320</td><td style="text-align:right">640，<code>×2</code></td><td style="text-align:right">1280，<code>×4</code></td></tr><tr><td>五张全异色，标签在任意位置</td><td style="text-align:right">60</td><td style="text-align:right">70，<code>×1.167</code></td><td style="text-align:right">80，<code>×1.333</code></td></tr><tr><td>异色开头、连续同色中段，标签在连续段</td><td style="text-align:right">130</td><td style="text-align:right">250，<code>×1.923</code></td><td style="text-align:right">490，<code>×3.769</code></td></tr><tr><td>同一混合排列，标签在末尾异色位</td><td style="text-align:right">130</td><td style="text-align:right">140，<code>×1.077</code></td><td style="text-align:right">150，<code>×1.154</code></td></tr></tbody></table></div><p>这不是一个简单的“标签统一提升约多少”系统。标签价值取决于命中处执行的是乘法还是加法，以及后面还有多少次乘法可以继续放大。</p>
+<p>1 号位永远执行第一次加法，不存在同色或异色关系。五张全同色时，普通 1 号标签只把 320 提到 480，而 2—5 号标签都能提到 640。若商店随机出售具体数字，1 号标签对同色路线天然更弱，不能与其余数字同价且无补偿地处理。</p>
+<h3 id="3-2-具体牌的抽取可靠性">3.2 具体牌的抽取可靠性<a class="heading-link" href="#3-2-具体牌的抽取可靠性" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th style="text-align:right">已购买标签数</th><th style="text-align:right">同色：关内至少命中一次</th><th style="text-align:right">异色：关内至少命中一次</th><th style="text-align:right">混合：关内至少命中一次</th></tr></thead><tbody><tr><td style="text-align:right">1</td><td style="text-align:right">33.8%</td><td style="text-align:right">47.4%</td><td style="text-align:right">48.0%</td></tr><tr><td style="text-align:right">3</td><td style="text-align:right">69.0%</td><td style="text-align:right">82.3%</td><td style="text-align:right">82.5%</td></tr><tr><td style="text-align:right">5</td><td style="text-align:right">89.8%</td><td style="text-align:right">94.5%</td><td style="text-align:right">91.7%</td></tr><tr><td style="text-align:right">8</td><td style="text-align:right">94.5%</td><td style="text-align:right">99.1%</td><td style="text-align:right">97.0%</td></tr></tbody></table></div><p>对应的平均关卡分数提升：</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th style="text-align:right">已购买标签数</th><th style="text-align:right">同色</th><th style="text-align:right">异色</th><th style="text-align:right">混合</th></tr></thead><tbody><tr><td style="text-align:right">1</td><td style="text-align:right">+3.0%</td><td style="text-align:right">+2.0%</td><td style="text-align:right">+2.5%</td></tr><tr><td style="text-align:right">3</td><td style="text-align:right">+12.6%</td><td style="text-align:right">+5.5%</td><td style="text-align:right">+8.4%</td></tr><tr><td style="text-align:right">5</td><td style="text-align:right">+23.7%</td><td style="text-align:right">+14.0%</td><td style="text-align:right">+19.5%</td></tr><tr><td style="text-align:right">8</td><td style="text-align:right">+71.9%</td><td style="text-align:right">+21.5%</td><td style="text-align:right">+49.3%</td></tr></tbody></table></div><p>这组结果说明：</p>
+<ul>
+<li>第一张标签以普通道具价格出售时，玩家很容易产生“买了但抽不到，抽到了也对不上位置”的体验。</li>
+<li>3 张左右是标签从偶发彩蛋变成可经营系统的最低数量。</li>
+<li>5 张左右开始稳定参与每关决策。</li>
+<li>8 张后的同色增长主要来自普通乘法、炫彩补算和覆盖率同时上升，必须通过价格与炫彩获得节奏控制。</li>
+</ul>
+<h2 id="四-标签触发语义必须改名">四、标签触发语义必须改名<a class="heading-link" href="#四-标签触发语义必须改名" aria-label="链接到本节">#</a></h2><p>交接稿目前把标签写成“额外行动”。如果照字面理解，现有“每次行动后”道具也应该再次触发。</p>
+<p>强制把标签与道具放在同一位置后，普通标签的两种解释产生了以下差值：</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>道具</th><th style="text-align:right">只重复基础运算</th><th style="text-align:right">作为完整行动</th><th style="text-align:right">隐藏增益</th></tr></thead><tbody><tr><td>露珠叶，同色每次行动后 +20</td><td style="text-align:right">720</td><td style="text-align:right">760</td><td style="text-align:right">+40</td></tr><tr><td>药瓶，异色每次行动后再 +1 次增加值</td><td style="text-align:right">80</td><td style="text-align:right">90</td><td style="text-align:right">+10</td></tr><tr><td>莲花，每次行动后 +10</td><td style="text-align:right">290</td><td style="text-align:right">310</td><td style="text-align:right">+20</td></tr><tr><td>成熟金钟护符，每次行动后 +1000</td><td style="text-align:right">4640</td><td style="text-align:right">6640</td><td style="text-align:right">+2000</td></tr></tbody></table></div><p>玩家只看到一个数字标签，却可能暗中重触发道具、成长计数和工具联动，后期差值会非常大。这会重新制造此前想消除的文字和结算负担。</p>
+<p>下一版建议统一使用：</p>
+<ul>
+<li>伙伴和道具产生的执行次数叫“行动”。</li>
+<li>数字标签命中产生的额外基础运算叫“补算”。</li>
+<li>普通标签：<code>在对应位置时，补算 1 次。</code></li>
+<li>炫彩标签：<code>在对应位置时，补算 2 次。</code></li>
+<li>补算只重复此处的基础规则：同色再 <code>×2</code>，否则再 <code>+1 次增加值</code>。</li>
+<li>补算不再次触发“行动后”道具，也不计入“累计行动”成长。</li>
+</ul>
+<p>这样 UI 也可以直接显示“补算 +1”，而不需要玩家猜测它会不会把整格道具再执行一遍。</p>
+<h2 id="五-商店经济不是把免费奖励标个价格">五、商店经济不是把免费奖励标个价格<a class="heading-link" href="#五-商店经济不是把免费奖励标个价格" aria-label="链接到本节">#</a></h2><h3 id="5-1-偏保守经济完全断档">5.1 偏保守经济完全断档<a class="heading-link" href="#5-1-偏保守经济完全断档" aria-label="链接到本节">#</a></h3><p>本轮测试的低、中档经济分别是：</p>
+<ul>
+<li>偏紧：每关约 <code>4/5/6/7</code> 收入；普通/精良/稀有道具 <code>7/10/14</code>。</li>
+<li>原均衡假设：每关约 <code>5/6/7/8</code> 收入；普通/精良/稀有道具 <code>6/9/13</code>。</li>
+</ul>
+<p>不论货架是否定向保护，同色、异色和混合路线的 16 关通关率都为 <code>0%</code>。原因不是最后一章少一点倍率，而是前四关只能买到约 1—2 件商品，无法替代原先每关免费的成长速度。</p>
+<p>一套能让现有内容跑通的高资源校准档为：</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>项目</th><th style="text-align:right">校准值</th></tr></thead><tbody><tr><td>第一关后可用起始积蓄</td><td style="text-align:right">2</td></tr><tr><td>第 1—4 章基础过关收入</td><td style="text-align:right">8 / 10 / 12 / 14</td></tr><tr><td>每章终页额外收入</td><td style="text-align:right">2</td></tr><tr><td>普通 / 精良 / 稀有道具</td><td style="text-align:right">5 / 8 / 12</td></tr><tr><td>数字标签</td><td style="text-align:right">4</td></tr><tr><td>工具</td><td style="text-align:right">3</td></tr><tr><td>刷新</td><td style="text-align:right">3</td></tr></tbody></table></div><p>配合较强的构筑角色保护后，通关率为：</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>构筑路线</th><th style="text-align:right">通关率</th></tr></thead><tbody><tr><td>同色成长</td><td style="text-align:right">75.8%</td></tr><tr><td>异色成长</td><td style="text-align:right">77.1%</td></tr><tr><td>混合成长</td><td style="text-align:right">68.3%</td></tr></tbody></table></div><p>这组数值只能作为后续模拟的起点，不能直接进正式配置。当前模拟的货架保护会定向提供构筑所需类别，属于上限测试。</p>
+<h3 id="5-2-货架必须保护构筑角色-不保护固定答案">5.2 货架必须保护构筑角色，不保护固定答案<a class="heading-link" href="#5-2-货架必须保护构筑角色-不保护固定答案" aria-label="链接到本节">#</a></h3><p>商店应该知道玩家“缺基础件、缺成长件还是缺兑现件”，但不应该每次直接递出唯一指定道具。</p>
+<p>推荐的两个道具位：</p>
+<ol>
+<li>保护位：第一间商店至少出现 1 件当前路线可用的基础件；尚未获得成长件时，后续商店优先从成长池抽 1 件；已经有成长后改为兑现或调整池。</li>
+<li>自由位：完全按稀有度、路线倾向和随机权重抽取，用来产生临场转向。</li>
+</ol>
+<p>标签和工具各有独立货架位。道具路线增加自由道具位，工具路线增加工具位，但不能挤掉保护位。</p>
+<p>测试中，道具路线的通关率约为 <code>78.3% / 80.0% / 75.4%</code>；工具路线约为 <code>72.9% / 75.8% / 49.6%</code>。混合构筑在工具路线显著掉队，说明“少一个道具位、换一个工具位”不是等价交换。工具路线需要更高收入、工具折扣，或保证工具能够直接补足牌序和标签命中率。</p>
+<h3 id="5-3-第一次商店前不能要求玩家已经按路线出牌">5.3 第一次商店前不能要求玩家已经按路线出牌<a class="heading-link" href="#5-3-第一次商店前不能要求玩家已经按路线出牌" aria-label="链接到本节">#</a></h3><p>异色五连在基础增加值为 10 时每轮只有 60，四轮总计 240，低于第一关目标 250。玩家还没见到第一间商店时，不可能靠“忠于异色路线”过关。</p>
+<p>构筑意图和当前回合打法必须分开：玩家可以计划购买异色成长，但在拿到鱼汤、镜子或斗笠前，仍应根据手牌先使用高分的同色或混合排列活下来。游戏教学不能把“选择了异色路线”表达成“从第一关开始必须每格异色”。</p>
+<h2 id="六-现有道具为何必须重排">六、现有道具为何必须重排<a class="heading-link" href="#六-现有道具为何必须重排" aria-label="链接到本节">#</a></h2><h3 id="6-1-当前标签仍然是可跳过的消费">6.1 当前标签仍然是可跳过的消费<a class="heading-link" href="#6-1-当前标签仍然是可跳过的消费" aria-label="链接到本节">#</a></h3><p>在上述高资源校准档中，移除标签货架后的对照结果为：</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>路线</th><th style="text-align:right">有标签</th><th style="text-align:right">无标签</th><th style="text-align:right">标签带来的胜率差</th></tr></thead><tbody><tr><td>同色</td><td style="text-align:right">75.8%</td><td style="text-align:right">76.7%</td><td style="text-align:right">-0.9 个百分点</td></tr><tr><td>异色</td><td style="text-align:right">77.1%</td><td style="text-align:right">73.3%</td><td style="text-align:right">+3.8 个百分点</td></tr><tr><td>混合</td><td style="text-align:right">68.3%</td><td style="text-align:right">82.5%</td><td style="text-align:right">-14.2 个百分点</td></tr></tbody></table></div><p>这不代表标签一定削弱战斗。它说明现有道具里没有足够的标签成长和标签兑现，购买标签占用了本可购买道具与工具的货币。玩家理性的答案会变成“除非正好走异色，否则少买标签”。这与“标签是底层构筑机制”的目标冲突。</p>
+<h3 id="6-2-纯叠行动不是同色成长路线">6.2 纯叠行动不是同色成长路线<a class="heading-link" href="#6-2-纯叠行动不是同色成长路线" aria-label="链接到本节">#</a></h3><p>将同色路线目标设为酒葫芦、露珠叶、铃铛、冰晶、热汤等“不断增加行动和即时倍率”的组合，即使使用更高收入并获得定向货架，通关率仍为 <code>0%</code>，中位只能到第 6 关。</p>
+<p>把路线改成“饭团或酒葫芦打底—蓑衣成长初始价值—玉佩成长—铃铛或冰晶兑现”后，同一经济下可达到约 <code>76%</code>。关键不是再给同色一个 <code>+1 行动</code>，而是让它先建立能跨关增长的底数，再用乘法兑现。</p>
+<p>每条路线都应至少有：</p>
+<ul>
+<li>1 件第一章可买到的基础件。</li>
+<li>1 件最晚第四关前可见的成长件。</li>
+<li>1—2 件第二章以后把成长转成爆分的兑现件。</li>
+<li>其余位置用于牌序、标签覆盖、工具和局势修正。</li>
+</ul>
+<h2 id="七-30-件道具的首轮处理建议">七、30 件道具的首轮处理建议<a class="heading-link" href="#七-30-件道具的首轮处理建议" aria-label="链接到本节">#</a></h2><h3 id="7-1-第一次四件重做原型没有通过">7.1 第一次四件重做原型没有通过<a class="heading-link" href="#7-1-第一次四件重做原型没有通过" aria-label="链接到本节">#</a></h3><p>为了验证“把行动件直接改成标签件”是否可行，模拟器曾先后测试两组四件替换。较完整的一组是：</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>稳定 ID / 当前名</th><th>实验职责</th></tr></thead><tbody><tr><td><code>copper_horn</code> / 三色丸子</td><td>购买标签时额外贴一枚同号普通标签</td></tr><tr><td><code>ballast_stone</code> / 羽毛笔</td><td>每拥有一个不同数字的标签，增加值 +20</td></tr><tr><td><code>resonance_box</code> / 烤鸡</td><td>本轮命中过标签时，最终价值 ×1.5</td></tr><tr><td><code>double_entry_book</code> / 灯笼</td><td>每命中一次标签，初始价值永久 +500，最高 +15000</td></tr></tbody></table></div><p>同时让第一次标签购买附赠一枚同号普通标签。这个原型把第一章标签密度成功推到 3 张以上，但三条路线通关率只达到约 <code>18% / 60% / 30%</code>，明显低于保留原道具的对照。</p>
+<p>失败原因有三层：</p>
+<ol>
+<li>原路线失去了已经承担成长弹性的关键道具，却只得到较慢的标签成长补偿。</li>
+<li>标签覆盖道具本身占用一个道具位；完成覆盖后，它在战斗中接近空白件。</li>
+<li>四件同时替换，无法区分究竟是哪一件解决了标签问题、哪一件破坏了原路线。</li>
+</ol>
+<p>因此上表只能作为失败样本保留，不能写入正式 JSON。下一轮要保持现有目录作为控制组，每次只替换一件，并给覆盖类效果加入退出、出售或转化机制。</p>
+<h3 id="7-2-必须先锁定语义的-5-件">7.2 必须先锁定语义的 5 件<a class="heading-link" href="#7-2-必须先锁定语义的-5-件" aria-label="链接到本节">#</a></h3><p>以下 5 件含有“每次行动后”或行动成长：</p>
+<ul>
+<li><code>old_scale</code></li>
+<li><code>hinge_box</code></li>
+<li><code>reverse_clasp_box</code></li>
+<li><code>living_scale</code></li>
+<li><code>red_abacus</code></li>
+</ul>
+<p>补算不再次触发它们，也不增加它们的行动计数。若未来改回“完整额外行动”，这 5 件必须全部重新定价和改文案，不能只改标签说明。</p>
+<p>以下 6 件仍可作为少量、条件明确的完整行动来源保留：</p>
+<ul>
+<li><code>rebound_board</code></li>
+<li><code>echo_jar</code></li>
+<li><code>linkage_flag</code></li>
+<li><code>full_crate</code></li>
+<li><code>copper_seal</code></li>
+<li><code>loose_leaf_bag</code></li>
+</ul>
+<p>它们要继续受单格行动上限约束，并与标签的补算次数分开显示。</p>
+<h3 id="7-3-不再把所有-行动-1-视为标签重复">7.3 不再把所有“行动 +1”视为标签重复<a class="heading-link" href="#7-3-不再把所有-行动-1-视为标签重复" aria-label="链接到本节">#</a></h3><p>一旦标签明确叫“补算”，完整行动和标签就有了不同职责：</p>
+<ul>
+<li>完整行动会执行基础运算，并触发行动后道具与行动成长。</li>
+<li>补算只重复加法或乘法，不触发其他系统。</li>
+</ul>
+<p>因此酒葫芦、人参汤和玉佩不必因为表面上都增加执行次数而立刻删除。它们目前分别承担同色基础、异色基础和同色成长，直接替换会让路线失去形成过程。</p>
+<p>下一轮优先从以下候选中逐件寻找标签职责：</p>
+<ul>
+<li><code>copper_horn</code>：固定每格 +10，后期弹性低。</li>
+<li><code>ballast_stone</code>：只在 5 号位结束后 +50，后期容易失去购买意义。</li>
+<li><code>resonance_box</code>：无条件行动 +1，最容易模糊标签与行动的区别。</li>
+<li><code>double_entry_book</code>：全格固定成长路线在旧定向构筑测试中通过率低。</li>
+</ul>
+<p>这四件不是确定要重做，而是优先实验池。其余道具先保持当前职责，避免一边改获得路径、一边丢失原有对照基线。</p>
+<h3 id="7-4-下一轮单件实验方向">7.4 下一轮单件实验方向<a class="heading-link" href="#7-4-下一轮单件实验方向" aria-label="链接到本节">#</a></h3><p>按风险从低到高分别测试：</p>
+<ol>
+<li>商店服务：第一次购买标签双贴，不占道具位。</li>
+<li>覆盖件：购买标签时额外贴一枚；完成 5 次后自动转化为战斗收益，避免后期空白。</li>
+<li>成长件：标签命中推动永久成长，但增长速度必须达到蓑衣、斗笠、玉佩同级。</li>
+<li>兑现件：本轮命中标签后改变最终价值；只做一个清晰结算点，不重新触发整条道具链。</li>
+</ol>
+<p>每加入一件，都要同时跑“买标签”和“完全不买标签”的同路线对照；只有前者产生可见优势，才加入下一件。</p>
+<h2 id="八-标签获取节奏建议">八、标签获取节奏建议<a class="heading-link" href="#八-标签获取节奏建议" aria-label="链接到本节">#</a></h2><p>模拟中的推荐经济到第四间商店后，抵达玩家平均只有：</p>
+<ul>
+<li>同色：2.22 张标签，达到 3 张的概率 30.7%。</li>
+<li>异色：2.22 张标签，达到 3 张的概率 21.6%。</li>
+<li>混合：2.78 张标签，达到 3 张的概率 72.2%。</li>
+</ul>
+<p>这仍低于“第一章结束时标签已经是一个系统”的目标。</p>
+<p>“第一次购买双贴”已经单独通过了覆盖率测试。保留原 30 件道具时，它把第四间商店后的平均标签数提高到约 <code>3.2—3.5</code>，抵达玩家拥有至少 3 张标签的概率提高到约 <code>89%—99%</code>。</p>
+<p>但它没有单独解决构筑价值：标签双贴后的通关率仍没有稳定超过无标签对照；把标签价格从 4 降到 3 也没有改变这个结论。说明当前问题不是再便宜 1 点，而是标签还没有形成独立的成长与兑现闭环。</p>
+<p>下一轮建议保留以下获取规则作为基线：</p>
+<ol>
+<li>第一次购买数字标签时，商品附带两枚同号普通标签，必须贴给两张不同的具体伙伴牌。</li>
+<li>此后每次购买仍只获得一枚标签。</li>
+<li>玩家优先选择给无标签牌增加覆盖，也可以主动把同号普通标签升级为炫彩；系统不自动替玩家升级。</li>
+<li>炫彩升级从第二章后才进入推荐货架权重，避免第一章偶然出现连续三次乘法。</li>
+<li>1 号标签需要单独测试折扣、双贴或特殊补偿，不能默认与 2—5 号同价。</li>
+</ol>
+<p>这个方案不增加新的标签背包：购买后仍立即进入 25 张牌的牌库页完成安装。它解决的是“买了但长期抽不到”，不是标签最终强度；标签成长件和兑现件仍需单独通过测试。</p>
+<h2 id="九-下一版建议构筑路线">九、下一版建议构筑路线<a class="heading-link" href="#九-下一版建议构筑路线" aria-label="链接到本节">#</a></h2><h3 id="同色成长">同色成长<a class="heading-link" href="#同色成长" aria-label="链接到本节">#</a></h3><ul>
+<li>基础：同色标签覆盖或初始价值。</li>
+<li>成长：蓑衣、重做后的玉佩。</li>
+<li>兑现：铃铛、冰晶、少量条件行动。</li>
+<li>牌库目标：围绕一个主颜色，让 2—5 号标签形成可抽取覆盖；是否升级炫彩与是否继续铺普通标签形成取舍。</li>
+</ul>
+<h3 id="异色传递">异色传递<a class="heading-link" href="#异色传递" aria-label="链接到本节">#</a></h3><ul>
+<li>基础：鱼汤或镜子。</li>
+<li>成长：斗笠。</li>
+<li>兑现：药瓶、抓钩。</li>
+<li>牌库目标：把不同数字分散到不同颜色，优先覆盖 1—5 的连续位置；标签补算随着增加值成长，从前期 +10 变成后期 +数百或 +数千。</li>
+</ul>
+<h3 id="前异后同的混合路线">前异后同的混合路线<a class="heading-link" href="#前异后同的混合路线" aria-label="链接到本节">#</a></h3><ul>
+<li>基础：前段异色用于养增加值，后段同色用于放大。</li>
+<li>成长：斗笠或其他可被后段乘法兑现的成长件。</li>
+<li>兑现：抓钩、热汤、风筝。</li>
+<li>牌库目标：前段标签重覆盖，后段标签追求炫彩。标签落点本身决定“加法资源”和“乘法兑现”如何分配。</li>
+</ul>
+<h3 id="工具与标签调整">工具与标签调整<a class="heading-link" href="#工具与标签调整" aria-label="链接到本节">#</a></h3><ul>
+<li>工具不应只提供更多行动。</li>
+<li>改色工具保留具体牌标签，可用于临时修正标签位置与颜色关系。</li>
+<li>临时复制上一伙伴只复制颜色，不复制标签，避免批量制造炫彩牌。</li>
+<li>工具路线要补偿少一个道具货架位，否则混合路线会明显掉队。</li>
+</ul>
+<h2 id="十-下一轮验收门槛">十、下一轮验收门槛<a class="heading-link" href="#十-下一轮验收门槛" aria-label="链接到本节">#</a></h2><p>在进入 Cocos 商店实现前，下一版配置和模拟至少要同时满足：</p>
+<ol>
+<li>三条主要路线在同一经济下都能形成，通关率不应出现一条为 0、另一条超过 75% 的断层。</li>
+<li>第一章结束时，抵达玩家平均拥有至少 3 张标签，且至少 70% 的玩家拥有 3 张以上。</li>
+<li>标签构筑在投入相近货币后，应比“完全不买标签”的同路线至少高 5 个百分点，或明显换来更高上限；不能继续只是占用货架。</li>
+<li>普通标签在同色、异色和混合路线中都应有购买理由；炫彩标签允许路线间强度不同，但不能只剩同色值得升级。</li>
+<li>保护货架只保证基础、成长、兑现角色，不保证固定 ID；至少保留两种同角色候选。</li>
+<li>推荐经济下应出现真实的存钱、跳过和付费刷新：目标可先设为 5%—20% 商店被跳过，平均每次远行购买 0.5—1.5 次刷新。</li>
+<li>道具路线和工具路线都不能因为少一个关键货架位，使任一主路线通关率下降超过 15 个百分点。</li>
+<li>“补算”与“行动”在规则、弹字、成长计数和道具说明中必须完全一致。</li>
+</ol>
+<h2 id="十一-实现顺序">十一、实现顺序<a class="heading-link" href="#十一-实现顺序" aria-label="链接到本节">#</a></h2><ol>
+<li>先锁定“行动 / 补算”的规则与显示术语。</li>
+<li>保留当前 30 件道具作为控制组，加入“首次购买双标签”。</li>
+<li>依次只实验 1 件覆盖、1 件成长、1 件兑现道具，每次都跑无标签对照和三条路线。</li>
+<li>通过门槛后，再在策划配置中加入商店角色池、价格、过关收入和具体牌标签字段。</li>
+<li>最后实现商店 Core、牌实例持久化、牌库手册、商店 UI 和局内补算表现。</li>
+</ol>
+<p>当前不建议直接删除旧奖励代码或批量改 Prefab；底层获得路径与道具目录仍需经过下一轮配置模拟。</p>
+</article><section class="source-record" id="source-record"><p class="eyebrow">SOURCE & REVISIONS</p><h2>来源与修改记录</h2><dl><dt>原文标题</dt><dd>局内商店与数字标签系统分析 v0.1</dd><dt>工程内文件</dt><dd><code>docs/v05-five-animal-caravan/in-run-shop-and-number-tag-analysis-v0.1.md</code></dd><dt>收录方式</dt><dd>从现存工程文件收录，保留原段落与参数；仅做网页排版、本机路径匿名化与链接整理。</dd><dt>日期依据</dt><dd>正文日期 · 2026-08-02。正文日期、首次入库日期与修订日期可能不同。</dd></dl><details class="history" open><summary>查看 1 次文件提交记录</summary><p>以下为包含此文件变化的提交。提交说明可能涉及整个项目，不代表该文档单独完成了所有列出的功能。</p><ol><li><time>2026-08-04</time><div><code>40aa8f1</code><p>feat: add mushroom shop and tag builds</p></div></li></ol></details></section><nav class="adjacent" aria-label="相邻文档"><a href="caravan-balance.html"><small>上一篇</small>平衡与验收表（历史 v0.5 / v0.3）</a><a href="local-items-v1.html"><small>下一篇</small>蘑菇格子道具 v0.1 候选设计</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>两个独立游戏，从原型到迭代的设计记录。</p></div><p>整理于 2026.09.19<br><a href="../index.html#about">收录与日期说明</a> · <a href="../../index.html">返回作品集 ↗</a></p></footer></body></html>

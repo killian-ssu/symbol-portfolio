@@ -1,0 +1,55 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f4f2eb"><title>v0.2 规则与反馈 · Symbol 策划档案</title><meta name="description" content="调整原型核心规则与消除反馈，说明这一轮优先验证的内容。"><link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css"><script src="../archive.js" defer></script></head><body class="document-page merchant"><a class="skip" href="#main">跳到正文</a><header class="site-header"><a class="wordmark" href="../index.html">SYMBOL<span>设计档案 / 2026</span></a><nav aria-label="主导航"><a href="../index.html#timeline">版本时间线</a><a href="../index.html#catalog">全部文档</a><a class="back-portfolio" href="../../index.html">作品集 <span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="doc-top"><a class="back-link" href="../index.html?project=merchant#catalog">← 返回远行商人文档</a><div class="doc-tags"><span>远行商人</span><span>迭代方案</span><span>核心玩法</span></div><h1>v0.2 规则与反馈</h1><p class="doc-intro">调整原型核心规则与消除反馈，说明这一轮优先验证的内容。</p><div class="doc-metadata"><span><strong>2026-04-20</strong>文件名日期</span><span><strong>3 分钟</strong>预计阅读</span><span><strong>1</strong>次可查提交</span><a class="download" href="../sources/2026-04-20-v0.2-core-and-juice-design.md" download>下载本文 ↓</a></div></div><div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><a class="level-2" href="#1-核心机制-万能牌-wildcard-实装">1. 核心机制：万能牌 (Wildcard) 实装</a><a class="level-3" href="#1-2-万能牌定义与判定">1.2 万能牌定义与判定</a><a class="level-3" href="#1-3-视觉表现与产出">1.3 视觉表现与产出</a><a class="level-2" href="#2-视觉表现与爆分爽感-juice-game-feel">2. 视觉表现与爆分爽感 (Juice &amp; Game Feel)</a><a class="level-3" href="#2-1-卡牌物理下落动画-gravity-tween">2.1 卡牌物理下落动画 (Gravity Tween)</a><a class="level-3" href="#2-2-消除与爆炸特效-match-tween">2.2 消除与爆炸特效 (Match Tween)</a><a class="level-3" href="#2-3-得分飘字-score-floating-text">2.3 得分飘字 (Score Floating Text)</a><a class="level-3" href="#2-4-连击特效与震动-chain-popups-camera-shake">2.4 连击特效与震动 (Chain Popups &amp; Camera Shake)</a><a class="level-2" href="#3-异步流程控制重构-async-resolution">3. 异步流程控制重构 (Async Resolution)</a><a class="level-2" href="#4-后续预留">4. 后续预留</a><a href="#source-record">来源与修改记录</a></nav></details><a class="to-top" href="#main">回到页首 ↑</a></aside><div class="doc-reading"><div class="archive-note"><span class="note-marker">档案说明</span><p>这是 2026-09-19 从工程收录的文本，可能包含后来补写的注释。正文中的“当前”“已实现”保留原有语境，不代表本站试玩版已逐项复验。</p></div><article class="prose" id="article"><h2 id="1-核心机制-万能牌-wildcard-实装">1. 核心机制：万能牌 (Wildcard) 实装<a class="heading-link" href="#1-核心机制-万能牌-wildcard-实装" aria-label="链接到本节">#</a></h2><p>根据 GDD 设计，我们将在本版本正式接入万能牌，并略微扩展其能力，使其更符合“爆分构筑”的预期爽感。</p>
+<h3 id="1-2-万能牌定义与判定">1.2 万能牌定义与判定<a class="heading-link" href="#1-2-万能牌定义与判定" aria-label="链接到本节">#</a></h3><ul>
+<li><strong>定义</strong>：万能牌可以充当<strong>任意花色</strong>与<strong>任意点数</strong>（GDD中最初建议仅任意花色，但为了提升顺子和同点的容错率，建议扩展为双向万能）。</li>
+<li><strong>底层数据 (<code>PokerCard</code>)</strong>：在原有的扑克牌数据结构上，增加 <code>isWild?: boolean</code> 字段。</li>
+<li><strong>消除算法 (<code>MatchResolver</code>)</strong>：<ul>
+<li><strong>同色判定</strong>：万能牌可以与任何花色组队。</li>
+<li><strong>同点判定</strong>：万能牌可以与任何数字匹配（如 <code>7-万能-7</code> 算作 3 张 7）。</li>
+<li><strong>顺子判定</strong>：万能牌可以填补任何点数空缺（如 <code>4-万能-6</code> 算作 <code>4-5-6</code> 顺子）。</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-3-视觉表现与产出">1.3 视觉表现与产出<a class="heading-link" href="#1-3-视觉表现与产出" aria-label="链接到本节">#</a></h3><ul>
+<li><strong>产出途径</strong>：万能牌算作<strong>工具牌</strong>的一种，产出途径和概率与普通工具牌完全一致（通过回合结算后的额外发放机制进入手牌区）。</li>
+<li><strong>使用方式</strong>：虽然是工具牌，但它可以像扑克牌一样<strong>拖放到格子里参与消除</strong>。</li>
+<li><strong>开局随机掉落</strong>：在关卡初始化的 <code>fillInitialBoard</code> 阶段，有较小几率直接在格子区刷出万能牌。</li>
+<li><strong>视觉特征</strong>：万能牌会有一张专用的、区别于普通牌的炫彩/特殊卡牌背景图（SpriteFrame），或者在卡牌上增加特效光环。</li>
+</ul>
+<hr>
+<h2 id="2-视觉表现与爆分爽感-juice-game-feel">2. 视觉表现与爆分爽感 (Juice &amp; Game Feel)<a class="heading-link" href="#2-视觉表现与爆分爽感-juice-game-feel" aria-label="链接到本节">#</a></h2><p>消除游戏的核心爽点在于视觉反馈。我们将把之前瞬间发生的底层数据变动，转化为流畅且充满力量感的动画。</p>
+<h3 id="2-1-卡牌物理下落动画-gravity-tween">2.1 卡牌物理下落动画 (Gravity Tween)<a class="heading-link" href="#2-1-卡牌物理下落动画-gravity-tween" aria-label="链接到本节">#</a></h3><ul>
+<li><strong>触发时机</strong>：补牌（从缓冲行下落）和重力下落（行/列消除导致的下移）。</li>
+<li><strong>表现</strong>：不再是直接修改坐标（setPosition），而是使用 Cocos 的 <code>tween</code>，让卡牌从上方的 <code>from</code> 坐标，带有回弹效果（EaseBounceOut 或 EaseBackOut）地砸向 <code>to</code> 坐标。</li>
+</ul>
+<h3 id="2-2-消除与爆炸特效-match-tween">2.2 消除与爆炸特效 (Match Tween)<a class="heading-link" href="#2-2-消除与爆炸特效-match-tween" aria-label="链接到本节">#</a></h3><ul>
+<li><strong>触发时机</strong>：当满足三消/四消/顺子时。</li>
+<li><strong>表现</strong>：被消除的卡牌不会立刻消失，而是先瞬间**微微放大（Scale Up）<strong>以示高亮，随后快速</strong>缩小至 0（Scale Down）**并伴随淡出（Fade Out），最后才销毁节点。</li>
+</ul>
+<h3 id="2-3-得分飘字-score-floating-text">2.3 得分飘字 (Score Floating Text)<a class="heading-link" href="#2-3-得分飘字-score-floating-text" aria-label="链接到本节">#</a></h3><ul>
+<li><strong>触发时机</strong>：每次消除一段卡牌时。</li>
+<li><strong>表现</strong>：在被消除卡牌的中心位置，生成绿色的动态飘字（如 <code>&lt;color=#00FF00&gt;+240&lt;/color&gt;</code>）。飘字会向上漂浮并逐渐透明消失。</li>
+</ul>
+<h3 id="2-4-连击特效与震动-chain-popups-camera-shake">2.4 连击特效与震动 (Chain Popups &amp; Camera Shake)<a class="heading-link" href="#2-4-连击特效与震动-chain-popups-camera-shake" aria-label="链接到本节">#</a></h3><ul>
+<li><strong>触发时机</strong>：同一回合内，重力下落引发了第 2 次或更多次的消除（即 <code>ChainIndex &gt;= 1</code>）。</li>
+<li><strong>表现</strong>：<ul>
+<li>在屏幕显著位置（如 HUD 旁或盘面中央）弹出巨大的提示，例如 <strong>&quot;Chain x2!&quot;</strong>, <strong>&quot;Chain x3!&quot;</strong>，字体带有弹性缩放效果。</li>
+<li><strong>盘面微震</strong>：当发生连击时，给整个 <code>BoardRoot</code> 节点施加一个极短的位移震动（Shake），强化爆分的打击感。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="3-异步流程控制重构-async-resolution">3. 异步流程控制重构 (Async Resolution)<a class="heading-link" href="#3-异步流程控制重构-async-resolution" aria-label="链接到本节">#</a></h2><p><strong>核心难点与技术方案</strong>：
+目前的 <code>GameSession.ts</code> 消除逻辑是一个瞬间执行完的 <code>while(true)</code> 同步死循环。
+为了让动画有时间播放，我们需要将它重构为<strong>基于 Promise 的异步流程</strong>（<code>async/await</code>）：</p>
+<ol>
+<li>判定消除 -&gt; 播放消除动画 (await)</li>
+<li>计算分数 -&gt; 播放飘字 (await)</li>
+<li>结算重力 -&gt; 播放下落动画 (await)</li>
+<li>再次判定消除（循环）...</li>
+</ol>
+<hr>
+<h2 id="4-后续预留">4. 后续预留<a class="heading-link" href="#4-后续预留" aria-label="链接到本节">#</a></h2><ul>
+<li>本版本暂不实装复杂的 Boss 关卡机制（如禁用某种花色），优先确保常规流程的“手感”打磨至完美。</li>
+<li>工具牌（改色、删牌等）的 UI 拖拽交互将在万能牌与动画系统跑通后进行实装对接。</li>
+</ul>
+</article><section class="source-record" id="source-record"><p class="eyebrow">SOURCE & REVISIONS</p><h2>来源与修改记录</h2><dl><dt>原文标题</dt><dd>V0.2 核心机制闭环与爆分爽感 (Core &amp; Juice) 设计文档</dd><dt>工程内文件</dt><dd><code>docs/superpowers/specs/2026-04-20-v0.2-core-and-juice-design.md</code></dd><dt>收录方式</dt><dd>从现存工程文件收录，保留原段落与参数；仅做网页排版、本机路径匿名化与链接整理。</dd><dt>日期依据</dt><dd>文件名日期 · 2026-04-20。正文日期、首次入库日期与修订日期可能不同。</dd></dl><details class="history" open><summary>查看 1 次文件提交记录</summary><p>以下为包含此文件变化的提交。提交说明可能涉及整个项目，不代表该文档单独完成了所有列出的功能。</p><ol><li><time>2026-04-21</time><div><code>d934177</code><p>feat: complete hand card fan layout with full game integration</p></div></li></ol></details></section><nav class="adjacent" aria-label="相邻文档"><a href="2026-04-15-suitup-buildscore-oops-ui-integration-design.html"><small>上一篇</small>原型界面接入</a><a href="2026-04-21-handcard-fan-layout-design.html"><small>下一篇</small>手牌扇形布局</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>两个独立游戏，从原型到迭代的设计记录。</p></div><p>整理于 2026.09.19<br><a href="../index.html#about">收录与日期说明</a> · <a href="../../index.html">返回作品集 ↗</a></p></footer></body></html>

@@ -1,0 +1,29 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f4f2eb"><title>2026-09-07：中途卡死、整卡冷却与粒子层次 · Symbol 策划档案</title><meta name="description" content="卡顿修复、整卡冷却与特效层级；区分自动化测试和真实玩家体验。"><link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css"><script src="../archive.js" defer></script></head><body class="document-page midnight"><a class="skip" href="#main">跳到正文</a><header class="site-header"><a class="wordmark" href="../index.html">SYMBOL<span>设计档案 / 2026</span></a><nav aria-label="主导航"><a href="../index.html#timeline">版本时间线</a><a href="../index.html#catalog">全部文档</a><a class="back-portfolio" href="../../index.html">作品集 <span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="doc-top"><a class="back-link" href="../index.html?project=midnight#catalog">← 返回子时已到文档</a><div class="doc-tags"><span>子时已到</span><span>迭代记录</span><span>验证记录</span></div><h1>2026-09-07：中途卡死、整卡冷却与粒子层次</h1><p class="doc-intro">卡顿修复、整卡冷却与特效层级；区分自动化测试和真实玩家体验。</p><div class="doc-metadata"><span><strong>2026-09-07</strong>文件名日期</span><span><strong>3 分钟</strong>预计阅读</span><span><strong>—</strong>无 Git 历史</span><a class="download" href="../sources/effects-fixes.md" download>下载本文 ↓</a></div></div><div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><a class="level-2" href="#卡死-目标销毁后仍参与排序">卡死：目标销毁后仍参与排序</a><a class="level-2" href="#冷却-完整覆盖原图轮廓">冷却：完整覆盖原图轮廓</a><a class="level-2" href="#粒子-保留尺寸-错开虚实变化">粒子：保留尺寸，错开虚实变化</a><a class="level-2" href="#验证与复查">验证与复查</a><a href="#source-record">来源与修改记录</a></nav></details><a class="to-top" href="#main">回到页首 ↑</a></aside><div class="doc-reading"><div class="archive-note"><span class="note-marker">档案说明</span><p>这是 2026-09-19 从工程收录的文本，可能包含后来补写的注释。正文中的“当前”“已实现”保留原有语境，不代表本站试玩版已逐项复验。</p></div><article class="prose" id="article"><p>本轮承接试玩反馈，参照仍为用户提供的 <code>ScreenRecording_09-07-2026 15-26-21_1.MP4</code>。粒子尺寸沿用上一轮，重点修正整卡顺时针冷却和粒子的虚实变化。</p>
+<h2 id="卡死-目标销毁后仍参与排序">卡死：目标销毁后仍参与排序<a class="heading-link" href="#卡死-目标销毁后仍参与排序" aria-label="链接到本节">#</a></h2><p>正常 Cocos 预览连续到第八关时复现：<code>updateVolley</code> 先排序后过滤。爆炸或导弹已击破队列中的目标，Cocos 在帧末销毁其坐标对象；下一帧排序仍访问坐标，<code>Vec3.distance</code> 抛出异常，每帧重复，战斗无法推进。</p>
+<p>现移除目标时同步移出连射队列；每帧先筛掉失效、死亡和不可兑现的目标，再按威胁排序。新增“首发爆炸击破后续标记目标”和“队列节点被外部销毁”回归，显式清空销毁后的坐标，覆盖真实帧末销毁。</p>
+<p>修复后，连续十关在114秒内进入胜利，共击破445个敌人，Boss完成三轮反击，运行异常为0。测试加速出生和标记，并开启免伤；开火、爆炸、导弹、掉落、奖励选择和Boss阶段都走实际逻辑，没有调用跳关入口。这验证连续流程稳定性，不代表真人通关率。</p>
+<p>修复前错误（工程内附件，未随本页公开） · 修复后连续闯关（工程内附件，未随本页公开）</p>
+<h2 id="冷却-完整覆盖原图轮廓">冷却：完整覆盖原图轮廓<a class="heading-link" href="#冷却-完整覆盖原图轮廓" aria-label="链接到本节">#</a></h2><p>上一版遮罩向内缩了6个逻辑像素，并上移2个像素，手工圆角没有贴合卡片原图。现用卡底原图的透明轮廓裁切，尺寸与位置重合，覆盖边框和图标，等级数字保持最上层。</p>
+<p>改用原生径向填充：亮面从十二点开始，依次经过右上、右下、左下、左上，转完一圈后遮罩消失。内建白纹理不进入动态图集，避免走不支持像素缓冲的图片上传路径。</p>
+<p>冷却完成比例：0%、25%、50%、75%、100%（工程内附件，未随本页公开）</p>
+<p>除了层级，还比较实际截图像素：检查四象限的扫亮顺序，以及卡边、圆角是否一起变暗。截图像素检查（工程内附件，未随本页公开）</p>
+<h2 id="粒子-保留尺寸-错开虚实变化">粒子：保留尺寸，错开虚实变化<a class="heading-link" href="#粒子-保留尺寸-错开虚实变化" aria-label="链接到本节">#</a></h2><ul>
+<li>约1/4较实核心：峰值不透明度90%—100%，快速亮起，保留击中力度。</li>
+<li>约1/2半透明碎屑：峰值50%—74%，从较淡状态逐渐显现。</li>
+<li>约1/4轻薄余光：峰值26%—42%，更晚亮起，寿命略长。</li>
+<li>每颗分别控制初始透明度、峰值、淡入时间和淡出起点。复用节点在出生帧也使用对应初始透明度，避免闪成全实色。</li>
+<li>六帧爆炸主体从淡到亮，再边扩散边淡出，总时长约0.40秒；末尾淡出由0.09秒延至0.28秒。</li>
+</ul>
+<p>同一次爆炸的扩散与消散（工程内附件，未随本页公开）</p>
+<p>约6秒效果回放（工程内附件，未随本页公开）：正常预览中布置四个测试目标，播放爆炸、不同幽灵的击破、奖励回收和整圈冷却。按录屏实际时间戳输出30帧/秒，未生成中间帧。</p>
+<h2 id="验证与复查">验证与复查<a class="heading-link" href="#验证与复查" aria-label="链接到本节">#</a></h2><p>类型检查、项目契约、战斗回归通过。粒子检查覆盖出生、峰值、尾段、回收和对象池复用；原有30/60/120帧下的锁定、暂停、召回和记账检查仍通过。真实引擎检查使用编辑器正常导入，拒绝旧代码，不再以临时替换组件原型代替正常导入。</p>
+<p>战斗回归（工程内附件，未随本页公开） · 真实引擎（工程内附件，未随本页公开） · 回放记录（工程内附件，未随本页公开）</p>
+<p>复查入口（独立本地预览测试页）：</p>
+<pre><code class="language-sh">npm run check
+npm run check:combat
+node scripts/runtime-chef-check.mjs 9224 /tmp/noon-visual
+node scripts/runtime-continuity-check.mjs 9224 /tmp/noon-continuity.json
+node scripts/runtime-motion-capture.mjs 9224 /tmp/noon-motion
+</code></pre>
+<p>本轮纠正的验证遗漏：跳关不能覆盖多目标连锁击杀，静态层级正确也不能证明轮廓和旋转正确。目标销毁队列要跨真实帧检查，扫光和粒子要检查完整时间过程。</p>
+</article><section class="source-record" id="source-record"><p class="eyebrow">SOURCE & REVISIONS</p><h2>来源与修改记录</h2><dl><dt>原文标题</dt><dd>2026-09-07：中途卡死、整卡冷却与粒子层次</dd><dt>工程内文件</dt><dd><code>docs/FREEZE_AND_EFFECTS_2026_09_07.md</code></dd><dt>收录方式</dt><dd>从现存工程文件收录，保留原段落与参数；仅做网页排版、本机路径匿名化与链接整理。</dd><dt>日期依据</dt><dd>文件名日期 · 2026-09-07。正文日期、首次入库日期与修订日期可能不同。</dd></dl><p class="muted">此工程未找到 Git 历史，暂不展示逐次修改日期。不会以文件复制时间推定写作时间。</p></section><nav class="adjacent" aria-label="相邻文档"><a href="feedback-review.html"><small>上一篇</small>2026-09-07：厨神录像对照与试玩反馈修正</a><a href="reward-motion.html"><small>下一篇</small>击破与奖励收集：参考分析、实现和验证</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>两个独立游戏，从原型到迭代的设计记录。</p></div><p>整理于 2026.09.19<br><a href="../index.html#about">收录与日期说明</a> · <a href="../../index.html">返回作品集 ↗</a></p></footer></body></html>

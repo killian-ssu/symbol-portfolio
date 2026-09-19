@@ -1,0 +1,123 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f4f2eb"><title>算术加工链纸面原型 v0.1 · Symbol 策划档案</title><meta name="description" content="把结算压缩为可手算的加工链，先用纸面排列检查分数传递。"><link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css"><script src="../archive.js" defer></script></head><body class="document-page merchant"><a class="skip" href="#main">跳到正文</a><header class="site-header"><a class="wordmark" href="../index.html">SYMBOL<span>设计档案 / 2026</span></a><nav aria-label="主导航"><a href="../index.html#timeline">版本时间线</a><a href="../index.html#catalog">全部文档</a><a class="back-portfolio" href="../../index.html">作品集 <span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="doc-top"><a class="back-link" href="../index.html?project=merchant#catalog">← 返回远行商人文档</a><div class="doc-tags"><span>远行商人</span><span>纸面原型</span><span>核心玩法</span></div><h1>算术加工链纸面原型 v0.1</h1><p class="doc-intro">把结算压缩为可手算的加工链，先用纸面排列检查分数传递。</p><div class="doc-metadata"><span><strong>2026-07-31</strong>正文日期</span><span><strong>7 分钟</strong>预计阅读</span><span><strong>1</strong>次可查提交</span><a class="download" href="../sources/paper-pipeline.md" download>下载本文 ↓</a></div></div><div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><a class="level-2" href="#1-设计命题">1. 设计命题</a><a class="level-3" href="#再次加工">再次加工</a><a class="level-2" href="#2-基础事件示例">2. 基础事件示例</a><a class="level-3" href="#五位不同伙伴">五位不同伙伴</a><a class="level-3" href="#五次相同伙伴">五次相同伙伴</a><a class="level-3" href="#相同-不同-相同-不同">相同、不同、相同、不同</a><a class="level-3" href="#不同-相同-不同-相同">不同、相同、不同、相同</a><a class="level-2" href="#3-三张手牌与刷新模拟">3. 三张手牌与刷新模拟</a><a class="level-2" href="#4-首批候选道具">4. 首批候选道具</a><a class="level-2" href="#5-当前16关目标模拟">5. 当前16关目标模拟</a><a class="level-3" href="#重要假设">重要假设</a><a class="level-3" href="#代表构筑">代表构筑</a><a class="level-3" href="#条件通关情况">条件通关情况</a><a class="level-2" href="#6-数值结论">6. 数值结论</a><a class="level-3" href="#当前目标与单批加工并不冲突">当前目标与单批加工并不冲突</a><a class="level-3" href="#静态加值不能独立承担16关增长">静态加值不能独立承担16关增长</a><a class="level-3" href="#两条成长路线的节奏不同">两条成长路线的节奏不同</a><a class="level-3" href="#不能让单件成长道具成为唯一通行证">不能让单件成长道具成为唯一通行证</a><a class="level-2" href="#7-视觉与事件合同">7. 视觉与事件合同</a><a class="level-3" href="#当前格再次加工">当前格再次加工</a><a class="level-3" href="#5号位结算">5号位结算</a><a class="level-3" href="#出牌预览">出牌预览</a><a class="level-2" href="#8-下一轮原型检查">8. 下一轮原型检查</a><a href="#source-record">来源与修改记录</a></nav></details><a class="to-top" href="#main">回到页首 ↑</a></aside><div class="doc-reading"><div class="archive-note"><span class="note-marker">档案说明</span><p>这是 2026-09-19 从工程收录的文本，可能包含后来补写的注释。正文中的“当前”“已实现”保留原有语境，不代表本站试玩版已逐项复验。</p></div><article class="prose" id="article"><p>日期：2026-07-31
+状态：独立机制实验，不覆盖当前 GDD、运行时配置、Core 或 UI。</p>
+<h2 id="1-设计命题">1. 设计命题<a class="heading-link" href="#1-设计命题" aria-label="链接到本节">#</a></h2><p>删除伙伴牌型、固定伙伴行动值和独立倍率区。一轮只有一批探索成果，五张伙伴牌依次加工同一个数值：</p>
+<pre><code class="language-text">1号位发现成果
+    → 2号位加工
+    → 3号位加工
+    → 4号位加工
+    → 5号位加工
+    → 送入地点目标
+</code></pre>
+<p>基础参数：</p>
+<ul>
+<li>初始成果 <code>S = 10</code>。</li>
+<li>不同伙伴的补充量 <code>A = 10</code>。</li>
+<li>1号位每次加工：当前成果 <code>+S</code>。</li>
+<li>2—5号位与前一位为相同伙伴：当前成果 <code>×2</code>。</li>
+<li>2—5号位与前一位为不同伙伴：当前成果 <code>+A</code>。</li>
+<li>一轮只把5号位最终送出的成果加入地点目标；中间值不重复计分。</li>
+</ul>
+<h3 id="再次加工">再次加工<a class="heading-link" href="#再次加工" aria-label="链接到本节">#</a></h3><p>再次加工始终作用于同一批当前成果：</p>
+<ul>
+<li>相同伙伴再次加工：再执行一次 <code>×2</code>。</li>
+<li>不同伙伴再次加工：再执行一次 <code>+A</code>。</li>
+<li>1号位再次加工：再执行一次 <code>+S</code>。</li>
+<li>成果不会返回左侧，不新建独立批次。</li>
+<li>当前格全部加工完成后，成果只向右移动一次。</li>
+</ul>
+<p>玩家规则可以压缩为：</p>
+<blockquote>
+<p>1号伙伴找到成果，后面的伙伴依次加工；相同伙伴翻倍，不同伙伴补充。</p>
+</blockquote>
+<h2 id="2-基础事件示例">2. 基础事件示例<a class="heading-link" href="#2-基础事件示例" aria-label="链接到本节">#</a></h2><h3 id="五位不同伙伴">五位不同伙伴<a class="heading-link" href="#五位不同伙伴" aria-label="链接到本节">#</a></h3><pre><code class="language-text">10 → +10 → 20 → +10 → 30 → +10 → 40 → +10 → 50
+</code></pre>
+<h3 id="五次相同伙伴">五次相同伙伴<a class="heading-link" href="#五次相同伙伴" aria-label="链接到本节">#</a></h3><pre><code class="language-text">10 → ×2 → 20 → ×2 → 40 → ×2 → 80 → ×2 → 160
+</code></pre>
+<h3 id="相同-不同-相同-不同">相同、不同、相同、不同<a class="heading-link" href="#相同-不同-相同-不同" aria-label="链接到本节">#</a></h3><pre><code class="language-text">10 → ×2 → 20 → +10 → 30 → ×2 → 60 → +10 → 70
+</code></pre>
+<h3 id="不同-相同-不同-相同">不同、相同、不同、相同<a class="heading-link" href="#不同-相同-不同-相同" aria-label="链接到本节">#</a></h3><pre><code class="language-text">10 → +10 → 20 → ×2 → 40 → +10 → 50 → ×2 → 100
+</code></pre>
+<p>在 <code>S=A=10</code> 时，第一个相邻关系无论相同或不同都会得到20。它可以作为新手容错：第二张牌没有数值陷阱，真正的加工顺序差异从第三张开始。</p>
+<h2 id="3-三张手牌与刷新模拟">3. 三张手牌与刷新模拟<a class="heading-link" href="#3-三张手牌与刷新模拟" aria-label="链接到本节">#</a></h2><p>模拟使用五种伙伴各5张、伙伴手牌3张、打出后补牌、每轮2次刷新。简单策略根据当前可见收益选择伙伴；从第3张开始，如果手中没有当前更优的相邻关系则使用刷新。</p>
+<p>每种条件模拟100,000轮：</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>条件</th><th style="text-align:right">单轮均值</th><th style="text-align:right">P10</th><th style="text-align:right">中位数</th><th style="text-align:right">P90</th><th style="text-align:right">五连率</th><th style="text-align:right">平均相同连接</th></tr></thead><tbody><tr><td>不使用刷新</td><td style="text-align:right">81.87</td><td style="text-align:right">60</td><td style="text-align:right">80</td><td style="text-align:right">120</td><td style="text-align:right">0.17%</td><td style="text-align:right">1.85</td></tr><tr><td>使用2次刷新</td><td style="text-align:right">99.30</td><td style="text-align:right">70</td><td style="text-align:right">100</td><td style="text-align:right">160</td><td style="text-align:right">3.41%</td><td style="text-align:right">2.39</td></tr></tbody></table></div><p>结论：</p>
+<ul>
+<li>“连续相同更高”是直观方向，但三张手牌并不能稳定保证后段连续相同。</li>
+<li>玩家每轮通常只能形成约2—3条相同连接，五连仍是低概率结果。</li>
+<li>手牌与补牌不确定性足以阻止玩家稳定执行一条固定算式；后续仍需验证工具牌是否会把它变成过度稳定的答案。</li>
+</ul>
+<h2 id="4-首批候选道具">4. 首批候选道具<a class="heading-link" href="#4-首批候选道具" aria-label="链接到本节">#</a></h2><p>以下名称和稳定 ID 仅用于与当前目录对照；效果是纸面候选，不写回运行时。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>稳定 ID</th><th>名称</th><th>候选效果</th><th>主要职责</th></tr></thead><tbody><tr><td><code>echo_box</code></td><td>饭团</td><td>每轮1号位首次加工时，初始成果+10。</td><td>初始成果</td></tr><tr><td><code>double_layer_box</code></td><td>酒葫芦</td><td>此格为相同伙伴时，额外加工1次。</td><td>局部乘法</td></tr><tr><td><code>offset_clasp</code></td><td>人参汤</td><td>此格为不同伙伴时，额外加工1次。</td><td>局部加法</td></tr><tr><td><code>old_scale</code></td><td>莲花</td><td>此格每次加工后，成果+10。</td><td>局部载荷</td></tr><tr><td><code>ballast_stone</code></td><td>羽毛笔</td><td>放在5号格时，每次加工后，成果+50。</td><td>稳定收尾</td></tr><tr><td><code>old_travel_log</code></td><td>蓑衣</td><td>每累计原始打出10张伙伴牌，初始成果永久+10。</td><td>初始成长</td></tr><tr><td><code>tempering_furnace</code></td><td>斗笠</td><td>每累计完成4次不同伙伴的首次加工，补充量永久+5。</td><td>补充成长</td></tr><tr><td><code>spring_scale</code></td><td>玉佩</td><td>此格相同加工次数+1；每累计完成6次相同伙伴的首次加工，再永久+1，最多+8。</td><td>连续加工成长</td></tr><tr><td><code>five_color_book</code></td><td>镜子</td><td>本轮最后一次相同加工次数+1；每累计完成6次不同伙伴的首次加工，再永久+1，最多+8。</td><td>补充转精加工</td></tr><tr><td><code>linkage_flag</code></td><td>抓钩</td><td>本轮此前完成至少2次不同伙伴加工时，5号位额外加工1次。</td><td>混合链收尾</td></tr></tbody></table></div><p>设计原则：</p>
+<ul>
+<li>普通道具只有一个主要用途。</li>
+<li>道具只修改全局参数或当前格加工，不直接描述“右侧伙伴”。</li>
+<li>永久成长只统计每条连接的首次加工，不让额外加工反过来加速自身成长。</li>
+<li><code>×2</code>因子固定；成长增加的是可见的加工次数。</li>
+</ul>
+<h2 id="5-当前16关目标模拟">5. 当前16关目标模拟<a class="heading-link" href="#5-当前16关目标模拟" aria-label="链接到本节">#</a></h2><p>目标沿用当前配置：</p>
+<pre><code class="language-text">250 / 400 / 650 / 1,000
+2,500 / 4,000 / 6,500 / 10,000
+25,000 / 40,000 / 65,000 / 100,000
+250,000 / 400,000 / 650,000 / 1,000,000
+</code></pre>
+<p>每关最多4轮。对每条代表构筑模拟5,000次完整远行。</p>
+<h3 id="重要假设">重要假设<a class="heading-link" href="#重要假设" aria-label="链接到本节">#</a></h3><p>这是一轮“机制能否达到目标”的乐观筛查，不是正式平衡结论：</p>
+<ul>
+<li>每条路线按固定理想顺序获得5件指定道具，不模拟奖励池暴露率。</li>
+<li>每轮使用一副重新洗好的25张伙伴牌。</li>
+<li>局部道具在五张牌全部明确后按最高收益位置摆放。</li>
+<li>不使用工具牌，不应用特别状况。</li>
+<li>使用简单可见策略和每轮2次刷新，不读取未来抽牌。</li>
+</ul>
+<h3 id="代表构筑">代表构筑<a class="heading-link" href="#代表构筑" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>路线</th><th>前5关理想获取顺序</th><th style="text-align:right">整局通关率</th><th style="text-align:right">第5关单轮中位</th><th style="text-align:right">第12关单轮中位</th><th style="text-align:right">第16关单轮中位</th></tr></thead><tbody><tr><td>初始成果·连续加工</td><td>饭团→酒葫芦→蓑衣→玉佩→莲花</td><td style="text-align:right">92.82%</td><td style="text-align:right">970</td><td style="text-align:right">113,920</td><td style="text-align:right">368,650</td></tr><tr><td>沿途补充·尾段精加工</td><td>饭团→抓钩→斗笠→镜子→人参汤</td><td style="text-align:right">34.72%</td><td style="text-align:right">760</td><td style="text-align:right">110,080</td><td style="text-align:right">409,600</td></tr><tr><td>局部加工·临场适配</td><td>饭团→莲花→酒葫芦→人参汤→羽毛笔</td><td style="text-align:right">0%</td><td style="text-align:right">480</td><td style="text-align:right">未抵达</td><td style="text-align:right">未抵达</td></tr></tbody></table></div><h3 id="条件通关情况">条件通关情况<a class="heading-link" href="#条件通关情况" aria-label="链接到本节">#</a></h3><p>“条件通关率”只统计已经抵达该关的样本。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>路线</th><th style="text-align:right">第4关</th><th style="text-align:right">第5关</th><th style="text-align:right">第12关</th><th style="text-align:right">第16关</th></tr></thead><tbody><tr><td>初始成果·连续加工</td><td style="text-align:right">97.06%</td><td style="text-align:right">97.93%</td><td style="text-align:right">100%</td><td style="text-align:right">98.68%</td></tr><tr><td>沿途补充·尾段精加工</td><td style="text-align:right">53.46%</td><td style="text-align:right">91.04%</td><td style="text-align:right">99.95%</td><td style="text-align:right">91.08%</td></tr><tr><td>局部加工·临场适配</td><td style="text-align:right">99.39%</td><td style="text-align:right">7.97%</td><td style="text-align:right">—</td><td style="text-align:right">—</td></tr></tbody></table></div><h2 id="6-数值结论">6. 数值结论<a class="heading-link" href="#6-数值结论" aria-label="链接到本节">#</a></h2><h3 id="当前目标与单批加工并不冲突">当前目标与单批加工并不冲突<a class="heading-link" href="#当前目标与单批加工并不冲突" aria-label="链接到本节">#</a></h3><p>单批成果仍能达到百万目标，不需要独立批次或返回左侧。但第4章要求成熟构筑在单轮稳定产出约250,000，因此必须具备下列至少一种增长：</p>
+<ul>
+<li>较高的初始成果；</li>
+<li>较高的不同伙伴补充量；</li>
+<li>约8—12次总计有效的 <code>×2</code> 加工；</li>
+<li>加法积累后在尾段接受多次相同伙伴加工。</li>
+</ul>
+<p>基础五格最多提供4次相同加工。因此当前百万目标通常要求道具在后期额外提供约6—8次相同加工，或允许初始成果/补充量成长到很大的局部数值。</p>
+<h3 id="静态加值不能独立承担16关增长">静态加值不能独立承担16关增长<a class="heading-link" href="#静态加值不能独立承担16关增长" aria-label="链接到本节">#</a></h3><p>饭团、莲花、羽毛笔等固定加值能够改善第一章体验，但“局部加工·临场适配”在第6关完全停止。固定数值道具必须承担前期稳定和过渡，不应被当作完整后期路线。</p>
+<h3 id="两条成长路线的节奏不同">两条成长路线的节奏不同<a class="heading-link" href="#两条成长路线的节奏不同" aria-label="链接到本节">#</a></h3><ul>
+<li>初始成果·连续加工在形成后非常稳定，当前纸面参数偏强。</li>
+<li>沿途补充·尾段精加工在第3—4关存在明显成型断层，但成功进入成长阶段后可以覆盖百万目标。</li>
+<li>这说明补充路线需要更早的有效种子或更平滑的成长阈值，不能要求玩家先弱四关再突然起飞。</li>
+</ul>
+<h3 id="不能让单件成长道具成为唯一通行证">不能让单件成长道具成为唯一通行证<a class="heading-link" href="#不能让单件成长道具成为唯一通行证" aria-label="链接到本节">#</a></h3><p>模拟中玉佩和镜子的最高 <code>+8次加工</code> 是为了检查当前目标的数量级，不代表最终批准值。若完整目录只有这一类道具能覆盖第4章，它们会成为事实上的必选件。</p>
+<p>正式内容应把后期加工能力拆成不同来源，例如：</p>
+<ul>
+<li>当前格固定多加工1次；</li>
+<li>达成相邻条件后多加工；</li>
+<li>工具使用后临时多加工；</li>
+<li>初始成果和补充量成长；</li>
+<li>5号位收尾加工；</li>
+<li>把前段加法成果转化为后段加工次数。</li>
+</ul>
+<h2 id="7-视觉与事件合同">7. 视觉与事件合同<a class="heading-link" href="#7-视觉与事件合同" aria-label="链接到本节">#</a></h2><h3 id="当前格再次加工">当前格再次加工<a class="heading-link" href="#当前格再次加工" aria-label="链接到本节">#</a></h3><p>成果不返回左侧：</p>
+<ol>
+<li>粒子团从左侧进入当前伙伴。</li>
+<li>当前数值停留在伙伴上方。</li>
+<li>伙伴每次加工播放一次短促本地动作。</li>
+<li>相同伙伴显示一次 <code>×2</code> 并复制现有粒子轮廓。</li>
+<li>不同伙伴显示一次 <code>+A</code> 并汇入一小团新粒子。</li>
+<li>多次加工时数字在原地逐次变化。</li>
+<li>当前格全部加工完成后，粒子团只向右移动一次。</li>
+</ol>
+<p>高次数使用压缩表现：</p>
+<pre><code class="language-text">×2  ×5
+80 → 2,560
+</code></pre>
+<p>可先演出首个和末个加工，中间用快速连击与次数角标压缩；Core仍返回每次加工后的精确数值序列。</p>
+<h3 id="5号位结算">5号位结算<a class="heading-link" href="#5号位结算" aria-label="链接到本节">#</a></h3><p>5号位先完成自身全部加工，再把唯一成果团送入地点卡目标。地点目标只在成果抵达时扣减，不保留独立牌型或固定倍率撞击阶段。</p>
+<h3 id="出牌预览">出牌预览<a class="heading-link" href="#出牌预览" aria-label="链接到本节">#</a></h3><p>连接上直接显示本次运算和预览结果：</p>
+<pre><code class="language-text">10 → +10 → 20 → ×2 → 40 → +10 → 50 → ×2 → 100
+</code></pre>
+<p>不得显示容易触发数学优先级误读的单行算式 <code>10+10×2+10×2</code>。</p>
+<h2 id="8-下一轮原型检查">8. 下一轮原型检查<a class="heading-link" href="#8-下一轮原型检查" aria-label="链接到本节">#</a></h2><ol>
+<li>用真实牌库持续状态替换“每轮新牌库”假设，核对整关与跨轮方差。</li>
+<li>加入铁锹、远镜等修型工具，检查五连率和尾段连续加工是否被推到过度稳定。</li>
+<li>不扩充完整30件目录；先调整补充路线的第3—4关断层，并把后期额外加工能力拆分到多件道具后重跑获取概率。</li>
+</ol>
+<p>完整机器结果见 <code>outputs/arithmetic-pipeline-v0.1-simulation.json</code>，可复现脚本见 <code>scripts/simulate-arithmetic-pipeline-v01.mjs</code>。</p>
+</article><section class="source-record" id="source-record"><p class="eyebrow">SOURCE & REVISIONS</p><h2>来源与修改记录</h2><dl><dt>原文标题</dt><dd>算术加工链纸面原型 v0.1</dd><dt>工程内文件</dt><dd><code>docs/v05-five-animal-caravan/arithmetic-pipeline-paper-prototype-v0.1.md</code></dd><dt>收录方式</dt><dd>从现存工程文件收录，保留原段落与参数；仅做网页排版、本机路径匿名化与链接整理。</dd><dt>日期依据</dt><dd>正文日期 · 2026-07-31。正文日期、首次入库日期与修订日期可能不同。</dd></dl><details class="history" open><summary>查看 1 次文件提交记录</summary><p>以下为包含此文件变化的提交。提交说明可能涉及整个项目，不代表该文档单独完成了所有列出的功能。</p><ol><li><time>2026-08-04</time><div><code>40aa8f1</code><p>feat: add mushroom shop and tag builds</p></div></li></ol></details></section><nav class="adjacent" aria-label="相邻文档"><a href="caravan-boss.html"><small>上一篇</small>伙伴成长、章节与特别状况（历史 v0.6）</a><a href="caravan-balance.html"><small>下一篇</small>平衡与验收表（历史 v0.5 / v0.3）</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>两个独立游戏，从原型到迭代的设计记录。</p></div><p>整理于 2026.09.19<br><a href="../index.html#about">收录与日期说明</a> · <a href="../../index.html">返回作品集 ↗</a></p></footer></body></html>

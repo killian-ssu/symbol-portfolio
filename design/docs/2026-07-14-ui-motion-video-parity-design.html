@@ -1,0 +1,63 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f4f2eb"><title>动效节奏对照 · Symbol 策划档案</title><meta name="description" content="对照参考视频，检查动作节奏与表现差异。"><link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css"><script src="../archive.js" defer></script></head><body class="document-page merchant"><a class="skip" href="#main">跳到正文</a><header class="site-header"><a class="wordmark" href="../index.html">SYMBOL<span>设计档案 / 2026</span></a><nav aria-label="主导航"><a href="../index.html#timeline">版本时间线</a><a href="../index.html#catalog">全部文档</a><a class="back-portfolio" href="../../index.html">作品集 <span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="doc-top"><a class="back-link" href="../index.html?project=merchant#catalog">← 返回远行商人文档</a><div class="doc-tags"><span>远行商人</span><span>迭代方案</span><span>交互表现</span></div><h1>动效节奏对照</h1><p class="doc-intro">对照参考视频，检查动作节奏与表现差异。</p><div class="doc-metadata"><span><strong>2026-07-14</strong>文件名日期</span><span><strong>4 分钟</strong>预计阅读</span><span><strong>2</strong>次可查提交</span><a class="download" href="../sources/2026-07-14-ui-motion-video-parity-design.md" download>下载本文 ↓</a></div></div><div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><a class="level-2" href="#目标">目标</a><a class="level-2" href="#方案比较">方案比较</a><a class="level-3" href="#a-给现有压缩动画补一个旋转">A. 给现有压缩动画补一个旋转</a><a class="level-3" href="#b-复刻视频多轨结构并适配触摸-采用">B. 复刻视频多轨结构并适配触摸（采用）</a><a class="level-3" href="#c-建立任意轨道的可视化动效资产系统">C. 建立任意轨道的可视化动效资产系统</a><a class="level-2" href="#通用播放器">通用播放器</a><a class="level-2" href="#手机按钮动效">手机按钮动效</a><a class="level-2" href="#行动格结算动效">行动格结算动效</a><a class="level-2" href="#参数与-prefab">参数与 Prefab</a><a class="level-2" href="#验收">验收</a><a href="#source-record">来源与修改记录</a></nav></details><a class="to-top" href="#main">回到页首 ↑</a></aside><div class="doc-reading"><div class="archive-note"><span class="note-marker">档案说明</span><p>这是 2026-09-19 从工程收录的文本，可能包含后来补写的注释。正文中的“当前”“已实现”保留原有语境，不代表本站试玩版已逐项复验。</p></div><article class="prose" id="article"><p>日期：2026-07-14
+状态：用户已确认，进入实现</p>
+<h2 id="目标">目标<a class="heading-link" href="#目标" aria-label="链接到本节">#</a></h2><p>把现有“纯缩放压扁”试作版重做为视频中展示的多轨 Tween 结构，并适配手机触摸：</p>
+<ul>
+<li><code>StartBtn</code> 与 <code>RefreshBtn</code> 在触摸开始时播放尺寸自适应的放大和随机方向旋转，触摸结束或取消时恢复。</li>
+<li>5 个行动格在自动结算时播放并行的 X/Y 异步弹跳、随机方向旋转和延迟回正；分数在短暂打击延迟后出现。</li>
+<li>保留结算顺序和连锁强度增长，不改变 Core 输出、分数或业务回调。</li>
+</ul>
+<h2 id="方案比较">方案比较<a class="heading-link" href="#方案比较" aria-label="链接到本节">#</a></h2><h3 id="a-给现有压缩动画补一个旋转">A. 给现有压缩动画补一个旋转<a class="heading-link" href="#a-给现有压缩动画补一个旋转" aria-label="链接到本节">#</a></h3><p>改动最小，但仍然是“压缩—拉伸—恢复”的串行动画，和视频的多轨 Back Out 节奏不同，不能解决当前观感问题。</p>
+<h3 id="b-复刻视频多轨结构并适配触摸-采用">B. 复刻视频多轨结构并适配触摸（采用）<a class="heading-link" href="#b-复刻视频多轨结构并适配触摸-采用" aria-label="链接到本节">#</a></h3><p>X 缩放、Y 缩放和旋转分别拥有自己的时长与延迟，并行作用于同一个运动状态；按钮用视频按钮参数，行动格用视频数值弹跳参数的收敛版。底层统一负责随机方向、基准变换、打断与恢复。</p>
+<h3 id="c-建立任意轨道的可视化动效资产系统">C. 建立任意轨道的可视化动效资产系统<a class="heading-link" href="#c-建立任意轨道的可视化动效资产系统" aria-label="链接到本节">#</a></h3><p>扩展能力最强，但当前只有按钮和行动格两类明确需求，制作编辑器资产会扩大试手感阶段的范围，本轮不做。</p>
+<h2 id="通用播放器">通用播放器<a class="heading-link" href="#通用播放器" aria-label="链接到本节">#</a></h2><p>播放器记录目标节点的原始 <code>scale</code> 与 <code>angle</code>，每条轨道只修改一个内存状态字段，统一在 <code>onUpdate</code> 中把完整变换写回节点，避免两个 Tween 同时写整个 <code>Vec3</code> 而互相覆盖。</p>
+<p>播放器必须满足：</p>
+<ul>
+<li>新播放只停止播放器自己持有的 Tween，不调用 <code>stopAllByTarget</code>。</li>
+<li>每次播放从基准或当前视觉状态计算，不累乘缩放误差。</li>
+<li>随机旋转只随机正负方向，幅度由预设和强度决定。</li>
+<li>停止、取消、禁用和销毁都恢复原始缩放与角度。</li>
+<li>行动格旧动画被新动画打断时，旧的计分等待 Promise 也必须完成。</li>
+<li>目标节点失效时停止写入，但不能阻塞结算。</li>
+</ul>
+<p>纯 TypeScript 配置层提供尺寸衰减、强度限制和旋转幅度计算，供 Node 测试直接验证。</p>
+<h2 id="手机按钮动效">手机按钮动效<a class="heading-link" href="#手机按钮动效" aria-label="链接到本节">#</a></h2><p>视频原本监听 hover/unhover；手机端映射为 <code>TOUCH_START</code> 与 <code>TOUCH_END/TOUCH_CANCEL</code>。按住时保持放大状态，但旋转会快速回正，不循环抖动。</p>
+<p>默认参数：</p>
+<ul>
+<li>参考宽度：<code>200px</code>；尺寸系数为 <code>clamp(200 / 实际宽度, 0.5, 1.0)</code>。</li>
+<li>缩放目标：<code>1 + 0.2 × 尺寸系数</code>。</li>
+<li>X 放大：<code>0.2s</code>；Y 放大：<code>0.35s</code>。</li>
+<li>旋转：<code>±5° × 尺寸系数</code>，<code>0.1s</code> 到达；延迟到 <code>0.1s</code> 后，用 <code>0.1s</code> 回正。</li>
+<li>松开/取消：X 用 <code>0.2s</code>、Y 用 <code>0.35s</code>、旋转用 <code>0.1s</code> 回到基准。</li>
+<li>所有轨道使用 <code>Back Out</code>。</li>
+</ul>
+<p>当前两个按钮锚点均为中心。组件不擅自修改锚点，以免改变现有布局；测试约束接入目标必须保持中心锚点。</p>
+<h2 id="行动格结算动效">行动格结算动效<a class="heading-link" href="#行动格结算动效" aria-label="链接到本节">#</a></h2><p>行动格采用视频“属性变化自动弹跳”的并行结构，但把原视频 <code>±15°</code> 收敛为基础 <code>±7°</code>，避免 100px 行动格在连锁增强后旋转过猛。</p>
+<p>默认参数：</p>
+<ul>
+<li>缩放增量：<code>0.2 × intensity</code>。</li>
+<li>X 放大：<code>0.1s</code>；Y 放大：<code>0.15s</code>。</li>
+<li>随机旋转：<code>±7° × intensity</code>，<code>0.1s</code> 到达。</li>
+<li>X 恢复：延迟 <code>0.2s</code>，耗时 <code>0.2s</code>。</li>
+<li>Y 恢复：延迟 <code>0.25s</code>，耗时 <code>0.3s</code>。</li>
+<li>旋转恢复：延迟 <code>0.15s</code>，耗时 <code>0.1s</code>。</li>
+<li>计分同步点：触发后 <code>0.12s</code>，随后播放音效、浮字和分数区累加。</li>
+<li>所有轨道使用 <code>Back Out</code>。</li>
+</ul>
+<p>继续使用现有强度公式：第一格 <code>0.82</code>，每后一格 <code>+0.12</code>，连锁按 <code>log2(1 + repeatCount) × 0.1</code> 增长，配置上限 <code>1.8</code>，播放器绝对上限 <code>2</code>。</p>
+<p>删除行动卡节点在打击后的固定方向位置抖动，避免它与新旋转/缩放争抢视觉；分数区自身的位置抖动保持不变。</p>
+<h2 id="参数与-prefab">参数与 Prefab<a class="heading-link" href="#参数与-prefab" aria-label="链接到本节">#</a></h2><p>按钮组件和行动格组件继续把所有手感参数暴露到 Inspector。三个 Prefab 显式保存新字段，避免脚本默认值与序列化旧字段不一致：</p>
+<ul>
+<li><code>assets/resources/gui/prefab/main_menu.prefab</code></li>
+<li><code>assets/resources/gui/prefab/game_main.prefab</code></li>
+<li><code>assets/resources/game/poker/prefab/board_cell.prefab</code></li>
+</ul>
+<h2 id="验收">验收<a class="heading-link" href="#验收" aria-label="链接到本节">#</a></h2><ul>
+<li>开始游戏和刷新按钮触摸后明显放大并随机向左或向右轻摆，长按钮的幅度自动减弱。</li>
+<li>按住后不循环；松开、划出、连续快点后都精确恢复原缩放和角度。</li>
+<li>5 个行动格按结算顺序分别弹起、歪斜和错峰恢复，而不是压扁一下。</li>
+<li>后面的格子及多次连锁具有更大的缩放与旋转幅度，但不超过限制。</li>
+<li>分数在行动格打击后短延迟出现，结算节奏不被完整 <code>0.55s</code> 回弹阻塞。</li>
+<li>不改变按钮业务回调、Core 结算结果、Prefab 布局和节点命中区域。</li>
+<li>UI 动效契约测试、v0.4 全部测试和 TypeScript 类型检查通过。</li>
+</ul>
+</article><section class="source-record" id="source-record"><p class="eyebrow">SOURCE & REVISIONS</p><h2>来源与修改记录</h2><dl><dt>原文标题</dt><dd>《远行商人》视频式 UI 动效修订设计</dd><dt>工程内文件</dt><dd><code>docs/superpowers/specs/2026-07-14-ui-motion-video-parity-design.md</code></dd><dt>收录方式</dt><dd>从现存工程文件收录，保留原段落与参数；仅做网页排版、本机路径匿名化与链接整理。</dd><dt>日期依据</dt><dd>文件名日期 · 2026-07-14。正文日期、首次入库日期与修订日期可能不同。</dd></dl><details class="history" open><summary>查看 2 次文件提交记录</summary><p>以下为包含此文件变化的提交。提交说明可能涉及整个项目，不代表该文档单独完成了所有列出的功能。</p><ol><li><time>2026-07-15</time><div><code>1861486</code><p>docs: plan video-style ui motion implementation</p></div></li><li><time>2026-07-15</time><div><code>725b4f2</code><p>docs: specify video-style ui motion revision</p></div></li></ol></details></section><nav class="adjacent" aria-label="相邻文档"><a href="2026-07-14-ui-motion-trial-design.html"><small>上一篇</small>界面动效试验</a><a href="2026-07-15-five-animal-partner-naming-migration-design.html"><small>下一篇</small>五兽伙伴与命名</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>两个独立游戏，从原型到迭代的设计记录。</p></div><p>整理于 2026.09.19<br><a href="../index.html#about">收录与日期说明</a> · <a href="../../index.html">返回作品集 ↗</a></p></footer></body></html>

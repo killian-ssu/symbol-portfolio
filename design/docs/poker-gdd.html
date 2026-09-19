@@ -1,0 +1,163 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f4f2eb"><title>扑克牌格子三消 · 构筑爆分型（GDD / 玩法说明） · Symbol 策划档案</title><meta name="description" content="5×3 棋盘、三张手牌、消除与掉落：早期原型的完整规则。"><link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css"><script src="../archive.js" defer></script></head><body class="document-page merchant"><a class="skip" href="#main">跳到正文</a><header class="site-header"><a class="wordmark" href="../index.html">SYMBOL<span>设计档案 / 2026</span></a><nav aria-label="主导航"><a href="../index.html#timeline">版本时间线</a><a href="../index.html#catalog">全部文档</a><a class="back-portfolio" href="../../index.html">作品集 <span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="doc-top"><a class="back-link" href="../index.html?project=merchant#catalog">← 返回远行商人文档</a><div class="doc-tags"><span>远行商人</span><span>历史方案</span><span>核心玩法</span></div><h1>扑克牌格子三消 · 构筑爆分型（GDD / 玩法说明）</h1><p class="doc-intro">5×3 棋盘、三张手牌、消除与掉落：早期原型的完整规则。</p><div class="doc-metadata"><span><strong>2026-04-21</strong>首次入库</span><span><strong>6 分钟</strong>预计阅读</span><span><strong>2</strong>次可查提交</span><a class="download" href="../sources/poker-gdd.md" download>下载本文 ↓</a></div></div><div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><a class="level-2" href="#1-产品定位">1. 产品定位</a><a class="level-2" href="#2-核心体验目标-3条">2. 核心体验目标（3条）</a><a class="level-2" href="#3-盘面与基础规则">3. 盘面与基础规则</a><a class="level-3" href="#3-1-盘面">3.1 盘面</a><a class="level-3" href="#3-2-落牌">3.2 落牌</a><a class="level-3" href="#3-3-消除判定-不做十字-l-t识别">3.3 消除判定（不做十字/L/T识别）</a><a class="level-2" href="#4-下落-补位规则-行重力">4. 下落/补位规则（行重力）</a><a class="level-3" href="#4-1-行下移-核心">4.1 行下移（核心）</a><a class="level-3" href="#4-2-非整行空时的处理">4.2 非整行空时的处理</a><a class="level-2" href="#5-胜负条件与关卡结构">5. 胜负条件与关卡结构</a><a class="level-3" href="#5-1-双失败条件-保留空间压力">5.1 双失败条件（保留空间压力）</a><a class="level-3" href="#5-2-通关条件">5.2 通关条件</a><a class="level-3" href="#5-3-16关流程-含boss">5.3 16关流程（含Boss）</a><a class="level-3" href="#5-4-回合数建议-mvp默认">5.4 回合数建议（MVP默认）</a><a class="level-2" href="#6-计分系统-mvp-连锁为核心">6. 计分系统（MVP：连锁为核心）</a><a class="level-3" href="#6-1-术语">6.1 术语</a><a class="level-3" href="#6-2-基础分-只看-消除张数-n">6.2 基础分（只看“消除张数 N”）</a><a class="level-3" href="#6-3-连锁系数-封顶">6.3 连锁系数（封顶）</a><a class="level-3" href="#6-4-本回合得分">6.4 本回合得分</a><a class="level-2" href="#7-构筑系统-无货币-三选一">7. 构筑系统（无货币，三选一）</a><a class="level-3" href="#7-1-奖励时机">7.1 奖励时机</a><a class="level-3" href="#7-2-奖励类型-3类">7.2 奖励类型（3类）</a><a class="level-3" href="#7-3-槽位上限-控制体量">7.3 槽位上限（控制体量）</a><a class="level-2" href="#8-工具牌-一次性-mvp-5种">8. 工具牌（一次性，MVP 5种）</a><a class="level-2" href="#9-工具牌发放-方案1-扑克牌库-工具牌独立池">9. 工具牌发放（方案1：扑克牌库 + 工具牌独立池）</a><a class="level-3" href="#9-1-扑克牌库">9.1 扑克牌库</a><a class="level-3" href="#9-2-工具牌独立池">9.2 工具牌独立池</a><a class="level-3" href="#9-3-发放概率规则-满足你的需求">9.3 发放概率规则（满足你的需求）</a><a class="level-2" href="#10-道具-永久被动-mvp建议先做10张-玩家一眼懂">10. 道具（永久被动，MVP建议先做10张“玩家一眼懂”）</a><a class="level-3" href="#10-1-样例-与你前面想法对齐">10.1 样例（与你前面想法对齐）</a><a class="level-3" href="#10-2-万能牌定义-mvp建议">10.2 万能牌定义（MVP建议）</a><a class="level-2" href="#11-mvp范围-明确不做的">11. MVP范围（明确不做的）</a><a href="#source-record">来源与修改记录</a></nav></details><a class="to-top" href="#main">回到页首 ↑</a></aside><div class="doc-reading"><div class="archive-note"><span class="note-marker">档案说明</span><p>这是 2026-09-19 从工程收录的文本，可能包含后来补写的注释。正文中的“当前”“已实现”保留原有语境，不代表本站试玩版已逐项复验。</p></div><article class="prose" id="article"><h2 id="1-产品定位">1. 产品定位<a class="heading-link" href="#1-产品定位" aria-label="链接到本节">#</a></h2><ul>
+<li><strong>类型</strong>：空间格子三消 + 轻量构筑（Balatro 风格“越玩越强/爆分”）</li>
+<li><strong>参考框架</strong>：SUIT-UP（5×3 盘面、3 张手牌、下落变形、连锁消除）</li>
+<li><strong>MVP目标</strong>：不做经济系统/不做 Jobs；用 <strong>目标分 + 回合数 + 三选一构筑</strong>，让玩家清晰感到“build 成型 → 分数起飞”。</li>
+</ul>
+<h2 id="2-核心体验目标-3条">2. 核心体验目标（3条）<a class="heading-link" href="#2-核心体验目标-3条" aria-label="链接到本节">#</a></h2><ol>
+<li><strong>连锁爽</strong>：一次落牌后，盘面下落触发多段连锁，分数明显跳档。</li>
+<li><strong>构筑爽</strong>：通关三选一的被动/规则升级能明显改变打法（连锁派 vs 稳健派）。</li>
+<li><strong>小游戏体量</strong>：UI简洁（不额外增加刷新按钮），系统上限清晰（槽位封顶、升级封顶）。</li>
+</ol>
+<hr>
+<h2 id="3-盘面与基础规则">3. 盘面与基础规则<a class="heading-link" href="#3-盘面与基础规则" aria-label="链接到本节">#</a></h2><h3 id="3-1-盘面">3.1 盘面<a class="heading-link" href="#3-1-盘面" aria-label="链接到本节">#</a></h3><ul>
+<li>主盘面：<strong>5×3</strong> 格。</li>
+<li>顶部缓冲行：<strong>1×5</strong>（不可放置，仅用于下落补位）。</li>
+</ul>
+<h3 id="3-2-落牌">3.2 落牌<a class="heading-link" href="#3-2-落牌" aria-label="链接到本节">#</a></h3><ul>
+<li><strong>基础手牌（Poker Hand）</strong>：默认 <strong>3 张扑克牌</strong>（可被规则升级提升到 4/5）。</li>
+<li>玩家每回合从手牌中拖拽 1 张牌到任意空格。</li>
+<li>落下后触发结算（包含可能的连锁多段消除与下落）。</li>
+</ul>
+<h3 id="3-3-消除判定-不做十字-l-t识别">3.3 消除判定（不做十字/L/T识别）<a class="heading-link" href="#3-3-消除判定-不做十字-l-t识别" aria-label="链接到本节">#</a></h3><p>仅用“相邻连线”与“顺子”两类判定，形状全部归一为“本段消除张数 N”：</p>
+<p><strong>A. 同类三连（横/竖）</strong></p>
+<ul>
+<li>三张相邻且满足下列任意一个条件即可消除：<ul>
+<li>同花色（♥/♦/♣/♠）三连</li>
+<li>同点数三连（如 7-7-7）</li>
+</ul>
+</li>
+</ul>
+<p><strong>B. 顺子三连（横/竖）</strong></p>
+<ul>
+<li>三张相邻且点数连续（如 4-5-6）即可消除</li>
+<li>支持 A-K 循环（A 既可接 2，也可接 K）</li>
+</ul>
+<p><strong>C. 更长连线</strong></p>
+<ul>
+<li>若满足 4 连、5 连……按“全部符合规则的相邻连续段”一次性消除（实现上可按扫描线找到最大连续段）。</li>
+</ul>
+<blockquote>
+<p>备注：同一回合中，可能同时出现多个消除段（例如横向一段 + 纵向一段）。结算时按“段”逐个处理，并进入连锁结算流程。</p>
+</blockquote>
+<hr>
+<h2 id="4-下落-补位规则-行重力">4. 下落/补位规则（行重力）<a class="heading-link" href="#4-下落-补位规则-行重力" aria-label="链接到本节">#</a></h2><h3 id="4-1-行下移-核心">4.1 行下移（核心）<a class="heading-link" href="#4-1-行下移-核心" aria-label="链接到本节">#</a></h3><ul>
+<li>若主盘面出现“整行空”（该行 5 个格子均为空），则：<ul>
+<li>该空行上方所有行 <strong>整体下移 1 行</strong>；</li>
+<li>顶部缓冲行也参与下移补位；</li>
+<li>缓冲行最上方缺口从“牌库系统”补牌。</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-2-非整行空时的处理">4.2 非整行空时的处理<a class="heading-link" href="#4-2-非整行空时的处理" aria-label="链接到本节">#</a></h3><ul>
+<li>若没有整行空，主盘面保持原位（不做列重力）。</li>
+<li>这样能保持 SUIT-UP 的“布局会整体变形”特征，增强规划感与连锁不可预测性。</li>
+</ul>
+<hr>
+<h2 id="5-胜负条件与关卡结构">5. 胜负条件与关卡结构<a class="heading-link" href="#5-胜负条件与关卡结构" aria-label="链接到本节">#</a></h2><h3 id="5-1-双失败条件-保留空间压力">5.1 双失败条件（保留空间压力）<a class="heading-link" href="#5-1-双失败条件-保留空间压力" aria-label="链接到本节">#</a></h3><p>每关同时满足以下任一条件即失败：</p>
+<ol>
+<li><strong>回合数耗尽</strong> 且 <strong>总分 &lt; 目标分</strong>；</li>
+<li><strong>主盘面无空格可放</strong>（盘面满）且玩家没有工具牌可清出空位。</li>
+</ol>
+<h3 id="5-2-通关条件">5.2 通关条件<a class="heading-link" href="#5-2-通关条件" aria-label="链接到本节">#</a></h3><ul>
+<li>在回合数耗尽前，达到本关目标分：<strong>通关</strong>。</li>
+</ul>
+<h3 id="5-3-16关流程-含boss">5.3 16关流程（含Boss）<a class="heading-link" href="#5-3-16关流程-含boss" aria-label="链接到本节">#</a></h3><ul>
+<li>1–3 小关 → 4 Boss1</li>
+<li>5–7 小关 → 8 Boss2</li>
+<li>9–11 小关 → 12 Boss3</li>
+<li>13–15 小关 → 16 Boss4（终关）</li>
+</ul>
+<h3 id="5-4-回合数建议-mvp默认">5.4 回合数建议（MVP默认）<a class="heading-link" href="#5-4-回合数建议-mvp默认" aria-label="链接到本节">#</a></h3><ul>
+<li>小关：7 回合</li>
+<li>Boss关：8 回合</li>
+<li>规则升级“每关回合数 +1”可提升上限（封顶 9）</li>
+</ul>
+<hr>
+<h2 id="6-计分系统-mvp-连锁为核心">6. 计分系统（MVP：连锁为核心）<a class="heading-link" href="#6-计分系统-mvp-连锁为核心" aria-label="链接到本节">#</a></h2><h3 id="6-1-术语">6.1 术语<a class="heading-link" href="#6-1-术语" aria-label="链接到本节">#</a></h3><ul>
+<li><strong>段</strong>：一次结算中被识别并消除的一组牌（可能有多段）。</li>
+<li><strong>连锁段数 k</strong>：同一回合内，从第 1 段开始计数；每次下落若再次触发消除，则 k+1。</li>
+</ul>
+<h3 id="6-2-基础分-只看-消除张数-n">6.2 基础分（只看“消除张数 N”）<a class="heading-link" href="#6-2-基础分-只看-消除张数-n" aria-label="链接到本节">#</a></h3><ul>
+<li><code>Base = 20</code>（每消除 1 张牌的基础分值）</li>
+<li>第 k 段基础分：<code>Chips_k = N_k × Base</code></li>
+</ul>
+<h3 id="6-3-连锁系数-封顶">6.3 连锁系数（封顶）<a class="heading-link" href="#6-3-连锁系数-封顶" aria-label="链接到本节">#</a></h3><ul>
+<li>第 1 段：×1.0</li>
+<li>第 2 段：×1.3</li>
+<li>第 3 段：×1.6</li>
+<li>第 4 段：×2.0</li>
+<li>第 5 段：×2.5</li>
+<li>第 6 段：×3.1</li>
+<li>第 7 段：×3.8</li>
+<li>默认封顶：7 段（可通过“连锁封顶+1”类被动提升，封顶 9）</li>
+</ul>
+<h3 id="6-4-本回合得分">6.4 本回合得分<a class="heading-link" href="#6-4-本回合得分" aria-label="链接到本节">#</a></h3><ul>
+<li><code>TurnScore = Σ (Chips_k × ChainMultiplier_k)</code></li>
+<li>关卡总分为所有回合 TurnScore 之和。</li>
+</ul>
+<blockquote>
+<p>MVP不做额外“十字/L/T形状奖励”，避免判定复杂；形状优势由“消除张数更大 + 更容易引发连锁”自然体现。</p>
+</blockquote>
+<hr>
+<h2 id="7-构筑系统-无货币-三选一">7. 构筑系统（无货币，三选一）<a class="heading-link" href="#7-构筑系统-无货币-三选一" aria-label="链接到本节">#</a></h2><h3 id="7-1-奖励时机">7.1 奖励时机<a class="heading-link" href="#7-1-奖励时机" aria-label="链接到本节">#</a></h3><ul>
+<li><strong>每关通关</strong>：出现 3 个奖励选项，玩家 <strong>选 1 个</strong>。</li>
+<li><strong>Boss关通关</strong>：额外再给一次 3选1（让build成长更明显）。</li>
+</ul>
+<h3 id="7-2-奖励类型-3类">7.2 奖励类型（3类）<a class="heading-link" href="#7-2-奖励类型-3类" aria-label="链接到本节">#</a></h3><ol>
+<li><strong>规则升级（永久）</strong>（MVP只做3个）</li>
+<li><strong>道具 道具（永久被动，占槽位）</strong></li>
+<li><strong>工具牌（一次性卡牌）</strong></li>
+</ol>
+<h3 id="7-3-槽位上限-控制体量">7.3 槽位上限（控制体量）<a class="heading-link" href="#7-3-槽位上限-控制体量" aria-label="链接到本节">#</a></h3><ul>
+<li>道具槽位：3</li>
+<li>工具牌容量（Tool Capacity）：由规则升级决定（MVP默认 3，升级后 4）</li>
+</ul>
+<hr>
+<h2 id="8-工具牌-一次性-mvp-5种">8. 工具牌（一次性，MVP 5种）<a class="heading-link" href="#8-工具牌-一次性-mvp-5种" aria-label="链接到本节">#</a></h2><p>工具牌来自“工具牌池”，使用后消耗。</p>
+<ol>
+<li><strong>删 1 张</strong>：拖到场上一张牌，删除该牌</li>
+<li><strong>改色 1 张</strong>：拖到场上一张牌，切换其花色（可选：随机/指定）</li>
+<li><strong>重抽手牌</strong>：立即把当前手牌全部替换为新牌</li>
+<li><strong>回收 1 张</strong>：拖到场上一张牌，把它拿回手牌（用于腾空间/做布局）</li>
+<li><strong>清除一行</strong>：选择一行清空（触发行下移与连锁）</li>
+</ol>
+<hr>
+<h2 id="9-工具牌发放-方案1-扑克牌库-工具牌独立池">9. 工具牌发放（方案1：扑克牌库 + 工具牌独立池）<a class="heading-link" href="#9-工具牌发放-方案1-扑克牌库-工具牌独立池" aria-label="链接到本节">#</a></h2><h3 id="9-1-扑克牌库">9.1 扑克牌库<a class="heading-link" href="#9-1-扑克牌库" aria-label="链接到本节">#</a></h3><ul>
+<li>基础牌库：标准 52 张（A–K × 4花色）</li>
+<li>洗牌规则：牌库耗尽 → 立即洗牌重置（不需要UI展示）</li>
+</ul>
+<h3 id="9-2-工具牌独立池">9.2 工具牌独立池<a class="heading-link" href="#9-2-工具牌独立池" aria-label="链接到本节">#</a></h3><ul>
+<li>工具牌不进入52牌库；来自独立“工具牌池”（等概率或权重）。</li>
+<li><strong>发放方式：以“回合结算后的额外发放”实现</strong>，不占用正常补手牌流程。</li>
+</ul>
+<h3 id="9-3-发放概率规则-满足你的需求">9.3 发放概率规则（满足你的需求）<a class="heading-link" href="#9-3-发放概率规则-满足你的需求" aria-label="链接到本节">#</a></h3><p>每关满足：</p>
+<ol>
+<li><strong>保底一次</strong>：本关必定至少发放 1 次工具牌（在关卡开始时，先随机抽取一个“保底触发回合”T ∈ [2, 6]；若关卡提前结束，则在最后一回合结算后补发）。</li>
+<li><strong>随机额外次数</strong>：除保底外，每回合结算后按概率 p 额外发放 1 张工具牌（例如 p=20%），允许出现“某一关发2次/3次”。</li>
+<li><strong>工具牌进入手牌</strong>：工具牌以“额外卡”形式进入玩家手牌区，允许手牌临时超过基础上限（例如基础3张 + 1张工具牌）。</li>
+<li><strong>工具牌不自动补</strong>：玩家使用工具牌后，不触发“补 1 张扑克”的规则（只在打出扑克牌时才补 1 张扑克牌）。</li>
+</ol>
+<blockquote>
+<p>解释：这样既保持“常态手牌为3张”，又能出现你希望的“道具给的额外牌让手牌暂时变4张”，且不会因为短回合关卡而抽不到工具牌。</p>
+</blockquote>
+<hr>
+<h2 id="10-道具-永久被动-mvp建议先做10张-玩家一眼懂">10. 道具（永久被动，MVP建议先做10张“玩家一眼懂”）<a class="heading-link" href="#10-道具-永久被动-mvp建议先做10张-玩家一眼懂" aria-label="链接到本节">#</a></h2><blockquote>
+<p>这里先列结构与样例；最终以表驱动配置（便于迭代）。</p>
+</blockquote>
+<h3 id="10-1-样例-与你前面想法对齐">10.1 样例（与你前面想法对齐）<a class="heading-link" href="#10-1-样例-与你前面想法对齐" aria-label="链接到本节">#</a></h3><ul>
+<li><strong>三回合一改色</strong>：每3回合发 1 张“改色工具牌”</li>
+<li><strong>连击倍率+1</strong>：每次产生新的连锁段（第2段起），连锁系数额外+0.1（或TurnScore额外+X%，二选一）</li>
+<li><strong>三连击掉万能牌</strong>：同一回合若连锁段数 ≥3，则下一次补入的扑克牌变为“万能牌”</li>
+<li><strong>三回合一万能</strong>：每3回合下一张补入的扑克牌变万能</li>
+</ul>
+<h3 id="10-2-万能牌定义-mvp建议">10.2 万能牌定义（MVP建议）<a class="heading-link" href="#10-2-万能牌定义-mvp建议" aria-label="链接到本节">#</a></h3><ul>
+<li><strong>万能牌 = 任意花色</strong>（点数保持不变）。</li>
+</ul>
+<hr>
+<h2 id="11-mvp范围-明确不做的">11. MVP范围（明确不做的）<a class="heading-link" href="#11-mvp范围-明确不做的" aria-label="链接到本节">#</a></h2><ul>
+<li>不做：货币/商店系统</li>
+<li>不做：局内 Jobs 倒计时任务系统</li>
+<li>不做：复杂形状识别（十字/L/T奖励）</li>
+<li>不做：牌库预览与复杂牌库操控</li>
+</ul>
+</article><section class="source-record" id="source-record"><p class="eyebrow">SOURCE & REVISIONS</p><h2>来源与修改记录</h2><dl><dt>原文标题</dt><dd>扑克牌格子三消 · 构筑爆分型（GDD / 玩法说明）</dd><dt>工程内文件</dt><dd><code>docs/archive/v1-suitup-poker/玩法说明_GDD.md</code></dd><dt>收录方式</dt><dd>从现存工程文件收录，保留原段落与参数；仅做网页排版、本机路径匿名化与链接整理。</dd><dt>日期依据</dt><dd>首次入库 · 2026-04-21。用于证明此时文件已经存在，不等于实际写作日期。</dd></dl><details class="history" open><summary>查看 2 次文件提交记录</summary><p>以下为包含此文件变化的提交。提交说明可能涉及整个项目，不代表该文档单独完成了所有列出的功能。</p><ol><li><time>2026-05-08</time><div><code>c032319</code><p>refactor: v2.0 Phase 1 核心战斗重构，移除扑克点数，改为商品消除</p></div></li><li><time>2026-04-21</time><div><code>d934177</code><p>feat: complete hand card fan layout with full game integration</p></div></li></ol></details></section><nav class="adjacent" aria-label="相邻文档"><a href="poker-prd.html"><small>上一篇</small>扑克牌格子三消·构筑爆分型（PRD）</a><a href="merchant-prd.html"><small>下一篇</small>远行商人（Travelling Merchant）- 产品需求文档（PRD）</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>两个独立游戏，从原型到迭代的设计记录。</p></div><p>整理于 2026.09.19<br><a href="../index.html#about">收录与日期说明</a> · <a href="../../index.html">返回作品集 ↗</a></p></footer></body></html>
