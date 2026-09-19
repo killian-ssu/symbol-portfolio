@@ -1,0 +1,147 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f4f2eb"><title>选目标与流动描边 · Symbol 策划档案</title><meta name="description" content="把可选目标、不可选目标与选中状态放在同一局内界面表达。"><link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css"><script src="../archive.js" defer></script></head><body class="document-page merchant"><a class="skip" href="#main">跳到正文</a><header class="site-header"><a class="wordmark" href="../index.html">SYMBOL<span>设计档案 / 2026</span></a><nav aria-label="主导航"><a href="../index.html#timeline">版本时间线</a><a href="../index.html#catalog">全部文档</a><a class="back-portfolio" href="../../index.html">作品集 <span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="doc-top"><a class="back-link" href="../index.html?project=merchant#catalog">← 返回远行商人文档</a><div class="doc-tags"><span>远行商人</span><span>迭代方案</span><span>交互表现</span></div><h1>选目标与流动描边</h1><p class="doc-intro">把可选目标、不可选目标与选中状态放在同一局内界面表达。</p><div class="doc-metadata"><span><strong>2026-07-16</strong>文件名日期</span><span><strong>8 分钟</strong>预计阅读</span><span><strong>3</strong>次可查提交</span><a class="download" href="../sources/2026-07-16-card-target-flow-border-design.md" download>下载本文 ↓</a></div></div><div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><a class="level-2" href="#更正说明">更正说明</a><a class="level-2" href="#目标">目标</a><a class="level-2" href="#参考算法">参考算法</a><a class="level-2" href="#采用方案">采用方案</a><a class="level-2" href="#节点与资产结构">节点与资产结构</a><a class="level-2" href="#视觉规格">视觉规格</a><a class="level-3" href="#卡牌形状和画布">卡牌形状和画布</a><a class="level-3" href="#双相位外扩">双相位外扩</a><a class="level-3" href="#配色">配色</a><a class="level-2" href="#shader-和材质参数">Shader 和材质参数</a><a class="level-2" href="#状态与数据流">状态与数据流</a><a class="level-2" href="#失败处理">失败处理</a><a class="level-2" href="#文件范围">文件范围</a><a class="level-2" href="#验证与验收">验证与验收</a><a class="level-3" href="#自动检查">自动检查</a><a class="level-3" href="#creator-与游戏检查">Creator 与游戏检查</a><a href="#source-record">来源与修改记录</a></nav></details><a class="to-top" href="#main">回到页首 ↑</a></aside><div class="doc-reading"><div class="archive-note"><span class="note-marker">档案说明</span><p>这是 2026-09-19 从工程收录的文本，可能包含后来补写的注释。正文中的“当前”“已实现”保留原有语境，不代表本站试玩版已逐项复验。</p></div><article class="prose" id="article"><p>日期：2026-07-16</p>
+<p>参考：<a href="https://www.bilibili.com/video/BV1E5411m7AD/">Shader 实现杀戮尖塔卡牌外边框高亮效果</a></p>
+<h2 id="更正说明">更正说明<a class="heading-link" href="#更正说明" aria-label="链接到本节">#</a></h2><p>前一版设计误把参考卡图底部自带的浅青装饰当成 Shader 主效果，因而实现了静态窄框和三条底部正弦曲线。逐帧核对视频最终代码后确认，参考 Shader 的主体是两层相差半个周期、持续向卡牌四周外扩并逐渐淡出的轮廓光。</p>
+<p>本设计废弃前一版底部正弦波方案，按视频的时间函数和双相位结构重新定义效果。</p>
+<h2 id="目标">目标<a class="heading-link" href="#目标" aria-label="链接到本节">#</a></h2><p>合法目标伙伴牌显示与参考视频同原理的外扩高亮：</p>
+<ul>
+<li>光从卡牌圆角矩形边缘同时向上下左右及四个圆角外扩。</li>
+<li>两层脉冲相差半个周期，前一层淡出时后一层接续，不出现整段熄灭。</li>
+<li>外扩半径使用平方根时间曲线，起步快、后段减速。</li>
+<li>透明度随外扩进度从高到低衰减。</li>
+<li>项目配色继续使用青绿和浅青，不保留底部三条正弦曲线、星屑或宽范围常亮光块。</li>
+<li>Creator 编辑器和游戏运行时使用同一套 Prefab 与材质参数。</li>
+</ul>
+<p>本设计只替换合法目标牌的视觉表现，不改变工具选择态、目标合法性、非法目标暗化、点击行为或 Core 数据。</p>
+<h2 id="参考算法">参考算法<a class="heading-link" href="#参考算法" aria-label="链接到本节">#</a></h2><p>视频最终实现对卡牌 Alpha 在上下左右和四个对角方向进行采样。每层脉冲使用：</p>
+<pre><code class="language-text">phase = fract(time + phaseOffset)
+radius = sqrt(phase) * maxExpansion
+alpha = mix(startAlpha, endAlpha, phase)
+</code></pre>
+<p>两层的 <code>phaseOffset</code> 分别为 <code>0.0</code> 和 <code>0.5</code>。在透明像素位置，如果当前半径的八方向采样命中卡牌 Alpha，就绘制该层轮廓。</p>
+<h2 id="采用方案">采用方案<a class="heading-link" href="#采用方案" aria-label="链接到本节">#</a></h2><p>项目采用与参考算法视觉和时间规律等价的圆角矩形距离场实现：</p>
+<ol>
+<li>使用现有圆角矩形 SDF 得到像素到卡牌外边缘的距离。</li>
+<li>用参考视频相同的 <code>fract</code>、半周期偏移、<code>sqrt</code> 半径和透明度衰减计算两层外扩脉冲。</li>
+<li>将“八方向 Alpha 采样是否命中卡牌”替换为“外部距离是否小于当前扩散半径”。</li>
+<li>用普通透明混合的等价公式在单个片元 Pass 中合成两层脉冲。</li>
+</ol>
+<p>卡牌在项目中由 <code>bg</code>、<code>ItemIcon</code> 和 <code>ScoreText</code> 等多个节点组成，不能像视频的单张卡图一样直接采样完整卡牌 Alpha。距离场替换避免新增遮罩贴图和十六次纹理采样，同时对当前固定圆角矩形得到更平滑、稳定的同类结果。</p>
+<p>不采用专用 Alpha 遮罩双 Pass 方案，因为它需要新增透明边距贴图并显著增加每像素采样次数。不采用两个 Sprite 节点 Tween，因为它不属于参考 Shader 的像素扩散算法，并会引入运行时视觉控制。</p>
+<h2 id="节点与资产结构">节点与资产结构<a class="heading-link" href="#节点与资产结构" aria-label="链接到本节">#</a></h2><p>高亮继续使用已经落地的单节点结构：</p>
+<pre><code class="language-text">hand_card
+├── bg
+├── HighlightRoot
+│   └── FlowBorder
+├── ItemIcon
+└── ScoreText
+</code></pre>
+<ul>
+<li><code>HighlightRoot</code> 默认 inactive，尺寸为 <code>116 × 156</code>，相对 <code>100 × 140</code> 卡牌四边各外扩 8 px。</li>
+<li><code>FlowBorder</code> 铺满 <code>HighlightRoot</code>，使用 <code>CardTargetGlow.mtl</code>。</li>
+<li><code>FlowBorder</code> 使用现有 <code>resources/gui/texture/Square.png</code> 白色 SpriteFrame。该资源禁止进入动态图集，使 Shader 在编辑器与运行时都获得完整 <code>0–1</code> UV。</li>
+<li>渲染顺序保持在白色 <code>bg</code> 之上、<code>ItemIcon</code> 和 <code>ScoreText</code> 之下。</li>
+<li>不新增粒子、遮罩贴图、动画组件或运行时材质控制组件。</li>
+</ul>
+<h2 id="视觉规格">视觉规格<a class="heading-link" href="#视觉规格" aria-label="链接到本节">#</a></h2><h3 id="卡牌形状和画布">卡牌形状和画布<a class="heading-link" href="#卡牌形状和画布" aria-label="链接到本节">#</a></h3><ul>
+<li>卡牌形状：居中的 <code>100 × 140</code> 圆角矩形。</li>
+<li>高亮画布：<code>116 × 156</code>。</li>
+<li>高亮画布宽高比：<code>116 / 156 = 0.743590</code>。</li>
+<li>卡牌宽高比：<code>100 / 140 = 0.714286</code>。</li>
+<li>卡牌高度占画布高度：<code>140 / 156 = 0.897436</code>。</li>
+<li>单边可用外扩空间：8 px。</li>
+</ul>
+<h3 id="双相位外扩">双相位外扩<a class="heading-link" href="#双相位外扩" aria-label="链接到本节">#</a></h3><ul>
+<li>第一层相位偏移：<code>0.0</code>。</li>
+<li>第二层相位偏移：<code>0.5</code>，固定在 Shader 内，不作为可误调参数暴露。</li>
+<li>默认循环速度：每秒 1 个周期。</li>
+<li>默认最大外扩：<code>7 / 156 = 0.044872</code>，对应 7 px；加抗锯齿后仍不得越过 8 px 画布边距。</li>
+<li>默认抗锯齿宽度：<code>0.0032</code>，对应约 0.5 px。</li>
+<li>半径曲线：<code>sqrt(phase) * maxExpansion</code>。</li>
+<li>起始透明度：<code>0.8</code>。</li>
+<li>结束透明度：<code>0.1</code>。</li>
+<li>两层重叠时使用普通 Alpha 合成的等价式：</li>
+</ul>
+<pre><code class="language-text">combinedAlpha = 1 - (1 - alpha0) * (1 - alpha1)
+</code></pre>
+<p>光效只绘制在卡牌外部。卡面本身继续由现有 <code>bg</code>、图标和分数节点绘制，Shader 不覆盖卡面。</p>
+<h3 id="配色">配色<a class="heading-link" href="#配色" aria-label="链接到本节">#</a></h3><ul>
+<li>外扩主色：<code>#28E887</code>。</li>
+<li>近边缘浅青核心：<code>#B9FFE9</code>。</li>
+</ul>
+<p>浅青核心只用于加强靠近卡牌边缘的能量感；两层脉冲共享同一组项目色，不再生成独立底部波纹颜色。</p>
+<p>颜色沿外扩距离使用固定渐变：</p>
+<pre><code class="language-text">coreFactor = 1 - clamp(outsideDistance / maxExpansion, 0, 1)
+finalColor = mix(glowColor, coreColor, coreFactor)
+</code></pre>
+<p>卡边附近偏浅青，外沿回到青绿；颜色不随相位随机变化。</p>
+<h2 id="shader-和材质参数">Shader 和材质参数<a class="heading-link" href="#shader-和材质参数" aria-label="链接到本节">#</a></h2><p><code>CardTargetGlow.mtl</code> 只保留下列 Inspector 参数：</p>
+<ul>
+<li><code>glowColor</code>：青绿外扩主色。</li>
+<li><code>coreColor</code>：近边缘浅青色。</li>
+<li><code>canvasAspectRatio</code>：高亮画布宽高比。</li>
+<li><code>shapeAspectRatio</code>：卡牌宽高比。</li>
+<li><code>shapeHeightScale</code>：卡牌高度占高亮画布比例。</li>
+<li><code>cornerRadius</code>：卡牌圆角。</li>
+<li><code>maxExpansion</code>：最大外扩距离，默认对应 7 px。</li>
+<li><code>featherWidth</code>：外沿抗锯齿宽度。</li>
+<li><code>cycleSpeed</code>：每秒循环次数。</li>
+<li><code>startAlpha</code>：脉冲起始透明度。</li>
+<li><code>endAlpha</code>：脉冲结束透明度。</li>
+</ul>
+<p>删除前一版下列概念和参数：</p>
+<ul>
+<li>固定窄边框和亮度沿边流动。</li>
+<li><code>waveBandHeight</code>、<code>waveAmplitude</code>、<code>waveFrequency</code>、<code>waveLineWidth</code>、<code>waveSpeed</code>。</li>
+<li><code>waveColor</code>、<code>waveHighlightColor</code>。</li>
+<li><code>waveCurveMask</code> 和所有底部正弦曲线。</li>
+</ul>
+<p>Shader 对速度、半径、透明度和圆角进行安全限幅。<code>maxExpansion + featherWidth</code> 必须小于单边画布余量，避免外扩被裁切。</p>
+<p>默认使用普通透明混合 <code>src_alpha / one_minus_src_alpha</code>，不使用加法混合。</p>
+<h2 id="状态与数据流">状态与数据流<a class="heading-link" href="#状态与数据流" aria-label="链接到本节">#</a></h2><p>现有数据流保持不变：</p>
+<pre><code class="language-text">Core 给出目标合法性
+→ GameMain 进入工具选择态
+→ CardViewComp.setToolTargetState(targeting, legal)
+→ legal 时切换 HighlightRoot.active
+</code></pre>
+<p><code>CardViewComp</code> 只负责显示或隐藏 <code>HighlightRoot</code>。不在 UI 中重复判断合法性，也不在运行时写入颜色、速度、半径或材质参数。不合法伙伴牌继续使用现有 <code>targetDimRoot</code>。</p>
+<h2 id="失败处理">失败处理<a class="heading-link" href="#失败处理" aria-label="链接到本节">#</a></h2><ul>
+<li>材质或 Prefab 引用缺失属于资产接线错误，由契约测试发现。</li>
+<li><code>HighlightRoot</code> 未绑定时保持当前安全行为：不显示高亮，不影响目标选择。</li>
+<li>极端 Inspector 参数由 Shader 限幅，不能导致整张卡被不透明颜色覆盖或出现除零。</li>
+<li>节点停用后停止绘制；重新启用时按全局时间继续双相位动画，不保存额外状态。</li>
+<li>运行时若 UV 不再是 <code>0–1</code>，契约测试通过 <code>Square.png</code> 的 <code>packable: false</code> 约束阻止动态图集回归。</li>
+</ul>
+<h2 id="文件范围">文件范围<a class="heading-link" href="#文件范围" aria-label="链接到本节">#</a></h2><p>预计修改：</p>
+<ul>
+<li><code>assets/resources/common/shader/CardTargetGlow.effect</code></li>
+<li><code>assets/resources/common/shader/CardTargetGlow.mtl</code></li>
+<li><code>assets/script/game/buildscore/ui/CardViewComp.ts</code>，只更新 Inspector 提示文字</li>
+<li><code>scripts/test-v04-ui-contract.js</code></li>
+<li><code>docs/superpowers/specs/2026-07-16-card-target-flow-border-design.md</code></li>
+<li><code>docs/superpowers/plans/2026-07-16-card-target-flow-border-implementation-plan.md</code></li>
+</ul>
+<p><code>hand_card.prefab</code> 的现有 <code>116 × 156</code> 单节点高亮结构已经满足新方案，除非 Creator 导入验证发现材质属性序列化需要刷新，否则不修改。</p>
+<p>不修改 Core、玩法 JSON、目标合法性、非法目标暗化、其他卡牌或局内布局。</p>
+<h2 id="验证与验收">验证与验收<a class="heading-link" href="#验证与验收" aria-label="链接到本节">#</a></h2><h3 id="自动检查">自动检查<a class="heading-link" href="#自动检查" aria-label="链接到本节">#</a></h3><ul>
+<li>Shader 存在两个相差 <code>0.5</code> 周期的脉冲。</li>
+<li>两层半径均使用 <code>sqrt(phase) * maxExpansion</code>。</li>
+<li>透明度从 <code>startAlpha</code> 衰减到 <code>endAlpha</code>。</li>
+<li>两层使用普通 Alpha 的等价合成，不使用加法混合。</li>
+<li>Shader 不包含 <code>waveCurveMask</code>、底部正弦曲线或任何 <code>wave*</code> 参数。</li>
+<li>材质只暴露本设计列出的颜色、形状、外扩、抗锯齿、速度和透明度参数。</li>
+<li><code>HighlightRoot</code> 保持默认 inactive、<code>116 × 156</code> 和单个 <code>FlowBorder</code> 子节点。</li>
+<li><code>FlowBorder</code> 继续使用非动态图集的完整白色 SpriteFrame。</li>
+<li><code>CardViewComp</code> 只切换节点 active，不调用 <code>setProperty</code>。</li>
+<li>现有玩法、UI 和工具牌快捷测试继续通过。</li>
+</ul>
+<h3 id="creator-与游戏检查">Creator 与游戏检查<a class="heading-link" href="#creator-与游戏检查" aria-label="链接到本节">#</a></h3><ul>
+<li>合法伙伴牌的光从四条边和四个圆角同步向外扩散，而不是只在底部运动。</li>
+<li>任一时刻至少有一层脉冲可见；两层以半周期错开连续衔接。</li>
+<li>在一个周期内能观察到外沿从靠近卡边移动到最大约 7 px，并同步淡出。</li>
+<li>不出现前一版底部三条正弦线、随机星屑或常亮宽光块。</li>
+<li>三张相邻且旋转的手牌各自扩散，图标、分数和白色卡面不被覆盖。</li>
+<li>最大外扩和抗锯齿在常见分辨率下不被 <code>HighlightRoot</code> 裁切。</li>
+<li>Creator 场景预览与游戏运行时的颜色、扩散范围、周期和圆角一致。</li>
+<li>同时显示全部合法伙伴牌时仍只有一个渲染节点，不创建粒子或每帧脚本更新。</li>
+</ul>
+</article><section class="source-record" id="source-record"><p class="eyebrow">SOURCE & REVISIONS</p><h2>来源与修改记录</h2><dl><dt>原文标题</dt><dd>伙伴牌目标双相位外扩光效设计</dd><dt>工程内文件</dt><dd><code>docs/superpowers/specs/2026-07-16-card-target-flow-border-design.md</code></dd><dt>收录方式</dt><dd>从现存工程文件收录，保留原段落与参数；仅做网页排版、本机路径匿名化与链接整理。</dd><dt>日期依据</dt><dd>文件名日期 · 2026-07-16。正文日期、首次入库日期与修订日期可能不同。</dd></dl><details class="history" open><summary>查看 3 次文件提交记录</summary><p>以下为包含此文件变化的提交。提交说明可能涉及整个项目，不代表该文档单独完成了所有列出的功能。</p><ol><li><time>2026-07-16</time><div><code>b47db45</code><p>docs: correct card target expansion effect design</p></div></li><li><time>2026-07-16</time><div><code>2e9d0a9</code><p>feat: replace card target glow with flow border</p></div></li><li><time>2026-07-16</time><div><code>d08325a</code><p>docs: design card target flow border</p></div></li></ol></details></section><nav class="adjacent" aria-label="相邻文档"><a href="2026-07-15-ui-motion-preset-lab-design.html"><small>上一篇</small>动效预设实验室</a><a href="2026-07-16-score-motion-presets-design.html"><small>下一篇</small>得分动效预设</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>两个独立游戏，从原型到迭代的设计记录。</p></div><p>整理于 2026.09.19<br><a href="../index.html#about">收录与日期说明</a> · <a href="../../index.html">返回作品集 ↗</a></p></footer></body></html>

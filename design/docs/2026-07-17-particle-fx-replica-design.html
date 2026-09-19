@@ -1,0 +1,91 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f4f2eb"><title>粒子效果设计 · Symbol 策划档案</title><meta name="description" content="把参考效果拆为粒子参数、层次与可调节的表现。"><link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css"><script src="../archive.js" defer></script></head><body class="document-page merchant"><a class="skip" href="#main">跳到正文</a><header class="site-header"><a class="wordmark" href="../index.html">SYMBOL<span>设计档案 / 2026</span></a><nav aria-label="主导航"><a href="../index.html#timeline">版本时间线</a><a href="../index.html#catalog">全部文档</a><a class="back-portfolio" href="../../index.html">作品集 <span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="doc-top"><a class="back-link" href="../index.html?project=merchant#catalog">← 返回远行商人文档</a><div class="doc-tags"><span>远行商人</span><span>迭代方案</span><span>交互表现</span></div><h1>粒子效果设计</h1><p class="doc-intro">把参考效果拆为粒子参数、层次与可调节的表现。</p><div class="doc-metadata"><span><strong>2026-07-17</strong>文件名日期</span><span><strong>6 分钟</strong>预计阅读</span><span><strong>1</strong>次可查提交</span><a class="download" href="../sources/2026-07-17-particle-fx-replica-design.md" download>下载本文 ↓</a></div></div><div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><a class="level-2" href="#背景">背景</a><a class="level-2" href="#目标">目标</a><a class="level-2" href="#非目标">非目标</a><a class="level-2" href="#贴图资产">贴图资产</a><a class="level-2" href="#通用播放组件">通用播放组件</a><a class="level-2" href="#模板-a-全屏彩纸礼花">模板 A：全屏彩纸礼花</a><a class="level-3" href="#分层">分层</a><a class="level-3" href="#运动目标">运动目标</a><a class="level-2" href="#模板-b-局部卡通爆炸">模板 B：局部卡通爆炸</a><a class="level-3" href="#分层-2">分层</a><a class="level-3" href="#运动目标-2">运动目标</a><a class="level-2" href="#独立预览场景">独立预览场景</a><a class="level-2" href="#移动端与渲染约束">移动端与渲染约束</a><a class="level-2" href="#验证">验证</a><a class="level-3" href="#自动契约">自动契约</a><a class="level-3" href="#手动视觉检查">手动视觉检查</a><a href="#source-record">来源与修改记录</a></nav></details><a class="to-top" href="#main">回到页首 ↑</a></aside><div class="doc-reading"><div class="archive-note"><span class="note-marker">档案说明</span><p>这是 2026-09-19 从工程收录的文本，可能包含后来补写的注释。正文中的“当前”“已实现”保留原有语境，不代表本站试玩版已逐项复验。</p></div><article class="prose" id="article"><h2 id="背景">背景<a class="heading-link" href="#背景" aria-label="链接到本节">#</a></h2><ul>
+<li>参考视频：<a href="https://www.bilibili.com/video/BV1mUKPzoEgJ/">《3分钟学会漂亮的2D粒子特效》</a>。</li>
+<li>视频开头前两个目标效果是彩纸礼花与卡通爆炸；教程使用 Cocos Creator 3.8.6 的 <code>ParticleSystem2D</code>。</li>
+<li>当前项目使用 Cocos Creator 3.8.7、手机竖屏设计分辨率 <code>720×1280</code>，已有 <code>FxAnchor</code> / <code>SettlementFxRoot</code>，但尚无正式粒子 Prefab。</li>
+<li>本轮先建立独立预览与可复用资产，不接入行动格、结算、过关或奖励流程。</li>
+</ul>
+<h2 id="目标">目标<a class="heading-link" href="#目标" aria-label="链接到本节">#</a></h2><ol>
+<li>创建全屏一次性彩纸礼花模板 <code>fx_confetti_celebration_v1</code>。</li>
+<li>创建约 <code>240–280px</code> 的局部卡通爆炸模板 <code>fx_cartoon_explosion_v1</code>。</li>
+<li>两个模板完全使用 Cocos <code>ParticleSystem2D</code> 多层组合，不使用序列帧动画或自定义运行时粒子模拟。</li>
+<li>创建 <code>720×1280</code> 独立预览场景，可切换礼花/爆炸、手动重播和自动循环。</li>
+<li>所有颜色、数量、尺寸、寿命、速度、重力、旋转、发射位置和分层延迟均由 Prefab/Inspector 或 <code>@property</code> 控制。</li>
+</ol>
+<h2 id="非目标">非目标<a class="heading-link" href="#非目标" aria-label="链接到本节">#</a></h2><ul>
+<li>不修改 <code>game_main</code>、行动格、分数结算、目标分、奖励或 Boss 流程。</li>
+<li>不加入音效、屏幕震动、暂停、镜头缩放或游戏触发条件。</li>
+<li>不直接截取视频画面或复制视频作者的贴图。</li>
+<li>不制作 Codex Skill；等模板在正式游戏中调顺后再整理复用流程。</li>
+</ul>
+<h2 id="贴图资产">贴图资产<a class="heading-link" href="#贴图资产" aria-label="链接到本节">#</a></h2><p>先用图像生成创建一张透明背景的原创形状图集，再裁切、清边和规范尺寸，产出四张 PNG：</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>文件</th><th style="text-align:right">目标尺寸</th><th>用途</th></tr></thead><tbody><tr><td><code>confetti_chip.png</code></td><td style="text-align:right"><code>32×32</code></td><td>白色略不规则方片/菱形；由不同发射器染成红、黄、蓝、绿、紫。</td></tr><tr><td><code>confetti_streak.png</code></td><td style="text-align:right"><code>32×128</code></td><td>白色细长、略弯、两端收窄的速度线。</td></tr><tr><td><code>explosion_blob_a.png</code></td><td style="text-align:right"><code>128×128</code></td><td>白色填充、深色手绘轮廓的不规则火团。</td></tr><tr><td><code>explosion_blob_b.png</code></td><td style="text-align:right"><code>128×128</code></td><td>与 A 轮廓明显不同的火团/烟团，减少重复印章感。</td></tr></tbody></table></div><p>四张图片均为透明 RGBA，四周留安全透明边，不带投影、文字、背景或发光。白色填充用于粒子颜色乘算，深色轮廓在黄、橙、红和烟色层中保持可见。</p>
+<p>目标目录：</p>
+<pre><code class="language-text">assets/resources/common/particle-fx/textures/
+</code></pre>
+<p>新 PNG 的 <code>.meta</code> 由当前根目录的 Cocos Creator 3.8.7 生成，不手写 UUID。</p>
+<h2 id="通用播放组件">通用播放组件<a class="heading-link" href="#通用播放组件" aria-label="链接到本节">#</a></h2><p>新增 <code>ParticleFxPlayerComp</code>，挂在每个粒子 Prefab 根节点：</p>
+<ul>
+<li>Inspector 中配置多个 <code>ParticleSystem2D</code> 发射器及其开始延迟。</li>
+<li><code>play()</code> 停止上一轮、清理存活粒子，并按延迟依次重播各发射器。</li>
+<li><code>stopAndClear()</code> 取消未触发的延迟并清空所有发射器。</li>
+<li>新一轮播放通过 revision/cancellation 隔离，旧回调不得启动粒子。</li>
+<li>组件只调用 <code>resetSystem()</code> / <code>stopSystem()</code> 和调度延迟，不修改粒子的颜色、大小、速度、位置、纹理或混合参数。</li>
+<li>模板默认 <code>Play On Load = false</code>、不自动删除，方便预览和以后池化复用。</li>
+</ul>
+<h2 id="模板-a-全屏彩纸礼花">模板 A：全屏彩纸礼花<a class="heading-link" href="#模板-a-全屏彩纸礼花" aria-label="链接到本节">#</a></h2><p>稳定 ID / Prefab 名：<code>fx_confetti_celebration_v1</code>。</p>
+<h3 id="分层">分层<a class="heading-link" href="#分层" aria-label="链接到本节">#</a></h3><ul>
+<li>竖屏画布内设置 3 个错开的爆发点，约在 <code>0s</code>、<code>0.18s</code>、<code>0.36s</code> 启动。</li>
+<li>每个爆发点包含五种固定色方片发射器和一组白色速度线发射器。</li>
+<li>方片使用同一张白色贴图，通过发射器颜色形成离散的红、黄、蓝、绿、紫调色板。</li>
+<li>速度线使用独立细长贴图，开启方向跟随，数量远少于方片。</li>
+</ul>
+<h3 id="运动目标">运动目标<a class="heading-link" href="#运动目标" aria-label="链接到本节">#</a></h3><ul>
+<li>方片高速向上和两侧喷出，初始方向有较大随机范围。</li>
+<li>方片寿命约 <code>1.8–2.6s</code>，持续随机旋转，受向下重力影响形成抛物线，末段淡出。</li>
+<li>白线寿命约 <code>0.45–0.8s</code>，速度高于方片，迅速拉开后淡出。</li>
+<li>总表现约 <code>2.6s</code>；任一时刻活跃粒子不超过 <code>180</code>。</li>
+<li>爆发覆盖大半个 <code>720×1280</code> 画面，但底部按钮区可在预览场景中临时置于更高层。</li>
+</ul>
+<h2 id="模板-b-局部卡通爆炸">模板 B：局部卡通爆炸<a class="heading-link" href="#模板-b-局部卡通爆炸" aria-label="链接到本节">#</a></h2><p>稳定 ID / Prefab 名：<code>fx_cartoon_explosion_v1</code>。</p>
+<h3 id="分层-2">分层<a class="heading-link" href="#分层-2" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>层</th><th style="text-align:right">延迟范围</th><th>视觉作用</th></tr></thead><tbody><tr><td>黄芯</td><td style="text-align:right"><code>0–0.02s</code></td><td>最先出现的小型高亮火团，快速放大。</td></tr><tr><td>橙焰</td><td style="text-align:right"><code>0.02–0.05s</code></td><td>中层主体，位置和尺寸有随机差异。</td></tr><tr><td>红色外焰</td><td style="text-align:right"><code>0.05–0.08s</code></td><td>扩张到最外侧，形成冲击轮廓。</td></tr><tr><td>深色烟团</td><td style="text-align:right"><code>0.08–0.12s</code></td><td>从后方和上方出现，缓慢上浮并淡出。</td></tr><tr><td>火星</td><td style="text-align:right"><code>0.06–0.10s</code></td><td>少量小粒子向外弹射，补充爆发速度感。</td></tr></tbody></table></div><h3 id="运动目标-2">运动目标<a class="heading-link" href="#运动目标-2" aria-label="链接到本节">#</a></h3><ul>
+<li>黄、橙、红三层使用两张不规则黑边火团贴图交错，避免同形重复。</li>
+<li>火团以较低移动速度和明显的尺寸增长为主，利用位置、角度、寿命和尺寸差异形成手绘团簇。</li>
+<li>烟团速度较慢并向上漂移，颜色为深棕黑，不使用发光混合。</li>
+<li>主爆炸约 <code>0.65s</code>，烟团延续到约 <code>0.95s</code>；任一时刻活跃粒子不超过 <code>45</code>。</li>
+<li>根节点视觉直径约 <code>240–280px</code>，后续可整体缩放挂到行动格或道具 <code>FxAnchor</code>。</li>
+</ul>
+<h2 id="独立预览场景">独立预览场景<a class="heading-link" href="#独立预览场景" aria-label="链接到本节">#</a></h2><p>路径：</p>
+<pre><code class="language-text">assets/dev/particle-fx-lab/particle_fx_lab.scene
+</code></pre>
+<ul>
+<li>画布 <code>720×1280</code>，使用深色无纹理背景以便检查透明边和颜色。</li>
+<li>场景同时实例化两个模板，但一次只启用一个预览模式。</li>
+<li>底部提供“礼花”“爆炸”“重新播放”三个按钮和当前模式标题。</li>
+<li>默认进入礼花模式；Inspector 可开关自动循环。</li>
+<li>礼花循环间隔约 <code>3.2s</code>，爆炸循环间隔约 <code>1.4s</code>，两个间隔均为 <code>@property</code>。</li>
+<li>切换模式时必须取消旧模式的延迟、清空旧粒子并立即播放新模式。</li>
+<li>预览场景不注册 <code>UIID</code>，不进入正式构建流程，不依赖 <code>game_main</code>。</li>
+</ul>
+<h2 id="移动端与渲染约束">移动端与渲染约束<a class="heading-link" href="#移动端与渲染约束" aria-label="链接到本节">#</a></h2><ul>
+<li>只使用 2D 粒子，不引入 3D ParticleSystem、灯光或后处理。</li>
+<li>所有模板为一次性发射；自动循环只存在于实验室控制器。</li>
+<li>控制总活跃粒子：礼花 <code>≤180</code>，爆炸 <code>≤45</code>。</li>
+<li>纹理尺寸不超过 <code>128×128</code>，保持透明裁切，优先复用材质与贴图。</li>
+<li>粒子 Prefab 的层级、颜色、混合方式、发射参数和锚点均由 Prefab 决定；正式业务代码未来只能调用 <code>play()</code>。</li>
+</ul>
+<h2 id="验证">验证<a class="heading-link" href="#验证" aria-label="链接到本节">#</a></h2><h3 id="自动契约">自动契约<a class="heading-link" href="#自动契约" aria-label="链接到本节">#</a></h3><ul>
+<li>两个稳定 Prefab 和四张透明 RGBA 贴图存在，图片尺寸符合设计。</li>
+<li>两个 Prefab 只使用 <code>ParticleSystem2D</code>，不包含 3D ParticleSystem 或序列帧动画组件。</li>
+<li>两个根节点均绑定 <code>ParticleFxPlayerComp</code>，所有 cue 都指向自身 Prefab 内的发射器。</li>
+<li>礼花总粒子容量不超过 <code>180</code>，爆炸不超过 <code>45</code>。</li>
+<li>所有粒子 <code>Play On Load = false</code>，两个模板均可重复 <code>play()</code>。</li>
+<li>实验室画布为 <code>720×1280</code>，包含两个模板实例、三个按钮和循环间隔字段。</li>
+<li>正式 <code>game_main</code>、<code>board_cell</code>、结算脚本没有新增粒子引用或触发调用。</li>
+</ul>
+<h3 id="手动视觉检查">手动视觉检查<a class="heading-link" href="#手动视觉检查" aria-label="链接到本节">#</a></h3><ul>
+<li>礼花分别检查起爆、最高点、下落和完全消失四个阶段；方片与白线层次清楚。</li>
+<li>爆炸分别检查 <code>0.1s</code>、<code>0.35s</code>、<code>0.65s</code>、<code>0.95s</code>；黄芯、橙焰、红外焰和黑烟顺序正确。</li>
+<li>连续重播十次不得残留旧粒子或出现上一轮延迟串入下一轮。</li>
+<li>在手机竖屏预览中无明显卡顿、透明黑边、白底方块或按钮遮挡。</li>
+</ul>
+</article><section class="source-record" id="source-record"><p class="eyebrow">SOURCE & REVISIONS</p><h2>来源与修改记录</h2><dl><dt>原文标题</dt><dd>视频粒子效果复刻设计</dd><dt>工程内文件</dt><dd><code>docs/superpowers/specs/2026-07-17-particle-fx-replica-design.md</code></dd><dt>收录方式</dt><dd>从现存工程文件收录，保留原段落与参数；仅做网页排版、本机路径匿名化与链接整理。</dd><dt>日期依据</dt><dd>文件名日期 · 2026-07-17。正文日期、首次入库日期与修订日期可能不同。</dd></dl><details class="history" open><summary>查看 1 次文件提交记录</summary><p>以下为包含此文件变化的提交。提交说明可能涉及整个项目，不代表该文档单独完成了所有列出的功能。</p><ol><li><time>2026-07-17</time><div><code>73ca9b6</code><p>docs: design reusable 2d particle effect previews</p></div></li></ol></details></section><nav class="adjacent" aria-label="相邻文档"><a href="2026-07-17-game-polish-and-build-validation-design.html"><small>上一篇</small>体验打磨与构建验证</a><a href="2026-07-17-partner-icon-and-board-highlight-separation-design.html"><small>下一篇</small>图标与棋盘高亮分层</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>两个独立游戏，从原型到迭代的设计记录。</p></div><p>整理于 2026.09.19<br><a href="../index.html#about">收录与日期说明</a> · <a href="../../index.html">返回作品集 ↗</a></p></footer></body></html>

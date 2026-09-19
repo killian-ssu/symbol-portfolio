@@ -1,0 +1,132 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f4f2eb"><title>Noon v0.4「内容与感知验证版」策划 · Symbol 策划档案</title><meta name="description" content="用五关与三类鸟验证：敌人组合是否改变松手时机，升级是否能被看见。"><link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css"><script src="../archive.js" defer></script></head><body class="document-page midnight"><a class="skip" href="#main">跳到正文</a><header class="site-header"><a class="wordmark" href="../index.html">SYMBOL<span>设计档案 / 2026</span></a><nav aria-label="主导航"><a href="../index.html#timeline">版本时间线</a><a href="../index.html#catalog">全部文档</a><a class="back-portfolio" href="../../index.html">作品集 <span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="doc-top"><a class="back-link" href="../index.html?project=midnight#catalog">← 返回子时已到文档</a><div class="doc-tags"><span>子时已到</span><span>历史方案</span><span>核心玩法</span></div><h1>Noon v0.4「内容与感知验证版」策划</h1><p class="doc-intro">用五关与三类鸟验证：敌人组合是否改变松手时机，升级是否能被看见。</p><div class="doc-metadata"><span><strong>未署日期</strong>未署日期</span><span><strong>7 分钟</strong>预计阅读</span><span><strong>—</strong>无 Git 历史</span><a class="download" href="../sources/birds-v4.md" download>下载本文 ↓</a></div></div><div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><a class="level-2" href="#一-版本结论">一、版本结论</a><a class="level-2" href="#二-体验目标">二、体验目标</a><a class="level-3" href="#玩家首先注意到">玩家首先注意到</a><a class="level-3" href="#玩家接下来想做">玩家接下来想做</a><a class="level-3" href="#一局的情绪节奏">一局的情绪节奏</a><a class="level-2" href="#三-保持不变的核心规则">三、保持不变的核心规则</a><a class="level-2" href="#四-v0-4-内容范围">四、v0.4 内容范围</a><a class="level-2" href="#五-敌人设计">五、敌人设计</a><a class="level-3" href="#1-普通鸟">1. 普通鸟</a><a class="level-3" href="#2-快枪鸟">2. 快枪鸟</a><a class="level-3" href="#3-连发鸟">3. 连发鸟</a><a class="level-2" href="#六-五关节奏">六、五关节奏</a><a class="level-3" href="#波次模板">波次模板</a><a class="level-2" href="#七-升级系统">七、升级系统</a><a class="level-3" href="#升级验收规则">升级验收规则</a><a class="level-2" href="#八-表现层样板">八、表现层样板</a><a class="level-3" href="#美术最小交付">美术最小交付</a><a class="level-3" href="#子弹时间表现">子弹时间表现</a><a class="level-3" href="#声音最小交付">声音最小交付</a><a class="level-2" href="#九-界面调整">九、界面调整</a><a class="level-2" href="#十-试玩与数据验证">十、试玩与数据验证</a><a class="level-3" href="#试玩样本">试玩样本</a><a class="level-3" href="#通过标准">通过标准</a><a class="level-3" href="#建议记录事件">建议记录事件</a><a class="level-2" href="#十一-本版本明确不做">十一、本版本明确不做</a><a class="level-2" href="#十二-制作顺序">十二、制作顺序</a><a class="level-3" href="#v0-4a-白盒内容版">v0.4a：白盒内容版</a><a class="level-3" href="#v0-4b-表现样板版">v0.4b：表现样板版</a><a href="#source-record">来源与修改记录</a></nav></details><a class="to-top" href="#main">回到页首 ↑</a></aside><div class="doc-reading"><div class="archive-note"><span class="note-marker">档案说明</span><p>这是 2026-09-19 从工程收录的文本，可能包含后来补写的注释。正文中的“当前”“已实现”保留原有语境，不代表本站试玩版已逐项复验。</p><p>原文件未署完整写作日期。版本顺序可供追溯，具体日期未补写。</p></div><article class="prose" id="article"><blockquote>
+<p>状态：鸟类主题历史方案，仅用于设计追溯；当前实际规则以 <code>PROTOTYPE_RULES.md</code> 为准。</p>
+</blockquote>
+<h2 id="一-版本结论">一、版本结论<a class="heading-link" href="#一-版本结论" aria-label="链接到本节">#</a></h2><p>v0.4 不直接扩成十关，也不加入局外成长。版本目标是验证两件事：</p>
+<ol>
+<li>在完全自动锁定的前提下，不同敌人组合能否真正改变玩家“继续按住”还是“立刻松手”的判断。</li>
+<li>每次二选一升级，能否在随后两波内被玩家直接看见并感受到，而不是只改变后台数值。</li>
+</ol>
+<p>版本规模建议从三关扩为五关，形成约 4—6 分钟的一局。同步制作一套代表性场景、角色、敌人、爆破和声音样板，但不批量生产十关美术。</p>
+<h2 id="二-体验目标">二、体验目标<a class="heading-link" href="#二-体验目标" aria-label="链接到本节">#</a></h2><h3 id="玩家首先注意到">玩家首先注意到<a class="heading-link" href="#玩家首先注意到" aria-label="链接到本节">#</a></h3><ul>
+<li>长按后整个场景进入明显的灰化、减速、镜头推进和声音降速状态。</li>
+<li>准星自动选择最危险目标，不需要移动手指寻找目标。</li>
+</ul>
+<h3 id="玩家接下来想做">玩家接下来想做<a class="heading-link" href="#玩家接下来想做" aria-label="链接到本节">#</a></h3><ul>
+<li>观察场上还能否再锁一个目标。</li>
+<li>在“多锁一个形成更大齐射”和“先拦下临近弹丸保命”之间决定松手时机。</li>
+</ul>
+<h3 id="一局的情绪节奏">一局的情绪节奏<a class="heading-link" href="#一局的情绪节奏" aria-label="链接到本节">#</a></h3><p><code>观察来敌 → 长按蓄势 → 威胁逼近 → 决定松手 → 快速齐射 → 连续爆破 → 二选一强化 → 下一关立刻感到变化</code></p>
+<h2 id="三-保持不变的核心规则">三、保持不变的核心规则<a class="heading-link" href="#三-保持不变的核心规则" aria-label="链接到本节">#</a></h2><ul>
+<li>竖屏、角色固定、三颗心。</li>
+<li>只有长按和松开，不加入移动、拖动准星与弹药库存。</li>
+<li>自动锁定，来袭弹丸优先于鸟。</li>
+<li>固定敌人编排，清场后换波，不使用倒计时通关。</li>
+<li>锁定和齐射属于不可截断的完整收益段。</li>
+<li>每关结束二选一，分数与连击不作为通关条件。</li>
+</ul>
+<h2 id="四-v0-4-内容范围">四、v0.4 内容范围<a class="heading-link" href="#四-v0-4-内容范围" aria-label="链接到本节">#</a></h2><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>内容</th><th style="text-align:right">v0.3</th><th style="text-align:right">v0.4目标</th></tr></thead><tbody><tr><td>小关</td><td style="text-align:right">3</td><td style="text-align:right">5</td></tr><tr><td>总波次</td><td style="text-align:right">10</td><td style="text-align:right">18</td></tr><tr><td>鸟类行为</td><td style="text-align:right">1种基础行为</td><td style="text-align:right">3种可辨认行为</td></tr><tr><td>升级</td><td style="text-align:right">6项</td><td style="text-align:right">保留6项并强化表现</td></tr><tr><td>二选一次数</td><td style="text-align:right">2</td><td style="text-align:right">4</td></tr><tr><td>场景美术</td><td style="text-align:right">程序化占位</td><td style="text-align:right">1套代表性完成度样板</td></tr><tr><td>声音</td><td style="text-align:right">程序化占位</td><td style="text-align:right">1段音乐样板与核心反馈音组</td></tr></tbody></table></div><h2 id="五-敌人设计">五、敌人设计<a class="heading-link" href="#五-敌人设计" aria-label="链接到本节">#</a></h2><p>敌人不能只更换颜色和速度。每一种都必须改变长按或松手的判断。</p>
+<h3 id="1-普通鸟">1. 普通鸟<a class="heading-link" href="#1-普通鸟" aria-label="链接到本节">#</a></h3><ul>
+<li>清楚的单次感叹号预警。</li>
+<li>发射一枚普通弹丸。</li>
+<li>作用：建立基本节奏，也是群体齐射的主体。</li>
+</ul>
+<h3 id="2-快枪鸟">2. 快枪鸟<a class="heading-link" href="#2-快枪鸟" aria-label="链接到本节">#</a></h3><ul>
+<li>体型较小，使用紫红色羽毛和双感叹号预警。</li>
+<li>预警时间较长且清楚，但发射的弹丸速度很快。</li>
+<li>作用：迫使玩家提前注意威胁，减少无脑长按到专注耗尽。</li>
+<li>设计要求：快的是弹丸，不是完全无法反应的预警。</li>
+</ul>
+<h3 id="3-连发鸟">3. 连发鸟<a class="heading-link" href="#3-连发鸟" aria-label="链接到本节">#</a></h3><ul>
+<li>体型较宽，枪口或喙部有两个依次亮起的发射点。</li>
+<li>连续发射两枚普通弹丸，间隔约 <code>0.45秒</code>。</li>
+<li>作用：制造最核心的松手判断——拦下第一枚立即开火，还是继续按住等待第二枚进入锁定范围。</li>
+<li>设计要求：第二次发射必须在视觉与声音上提前承诺，不能偷袭。</li>
+</ul>
+<p>暂不加入护甲鸟、无害诱饵、二心伤害炸弹与 Boss。自动锁定尚未证明能良好处理这些目标，过早加入会把问题变成目标选择与例外规则。</p>
+<h2 id="六-五关节奏">六、五关节奏<a class="heading-link" href="#六-五关节奏" aria-label="链接到本节">#</a></h2><p>敌人类型、出现时间和方向使用固定脚本；只允许高度或间隔有很小的随机扰动，方便重复试玩与定位问题。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>关卡</th><th>波次单位数</th><th>新内容</th><th>主要判断</th></tr></thead><tbody><tr><td>第1关</td><td>2 / 3 / 4</td><td>普通鸟与无文字教学</td><td>学会按住、锁定、松手</td></tr><tr><td>第2关</td><td>3 / 4 / 5</td><td>快枪鸟</td><td>看到快弹预警后提前准备</td></tr><tr><td>第3关</td><td>3 / 4 / 4 / 5</td><td>连发鸟</td><td>第一弹后松手，还是等待第二弹</td></tr><tr><td>第4关</td><td>4 / 5 / 5 / 6</td><td>三类混编</td><td>在鸟群收益与弹丸威胁间切换</td></tr><tr><td>第5关</td><td>4 / 5 / 6 / 7</td><td>高密度综合考核</td><td>用四次强化完成最终齐射高潮</td></tr></tbody></table></div><h3 id="波次模板">波次模板<a class="heading-link" href="#波次模板" aria-label="链接到本节">#</a></h3><ul>
+<li><strong>铺场波</strong>：慢速普通鸟依次入场，鼓励长按积累三到四个标记。</li>
+<li><strong>抢断波</strong>：鸟群形成后，快枪鸟的弹丸插入，迫使玩家提前松手。</li>
+<li><strong>连发波</strong>：两只连发鸟错开射击，测试玩家是否理解第二发预警。</li>
+<li><strong>混编波</strong>：普通鸟提供收益，快枪鸟和连发鸟负责打断贪心。</li>
+<li><strong>高潮波</strong>：先提供一次四至五连的爽点，再用明确预警制造最后一次防守压力。</li>
+</ul>
+<p>每关第一波承担“展示上一项升级”的职责，不在玩家刚选完强化后立刻塞入最危险组合。</p>
+<h2 id="七-升级系统">七、升级系统<a class="heading-link" href="#七-升级系统" aria-label="链接到本节">#</a></h2><p>v0.4 不扩大升级目录，先验证现有六项是否都能被玩家察觉。四次选择从未获得的升级中二选一。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>升级</th><th>规则保持</th><th>v0.4必须补充的可见反馈</th></tr></thead><tbody><tr><td>快眼</td><td>锁定速度 +20%</td><td>环形填充出现明显加速光尾</td></tr><tr><td>多重标记</td><td>锁定上限 +1</td><td>HUD增加第五个标记槽，满标时逐个点亮</td></tr><tr><td>深呼吸</td><td>专注上限 +0.6秒</td><td>专注条增加一段不同颜色的延伸区</td></tr><tr><td>副准星</td><td>45%速度并行锁定</td><td>第二准星入场动画与独立锁定音色</td></tr><tr><td>震荡弹</td><td>拦截摧毁附近弹丸</td><td>清楚的圆形冲击波与连锁拦截文本</td></tr><tr><td>回神</td><td>拦截恢复0.35秒专注</td><td>弹丸碎片回流专注条，恢复段闪亮</td></tr></tbody></table></div><h3 id="升级验收规则">升级验收规则<a class="heading-link" href="#升级验收规则" aria-label="链接到本节">#</a></h3><ul>
+<li>玩家选完后两波内必须存在一次自然触发机会。</li>
+<li>不依赖另一项升级才能首次生效。</li>
+<li>试玩后不展示升级文字，让玩家描述刚才发生了什么。</li>
+<li>如果多数玩家只能说“好像更强了”，但说不出变化位置，则该升级的表现未通过。</li>
+</ul>
+<h2 id="八-表现层样板">八、表现层样板<a class="heading-link" href="#八-表现层样板" aria-label="链接到本节">#</a></h2><h3 id="美术最小交付">美术最小交付<a class="heading-link" href="#美术最小交付" aria-label="链接到本节">#</a></h3><ul>
+<li>一张完成度较高的 <code>720×1280</code> 黄昏或夜幕防守场景。</li>
+<li>主角四个状态：待机、进入专注、快速连射、受击。</li>
+<li>普通鸟、快枪鸟、连发鸟各一套清楚轮廓。</li>
+<li>三种弹丸轮廓：普通弹、快速弹、连发弹；颜色不是唯一辨识手段。</li>
+<li>一套命中爆破、弹丸拦截、震荡波与五连高潮特效。</li>
+</ul>
+<p>先用“场景＋角色＋一种鸟＋一次完整齐射”制作动态风格样板，通过后再扩另外两种鸟，避免只凭静态图批量生产。</p>
+<h3 id="子弹时间表现">子弹时间表现<a class="heading-link" href="#子弹时间表现" aria-label="链接到本节">#</a></h3><ul>
+<li>用真正的场景灰化或低饱和处理替代单纯半透明遮罩。</li>
+<li>镜头推进保持轻微，HUD不随场景缩放。</li>
+<li>暗角只作为边缘气氛，不出现独立圆环或抢眼边框。</li>
+<li>锁定目标保持原有重点色，非目标轻微压暗。</li>
+<li>松手先恢复高对比色，再快速连射，形成“压住—爆开”的反差。</li>
+</ul>
+<h3 id="声音最小交付">声音最小交付<a class="heading-link" href="#声音最小交付" aria-label="链接到本节">#</a></h3><ul>
+<li>一段 <code>20—30秒</code> 可循环背景音乐样板。</li>
+<li>一份正常速度与一份子弹时间低速、低通版本，可平滑切换。</li>
+<li>核心反馈音：进入专注、锁定推进、锁定完成、松手、连续五档枪声、鸟命中、弹丸拦截、受击。</li>
+<li>连续枪声的档位覆盖玩家感知的一整次齐射，不因目标类型重置。</li>
+</ul>
+<h2 id="九-界面调整">九、界面调整<a class="heading-link" href="#九-界面调整" aria-label="链接到本节">#</a></h2><ul>
+<li>顶部保留关卡、波次、三颗心、专注和锁定容量，不增加总分。</li>
+<li>波次从大号文字逐步改成更轻的点阵或段落指示，减少顶部信息拥挤。</li>
+<li>连击数字保留为爽感反馈，但在没有连续命中时快速退场。</li>
+<li>第一局仍以手势和真实慢速弹丸教学；不增加规则说明页。</li>
+<li>新敌人第一次出现时，优先用轮廓、预警节奏和发射动作教学，最多补一句短提示。</li>
+</ul>
+<h2 id="十-试玩与数据验证">十、试玩与数据验证<a class="heading-link" href="#十-试玩与数据验证" aria-label="链接到本节">#</a></h2><h3 id="试玩样本">试玩样本<a class="heading-link" href="#试玩样本" aria-label="链接到本节">#</a></h3><ul>
+<li>至少 <code>5名</code> 没听过口头说明的新玩家。</li>
+<li>至少 <code>3名</code> 已玩过v0.3的玩家，用于比较内容差异与升级感知。</li>
+</ul>
+<h3 id="通过标准">通过标准<a class="heading-link" href="#通过标准" aria-label="链接到本节">#</a></h3><ul>
+<li>新玩家中至少 <code>4/5</code> 在十秒内完成第一次有效长按与松手。</li>
+<li>至少 <code>4/5</code> 能说出“三颗心耗尽失败、清完敌人过关”。</li>
+<li>至少 <code>3/5</code> 会主动提到一次“想再锁一个”和“必须先松手保命”的权衡。</li>
+<li>快枪鸟和连发鸟的行为辨认率达到 <code>4/5</code>，且不是只靠颜色猜测。</li>
+<li>每项被选择的升级，至少 <code>70%</code> 的玩家能在随后两波内注意到其效果。</li>
+<li>已锁定齐射被换波或结算截断的次数必须为 <code>0</code>。</li>
+<li>首次完整一局目标时长为 <code>4—6分钟</code>。</li>
+</ul>
+<h3 id="建议记录事件">建议记录事件<a class="heading-link" href="#建议记录事件" aria-label="链接到本节">#</a></h3><ul>
+<li>每次长按持续时间、手动松手或专注耗尽。</li>
+<li>一次齐射的锁定数、鸟与弹丸比例。</li>
+<li>弹丸命中玩家前剩余距离。</li>
+<li>每关受击数、失败波次与所选升级。</li>
+<li>快枪鸟与连发鸟出现后，玩家第一次松手发生在什么阶段。</li>
+</ul>
+<h2 id="十一-本版本明确不做">十一、本版本明确不做<a class="heading-link" href="#十一-本版本明确不做" aria-label="链接到本节">#</a></h2><ul>
+<li>不扩成十关，不制作 Boss。</li>
+<li>不加入分数通关、金币、局外成长、任务与广告系统。</li>
+<li>不加入角色移动、手动准星、换弹与枪械库存。</li>
+<li>不超过三种敌人行为。</li>
+<li>不增加大量升级；先证明现有六项都能改变体验。</li>
+<li>不批量制作多场景；先通过一套动态美术和声音样板。</li>
+</ul>
+<h2 id="十二-制作顺序">十二、制作顺序<a class="heading-link" href="#十二-制作顺序" aria-label="链接到本节">#</a></h2><h3 id="v0-4a-白盒内容版">v0.4a：白盒内容版<a class="heading-link" href="#v0-4a-白盒内容版" aria-label="链接到本节">#</a></h3><ol>
+<li>把鸟的生成配置改成可编排敌人类型、时间、方向和高度的波次脚本。</li>
+<li>实现快枪鸟和连发鸟。</li>
+<li>扩成五关、四次二选一。</li>
+<li>为六项升级补齐明确的运行时表现。</li>
+<li>完成第一轮内部节奏测试。</li>
+</ol>
+<h3 id="v0-4b-表现样板版">v0.4b：表现样板版<a class="heading-link" href="#v0-4b-表现样板版" aria-label="链接到本节">#</a></h3><ol>
+<li>替换一套代表性场景、主角和三种鸟。</li>
+<li>完成真实灰化、镜头、暗角与齐射爆破。</li>
+<li>接入背景音乐正常/低速版本和核心反馈音组。</li>
+<li>完成陌生玩家试玩与数据记录。</li>
+</ol>
+<p>只有v0.4证明敌人会改变松手判断、升级能被直接感知后，v0.5才扩展十关、精英敌人或Boss。</p>
+</article><section class="source-record" id="source-record"><p class="eyebrow">SOURCE & REVISIONS</p><h2>来源与修改记录</h2><dl><dt>原文标题</dt><dd>Noon v0.4「内容与感知验证版」策划</dd><dt>工程内文件</dt><dd><code>docs/V0_4_PLAN.md</code></dd><dt>收录方式</dt><dd>从现存工程文件收录，保留原段落与参数；仅做网页排版、本机路径匿名化与链接整理。</dd><dt>日期依据</dt><dd>未署日期。正文日期、首次入库日期与修订日期可能不同。</dd></dl><p class="muted">此工程未找到 Git 历史，暂不展示逐次修改日期。不会以文件复制时间推定写作时间。</p></section><nav class="adjacent" aria-label="相邻文档"><span></span><a href="birds-v5.html"><small>下一篇</small>Noon v0.5「十关压力与齐射成长版」策划</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>两个独立游戏，从原型到迭代的设计记录。</p></div><p>整理于 2026.09.19<br><a href="../index.html#about">收录与日期说明</a> · <a href="../../index.html">返回作品集 ↗</a></p></footer></body></html>

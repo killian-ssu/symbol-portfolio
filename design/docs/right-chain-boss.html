@@ -1,0 +1,112 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f4f2eb"><title>行动累计与随机 Boss 开发说明 · Symbol 策划档案</title><meta name="description" content="行动成长、章节推进和 Boss 如何检验一局构筑。"><link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css"><script src="../archive.js" defer></script></head><body class="document-page merchant"><a class="skip" href="#main">跳到正文</a><header class="site-header"><a class="wordmark" href="../index.html">SYMBOL<span>设计档案 / 2026</span></a><nav aria-label="主导航"><a href="../index.html#timeline">版本时间线</a><a href="../index.html#catalog">全部文档</a><a class="back-portfolio" href="../../index.html">作品集 <span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="doc-top"><a class="back-link" href="../index.html?project=merchant#catalog">← 返回远行商人文档</a><div class="doc-tags"><span>远行商人</span><span>历史方案</span><span>构筑成长</span></div><h1>行动累计与随机 Boss 开发说明</h1><p class="doc-intro">行动成长、章节推进和 Boss 如何检验一局构筑。</p><div class="doc-metadata"><span><strong>2026-07-11</strong>正文日期</span><span><strong>6 分钟</strong>预计阅读</span><span><strong>1</strong>次可查提交</span><a class="download" href="../sources/right-chain-boss.md" download>下载本文 ↓</a></div></div><div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><a class="level-2" href="#1-行动累计">1. 行动累计</a><a class="level-2" href="#2-与右向道具链的边界">2. 与右向道具链的边界</a><a class="level-2" href="#3-boss-抽取与解除">3. Boss 抽取与解除</a><a class="level-2" href="#4-boss-规则池">4. Boss 规则池</a><a class="level-3" href="#雾林-基础目标1-000">雾林：基础目标1,000</a><a class="level-3" href="#河湾-基础目标10-000">河湾：基础目标10,000</a><a class="level-3" href="#荒坡-基础目标100-000">荒坡：基础目标100,000</a><a class="level-3" href="#金砂谷-基础目标1-000-000">金砂谷：基础目标1,000,000</a><a class="level-2" href="#5-藏品联动">5. 藏品联动</a><a class="level-2" href="#6-纸面校验">6. 纸面校验</a><a class="level-2" href="#7-当前不实施">7. 当前不实施</a><a href="#source-record">来源与修改记录</a></nav></details><a class="to-top" href="#main">回到页首 ↑</a></aside><div class="doc-reading"><div class="archive-note"><span class="note-marker">档案说明</span><p>这是 2026-09-19 从工程收录的文本，可能包含后来补写的注释。正文中的“当前”“已实现”保留原有语境，不代表本站试玩版已逐项复验。</p></div><article class="prose" id="article"><p>版本：v1<br>日期：2026-07-11<br>状态：当前实施依据</p>
+<p>本文把行动累计、随机 Boss、右向道具连锁和局末藏品连接成一套可配置规则。机器可读配置位于：</p>
+<ul>
+<li><code>data/action_progression.json</code></li>
+<li><code>data/boss_rules.json</code></li>
+</ul>
+<p>可执行参考位于：</p>
+<ul>
+<li><code>scripts/action_boss_rules.py</code></li>
+<li><code>scripts/validate_action_boss_config.py</code></li>
+<li><code>tests/test_action_boss_rules.py</code></li>
+</ul>
+<hr>
+<h2 id="1-行动累计">1. 行动累计<a class="heading-link" href="#1-行动累计" aria-label="链接到本节">#</a></h2><p>顶部同时显示五类行动的当前进度和本局加成：</p>
+<pre><code class="language-text">伐木 7/10 +4  渔猎 3/10 +2  垦荒 5/10 +0
+采药 1/10 +2  淘金 8/10 +0
+</code></pre>
+<p>基础规则：</p>
+<ul>
+<li>初始行动分数为 <code>10</code>。</li>
+<li>每种行动独立累计。</li>
+<li>每打出10张同类原始行动，该行动本局永久 <code>+2</code>，进度扣除10后继续累计。</li>
+<li>升级发生在当轮分数计算前，所以刚满10张的本轮也使用新分数。</li>
+<li>行动再次触发、道具再次触发不增加行动累计。</li>
+<li>工具改色发生在玩家选择阶段，按工具改色后的类型累计。</li>
+<li>Boss 强制改色只改变场景结算类型，不改写玩家行动累计。</li>
+</ul>
+<p>推荐状态结构：</p>
+<pre><code class="language-ts">type ActionProgress = {
+  totalCount: number;
+  progress: number;
+  level: number;
+  scoreBonus: number;
+};
+
+type RunActionState = Record&lt;ActionType, ActionProgress&gt;;
+</code></pre>
+<p>当轮应保留两份类型：</p>
+<pre><code class="language-ts">type PlacedAction = {
+  playerType: ActionType;   // 工具处理后、Boss处理前，用于累计和Boss应对
+  resolvedType: ActionType; // Boss处理后，用于牌型和最终分数
+};
+</code></pre>
+<hr>
+<h2 id="2-与右向道具链的边界">2. 与右向道具链的边界<a class="heading-link" href="#2-与右向道具链的边界" aria-label="链接到本节">#</a></h2><ul>
+<li>五件道具放在区域1–5，按 <code>1 → 5</code> 结算。</li>
+<li>制造新触发的道具只能影响紧邻右侧。</li>
+<li>全场效果道具同样占据一个区域，也可以被再次触发。</li>
+<li>行动再次触发时，该区域道具再次执行。</li>
+<li>行动累计只读取每轮五张 <code>playerType</code>，不读取触发队列。</li>
+<li>Boss 规则不能永久删除道具、行动成长或整局工具。</li>
+<li>不设置整轮总触发次数上限；通过目标区域索引严格递增避免无限循环。</li>
+</ul>
+<p>触发顺序：</p>
+<pre><code class="language-text">第五张行动入场
+→ 提交五张 playerType
+→ 更新行动累计与Boss应对
+→ 若达到应对条件，立即解除Boss规则
+→ Boss规则生成 resolvedType 与当轮限制
+→ 区域1至5执行原始触发和右向连锁
+→ 计算行动分数、牌型倍率与本轮探索度
+</code></pre>
+<hr>
+<h2 id="3-boss-抽取与解除">3. Boss 抽取与解除<a class="heading-link" href="#3-boss-抽取与解除" aria-label="链接到本节">#</a></h2><p>每个地点有5条规则。进入Boss关时只按地点等概率抽取1条，不读取玩家道具、工具或行动成长。</p>
+<p>进入Boss关的界面顺序：</p>
+<ol>
+<li>抽取并公开场景限制。</li>
+<li>根据规则系数计算并显示最终探索度目标。</li>
+<li>显示应对行动与进度。</li>
+<li>允许玩家重新排列五件道具。</li>
+<li>开始第一轮。</li>
+</ol>
+<p>可解除规则使用：</p>
+<pre><code class="language-ts">type BossCounter = {
+  action: ActionType;
+  required: number;
+  count: number;
+  broken: boolean;
+};
+</code></pre>
+<p>达到要求时在当轮结算前解除。强构筑也可以不解除，直接以受限分数过关。</p>
+<p>最终目标：</p>
+<pre><code class="language-text">最终Boss目标 = 章节Boss基础目标 × 规则目标系数
+</code></pre>
+<p>规则系数不向玩家显示，只显示最后的整数目标。</p>
+<hr>
+<h2 id="4-boss-规则池">4. Boss 规则池<a class="heading-link" href="#4-boss-规则池" aria-label="链接到本节">#</a></h2><h3 id="雾林-基础目标1-000">雾林：基础目标1,000<a class="heading-link" href="#雾林-基础目标1-000" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>规则</th><th>限制</th><th>应对</th><th style="text-align:right">系数</th></tr></thead><tbody><tr><td>浓雾</td><td>每轮随机1个区域行动-50%。</td><td>4张伐木</td><td style="text-align:right">1.00</td></tr><tr><td>倒木</td><td>区域3道具的第一次触发无效。</td><td>5张伐木</td><td style="text-align:right">0.85</td></tr><tr><td>迷途</td><td>每轮第1张行动不参与牌型。</td><td>4张垦荒</td><td style="text-align:right">0.90</td></tr><tr><td>湿枝</td><td>每轮第1张工具牌无效。</td><td>4张采药</td><td style="text-align:right">0.95</td></tr><tr><td>树影</td><td>结算前交换区域4和区域5的行动。</td><td>4张渔猎</td><td style="text-align:right">0.95</td></tr></tbody></table></div><h3 id="河湾-基础目标10-000">河湾：基础目标10,000<a class="heading-link" href="#河湾-基础目标10-000" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>规则</th><th>限制</th><th>应对</th><th style="text-align:right">系数</th></tr></thead><tbody><tr><td>急流</td><td>每轮第一次向右触发无效。</td><td>5张垦荒</td><td style="text-align:right">0.90</td></tr><tr><td>涨潮</td><td>区域5行动-50%。</td><td>4张渔猎</td><td style="text-align:right">0.90</td></tr><tr><td>漂木</td><td>标记1个区域，该区域道具每次少触发1次。</td><td>5张伐木</td><td style="text-align:right">0.80</td></tr><tr><td>暗礁</td><td>区域3行动不参与牌型。</td><td>5张渔猎</td><td style="text-align:right">0.90</td></tr><tr><td>冲散</td><td>结算前随机交换相邻的两张行动。</td><td>5张垦荒</td><td style="text-align:right">0.90</td></tr></tbody></table></div><h3 id="荒坡-基础目标100-000">荒坡：基础目标100,000<a class="heading-link" href="#荒坡-基础目标100-000" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>规则</th><th>限制</th><th>应对</th><th style="text-align:right">系数</th></tr></thead><tbody><tr><td>逆风</td><td>所有右侧道具触发次数-1。</td><td>6张垦荒</td><td style="text-align:right">0.75</td></tr><tr><td>风沙</td><td>每轮随机1种行动-50%。</td><td>5张采药</td><td style="text-align:right">0.90</td></tr><tr><td>落石</td><td>每轮第1次道具再次触发无效。</td><td>5张伐木</td><td style="text-align:right">0.90</td></tr><tr><td>裂地</td><td>区域3向区域4的第1次触发无效。</td><td>6张垦荒</td><td style="text-align:right">0.85</td></tr><tr><td>缺粮</td><td>每轮第4张及之后的工具牌无效。</td><td>5张渔猎</td><td style="text-align:right">0.90</td></tr></tbody></table></div><h3 id="金砂谷-基础目标1-000-000">金砂谷：基础目标1,000,000<a class="heading-link" href="#金砂谷-基础目标1-000-000" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>规则</th><th>限制</th><th>应对</th><th style="text-align:right">系数</th></tr></thead><tbody><tr><td>流沙</td><td>结算前随机1张行动变为随机类型。</td><td>6张垦荒</td><td style="text-align:right">0.85</td></tr><tr><td>假金</td><td>再次触发的行动-50%。</td><td>6张淘金</td><td style="text-align:right">0.70</td></tr><tr><td>塌方</td><td>随机1件道具的原始触发无效。</td><td>6张垦荒</td><td style="text-align:right">0.80</td></tr><tr><td>金砂税</td><td>本关探索度目标+25%。</td><td>不可解除</td><td style="text-align:right">1.25</td></tr><tr><td>矿脉偏色</td><td>第5张行动在结算前变为淘金。</td><td>5张淘金</td><td style="text-align:right">0.95</td></tr></tbody></table></div><hr>
+<h2 id="5-藏品联动">5. 藏品联动<a class="heading-link" href="#5-藏品联动" aria-label="链接到本节">#</a></h2><p>行动次数只改变品类权重，不改变稀有度：</p>
+<ul>
+<li>使用次数最高的行动：对应标签权重 <code>×2</code>。</li>
+<li>使用次数第二高的行动：对应标签权重 <code>×1.5</code>。</li>
+<li>同一名次并列时全部获得该档权重。</li>
+<li>所有行动均为0时不加权。</li>
+</ul>
+<p>标签来自 <code>action_progression.json</code>，地点货品池负责把标签映射到实际藏品。</p>
+<p>普通Boss规则在成功解除后额外生成1个地点藏品候选，并保留稀有度较高者。金砂税不可解除，改为通关后额外生成1个候选。</p>
+<p>稀有度继续由到达地点、通关情况、最高单轮探索度和高阶牌型决定。行动使用次数不能直接保证高稀有度。</p>
+<hr>
+<h2 id="6-纸面校验">6. 纸面校验<a class="heading-link" href="#6-纸面校验" aria-label="链接到本节">#</a></h2><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>测试</th><th>输入</th><th style="text-align:right">结果</th></tr></thead><tbody><tr><td>行动满级</td><td>同类原始行动10张</td><td style="text-align:right">该行动永久+2</td></tr><tr><td>工具改色</td><td>采药改为淘金后打出</td><td style="text-align:right">淘金累计+1</td></tr><tr><td>Boss改色</td><td>玩家打出采药，Boss改为淘金</td><td style="text-align:right">采药累计+1</td></tr><tr><td>4次五段链</td><td>分支4、深度5</td><td style="text-align:right">341次</td></tr><tr><td>累计成长放大</td><td>+20、341次、倍率×10</td><td style="text-align:right">68,200</td></tr><tr><td>逆风目标</td><td>100,000×0.75</td><td style="text-align:right">75,000</td></tr><tr><td>假金目标</td><td>1,000,000×0.70</td><td style="text-align:right">700,000</td></tr><tr><td>金砂税目标</td><td>1,000,000×1.25</td><td style="text-align:right">1,250,000</td></tr></tbody></table></div><p>自动校验命令：</p>
+<pre><code class="language-bash">python3 -m unittest tests/test_action_boss_rules.py -v
+python3 scripts/validate_action_boss_config.py
+</code></pre>
+<hr>
+<h2 id="7-当前不实施">7. 当前不实施<a class="heading-link" href="#7-当前不实施" aria-label="链接到本节">#</a></h2><ul>
+<li>不根据玩家构筑针对性抽取Boss规则。</li>
+<li>不让行动再次触发灌入行动累计。</li>
+<li>不让行动累计直接决定藏品稀有度。</li>
+<li>不实现地点路线分叉或事件系统。</li>
+<li>不给Boss设置永久删除道具、成长或工具的规则。</li>
+</ul>
+<p>保留 <code>totalCount</code>、<code>level</code> 和 <code>bossRuleBroken</code>，供未来事件与路线系统读取。</p>
+</article><section class="source-record" id="source-record"><p class="eyebrow">SOURCE & REVISIONS</p><h2>来源与修改记录</h2><dl><dt>原文标题</dt><dd>《远行商人》行动累计与随机 Boss 开发说明</dd><dt>工程内文件</dt><dd><code>docs/v04-rightward-chain/action-progression-boss-system.md</code></dd><dt>收录方式</dt><dd>从现存工程文件收录，保留原段落与参数；仅做网页排版、本机路径匿名化与链接整理。</dd><dt>日期依据</dt><dd>正文日期 · 2026-07-11。正文日期、首次入库日期与修订日期可能不同。</dd></dl><details class="history" open><summary>查看 1 次文件提交记录</summary><p>以下为包含此文件变化的提交。提交说明可能涉及整个项目，不代表该文档单独完成了所有列出的功能。</p><ol><li><time>2026-07-11</time><div><code>d4a8037</code><p>feat: implement v0.4 rightward chain gameplay</p></div></li></ol></details></section><nav class="adjacent" aria-label="相邻文档"><a href="right-chain.html"><small>上一篇</small>当前策划案</a><a href="right-chain-balance.html"><small>下一篇</small>数值观察表</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>两个独立游戏，从原型到迭代的设计记录。</p></div><p>整理于 2026.09.19<br><a href="../index.html#about">收录与日期说明</a> · <a href="../../index.html">返回作品集 ↗</a></p></footer></body></html>

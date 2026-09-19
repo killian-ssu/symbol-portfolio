@@ -1,0 +1,192 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f4f2eb"><title>幽灵版后续优化方案 · Symbol 策划档案</title><meta name="description" content="转向幽灵显形窗口，整理四类敌人、Boss、耐力与六种升级。"><link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css"><script src="../archive.js" defer></script></head><body class="document-page midnight"><a class="skip" href="#main">跳到正文</a><header class="site-header"><a class="wordmark" href="../index.html">SYMBOL<span>设计档案 / 2026</span></a><nav aria-label="主导航"><a href="../index.html#timeline">版本时间线</a><a href="../index.html#catalog">全部文档</a><a class="back-portfolio" href="../../index.html">作品集 <span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="doc-top"><a class="back-link" href="../index.html?project=midnight#catalog">← 返回子时已到文档</a><div class="doc-tags"><span>子时已到</span><span>阶段方案</span><span>核心玩法</span></div><h1>幽灵版后续优化方案</h1><p class="doc-intro">转向幽灵显形窗口，整理四类敌人、Boss、耐力与六种升级。</p><div class="doc-metadata"><span><strong>未署日期</strong>未署日期</span><span><strong>12 分钟</strong>预计阅读</span><span><strong>—</strong>无 Git 历史</span><a class="download" href="../sources/ghost-plan.md" download>下载本文 ↓</a></div></div><div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><a class="level-2" href="#一-版本结论">一、版本结论</a><a class="level-2" href="#二-目标体验与节奏">二、目标体验与节奏</a><a class="level-3" href="#玩家第一眼看到">玩家第一眼看到</a><a class="level-3" href="#玩家接下来想做">玩家接下来想做</a><a class="level-3" href="#一局的情绪曲线">一局的情绪曲线</a><a class="level-2" href="#三-基础操作与资源契约">三、基础操作与资源契约</a><a class="level-3" href="#保留的核心语法">保留的核心语法</a><a class="level-3" href="#删除子弹数量">删除子弹数量</a><a class="level-3" href="#长按边界">长按边界</a><a class="level-2" href="#四-幽灵状态语法">四、幽灵状态语法</a><a class="level-3" href="#通用状态">通用状态</a><a class="level-3" href="#打断契约">打断契约</a><a class="level-2" href="#五-四种敌人">五、四种敌人</a><a class="level-2" href="#六-boss-方案-护甲-部位与打断">六、Boss 方案：护甲、部位与打断</a><a class="level-3" href="#阶段一-护甲封印">阶段一：护甲封印</a><a class="level-3" href="#阶段二-脆弱部位">阶段二：脆弱部位</a><a class="level-3" href="#两种-boss-行动">两种 Boss 行动</a><a class="level-2" href="#七-难度建立方式">七、难度建立方式</a><a class="level-3" href="#不再使用攻击概率推动攻击欲望">不再使用攻击概率推动攻击欲望</a><a class="level-3" href="#威胁预算">威胁预算</a><a class="level-3" href="#自动索敌优先级">自动索敌优先级</a><a class="level-2" href="#八-六张升级卡">八、六张升级卡</a><a class="level-3" href="#升级牌面与选择池">升级牌面与选择池</a><a class="level-2" href="#九-十关内容展开">九、十关内容展开</a><a class="level-2" href="#十-hud-与表现契约">十、HUD 与表现契约</a><a class="level-3" href="#hud">HUD</a><a class="level-3" href="#战场可读性">战场可读性</a><a class="level-3" href="#可替换美术接口">可替换美术接口</a><a class="level-2" href="#十一-实施顺序">十一、实施顺序</a><a class="level-3" href="#a-主题与基础语法">A. 主题与基础语法</a><a class="level-3" href="#b-敌人与威胁导演">B. 敌人与威胁导演</a><a class="level-3" href="#c-六张升级卡">C. 六张升级卡</a><a class="level-3" href="#d-boss-与完整十关">D. Boss 与完整十关</a><a class="level-2" href="#十二-验证指标">十二、验证指标</a><a class="level-3" href="#基础可理解性">基础可理解性</a><a class="level-3" href="#难度与防卡关">难度与防卡关</a><a class="level-3" href="#构筑成长">构筑成长</a><a class="level-3" href="#boss">Boss</a><a class="level-2" href="#十三-当前确认-本案建议与待验证项">十三、当前确认、本案建议与待验证项</a><a class="level-3" href="#已确认方向">已确认方向</a><a class="level-3" href="#本案明确建议">本案明确建议</a><a class="level-3" href="#待首测回答">待首测回答</a><a href="#source-record">来源与修改记录</a></nav></details><a class="to-top" href="#main">回到页首 ↑</a></aside><div class="doc-reading"><div class="archive-note"><span class="note-marker">档案说明</span><p>这是 2026-09-19 从工程收录的文本，可能包含后来补写的注释。正文中的“当前”“已实现”保留原有语境，不代表本站试玩版已逐项复验。</p><p>原文件未署完整写作日期。版本顺序可供追溯，具体日期未补写。</p></div><article class="prose" id="article"><blockquote>
+<p>状态：核心功能白盒已落实。正式幽灵与猎手小猫美术尚未接入，当前暂用旧角色素材作为占位；实际运行规则以本文与 <code>docs/PROTOTYPE_RULES.md</code> 为准。</p>
+</blockquote>
+<h2 id="一-版本结论">一、版本结论<a class="heading-link" href="#一-版本结论" aria-label="链接到本节">#</a></h2><p>游戏正式名称改为《子时已到》。主题从牛仔小猫打地鼠调整为“幽灵猎手小猫在子时捕猎形态各异的小幽灵”，整体气质是可爱微恐，不依赖血腥、惊吓或重口表现。</p>
+<p>本版不再继续围绕“子弹时间多锁几个、敌人弹丸多少”反复调数值，而是进行三项结构性改造：</p>
+<ol>
+<li>删除子弹数量，只保留耐力作为长按索敌的唯一可见资源。</li>
+<li>将成长从三项基础数值扩展为六张固定类别卡：耐力、瞄准、爆炸、穿透、导弹、保护罩。</li>
+<li>将难度从“更多弹丸”改为“更多种可预判、可打断的敌人行动”，用四种幽灵与一个 Boss 建立行为差异。</li>
+</ol>
+<p>玩家后期应该感受到的不是“我的子弹数变大了”，而是“我一松手，灵弹、爆炸、贯穿与背后飞出的导弹会形成一整段越来越华丽的猎鬼齐射”。</p>
+<h2 id="二-目标体验与节奏">二、目标体验与节奏<a class="heading-link" href="#二-目标体验与节奏" aria-label="链接到本节">#</a></h2><h3 id="玩家第一眼看到">玩家第一眼看到<a class="heading-link" href="#玩家第一眼看到" aria-label="链接到本节">#</a></h3><ul>
+<li>夜色里形态各异、若隐若现的可爱小幽灵。</li>
+<li>幽灵猎手小猫与幽灵的冷暖色形成明确对比。</li>
+<li>虚化是低透明度且不可锁定，显形后实体变亮，可立即瞄准。</li>
+</ul>
+<h3 id="玩家接下来想做">玩家接下来想做<a class="heading-link" href="#玩家接下来想做" aria-label="链接到本节">#</a></h3><ul>
+<li>等幽灵显形，长按进入子弹时间，尽量多标记目标。</li>
+<li>看到红色感叹号时，判断是继续贪锁定，还是提前松手射击、打断危险行动。</li>
+<li>通过升级让同一次松手齐射产生完全不同的可见结果。</li>
+</ul>
+<h3 id="一局的情绪曲线">一局的情绪曲线<a class="heading-link" href="#一局的情绪曲线" aria-label="链接到本节">#</a></h3><ul>
+<li>前期：读懂“虚化等待—显形锁定—松手收割”。</li>
+<li>中期：敌人不再只是面板目标，红色打断时机开始迫使玩家提前松手。</li>
+<li>后期：两至三种已成形升级在齐射中连锁爆发，同时玩家要在 Boss 部位、打断点、小怪与攻击物之间决定处理顺序。</li>
+</ul>
+<h2 id="三-基础操作与资源契约">三、基础操作与资源契约<a class="heading-link" href="#三-基础操作与资源契约" aria-label="链接到本节">#</a></h2><h3 id="保留的核心语法">保留的核心语法<a class="heading-link" href="#保留的核心语法" aria-label="链接到本节">#</a></h3><ol>
+<li>玩家长按战场进入子弹时间，耐力持续消耗。</li>
+<li>准星自动选择当前最值得处理的可锁定目标。</li>
+<li>瞄准完成后形成一个已承诺标记，然后继续锁定下一目标。</li>
+<li>玩家松手或耐力耗尽时，按标记顺序快速齐射。</li>
+<li>已完成标记保留到齐射结束；幽灵不会在标记完成后突然虚化、吞掉玩家已承诺的收益。</li>
+</ol>
+<h3 id="删除子弹数量">删除子弹数量<a class="heading-link" href="#删除子弹数量" aria-label="链接到本节">#</a></h3><ul>
+<li>HUD 不再显示子弹图标或“可射几发”。</li>
+<li>不再存在玩家可见的锁定容量上限。只要仍有耐力和可锁目标，就继续瞄准。</li>
+<li>程序可以保留一个足够高的内部安全上限，用于防止异常循环，但不对玩家显示，也不参与常规平衡。</li>
+<li>“同时瞄准数”定义为同一时刻并行工作的准星数：基础一次瞄一个，升级后可以一次同时瞄两个或三个。它不是另一个变相的子弹上限。</li>
+<li>“本次总锁定数”不设独立数值；玩家按住多久、耐力剩余多少，就能继续累计多少个已完成标记。</li>
+</ul>
+<h3 id="长按边界">长按边界<a class="heading-link" href="#长按边界" aria-label="链接到本节">#</a></h3><ul>
+<li>全场没有显形目标时，长按不进入子弹时间、不消耗耐力，只用轻量视觉反馈告诉玩家“尚未显形”。这样虚化时机才有意义，也不会白白烧掉整条耐力。</li>
+<li>耐力耗尽自动提交已有标记，不清空成果。</li>
+<li>射击、爆炸、穿透和导弹是同一个玩家感知的结算段，过关、暂停或时间状态不得在中间吞掉后续效果。</li>
+</ul>
+<h2 id="四-幽灵状态语法">四、幽灵状态语法<a class="heading-link" href="#四-幽灵状态语法" aria-label="链接到本节">#</a></h2><h3 id="通用状态">通用状态<a class="heading-link" href="#通用状态" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>状态</th><th>表现</th><th>可否锁定</th><th>规则</th></tr></thead><tbody><tr><td>虚化</td><td><code>25%—35%</code> 透明度、冷色轮廓、轻微漂动</td><td>否</td><td>近战幽灵在虚化时不移动；不受射击、爆炸或穿透影响。</td></tr><tr><td>显形</td><td>由虚到实，轮廓亮起</td><td>转换完成后可</td><td>幽灵开始移动、蓄力或施法。</td></tr><tr><td>行动</td><td>完整实体</td><td>是</td><td>执行该敌人的普通行为。</td></tr><tr><td>预警</td><td>头上红色感叹号与可读蓄力环</td><td>是</td><td>只表示“这个行动可被当前齐射打断”，不用作普通仇恨标记。</td></tr><tr><td>受挫</td><td>短暂压扁、退后或飘散</td><td>视怪物而定</td><td>攻击被打断，护甲怪可在此时露出下一层。</td></tr><tr><td>重新虚化</td><td>快速降低透明度</td><td>否</td><td>幸存敌人等待下一次显形行动。</td></tr></tbody></table></div><h3 id="打断契约">打断契约<a class="heading-link" href="#打断契约" aria-label="链接到本节">#</a></h3><ol>
+<li>敌人进入预警后才显示红色感叹号。</li>
+<li>瞄准完成只是“已标记”，不会当场打断。</li>
+<li>玩家必须在蓄力结束前松手，让射击真正命中打断点。</li>
+<li>打断成功后，取消本次整组行动，而不是只少飞一枚弹丸。</li>
+<li>如果打断失败，敌人的行动进入战场，玩家仍有二次处理机会，不会因一次没看见就必然掉血。</li>
+</ol>
+<p>打断发生在“松手后命中”而不是“瞄准完成”，是为了保留核心的松手决策：玩家要在多贪一个标记和及时中断攻击之间做判断。</p>
+<h2 id="五-四种敌人">五、四种敌人<a class="heading-link" href="#五-四种敌人" aria-label="链接到本节">#</a></h2><p>敌人结构固定为两个近战、两个远程。近战压力通过“显形后接近”产生，远程压力通过“可提前打断的远程行动”产生，不让全部敌人都变成射子弹的面板。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>敌人</th><th>定位</th><th>显形行为</th><th>红色打断状态</th><th>未打断的结果</th><th>与构筑的关系</th></tr></thead><tbody><tr><td>普通幽灵</td><td>近战、一击击破</td><td>每次显形向小猫推进一段</td><td>近身后蓄力抓击</td><td>对小猫造成一点伤害</td><td>爆炸适合清理一群同时显形的普通怪</td></tr><tr><td>远程幽灵</td><td>远程、一击击破</td><td>在远处显形并蓄力</td><td>射击前的短蓄力窗口</td><td>每次只发射一枚攻击物</td><td>提前击破可取消这次射击；攻击飞出后仍可紧急拦截，也为后续新远程怪保留设计空间</td></tr><tr><td>护甲幽灵</td><td>近战、多阶段</td><td>显形时携带两层可见护甲，并向小猫推进</td><td>近身重击蓄力</td><td>造成一点伤害并保留剩余护甲</td><td>普通射击一次破一层并使其受挫；穿透可让溢出伤害继续作用于下一层</td></tr><tr><td>法术幽灵</td><td>远程、场面制造者</td><td>显形后开始召唤三个错峰的咒术物</td><td>整段施法的长蓄力窗口</td><td>三个咒术物依次进场，可分别锁定清除</td><td>在施法完成前击破施法者，可取消未生成的整组咒术</td></tr></tbody></table></div><p>关键区别不是攻击力和血量数值，而是玩家的处理方式：普通怪要阻止它走近，远程怪要处理单次射击，护甲怪要分阶段剥状态，法术怪则是“提前解决源头”与“事后逐个清理”的效率差。</p>
+<h2 id="六-boss-方案-护甲-部位与打断">六、Boss 方案：护甲、部位与打断<a class="heading-link" href="#六-boss-方案-护甲-部位与打断" aria-label="链接到本节">#</a></h2><p>Boss 不使用“一个大血条、锁上就一直扣血”，也不使用纯等待型无敌。它的受击机会必须由玩家打断或破坏部位主动创造。</p>
+<h3 id="阶段一-护甲封印">阶段一：护甲封印<a class="heading-link" href="#阶段一-护甲封印" aria-label="链接到本节">#</a></h3><ul>
+<li>Boss 本体暂不可锁定，身边有三个独立的可锁定护甲部位。</li>
+<li>每击破一个部位，Boss 丢失一层护甲，且当前行动被短暂打断。</li>
+<li>三个部位全部破坏后进入脆弱窗口。</li>
+</ul>
+<h3 id="阶段二-脆弱部位">阶段二：脆弱部位<a class="heading-link" href="#阶段二-脆弱部位" aria-label="链接到本节">#</a></h3><ul>
+<li>Boss 显露两至三个可同时标记的脆弱点，让一次齐射可以明确造成多段伤害。</li>
+<li>脆弱窗口结束后，Boss 恢复部分护甲，但不重置已经完成的阶段进度。</li>
+<li>整场 Boss 战建议经历两至三次“拆护甲—脆弱齐射”，不用单纯增加轮数拖长时间。</li>
+</ul>
+<h3 id="两种-boss-行动">两种 Boss 行动<a class="heading-link" href="#两种-boss-行动" aria-label="链接到本节">#</a></h3><ol>
+<li><strong>召灵</strong>：Boss 蓄力召唤小怪。蓄力期的红色感叹号可被打断；成功打断则取消本轮未出现的小怪，并提前打开一个短脆弱窗口。</li>
+<li><strong>大型咒术</strong>：Boss 蓄力生成三个大型攻击物。蓄力时可整体打断；如果打断失败，攻击物会错峰进场，玩家仍可逐个锁定清除或交由保护罩抵挡。</li>
+</ol>
+<p>Boss 同时检验三件事：是否能识别高价值打断点，是否愿意提前松手，以及是否能在脆弱窗口中让构筑形成大齐射。</p>
+<h2 id="七-难度建立方式">七、难度建立方式<a class="heading-link" href="#七-难度建立方式" aria-label="链接到本节">#</a></h2><h3 id="不再使用攻击概率推动攻击欲望">不再使用攻击概率推动攻击欲望<a class="heading-link" href="#不再使用攻击概率推动攻击欲望" aria-label="链接到本节">#</a></h3><ul>
+<li>每次有意义的显形都有行动目的：接近、远程射击、重击或施法。</li>
+<li>导演决定的不是“它攻不攻击”，而是“什么时候让它的危险行动进场”。</li>
+<li>后期通过行动组合、蓄力窗口错峰和护甲阶段增加难度，不以投射物数量作为主升级轴。</li>
+</ul>
+<h3 id="威胁预算">威胁预算<a class="heading-link" href="#威胁预算" aria-label="链接到本节">#</a></h3><p>建议把危险行动当作“威胁组”管理，而不是按单枚弹丸计数：</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>威胁组</th><th style="text-align:right">预算权重</th></tr></thead><tbody><tr><td>普通幽灵近身蓄力</td><td style="text-align:right">1</td></tr><tr><td>远程幽灵单次射击</td><td style="text-align:right">1</td></tr><tr><td>护甲幽灵近身重击</td><td style="text-align:right">2</td></tr><tr><td>法术幽灵整组咒术</td><td style="text-align:right">2</td></tr><tr><td>Boss 大型咒术</td><td style="text-align:right">3</td></tr></tbody></table></div><ul>
+<li>前期同时威胁预算上限为 <code>1</code>，中期为 <code>2</code>，后期为 <code>3</code>；这些是首测候选值，不是最终平衡。</li>
+<li>前期同时最多一个红色打断点，后期最多两个；Boss 可用一个大打断点配一个小怪压力。</li>
+<li>远程幽灵每次固定一枚攻击物；多枚、散射或连发留给以后新增的远程怪，不叠加到这个基础单位上。</li>
+</ul>
+<h3 id="自动索敌优先级">自动索敌优先级<a class="heading-link" href="#自动索敌优先级" aria-label="链接到本节">#</a></h3><p>不再让“所有敌方攻击物”永久绝对优先。可锁目标按以下逻辑混合排序：</p>
+<ol>
+<li>即将完成且能一次取消整组攻击的红色打断点。</li>
+<li>按预计命中时间排序的已进场攻击物。</li>
+<li>即将进入近战伤害距离的幽灵。</li>
+<li>其他已显形幽灵。</li>
+</ol>
+<p>这个优先级要用剩余蓄力时间、预计命中时间和近战距离共同计算，不能只靠目标类型写死。</p>
+<h2 id="八-六张升级卡">八、六张升级卡<a class="heading-link" href="#八-六张升级卡" aria-label="链接到本节">#</a></h2><p>六张卡的关系是：耐力和瞄准加强全局基础语法；爆炸、穿透和导弹改变输出表现；保护罩提供容错。它们是六个固定卡位，同类升级只增加右下角等级，不另外生成一排同名小卡。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>卡牌</th><th>首次获得</th><th>后续成长</th><th>冷却与触发</th><th>直观改变</th></tr></thead><tbody><tr><td>耐力</td><td>耐力上限 <code>+0.45秒</code>，恢复速度 <code>+8%</code></td><td>每级继续增加同样两项，最高5级</td><td>被动，无冷却蒙版</td><td>可长按更久，两次齐射间恢复更快</td></tr><tr><td>瞄准</td><td>Lv.1 瞄准时间缩短 <code>12%</code></td><td>Lv.2 同时瞄准数由1变2；Lv.3 再加速 <code>12%</code>；Lv.4 同时瞄准数由2变3；Lv.5 再加速 <code>12%</code></td><td>被动，无冷却蒙版</td><td>多个准星同时工作，完成一组后再同时寻找下一组；累计总数仍只受按压时长和耐力限制</td></tr><tr><td>爆炸</td><td>技能就绪时，本轮首个命中产生半径 <code>110</code> 的一次爆炸</td><td>半径约 <code>110→210</code>，冷却约 <code>8→6秒</code></td><td>自动触发；只有命中有效目标后才进入冷却</td><td>小幽灵群被波及，附近攻击物也可被清除</td></tr><tr><td>穿透</td><td>技能就绪时，下一轮灵弹可穿过首个目标，命中射线窄带内的第二目标</td><td>增加射线宽度、可贯穿数，并在中高级让伤害穿过护甲层</td><td>自动触发，首测冷却候选 <code>8秒</code></td><td>灵弹形成长尾迹，串起对齐目标；护甲怪的多层状态可被压缩</td></tr><tr><td>导弹</td><td>主齐射结束后，从小猫背后飞出2枚导弹</td><td>导弹数 <code>2→4</code>，冷却约 <code>10→6秒</code></td><td>自动触发；场上无有效目标时保留就绪</td><td>与主齐射完全不同的弹道，优先追踪未标记的高威胁目标</td></tr><tr><td>保护罩</td><td>即将受到伤害且技能就绪时，自动抵消一次伤害</td><td>冷却约 <code>12→8秒</code>，高级延长护罩窗口或提供第二层</td><td>首版建议自动触发</td><td>受击前立即张开、挡下攻击后破碎</td></tr></tbody></table></div><p>保护罩首版建议做自动触发，因为长按瞄准已持续占用单指；如果再把保护罩做成可点按的唯一主动卡，会产生“正在长按时怎么同时点护盾”的输入冲突。如果后续确实要主动防守，应单独验证滑动手势或双指方案，不应直接混进本轮核心改造。</p>
+<h3 id="升级牌面与选择池">升级牌面与选择池<a class="heading-link" href="#升级牌面与选择池" aria-label="链接到本节">#</a></h3><ul>
+<li>所有已获得卡在局内固定位置展示，右下角用数字显示当前等级。</li>
+<li>爆炸、穿透、导弹和保护罩使用黑色径向蒙版表示冷却进度；就绪时短暂发亮，不使用长文字提示。</li>
+<li>耐力与瞄准是常驻被动，不显示假冷却蒙版。</li>
+<li>爆炸、穿透和导弹没有有效目标时不消耗就绪次数。</li>
+<li>第1至2次升级保证至少出现一张爆炸、穿透或导弹，让玩家在第3关前就看到基础攻击以外的可见变化。</li>
+<li>获得某张战斗卡后，后续二选一尽量保证至少有一张是已有战斗卡的升级，不让成型路线只依赖连续随机命中。</li>
+<li>九次升级中，正常构筑目标是两至三张战斗卡成形，而不是六张卡各拿一级。</li>
+</ul>
+<h2 id="九-十关内容展开">九、十关内容展开<a class="heading-link" href="#九-十关内容展开" aria-label="链接到本节">#</a></h2><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>关卡</th><th>新内容或组合</th><th>教给玩家的事</th></tr></thead><tbody><tr><td>1</td><td>普通幽灵</td><td>虚化时不可锁，显形时可锁，近身红色预警要提前松手</td></tr><tr><td>2</td><td>普通 + 远程</td><td>学会打断单次远程射击，或在攻击飞出后紧急拦截</td></tr><tr><td>3</td><td>护甲幽灵</td><td>有些精英怪一次齐射只剥掉一层状态</td></tr><tr><td>4</td><td>法术幽灵</td><td>长打断窗口可换取一整组减压</td></tr><tr><td>5</td><td>普通 + 远程 + 护甲</td><td>第一次三种职责混编，检查前半程构筑</td></tr><tr><td>6</td><td>普通 + 法术</td><td>近战接近与远程施法同时需要排序</td></tr><tr><td>7</td><td>护甲 + 远程</td><td>短打断与多阶段击破出现竞争</td></tr><tr><td>8</td><td>护甲 + 法术</td><td>决定是先压制近战高压目标，还是解决场面源头</td></tr><tr><td>9</td><td>四种混编 + Boss 机制预演</td><td>用强化法术怪预演一次大型可打断行动</td></tr><tr><td>10</td><td>Boss + 受控小怪</td><td>综合检验护甲部位、红色打断、脆弱窗口与构筑爆发</td></tr></tbody></table></div><p>关卡数量增长只负责稍微增加节奏，主要难度必须来自“两种行动窗口如何叠加”。同一组合先单独教学，再混编，不能在怪物登场的第一关就配上另一个新机制。</p>
+<h2 id="十-hud-与表现契约">十、HUD 与表现契约<a class="heading-link" href="#十-hud-与表现契约" aria-label="链接到本节">#</a></h2><h3 id="hud">HUD<a class="heading-link" href="#hud" aria-label="链接到本节">#</a></h3><ul>
+<li>顶部只保留关卡、三颗心和耐力条，删除子弹数量。</li>
+<li>当前已标记数量主要由目标身上的标记反馈，必要时只在准星附近显示短暂 <code>×N</code>，不再伪装成弹仓。</li>
+<li>六张升级卡使用固定卡位；未获得卡不在战场 HUD 中显示。</li>
+<li>右下角数字始终表示升级等级；中心或蒙版才表示冷却，两者不共用同一数字语义。</li>
+</ul>
+<h3 id="战场可读性">战场可读性<a class="heading-link" href="#战场可读性" aria-label="链接到本节">#</a></h3><ul>
+<li>低透明度幽灵仍要保留完整轮廓，不得与暗背景融为一体。</li>
+<li>显形除了透明度改变，还需要一个短促的轮廓或明度提示，让玩家知道“现在可锁”。</li>
+<li>红色感叹号只给可打断攻击，并必须配合可读的剩余时间，不能只闪一下。</li>
+<li>近战幽灵通过距离变化制造压力，远程幽灵通过蓄力动作制造压力；玩家不看文字也能说出它们的差别。</li>
+</ul>
+<h3 id="可替换美术接口">可替换美术接口<a class="heading-link" href="#可替换美术接口" aria-label="链接到本节">#</a></h3><p>本版开始时就应将幽灵做成可独立替换的 Prefab，不再把角色形状、洞口和动画全写在运行时绘制代码里。每个敌人 Prefab 至少预留：</p>
+<ul>
+<li><code>Body</code>：主美术节点。</li>
+<li><code>VirtualFX</code>：虚化叠层或材质节点。</li>
+<li><code>WarningAnchor</code>：红色感叹号和蓄力环挂点。</li>
+<li><code>AimAnchor</code>：瞄准环与已标记图标挂点。</li>
+<li><code>HitFXAnchor</code>：受击、破甲和消散效果挂点。</li>
+<li><code>ArmorSlots</code>：护甲怪和 Boss 可独立开关的状态部位。</li>
+</ul>
+<p>程序只控制状态、可选性、位置与效果触发；后续替换小猫和幽灵美术时，不需要重写规则代码。</p>
+<h2 id="十一-实施顺序">十一、实施顺序<a class="heading-link" href="#十一-实施顺序" aria-label="链接到本节">#</a></h2><h3 id="a-主题与基础语法">A. 主题与基础语法<a class="heading-link" href="#a-主题与基础语法" aria-label="链接到本节">#</a></h3><ol>
+<li>更名为《子时已到》，清理对外文案中的地鼠、洞口、牛仔和子弹容量语义。</li>
+<li>删除子弹 HUD 与可见锁定上限，让耐力成为唯一锁定资源。</li>
+<li>建立虚化、显形、行动、预警、受挫、重新虚化的通用状态机。</li>
+<li>用一个白盒普通幽灵验证“显形才可锁”和“命中才打断”。</li>
+</ol>
+<h3 id="b-敌人与威胁导演">B. 敌人与威胁导演<a class="heading-link" href="#b-敌人与威胁导演" aria-label="链接到本节">#</a></h3><ol>
+<li>完成普通、远程、护甲、法术四种白盒行为。</li>
+<li>把旧攻击概率和同屏攻击意图计数改为威胁预算。</li>
+<li>把自动索敌从“弹丸绝对优先”改为按剩余时间排序。</li>
+<li>先验证第1至4关的单怪教学，再实现后期混编。</li>
+</ol>
+<h3 id="c-六张升级卡">C. 六张升级卡<a class="heading-link" href="#c-六张升级卡" aria-label="链接到本节">#</a></h3><ol>
+<li>先完成耐力、瞄准、爆炸三张，验证“基础语法 + 一个可见攻击变化”。</li>
+<li>再完成穿透，并检查敌人站位是否真的经常提供可读直线；如果穿透只能偶然触发，必须先修站位供给，不靠扩大隐形判定拯救。</li>
+<li>完成导弹与保护罩，统一卡牌冷却蒙版、就绪闪光和右下角等级。</li>
+<li>加入二选一的成型保障，再验证九次升级的前、中、后期路径。</li>
+</ol>
+<h3 id="d-boss-与完整十关">D. Boss 与完整十关<a class="heading-link" href="#d-boss-与完整十关" aria-label="链接到本节">#</a></h3><ol>
+<li>用白盒部位先验证 Boss 的护甲、脆弱点、召灵和大型咒术。</li>
+<li>完成第5至9关混编与第10关 Boss 战。</li>
+<li>在整体玩法节奏成立后再接入正式幽灵和猎手小猫素材。</li>
+</ol>
+<h2 id="十二-验证指标">十二、验证指标<a class="heading-link" href="#十二-验证指标" aria-label="链接到本节">#</a></h2><h3 id="基础可理解性">基础可理解性<a class="heading-link" href="#基础可理解性" aria-label="链接到本节">#</a></h3><ul>
+<li>首次玩家在无文字解释时，能通过一次失败或视觉反馈理解“虚化不能打，显形才能锁”。</li>
+<li>玩家不再询问“耐力还有，为什么不继续瞄准”。</li>
+<li>玩家能说出红色感叹号表示“需要在蓄力结束前命中打断”。</li>
+</ul>
+<h3 id="难度与防卡关">难度与防卡关<a class="heading-link" href="#难度与防卡关" aria-label="链接到本节">#</a></h3><ul>
+<li>第5关后，熟练玩家每关至少有一次因威胁时机而主动提前松手。</li>
+<li>玩家无视红色打断点时，第4至5关开始有明显失去生命的风险，但任何单个脚本局面都不是不可避免伤害。</li>
+<li>常规压力下，攻击物平均占用的锁定数不超过总锁定的 <code>40%</code>。</li>
+<li>不允许连续两次齐射都只处理攻击物、没有击破或剥除任何敌人状态。</li>
+<li>战场持续有效操作时，最长无关卡进度时间首测目标不超过 <code>6秒</code>。</li>
+</ul>
+<h3 id="构筑成长">构筑成长<a class="heading-link" href="#构筑成长" aria-label="链接到本节">#</a></h3><ul>
+<li>第3关开始前，至少获得一种可见的额外攻击手段。</li>
+<li>前期获得一级爆炸、穿透或导弹时，第一次正常触发必须立即有效，不需要另一张卡来拯救。</li>
+<li>第8关后，正常构筑至少有两种容易辨认的额外攻击表现。</li>
+<li>不同构筑的差异要能用行为说出：爆炸等群聚，穿透等直线，导弹则适合在主齐射后补掉高优先目标。</li>
+</ul>
+<h3 id="boss">Boss<a class="heading-link" href="#boss" aria-label="链接到本节">#</a></h3><ul>
+<li>Boss 的失败主要来自错过打断和目标排序错误，不是因为一条长血条只能重复射击。</li>
+<li>玩家能不看文字说出当前要打的是护甲部位、红色打断点还是脆弱点。</li>
+<li>一场 Boss 战用两至三次主动创造的脆弱窗口收束，不通过大量重复循环拖时间。</li>
+</ul>
+<h2 id="十三-当前确认-本案建议与待验证项">十三、当前确认、本案建议与待验证项<a class="heading-link" href="#十三-当前确认-本案建议与待验证项" aria-label="链接到本节">#</a></h2><h3 id="已确认方向">已确认方向<a class="heading-link" href="#已确认方向" aria-label="链接到本节">#</a></h3><ul>
+<li>游戏名称为《子时已到》。</li>
+<li>可爱微恐幽灵主题，玩家为幽灵猎手小猫。</li>
+<li>幽灵虚化时低透明且不可选，显形时才可瞄准攻击。</li>
+<li>删除子弹数量，耐力成为主要索敌资源。</li>
+<li>升级围绕耐力、瞄准、爆炸、穿透、导弹和保护罩展开。</li>
+<li>本版至少四种幽灵与一个最终 Boss，核心差异来自行为和打断，不是只增加数值。</li>
+</ul>
+<h3 id="本案明确建议">本案明确建议<a class="heading-link" href="#本案明确建议" aria-label="链接到本节">#</a></h3><ul>
+<li>“同时瞄准数”只表示并行工作的准星数；累计总锁定数不设上限，只由按压时长与耐力决定。</li>
+<li>打断在松手后射击命中时发生，不在瞄准完成时立即发生。</li>
+<li>普通、护甲为近战，远程、法术为远程；其中基础远程怪每次只发射一枚攻击物。</li>
+<li>难度由威胁预算与行动组合控制，不再靠攻击概率和弹丸数量堆叠。</li>
+<li>保护罩首版自动触发，避免与单指长按瞄准冲突。</li>
+</ul>
+<h3 id="待首测回答">待首测回答<a class="heading-link" href="#待首测回答" aria-label="链接到本节">#</a></h3><ul>
+<li>同时瞄准数增加到2、3后是否会让后期自动化过强，削弱提前松手的决策。</li>
+<li>穿透的站位供给是否足够稳定，玩家能否有意识地等到对齐，而不是靠隐形吸附偶然命中。</li>
+<li>自动护罩是否只降低难度而没有提供可感知的构筑价值；如果过于被动，再单独验证不与长按冲突的主动手势。</li>
+<li>Boss 的护甲轮数和脆弱点数是否在两至三轮内形成高潮，而不是重复劳动。</li>
+</ul>
+</article><section class="source-record" id="source-record"><p class="eyebrow">SOURCE & REVISIONS</p><h2>来源与修改记录</h2><dl><dt>原文标题</dt><dd>《子时已到》幽灵版后续优化方案</dd><dt>工程内文件</dt><dd><code>docs/GHOST_VERSION_PLAN.md</code></dd><dt>收录方式</dt><dd>从现存工程文件收录，保留原段落与参数；仅做网页排版、本机路径匿名化与链接整理。</dd><dt>日期依据</dt><dd>未署日期。正文日期、首次入库日期与修订日期可能不同。</dd></dl><p class="muted">此工程未找到 Git 历史，暂不展示逐次修改日期。不会以文件复制时间推定写作时间。</p></section><nav class="adjacent" aria-label="相邻文档"><a href="art-roadmap.html"><small>上一篇</small>《刀刀厨神》式简洁表现迁移清单</a><a href="ghost-rules.html"><small>下一篇</small>幽灵白盒版规则</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>两个独立游戏，从原型到迭代的设计记录。</p></div><p>整理于 2026.09.19<br><a href="../index.html#about">收录与日期说明</a> · <a href="../../index.html">返回作品集 ↗</a></p></footer></body></html>

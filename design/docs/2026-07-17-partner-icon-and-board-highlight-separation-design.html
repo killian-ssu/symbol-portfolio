@@ -1,0 +1,58 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f4f2eb"><title>图标与棋盘高亮分层 · Symbol 策划档案</title><meta name="description" content="分离伙伴图标和棋盘高亮，减少状态反馈之间的干扰。"><link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css"><script src="../archive.js" defer></script></head><body class="document-page merchant"><a class="skip" href="#main">跳到正文</a><header class="site-header"><a class="wordmark" href="../index.html">SYMBOL<span>设计档案 / 2026</span></a><nav aria-label="主导航"><a href="../index.html#timeline">版本时间线</a><a href="../index.html#catalog">全部文档</a><a class="back-portfolio" href="../../index.html">作品集 <span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="doc-top"><a class="back-link" href="../index.html?project=merchant#catalog">← 返回远行商人文档</a><div class="doc-tags"><span>远行商人</span><span>迭代方案</span><span>交互表现</span></div><h1>图标与棋盘高亮分层</h1><p class="doc-intro">分离伙伴图标和棋盘高亮，减少状态反馈之间的干扰。</p><div class="doc-metadata"><span><strong>2026-07-17</strong>文件名日期</span><span><strong>4 分钟</strong>预计阅读</span><span><strong>1</strong>次可查提交</span><a class="download" href="../sources/2026-07-17-partner-icon-and-board-highlight-separation-design.md" download>下载本文 ↓</a></div></div><div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><a class="level-2" href="#背景与根因">背景与根因</a><a class="level-2" href="#图标尺寸">图标尺寸</a><a class="level-2" href="#素材语义">素材语义</a><a class="level-2" href="#行动格节点结构">行动格节点结构</a><a class="level-2" href="#波浪外扩高光">波浪外扩高光</a><a class="level-2" href="#状态流">状态流</a><a class="level-2" href="#验证">验证</a><a class="level-2" href="#范围外">范围外</a><a href="#source-record">来源与修改记录</a></nav></details><a class="to-top" href="#main">回到页首 ↑</a></aside><div class="doc-reading"><div class="archive-note"><span class="note-marker">档案说明</span><p>这是 2026-09-19 从工程收录的文本，可能包含后来补写的注释。正文中的“当前”“已实现”保留原有语境，不代表本站试玩版已逐项复验。</p></div><article class="prose" id="article"><h2 id="背景与根因">背景与根因<a class="heading-link" href="#背景与根因" aria-label="链接到本节">#</a></h2><ul>
+<li><code>hand_card.prefab</code> 的 <code>ItemIcon</code> 当前使用固定 <code>120×140</code> 与 <code>CUSTOM</code>，运行时替换不同宽高比的伙伴 SpriteFrame 时会被拉伸。</li>
+<li><code>board_cell.prefab</code> 的 <code>CardIcon</code> 已使用 <code>RAW</code>，但统一缩放 <code>0.64</code>，相对 <code>100×100</code> 的行动格背景偏小。</li>
+<li>桌面导出的 <code>行动格.png</code> 实际是白色四角边框，<code>选中边框.png</code> 实际是纯色圆角底；当前入库文件的语义与内容相反。</li>
+<li><code>BoardCellStampComp</code> 把“下一张牌落入此格”和“工具/道具合法目标高光”合并到同一个 <code>HighlightRoot</code>，无法分别表现静态边框与波浪外扩高光。</li>
+</ul>
+<h2 id="图标尺寸">图标尺寸<a class="heading-link" href="#图标尺寸" aria-label="链接到本节">#</a></h2><ul>
+<li>手牌 <code>ItemIcon</code> 使用 <code>Sprite Size Mode = RAW</code>，节点 <code>Scale X/Y</code> 同为 <code>0.88</code>。</li>
+<li>行动格 <code>CardIcon</code> 保持 <code>RAW</code>，节点 <code>Scale X/Y</code> 同为 <code>0.82</code>。</li>
+<li>运行时代码只替换 SpriteFrame，不修改 UITransform、缩放或颜色。</li>
+<li>两处均保留每张伙伴图的原始宽高比，并允许图形相对背景略微溢出。</li>
+</ul>
+<h2 id="素材语义">素材语义<a class="heading-link" href="#素材语义" aria-label="链接到本节">#</a></h2><ul>
+<li><code>cell_empty.png</code> 保存纯色圆角行动格底。</li>
+<li><code>cell_selected.png</code> 保存白色四角下一格边框。</li>
+<li>保持两个资源现有 UUID，由 Creator 重新导入内容；Prefab 按语义绑定，不依赖桌面中文文件名。</li>
+</ul>
+<h2 id="行动格节点结构">行动格节点结构<a class="heading-link" href="#行动格节点结构" aria-label="链接到本节">#</a></h2><pre><code class="language-text">board_cell
+├─ bg                       纯色空行动格
+├─ NextActionBorderRoot     白色四角边框，默认 inactive
+├─ ActionRoot               已落位伙伴背景、Icon、分数
+├─ RelicAnchor
+├─ FxAnchor
+├─ HighlightRoot            波浪外扩合法目标高光，默认 inactive
+│  └─ FlowBorder
+├─ DisabledRoot
+└─ SettlementFxRoot
+</code></pre>
+<ul>
+<li><code>BoardCellStampComp.nextActionBorderRoot</code> 只由 <code>setNextActionHighlighted(on)</code> 控制。</li>
+<li><code>targetHighlightRoot</code> 只响应工具合法目标、道具替换等既有选择状态。</li>
+<li>两种状态不再共享节点；下一格边框隐藏时不影响合法目标高光，反之亦然。</li>
+</ul>
+<h2 id="波浪外扩高光">波浪外扩高光<a class="heading-link" href="#波浪外扩高光" aria-label="链接到本节">#</a></h2><ul>
+<li>手牌继续使用现有 <code>HighlightRoot/FlowBorder</code> 与 <code>CardTargetGlow.mtl</code>。</li>
+<li>行动格与道具的 <code>HighlightRoot</code> 都增加单个 <code>FlowBorder</code>，使用同一个 <code>CardTargetGlow.effect</code> 和相同颜色、速度。</li>
+<li>新增方形参数材质 <code>CellTargetGlow.mtl</code>，仅调整方形画布、方形轮廓和圆角参数，不改变手牌材质。</li>
+<li><code>FlowBorder</code> 继续使用不可进入动态图集的 <code>resources/gui/texture/Square.png</code>，所有位置、外扩边距和材质参数由 Prefab/Inspector 控制。</li>
+<li>新材质的 <code>.meta</code> 必须由当前根目录的 Cocos Creator 生成，不手写 UUID。</li>
+</ul>
+<h2 id="状态流">状态流<a class="heading-link" href="#状态流" aria-label="链接到本节">#</a></h2><ul>
+<li>正常可出牌：仅 <code>NextActionBorderRoot</code> 显示在 Core 给出的 <code>nextActionSlotIndex</code>。</li>
+<li>工具选择目标、动画结算、奖励、道具替换及非游玩状态：下一格边框按既有策略隐藏。</li>
+<li>工具合法行动格或道具：对应 <code>HighlightRoot</code> 显示波浪外扩高光；非法目标继续使用 <code>DisabledRoot</code>。</li>
+<li>道具替换的当前区域选择继续复用 <code>HighlightRoot</code>，不显示下一格边框。</li>
+</ul>
+<h2 id="验证">验证<a class="heading-link" href="#验证" aria-label="链接到本节">#</a></h2><ul>
+<li>资源契约检查两个 PNG 的透明度/内容语义、Prefab SpriteFrame UUID、节点分层和默认 inactive 状态。</li>
+<li>检查手牌与行动格 Icon 均为 <code>RAW</code>、X/Y 等比缩放分别为 <code>0.88</code> 与 <code>0.82</code>。</li>
+<li>检查 <code>setNextActionHighlighted</code> 只切换 <code>nextActionBorderRoot</code>，合法目标只切换 <code>targetHighlightRoot</code>。</li>
+<li>检查手牌、行动格、道具三个高光入口都绑定 <code>FlowBorder</code> 与正确材质。</li>
+<li>运行伙伴素材契约、Core 测试、TypeScript 检查；<code>test:v04-ui</code> 的既有材质参数断言继续单独报告，不回退用户当前材质改动。</li>
+</ul>
+<h2 id="范围外">范围外<a class="heading-link" href="#范围外" aria-label="链接到本节">#</a></h2><ul>
+<li>不修改牌库、牌型、分数、目标合法性、奖励或出牌顺序。</li>
+<li>不修改主界面总体布局、手牌锚点、行动格锚点、道具锚点或现有动效时序。</li>
+</ul>
+</article><section class="source-record" id="source-record"><p class="eyebrow">SOURCE & REVISIONS</p><h2>来源与修改记录</h2><dl><dt>原文标题</dt><dd>伙伴图标比例与行动格提示分层设计</dd><dt>工程内文件</dt><dd><code>docs/superpowers/specs/2026-07-17-partner-icon-and-board-highlight-separation-design.md</code></dd><dt>收录方式</dt><dd>从现存工程文件收录，保留原段落与参数；仅做网页排版、本机路径匿名化与链接整理。</dd><dt>日期依据</dt><dd>文件名日期 · 2026-07-17。正文日期、首次入库日期与修订日期可能不同。</dd></dl><details class="history" open><summary>查看 1 次文件提交记录</summary><p>以下为包含此文件变化的提交。提交说明可能涉及整个项目，不代表该文档单独完成了所有列出的功能。</p><ol><li><time>2026-07-24</time><div><code>a0cff4e</code><p>feat: 建立五兽商队 v0.6 当前版本基线</p></div></li></ol></details></section><nav class="adjacent" aria-label="相邻文档"><a href="2026-07-17-particle-fx-replica-design.html"><small>上一篇</small>粒子效果设计</a><a href="2026-07-17-pattern-multiplier-and-reveal-motion-design.html"><small>下一篇</small>组合倍率与揭示动效</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>两个独立游戏，从原型到迭代的设计记录。</p></div><p>整理于 2026.09.19<br><a href="../index.html#about">收录与日期说明</a> · <a href="../../index.html">返回作品集 ↗</a></p></footer></body></html>

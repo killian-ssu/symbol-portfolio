@@ -1,0 +1,45 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f4f2eb"><title>结算反馈组合试验 · Symbol 策划档案</title><meta name="description" content="把多种结算效果放在同一试验入口比较。"><link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css"><script src="../archive.js" defer></script></head><body class="document-page merchant"><a class="skip" href="#main">跳到正文</a><header class="site-header"><a class="wordmark" href="../index.html">SYMBOL<span>设计档案 / 2026</span></a><nav aria-label="主导航"><a href="../index.html#timeline">版本时间线</a><a href="../index.html#catalog">全部文档</a><a class="back-portfolio" href="../../index.html">作品集 <span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="doc-top"><a class="back-link" href="../index.html?project=merchant#catalog">← 返回远行商人文档</a><div class="doc-tags"><span>远行商人</span><span>迭代方案</span><span>交互表现</span></div><h1>结算反馈组合试验</h1><p class="doc-intro">把多种结算效果放在同一试验入口比较。</p><div class="doc-metadata"><span><strong>2026-07-18</strong>文件名日期</span><span><strong>4 分钟</strong>预计阅读</span><span><strong>1</strong>次可查提交</span><a class="download" href="../sources/2026-07-18-hybrid-settlement-fx-lab-design.md" download>下载本文 ↓</a></div></div><div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><a class="level-2" href="#目标">目标</a><a class="level-2" href="#参考拆解">参考拆解</a><a class="level-2" href="#结构">结构</a><a class="level-2" href="#运动规则">运动规则</a><a class="level-2" href="#预览默认值">预览默认值</a><a class="level-2" href="#占位素材与未来替换">占位素材与未来替换</a><a class="level-2" href="#边界与分层">边界与分层</a><a class="level-2" href="#非目标">非目标</a><a class="level-2" href="#验收">验收</a><a class="level-3" href="#自动">自动</a><a class="level-3" href="#手动">手动</a><a href="#source-record">来源与修改记录</a></nav></details><a class="to-top" href="#main">回到页首 ↑</a></aside><div class="doc-reading"><div class="archive-note"><span class="note-marker">档案说明</span><p>这是 2026-09-19 从工程收录的文本，可能包含后来补写的注释。正文中的“当前”“已实现”保留原有语境，不代表本站试玩版已逐项复验。</p></div><article class="prose" id="article"><p>日期：2026-07-18</p>
+<h2 id="目标">目标<a class="heading-link" href="#目标" aria-label="链接到本节">#</a></h2><p>在既有 <code>assets/dev/particle-fx-lab/particle_fx_lab.scene</code> 中新增一个可反复播放的“混合爆裂”预览：普通 <code>ParticleSystem2D</code> 提供闪光、烟团和小火星；少量独立 Sprite 碎片按重力、旋转和画布边界反弹。该预览用来确认结算逐击时的打击感，暂不接入 <code>game_main</code>、行动格或结算流程。</p>
+<h2 id="参考拆解">参考拆解<a class="heading-link" href="#参考拆解" aria-label="链接到本节">#</a></h2><p>参考视频的爆裂并非只有一种粒子：短暂亮核和烟团负责冲击轮廓，星点/小屑负责密度，而可辨识的大块碎片承担重量、飞行路径和撞边反馈。<code>ParticleSystem2D</code> 没有可供业务使用的单粒子边界碰撞回调，因此大碎片必须是独立节点，不能伪装成普通粒子。</p>
+<h2 id="结构">结构<a class="heading-link" href="#结构" aria-label="链接到本节">#</a></h2><pre><code class="language-text">HybridBurstPreview（实验室内的预览根）
+├─ fx_cartoon_explosion_v1（现有普通粒子：亮核、烟团、火星）
+└─ BouncyShardBurstComp（新组件）
+   └─ 运行时 Sprite 节点池（大碎片；使用 Inspector 绑定的占位 SpriteFrame）
+</code></pre>
+<ul>
+<li><code>BouncyShardPhysics.ts</code>：纯 TypeScript，负责碎片数量递进、重力积分与边界反弹；不引入 <code>cc</code>，可自动测试。</li>
+<li><code>BouncyShardBurstComp.ts</code>：把纯物理状态映射到池化 UI Sprite 节点。所有数量、时长、速度、重力、衰减、颜色、SpriteFrame、尺寸、边界节点和粒子根均为带 tooltip 的 Inspector 属性。</li>
+<li>现有 <code>fx_cartoon_explosion_v1</code> 继续作为普通粒子层；本轮不改动其视觉参数。</li>
+<li>实验室场景新增“混合爆裂”模式、强度标签和递进按钮。启动后自动从强度 1 循环到 5，让用户一眼看到碎片数量随触发次数增加。</li>
+</ul>
+<h2 id="运动规则">运动规则<a class="heading-link" href="#运动规则" aria-label="链接到本节">#</a></h2><ol>
+<li>每次播放先重播现有卡通爆炸，再生成 <code>baseShardCount + (intensity - 1) * shardCountStep</code> 块碎片，并限制在 <code>maxShardCount</code>。</li>
+<li>碎片从 Inspector 指定的爆点出发，随机得到方向、初速度、尺寸和角速度。</li>
+<li>每帧施加重力；到达画布边界时夹回边界、翻转对应速度，并乘以 <code>bounceDamping</code>；平行于边界的速度乘以 <code>wallFriction</code>。</li>
+<li>每块碎片最多反弹 <code>maxBounces</code> 次；寿命末段淡出、缩小并回收到节点池。</li>
+<li>同屏达到 <code>poolSize</code> 时复用最早的可用节点，不新建无限节点。</li>
+</ol>
+<h2 id="预览默认值">预览默认值<a class="heading-link" href="#预览默认值" aria-label="链接到本节">#</a></h2><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>项目</th><th style="text-align:right">默认</th></tr></thead><tbody><tr><td>强度范围</td><td style="text-align:right">1–5</td></tr><tr><td>碎片数量</td><td style="text-align:right">3 起，每级 +3，上限 15</td></tr><tr><td>生命周期</td><td style="text-align:right">0.95s</td></tr><tr><td>重力</td><td style="text-align:right">-1450 px/s²</td></tr><tr><td>水平速度</td><td style="text-align:right">420–720 px/s</td></tr><tr><td>垂直速度</td><td style="text-align:right">480–860 px/s</td></tr><tr><td>反弹衰减</td><td style="text-align:right">0.58</td></tr><tr><td>墙面摩擦</td><td style="text-align:right">0.82</td></tr><tr><td>最多反弹</td><td style="text-align:right">2</td></tr><tr><td>普通粒子</td><td style="text-align:right">复用 <code>fx_cartoon_explosion_v1</code></td></tr></tbody></table></div><p>以上只是实验室起点，全部可在 Inspector 中调节。</p>
+<h2 id="占位素材与未来替换">占位素材与未来替换<a class="heading-link" href="#占位素材与未来替换" aria-label="链接到本节">#</a></h2><p>本轮复用已有 <code>confetti_chip.png</code>、<code>explosion_blob_a.png</code>、<code>explosion_blob_b.png</code> 作为占位碎片，不新增外部素材。正式美术替换时，把 4–6 张透明、有深色描边的碎片 SpriteFrame 拖入 <code>BouncyShardBurstComp.shardFrames</code>；建议准备三角片、斜四边形、弯曲碎片和小星形各一张。</p>
+<h2 id="边界与分层">边界与分层<a class="heading-link" href="#边界与分层" aria-label="链接到本节">#</a></h2><ul>
+<li>碰撞边界采用实验室 <code>Canvas</code> 的 <code>UITransform</code>，因此表现的是画面边缘而非某个行动格矩形。</li>
+<li>碎片节点在 <code>HybridBurstPreview</code> 内生成，且该根位于实验室按钮下方，确保按钮和标题可读可点。</li>
+<li>不新建 Dialog、遮罩或正式局内节点。</li>
+</ul>
+<h2 id="非目标">非目标<a class="heading-link" href="#非目标" aria-label="链接到本节">#</a></h2><ul>
+<li>不接入 <code>GameMainViewComp</code>、<code>BoardViewComp</code>、<code>game_main.prefab</code> 或真实结算节奏。</li>
+<li>不使用每碎片一个 <code>RigidBody2D</code>，也不修改 Cocos 引擎粒子实现。</li>
+<li>不修改本工作区已有的 HUD、牌型图片和背景改动。牌型图片替换为文字将作为独立的正式 UI 小步，在本实验室视觉确认后进行。</li>
+</ul>
+<h2 id="验收">验收<a class="heading-link" href="#验收" aria-label="链接到本节">#</a></h2><h3 id="自动">自动<a class="heading-link" href="#自动" aria-label="链接到本节">#</a></h3><ul>
+<li>纯物理函数验证数量随强度递增并封顶。</li>
+<li>纯物理函数验证右侧/上侧边界反弹、阻尼和反弹次数。</li>
+<li>契约验证新组件存在 Inspector 属性、实验室提供混合模式与递进播放入口，且正式结算代码未引用该组件。</li>
+</ul>
+<h3 id="手动">手动<a class="heading-link" href="#手动" aria-label="链接到本节">#</a></h3><ol>
+<li>打开 <code>particle_fx_lab.scene</code>，点击“混合爆裂”。</li>
+<li>重复点击“重新播放”或“强度 +1”，可看到亮核/烟团与大碎片同时出现。</li>
+<li>大碎片到达画面边缘后最多反弹两次，不穿出边界；小火星可自然淡出。</li>
+<li>连续播放十次不残留旧碎片、不无限增生节点；标题和按钮始终可见。</li>
+</ol>
+</article><section class="source-record" id="source-record"><p class="eyebrow">SOURCE & REVISIONS</p><h2>来源与修改记录</h2><dl><dt>原文标题</dt><dd>混合结算爆裂动效实验室设计</dd><dt>工程内文件</dt><dd><code>docs/superpowers/specs/2026-07-18-hybrid-settlement-fx-lab-design.md</code></dd><dt>收录方式</dt><dd>从现存工程文件收录，保留原段落与参数；仅做网页排版、本机路径匿名化与链接整理。</dd><dt>日期依据</dt><dd>文件名日期 · 2026-07-18。正文日期、首次入库日期与修订日期可能不同。</dd></dl><details class="history" open><summary>查看 1 次文件提交记录</summary><p>以下为包含此文件变化的提交。提交说明可能涉及整个项目，不代表该文档单独完成了所有列出的功能。</p><ol><li><time>2026-07-24</time><div><code>a0cff4e</code><p>feat: 建立五兽商队 v0.6 当前版本基线</p></div></li></ol></details></section><nav class="adjacent" aria-label="相邻文档"><a href="2026-07-18-chapter-pattern-wave-background-design.html"><small>上一篇</small>章节背景波纹</a><span></span></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>两个独立游戏，从原型到迭代的设计记录。</p></div><p>整理于 2026.09.19<br><a href="../index.html#about">收录与日期说明</a> · <a href="../../index.html">返回作品集 ↗</a></p></footer></body></html>

@@ -1,0 +1,1602 @@
+{
+  "capturedAt": "2026-09-19",
+  "documents": [
+    {
+      "project": "merchant",
+      "source": "docs/archive/v1-suitup-poker/PRD.md",
+      "slug": "poker-prd",
+      "category": "核心玩法",
+      "summary": "用扑克花色与点数构成格子三消，定义短局构筑的最初产品目标。",
+      "date": "2026-04-21",
+      "status": "历史方案",
+      "originalTitle": "扑克牌格子三消·构筑爆分型（PRD）",
+      "title": "扑克牌格子三消·构筑爆分型（PRD）",
+      "dateBasis": "首次入库",
+      "dateDisplay": "2026-04-21",
+      "history": [
+        {
+          "commit": "c0323193dd947f38acf4159da7773cac70883795",
+          "date": "2026-05-08",
+          "subject": "refactor: v2.0 Phase 1 核心战斗重构，移除扑克点数，改为商品消除"
+        },
+        {
+          "commit": "d93417767e6e85ed253b14fea21f0854b2a33668",
+          "date": "2026-04-21",
+          "subject": "feat: complete hand card fan layout with full game integration"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/archive/v1-suitup-poker/玩法说明_GDD.md",
+      "slug": "poker-gdd",
+      "category": "核心玩法",
+      "summary": "5×3 棋盘、三张手牌、消除与掉落：早期原型的完整规则。",
+      "date": "2026-04-21",
+      "status": "历史方案",
+      "originalTitle": "扑克牌格子三消 · 构筑爆分型（GDD / 玩法说明）",
+      "title": "扑克牌格子三消 · 构筑爆分型（GDD / 玩法说明）",
+      "dateBasis": "首次入库",
+      "dateDisplay": "2026-04-21",
+      "history": [
+        {
+          "commit": "c0323193dd947f38acf4159da7773cac70883795",
+          "date": "2026-05-08",
+          "subject": "refactor: v2.0 Phase 1 核心战斗重构，移除扑克点数，改为商品消除"
+        },
+        {
+          "commit": "d93417767e6e85ed253b14fea21f0854b2a33668",
+          "date": "2026-04-21",
+          "subject": "feat: complete hand card fan layout with full game integration"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/v2-traveling-merchant/01_PRD.md",
+      "slug": "merchant-prd",
+      "category": "核心玩法",
+      "summary": "商人主题 MVP 的范围、验收口径，以及暂不加入的系统。",
+      "date": "2026-05-08",
+      "status": "历史方案",
+      "originalTitle": "远行商人（Travelling Merchant）- 产品需求文档（PRD）",
+      "title": "远行商人（Travelling Merchant）- 产品需求文档（PRD）",
+      "dateBasis": "首次入库",
+      "dateDisplay": "2026-05-08",
+      "history": [
+        {
+          "commit": "edc90e8877c799e17c68733b642590da75a6692d",
+          "date": "2026-05-29",
+          "subject": "chore: snapshot buildscore ui iteration"
+        },
+        {
+          "commit": "c0323193dd947f38acf4159da7773cac70883795",
+          "date": "2026-05-08",
+          "subject": "refactor: v2.0 Phase 1 核心战斗重构，移除扑克点数，改为商品消除"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/v2-traveling-merchant/yuanxing-shangren-gdd.md",
+      "slug": "merchant-mvp",
+      "category": "核心玩法",
+      "summary": "从棋盘消除转为五格出牌，保留同类组合、关卡目标与三选一奖励。",
+      "date": "2026-05-19",
+      "status": "历史方案",
+      "originalTitle": "《远行商人》游戏策划案",
+      "title": "游戏策划案",
+      "dateBasis": "正文日期",
+      "dateDisplay": "2026-05-19",
+      "history": [
+        {
+          "commit": "edc90e8877c799e17c68733b642590da75a6692d",
+          "date": "2026-05-29",
+          "subject": "chore: snapshot buildscore ui iteration",
+          "slug": "merchant-mvp-edc90e8"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/v2-traveling-merchant/scoring-and-builds-vnext.md",
+      "slug": "settlement-next",
+      "category": "构筑成长",
+      "summary": "讨论组合何时被看见、结算如何读懂，以及道具怎样扩展构筑。",
+      "date": "2026-05-30",
+      "status": "讨论稿",
+      "originalTitle": "《远行商人》结算体验与构筑扩展讨论稿",
+      "title": "结算体验与构筑扩展讨论稿",
+      "dateBasis": "正文日期",
+      "dateDisplay": "2026-05-30",
+      "history": [
+        {
+          "commit": "aea5319dd00f635246e7a0d3b9e489bc2f7c00ff",
+          "date": "2026-05-31",
+          "subject": "chore: snapshot ui updates and relic vnext"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/v04-rightward-chain/yuanxing-shangren-current-gdd.md",
+      "slug": "right-chain",
+      "category": "核心玩法",
+      "summary": "右向连锁阶段的完整规则，记录五格排列、结算与构筑的关系。",
+      "date": "2026-07-11",
+      "status": "历史方案",
+      "originalTitle": "《远行商人》当前策划案",
+      "title": "当前策划案",
+      "dateBasis": "正文日期",
+      "dateDisplay": "2026-07-11",
+      "history": [
+        {
+          "commit": "d4a8037e884a2ef0b193d3a22aae0980c7757a16",
+          "date": "2026-07-11",
+          "subject": "feat: implement v0.4 rightward chain gameplay"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/v04-rightward-chain/action-progression-boss-system.md",
+      "slug": "right-chain-boss",
+      "category": "构筑成长",
+      "summary": "行动成长、章节推进和 Boss 如何检验一局构筑。",
+      "date": "2026-07-11",
+      "status": "历史方案",
+      "originalTitle": "《远行商人》行动累计与随机 Boss 开发说明",
+      "title": "行动累计与随机 Boss 开发说明",
+      "dateBasis": "正文日期",
+      "dateDisplay": "2026-07-11",
+      "history": [
+        {
+          "commit": "d4a8037e884a2ef0b193d3a22aae0980c7757a16",
+          "date": "2026-07-11",
+          "subject": "feat: implement v0.4 rightward chain gameplay"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/v04-rightward-chain/balance-tables.md",
+      "slug": "right-chain-balance",
+      "category": "验证记录",
+      "summary": "右向连锁阶段的数值表与观察口径，供复核规则尺度。",
+      "date": "2026-07-11",
+      "status": "历史方案",
+      "originalTitle": "《远行商人》数值观察表",
+      "title": "数值观察表",
+      "dateBasis": "正文日期",
+      "dateDisplay": "2026-07-11",
+      "history": [
+        {
+          "commit": "d4a8037e884a2ef0b193d3a22aae0980c7757a16",
+          "date": "2026-07-11",
+          "subject": "feat: implement v0.4 rightward chain gameplay"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/v04-rightward-chain/relic-tool-catalog.md",
+      "slug": "right-chain-items",
+      "category": "构筑成长",
+      "summary": "当时的道具、工具牌效果与使用规则。",
+      "date": "2026-07-11",
+      "status": "历史方案",
+      "originalTitle": "《远行商人》道具与工具牌完整策划表",
+      "title": "道具与工具牌完整策划表",
+      "dateBasis": "正文日期",
+      "dateDisplay": "2026-07-11",
+      "history": [
+        {
+          "commit": "d4a8037e884a2ef0b193d3a22aae0980c7757a16",
+          "date": "2026-07-11",
+          "subject": "feat: implement v0.4 rightward chain gameplay"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/v05-five-animal-caravan/action-progression-boss-system.md",
+      "slug": "caravan-boss",
+      "category": "构筑成长",
+      "summary": "伙伴成长、章节与特别状况的历史方案；后续规则已发生变化。",
+      "date": "2026-07-15",
+      "status": "历史方案",
+      "originalTitle": "伙伴成长、章节与特别状况（历史 v0.6）",
+      "title": "伙伴成长、章节与特别状况（历史 v0.6）",
+      "dateBasis": "首次入库",
+      "dateDisplay": "2026-07-15",
+      "history": [
+        {
+          "commit": "2629e0143dfe51c18d6e061fd0cf42f83af77af2",
+          "date": "2026-08-06",
+          "subject": "chore: checkpoint gameplay before wechat packaging"
+        },
+        {
+          "commit": "40aa8f14d03662310c9d1cefaeb438b9458cc371",
+          "date": "2026-08-04",
+          "subject": "feat: add mushroom shop and tag builds"
+        },
+        {
+          "commit": "b5529271d095f374c780950f14a9f69e2b2267ab",
+          "date": "2026-07-31",
+          "subject": "feat: replace score chain with cargo pipeline"
+        },
+        {
+          "commit": "e82bdf50176b2f4552fab7328a0cd3e7c93d5774",
+          "date": "2026-07-31",
+          "subject": "chore: checkpoint current gameplay before pipeline rewrite"
+        },
+        {
+          "commit": "a0cff4ea2c0044d1ce27918d70d4c0261ddb361f",
+          "date": "2026-07-24",
+          "subject": "feat: 建立五兽商队 v0.6 当前版本基线"
+        },
+        {
+          "commit": "a4631e0508e68d3118fb8bd43d4ac4d564aba12c",
+          "date": "2026-07-15",
+          "subject": "docs: establish v05 five-animal truth source"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/v05-five-animal-caravan/arithmetic-pipeline-paper-prototype-v0.1.md",
+      "slug": "paper-pipeline",
+      "category": "核心玩法",
+      "summary": "把结算压缩为可手算的加工链，先用纸面排列检查分数传递。",
+      "date": "2026-07-31",
+      "status": "纸面原型",
+      "originalTitle": "算术加工链纸面原型 v0.1",
+      "title": "算术加工链纸面原型 v0.1",
+      "dateBasis": "正文日期",
+      "dateDisplay": "2026-07-31",
+      "history": [
+        {
+          "commit": "40aa8f14d03662310c9d1cefaeb438b9458cc371",
+          "date": "2026-08-04",
+          "subject": "feat: add mushroom shop and tag builds"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/v05-five-animal-caravan/balance-tables.md",
+      "slug": "caravan-balance",
+      "category": "验证记录",
+      "summary": "五兽商队阶段的平衡与验收表，保留当时的检验问题。",
+      "date": "2026-07-22",
+      "status": "历史方案",
+      "originalTitle": "平衡与验收表（历史 v0.5 / v0.3）",
+      "title": "平衡与验收表（历史 v0.5 / v0.3）",
+      "dateBasis": "正文日期",
+      "dateDisplay": "2026-07-22",
+      "history": [
+        {
+          "commit": "a995664e4b7f38093ce81ecd3b5b7edede0c0003",
+          "date": "2026-09-12",
+          "subject": "feat: checkpoint mushroom trigger network and platform exports"
+        },
+        {
+          "commit": "2629e0143dfe51c18d6e061fd0cf42f83af77af2",
+          "date": "2026-08-06",
+          "subject": "chore: checkpoint gameplay before wechat packaging"
+        },
+        {
+          "commit": "40aa8f14d03662310c9d1cefaeb438b9458cc371",
+          "date": "2026-08-04",
+          "subject": "feat: add mushroom shop and tag builds"
+        },
+        {
+          "commit": "b5529271d095f374c780950f14a9f69e2b2267ab",
+          "date": "2026-07-31",
+          "subject": "feat: replace score chain with cargo pipeline"
+        },
+        {
+          "commit": "e82bdf50176b2f4552fab7328a0cd3e7c93d5774",
+          "date": "2026-07-31",
+          "subject": "chore: checkpoint current gameplay before pipeline rewrite"
+        },
+        {
+          "commit": "1c3dc9b9ea49802d4d886748608d8175571447d2",
+          "date": "2026-07-25",
+          "subject": "feat: add scrolling journey route map (#6)"
+        },
+        {
+          "commit": "a2775f24b1742c09aefdac2a948b1cad0c25d974",
+          "date": "2026-07-25",
+          "subject": "feat: 整合远行玩法与局外成长系统 (#5)"
+        },
+        {
+          "commit": "a0cff4ea2c0044d1ce27918d70d4c0261ddb361f",
+          "date": "2026-07-24",
+          "subject": "feat: 建立五兽商队 v0.6 当前版本基线"
+        },
+        {
+          "commit": "a4631e0508e68d3118fb8bd43d4ac4d564aba12c",
+          "date": "2026-07-15",
+          "subject": "docs: establish v05 five-animal truth source"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/v05-five-animal-caravan/in-run-shop-and-number-tag-analysis-v0.1.md",
+      "slug": "shop-analysis",
+      "category": "构筑成长",
+      "summary": "为什么需要局内商店、数字标签装在哪里，以及成长如何被感知。",
+      "date": "2026-08-02",
+      "status": "讨论稿",
+      "originalTitle": "局内商店与数字标签系统分析 v0.1",
+      "title": "局内商店与数字标签系统分析 v0.1",
+      "dateBasis": "正文日期",
+      "dateDisplay": "2026-08-02",
+      "history": [
+        {
+          "commit": "40aa8f14d03662310c9d1cefaeb438b9458cc371",
+          "date": "2026-08-04",
+          "subject": "feat: add mushroom shop and tag builds"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/v05-five-animal-caravan/mushroom-local-items-v0.1-candidate.md",
+      "slug": "local-items-v1",
+      "category": "构筑成长",
+      "summary": "围绕具体格子设计道具效果的第一版候选池。",
+      "date": "2026-08-06",
+      "status": "候选设计",
+      "originalTitle": "蘑菇格子道具 v0.1 候选设计",
+      "title": "蘑菇格子道具 v0.1 候选设计",
+      "dateBasis": "首次入库",
+      "dateDisplay": "2026-08-06",
+      "history": [
+        {
+          "commit": "2629e0143dfe51c18d6e061fd0cf42f83af77af2",
+          "date": "2026-08-06",
+          "subject": "chore: checkpoint gameplay before wechat packaging"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/v05-five-animal-caravan/mushroom-local-items-v0.2-candidate.md",
+      "slug": "local-items-v2",
+      "category": "构筑成长",
+      "summary": "局部道具的第二版候选，继续收敛作用位置与触发职责。",
+      "date": "2026-08-06",
+      "status": "候选设计",
+      "originalTitle": "蘑菇格子道具 v0.2 候选设计",
+      "title": "蘑菇格子道具 v0.2 候选设计",
+      "dateBasis": "首次入库",
+      "dateDisplay": "2026-08-06",
+      "history": [
+        {
+          "commit": "2629e0143dfe51c18d6e061fd0cf42f83af77af2",
+          "date": "2026-08-06",
+          "subject": "chore: checkpoint gameplay before wechat packaging"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/v05-five-animal-caravan/mushroom-shop-item-catalog-v0.1.md",
+      "slug": "shop-v1",
+      "category": "构筑成长",
+      "summary": "蘑菇商店、标签与道具目录的第一版。",
+      "date": "2026-08-03",
+      "status": "历史方案",
+      "originalTitle": "蘑菇商店与完整道具目录 v0.1",
+      "title": "蘑菇商店与完整道具目录 v0.1",
+      "dateBasis": "正文日期",
+      "dateDisplay": "2026-08-03",
+      "history": [
+        {
+          "commit": "40aa8f14d03662310c9d1cefaeb438b9458cc371",
+          "date": "2026-08-04",
+          "subject": "feat: add mushroom shop and tag builds"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/v05-five-animal-caravan/mushroom-shop-item-catalog-v0.2.md",
+      "slug": "shop-v2",
+      "category": "构筑成长",
+      "summary": "商店与道具目录第二版，可与前版对照效果描述和构筑方向。",
+      "date": "2026-08-03",
+      "status": "历史方案",
+      "originalTitle": "蘑菇商店与完整道具目录 v0.2",
+      "title": "蘑菇商店与完整道具目录 v0.2",
+      "dateBasis": "正文日期",
+      "dateDisplay": "2026-08-03",
+      "history": [
+        {
+          "commit": "40aa8f14d03662310c9d1cefaeb438b9458cc371",
+          "date": "2026-08-04",
+          "subject": "feat: add mushroom shop and tag builds"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/v05-five-animal-caravan/mushroom-shop-item-catalog-v0.3.md",
+      "slug": "shop-v3",
+      "category": "构筑成长",
+      "summary": "商店与道具目录第三版，记录连续修订中的中间方案。",
+      "date": "2026-08-03",
+      "status": "历史方案",
+      "originalTitle": "蘑菇商店与完整道具目录 v0.3",
+      "title": "蘑菇商店与完整道具目录 v0.3",
+      "dateBasis": "正文日期",
+      "dateDisplay": "2026-08-03",
+      "history": [
+        {
+          "commit": "40aa8f14d03662310c9d1cefaeb438b9458cc371",
+          "date": "2026-08-04",
+          "subject": "feat: add mushroom shop and tag builds"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/v05-five-animal-caravan/mushroom-shop-item-catalog-v0.4.md",
+      "slug": "shop-v4",
+      "category": "构筑成长",
+      "summary": "把分层成长纳入商店与道具目录的第四版设计。",
+      "date": "2026-08-03",
+      "status": "历史方案",
+      "originalTitle": "蘑菇商店与分层成长道具目录 v0.4",
+      "title": "蘑菇商店与分层成长道具目录 v0.4",
+      "dateBasis": "正文日期",
+      "dateDisplay": "2026-08-03",
+      "history": [
+        {
+          "commit": "40aa8f14d03662310c9d1cefaeb438b9458cc371",
+          "date": "2026-08-04",
+          "subject": "feat: add mushroom shop and tag builds"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/v05-five-animal-caravan/mushroom-trigger-network-special-items-v0.1-candidate.md",
+      "slug": "trigger-network",
+      "category": "构筑成长",
+      "summary": "触发网与特殊辅助道具的候选探索；不能据此认定整套方案已经上线。",
+      "date": "2026-09-12",
+      "status": "候选设计",
+      "originalTitle": "《远行商人》触发网与特殊辅助道具候选 v0.1",
+      "title": "触发网与特殊辅助道具候选 v0.1",
+      "dateBasis": "首次入库",
+      "dateDisplay": "2026-09-12",
+      "history": [
+        {
+          "commit": "a995664e4b7f38093ce81ecd3b5b7edede0c0003",
+          "date": "2026-09-12",
+          "subject": "feat: checkpoint mushroom trigger network and platform exports"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/v05-five-animal-caravan/potato-goblin-pipeline-design-v0.2.md",
+      "slug": "cargo-pipeline",
+      "category": "核心玩法",
+      "summary": "薯团搬宝阶段：以同类相乘、异类相加建立可见的流水线。",
+      "date": "2026-08-01",
+      "status": "历史方案",
+      "originalTitle": "《远行商人》薯团搬宝流水线 v0.2",
+      "title": "薯团搬宝流水线 v0.2",
+      "dateBasis": "正文日期",
+      "dateDisplay": "2026-08-01",
+      "history": [
+        {
+          "commit": "634df36737e0b3431752b502dbc80eed3bea0cf6",
+          "date": "2026-08-02",
+          "subject": "feat: deepen value pipeline feedback and builds"
+        },
+        {
+          "commit": "8dfcac839dcf18c62dd15429bbfbcfc4cf71c97c",
+          "date": "2026-08-01",
+          "subject": "feat: refine value pipeline clarity and flow"
+        },
+        {
+          "commit": "b5529271d095f374c780950f14a9f69e2b2267ab",
+          "date": "2026-07-31",
+          "subject": "feat: replace score chain with cargo pipeline"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/v05-five-animal-caravan/relic-tool-catalog.md",
+      "slug": "caravan-items",
+      "category": "构筑成长",
+      "summary": "五兽商队阶段的道具与工具目录，原文保留历史版本标记。",
+      "date": "2026-07-30",
+      "status": "历史方案",
+      "originalTitle": "道具与工具目录（历史 v0.5 / v0.3）",
+      "title": "道具与工具目录（历史 v0.5 / v0.3）",
+      "dateBasis": "正文日期",
+      "dateDisplay": "2026-07-30",
+      "history": [
+        {
+          "commit": "40aa8f14d03662310c9d1cefaeb438b9458cc371",
+          "date": "2026-08-04",
+          "subject": "feat: add mushroom shop and tag builds"
+        },
+        {
+          "commit": "634df36737e0b3431752b502dbc80eed3bea0cf6",
+          "date": "2026-08-02",
+          "subject": "feat: deepen value pipeline feedback and builds"
+        },
+        {
+          "commit": "8dfcac839dcf18c62dd15429bbfbcfc4cf71c97c",
+          "date": "2026-08-01",
+          "subject": "feat: refine value pipeline clarity and flow"
+        },
+        {
+          "commit": "b5529271d095f374c780950f14a9f69e2b2267ab",
+          "date": "2026-07-31",
+          "subject": "feat: replace score chain with cargo pipeline"
+        },
+        {
+          "commit": "e82bdf50176b2f4552fab7328a0cd3e7c93d5774",
+          "date": "2026-07-31",
+          "subject": "chore: checkpoint current gameplay before pipeline rewrite"
+        },
+        {
+          "commit": "a2775f24b1742c09aefdac2a948b1cad0c25d974",
+          "date": "2026-07-25",
+          "subject": "feat: 整合远行玩法与局外成长系统 (#5)"
+        },
+        {
+          "commit": "a0cff4ea2c0044d1ce27918d70d4c0261ddb361f",
+          "date": "2026-07-24",
+          "subject": "feat: 建立五兽商队 v0.6 当前版本基线"
+        },
+        {
+          "commit": "a4631e0508e68d3118fb8bd43d4ac4d564aba12c",
+          "date": "2026-07-15",
+          "subject": "docs: establish v05 five-animal truth source"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/v05-five-animal-caravan/relic-tool-redesign-execution-v0.1.md",
+      "slug": "items-execution-v1",
+      "category": "构筑成长",
+      "summary": "重新定义道具与工具的执行效果和适用位置。",
+      "date": "2026-07-19",
+      "status": "历史方案",
+      "originalTitle": "《远行商人》道具与工具执行设计 v0.1",
+      "title": "道具与工具执行设计 v0.1",
+      "dateBasis": "正文日期",
+      "dateDisplay": "2026-07-19",
+      "history": [
+        {
+          "commit": "a0cff4ea2c0044d1ce27918d70d4c0261ddb361f",
+          "date": "2026-07-24",
+          "subject": "feat: 建立五兽商队 v0.6 当前版本基线"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/v05-five-animal-caravan/relic-tool-redesign-execution-v0.2.md",
+      "slug": "items-execution-v2",
+      "category": "构筑成长",
+      "summary": "把伙伴组合纳入道具与工具的执行设计。",
+      "date": "2026-07-21",
+      "status": "历史方案",
+      "originalTitle": "《远行商人》道具、工具与伙伴组合执行设计 v0.2",
+      "title": "道具、工具与伙伴组合执行设计 v0.2",
+      "dateBasis": "正文日期",
+      "dateDisplay": "2026-07-21",
+      "history": [
+        {
+          "commit": "a0cff4ea2c0044d1ce27918d70d4c0261ddb361f",
+          "date": "2026-07-24",
+          "subject": "feat: 建立五兽商队 v0.6 当前版本基线"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/v05-five-animal-caravan/relic-tool-redesign-execution-v0.3.md",
+      "slug": "items-execution-v3",
+      "category": "构筑成长",
+      "summary": "道具、工具与成长机制的第三版执行稿。",
+      "date": "2026-07-22",
+      "status": "历史方案",
+      "originalTitle": "《远行商人》道具、工具与成长机制执行设计 v0.3",
+      "title": "道具、工具与成长机制执行设计 v0.3",
+      "dateBasis": "正文日期",
+      "dateDisplay": "2026-07-22",
+      "history": [
+        {
+          "commit": "e82bdf50176b2f4552fab7328a0cd3e7c93d5774",
+          "date": "2026-07-31",
+          "subject": "chore: checkpoint current gameplay before pipeline rewrite"
+        },
+        {
+          "commit": "a0cff4ea2c0044d1ce27918d70d4c0261ddb361f",
+          "date": "2026-07-24",
+          "subject": "feat: 建立五兽商队 v0.6 当前版本基线"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/v05-five-animal-caravan/route-belief-reward-system.md",
+      "slug": "route-belief",
+      "category": "构筑成长",
+      "summary": "路线、信条与奇遇如何影响构筑方向；同一文档保留新旧协议。",
+      "date": "2026-08-15",
+      "status": "持续修订",
+      "originalTitle": "《远行商人》路线、启程信条与奇遇取舍",
+      "title": "路线、启程信条与奇遇取舍",
+      "dateBasis": "正文版本标记",
+      "dateDisplay": "2026-08-15",
+      "history": [
+        {
+          "commit": "a995664e4b7f38093ce81ecd3b5b7edede0c0003",
+          "date": "2026-09-12",
+          "subject": "feat: checkpoint mushroom trigger network and platform exports",
+          "slug": "route-belief-a995664"
+        },
+        {
+          "commit": "501cfc626227904980902e080c07e8aae4ee0090",
+          "date": "2026-08-10",
+          "subject": "feat: polish release presentation and journey feedback",
+          "slug": "route-belief-501cfc6"
+        },
+        {
+          "commit": "2629e0143dfe51c18d6e061fd0cf42f83af77af2",
+          "date": "2026-08-06",
+          "subject": "chore: checkpoint gameplay before wechat packaging",
+          "slug": "route-belief-2629e01"
+        },
+        {
+          "commit": "634df36737e0b3431752b502dbc80eed3bea0cf6",
+          "date": "2026-08-02",
+          "subject": "feat: deepen value pipeline feedback and builds",
+          "slug": "route-belief-634df36"
+        },
+        {
+          "commit": "8dfcac839dcf18c62dd15429bbfbcfc4cf71c97c",
+          "date": "2026-08-01",
+          "subject": "feat: refine value pipeline clarity and flow",
+          "slug": "route-belief-8dfcac8"
+        },
+        {
+          "commit": "b5529271d095f374c780950f14a9f69e2b2267ab",
+          "date": "2026-07-31",
+          "subject": "feat: replace score chain with cargo pipeline",
+          "slug": "route-belief-b552927"
+        },
+        {
+          "commit": "e82bdf50176b2f4552fab7328a0cd3e7c93d5774",
+          "date": "2026-07-31",
+          "subject": "chore: checkpoint current gameplay before pipeline rewrite",
+          "slug": "route-belief-e82bdf5"
+        },
+        {
+          "commit": "1c3dc9b9ea49802d4d886748608d8175571447d2",
+          "date": "2026-07-25",
+          "subject": "feat: add scrolling journey route map (#6)",
+          "slug": "route-belief-1c3dc9b"
+        },
+        {
+          "commit": "a2775f24b1742c09aefdac2a948b1cad0c25d974",
+          "date": "2026-07-25",
+          "subject": "feat: 整合远行玩法与局外成长系统 (#5)",
+          "slug": "route-belief-a2775f2"
+        },
+        {
+          "commit": "07548e47c1dade2c8cd39063d43fbfea1cfbf657",
+          "date": "2026-07-24",
+          "subject": "feat: 统一局内远行手册",
+          "slug": "route-belief-07548e4"
+        },
+        {
+          "commit": "a0cff4ea2c0044d1ce27918d70d4c0261ddb361f",
+          "date": "2026-07-24",
+          "subject": "feat: 建立五兽商队 v0.6 当前版本基线",
+          "slug": "route-belief-a0cff4e"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/v05-five-animal-caravan/value-pipeline-design-v0.3.md",
+      "slug": "value-pipeline-v3",
+      "category": "核心玩法",
+      "summary": "从搬宝表现进一步整理价值传递规则及界面反馈。",
+      "date": "2026-08-01",
+      "status": "历史方案",
+      "originalTitle": "《远行商人》价值传递玩法 v0.3",
+      "title": "价值传递玩法 v0.3",
+      "dateBasis": "正文日期",
+      "dateDisplay": "2026-08-01",
+      "history": [
+        {
+          "commit": "634df36737e0b3431752b502dbc80eed3bea0cf6",
+          "date": "2026-08-02",
+          "subject": "feat: deepen value pipeline feedback and builds"
+        },
+        {
+          "commit": "8dfcac839dcf18c62dd15429bbfbcfc4cf71c97c",
+          "date": "2026-08-01",
+          "subject": "feat: refine value pipeline clarity and flow"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/v05-five-animal-caravan/value-pipeline-design-v0.4.md",
+      "slug": "value-pipeline-v4",
+      "category": "核心玩法",
+      "summary": "分数传递的第四版方案，与后续蘑菇触发规则形成对照。",
+      "date": "2026-08-03",
+      "status": "历史方案",
+      "originalTitle": "《远行商人》分数传递玩法 v0.4",
+      "title": "分数传递玩法 v0.4",
+      "dateBasis": "正文日期",
+      "dateDisplay": "2026-08-03",
+      "history": [
+        {
+          "commit": "40aa8f14d03662310c9d1cefaeb438b9458cc371",
+          "date": "2026-08-04",
+          "subject": "feat: add mushroom shop and tag builds"
+        },
+        {
+          "commit": "634df36737e0b3431752b502dbc80eed3bea0cf6",
+          "date": "2026-08-02",
+          "subject": "feat: deepen value pipeline feedback and builds"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/v05-five-animal-caravan/yuanxing-shangren-ai-codesign-brief.md",
+      "slug": "codesign-brief",
+      "category": "构筑成长",
+      "summary": "为道具与工具共创整理的设计空间、约束和待讨论问题。",
+      "date": "2026-07-19",
+      "status": "讨论稿",
+      "originalTitle": "《远行商人》道具与工具自由共创策划案",
+      "title": "道具与工具自由共创策划案",
+      "dateBasis": "正文日期",
+      "dateDisplay": "2026-07-19",
+      "history": [
+        {
+          "commit": "d1f1c970b1bb3f4629f9f99cb4fd0522dadc7cd6",
+          "date": "2026-07-19",
+          "subject": "docs: add AI co-design brief"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/v05-five-animal-caravan/yuanxing-shangren-current-gdd.md",
+      "slug": "mushroom-gdd",
+      "category": "核心玩法",
+      "summary": "连续同类逐张增加触发次数，标签绑定具体卡牌，道具作用于所在格。",
+      "date": "2026-08-15",
+      "status": "持续修订",
+      "originalTitle": "《远行商人》当前 GDD（蘑菇触发 + 标签/炫彩 + 局部道具）",
+      "title": "当前 GDD（蘑菇触发 + 标签/炫彩 + 局部道具）",
+      "dateBasis": "正文版本标记",
+      "dateDisplay": "2026-08-15",
+      "history": [
+        {
+          "commit": "a995664e4b7f38093ce81ecd3b5b7edede0c0003",
+          "date": "2026-09-12",
+          "subject": "feat: checkpoint mushroom trigger network and platform exports",
+          "slug": "mushroom-gdd-a995664"
+        },
+        {
+          "commit": "7e9f6c3089a31d05207774aed8d3860fb49ea0ef",
+          "date": "2026-08-11",
+          "subject": "feat: checkpoint current tutorial and meta hub version",
+          "slug": "mushroom-gdd-7e9f6c3"
+        },
+        {
+          "commit": "501cfc626227904980902e080c07e8aae4ee0090",
+          "date": "2026-08-10",
+          "subject": "feat: polish release presentation and journey feedback",
+          "slug": "mushroom-gdd-501cfc6"
+        },
+        {
+          "commit": "2629e0143dfe51c18d6e061fd0cf42f83af77af2",
+          "date": "2026-08-06",
+          "subject": "chore: checkpoint gameplay before wechat packaging",
+          "slug": "mushroom-gdd-2629e01"
+        },
+        {
+          "commit": "40aa8f14d03662310c9d1cefaeb438b9458cc371",
+          "date": "2026-08-04",
+          "subject": "feat: add mushroom shop and tag builds",
+          "slug": "mushroom-gdd-40aa8f1"
+        },
+        {
+          "commit": "634df36737e0b3431752b502dbc80eed3bea0cf6",
+          "date": "2026-08-02",
+          "subject": "feat: deepen value pipeline feedback and builds",
+          "slug": "mushroom-gdd-634df36"
+        },
+        {
+          "commit": "8dfcac839dcf18c62dd15429bbfbcfc4cf71c97c",
+          "date": "2026-08-01",
+          "subject": "feat: refine value pipeline clarity and flow",
+          "slug": "mushroom-gdd-8dfcac8"
+        },
+        {
+          "commit": "b5529271d095f374c780950f14a9f69e2b2267ab",
+          "date": "2026-07-31",
+          "subject": "feat: replace score chain with cargo pipeline",
+          "slug": "mushroom-gdd-b552927"
+        },
+        {
+          "commit": "e82bdf50176b2f4552fab7328a0cd3e7c93d5774",
+          "date": "2026-07-31",
+          "subject": "chore: checkpoint current gameplay before pipeline rewrite",
+          "slug": "mushroom-gdd-e82bdf5"
+        },
+        {
+          "commit": "1c3dc9b9ea49802d4d886748608d8175571447d2",
+          "date": "2026-07-25",
+          "subject": "feat: add scrolling journey route map (#6)",
+          "slug": "mushroom-gdd-1c3dc9b"
+        },
+        {
+          "commit": "a2775f24b1742c09aefdac2a948b1cad0c25d974",
+          "date": "2026-07-25",
+          "subject": "feat: 整合远行玩法与局外成长系统 (#5)",
+          "slug": "mushroom-gdd-a2775f2"
+        },
+        {
+          "commit": "07548e47c1dade2c8cd39063d43fbfea1cfbf657",
+          "date": "2026-07-24",
+          "subject": "feat: 统一局内远行手册",
+          "slug": "mushroom-gdd-07548e4"
+        },
+        {
+          "commit": "a0cff4ea2c0044d1ce27918d70d4c0261ddb361f",
+          "date": "2026-07-24",
+          "subject": "feat: 建立五兽商队 v0.6 当前版本基线",
+          "slug": "mushroom-gdd-a0cff4e"
+        },
+        {
+          "commit": "a4631e0508e68d3118fb8bd43d4ac4d564aba12c",
+          "date": "2026-07-15",
+          "subject": "docs: establish v05 five-animal truth source",
+          "slug": "mushroom-gdd-a4631e0"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/v05-five-animal-caravan/yuanxing-shangren-right-chain-relic-tool-ai-brief.md",
+      "slug": "right-chain-brief",
+      "category": "构筑成长",
+      "summary": "右链构筑的统一讨论材料，串联核心规则、道具与工具。",
+      "date": "2026-07-19",
+      "status": "讨论稿",
+      "originalTitle": "《远行商人》右链构筑、道具与工具统一策划案（AI 交接稿）",
+      "title": "右链构筑、道具与工具统一策划案（AI 交接稿）",
+      "dateBasis": "正文日期",
+      "dateDisplay": "2026-07-19",
+      "history": [
+        {
+          "commit": "e82bdf50176b2f4552fab7328a0cd3e7c93d5774",
+          "date": "2026-07-31",
+          "subject": "chore: checkpoint current gameplay before pipeline rewrite"
+        },
+        {
+          "commit": "a0cff4ea2c0044d1ce27918d70d4c0261ddb361f",
+          "date": "2026-07-24",
+          "subject": "feat: 建立五兽商队 v0.6 当前版本基线"
+        },
+        {
+          "commit": "c8911a19bee6fd01ab6ba495928e023a82a898fc",
+          "date": "2026-07-19",
+          "subject": "docs: add right-chain relic tool AI design brief"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/v07-meta-hub/meta-progression-implementation-plan.md",
+      "slug": "meta-hub",
+      "category": "构筑成长",
+      "summary": "局外驿站、五品阶藏品、展区收益与每日行情的设计和实现说明。",
+      "date": "2026-07-25",
+      "status": "迭代记录",
+      "originalTitle": "v0.8 五品阶局外驿站、展区与每日行情实现说明",
+      "title": "v0.8 五品阶局外驿站、展区与每日行情实现说明",
+      "dateBasis": "首次入库",
+      "dateDisplay": "2026-07-25",
+      "history": [
+        {
+          "commit": "e82bdf50176b2f4552fab7328a0cd3e7c93d5774",
+          "date": "2026-07-31",
+          "subject": "chore: checkpoint current gameplay before pipeline rewrite"
+        },
+        {
+          "commit": "a2775f24b1742c09aefdac2a948b1cad0c25d974",
+          "date": "2026-07-25",
+          "subject": "feat: 整合远行玩法与局外成长系统 (#5)"
+        }
+      ]
+    },
+    {
+      "project": "midnight",
+      "source": "docs/V0_4_PLAN.md",
+      "slug": "birds-v4",
+      "category": "核心玩法",
+      "summary": "用五关与三类鸟验证：敌人组合是否改变松手时机，升级是否能被看见。",
+      "date": "",
+      "status": "历史方案",
+      "originalTitle": "Noon v0.4「内容与感知验证版」策划",
+      "title": "Noon v0.4「内容与感知验证版」策划",
+      "dateBasis": "未署日期",
+      "dateDisplay": "未署日期",
+      "history": []
+    },
+    {
+      "project": "midnight",
+      "source": "docs/V0_5_PLAN.md",
+      "slug": "birds-v5",
+      "category": "核心玩法",
+      "summary": "从五关扩到十关，增加持续压力与齐射成长的候选参数。",
+      "date": "",
+      "status": "历史方案",
+      "originalTitle": "Noon v0.5「十关压力与齐射成长版」策划",
+      "title": "Noon v0.5「十关压力与齐射成长版」策划",
+      "dateBasis": "未署日期",
+      "dateDisplay": "未署日期",
+      "history": []
+    },
+    {
+      "project": "midnight",
+      "source": "docs/noon-art-motion-pass.md",
+      "slug": "mole-art",
+      "category": "交互表现",
+      "summary": "地鼠出洞、长按锁定、齐射命中这一条动作链的首轮美术方案。",
+      "date": "",
+      "status": "历史方案",
+      "originalTitle": "午时已到：首轮美术与战斗动效落地",
+      "title": "午时已到：首轮美术与战斗动效落地",
+      "dateBasis": "未署日期",
+      "dateDisplay": "未署日期",
+      "history": []
+    },
+    {
+      "project": "midnight",
+      "source": "docs/ART_REPLICATION_ROADMAP.md",
+      "slug": "art-roadmap",
+      "category": "交互表现",
+      "summary": "以参考作品为对照，逐项检查场景层次、UI、动作与打击反馈。",
+      "date": "",
+      "status": "历史方案",
+      "originalTitle": "《刀刀厨神》式简洁表现迁移清单",
+      "title": "《刀刀厨神》式简洁表现迁移清单",
+      "dateBasis": "未署日期",
+      "dateDisplay": "未署日期",
+      "history": []
+    },
+    {
+      "project": "midnight",
+      "source": "docs/GHOST_VERSION_PLAN.md",
+      "slug": "ghost-plan",
+      "category": "核心玩法",
+      "summary": "转向幽灵显形窗口，整理四类敌人、Boss、耐力与六种升级。",
+      "date": "",
+      "status": "阶段方案",
+      "originalTitle": "《子时已到》幽灵版后续优化方案",
+      "title": "幽灵版后续优化方案",
+      "dateBasis": "未署日期",
+      "dateDisplay": "未署日期",
+      "history": []
+    },
+    {
+      "project": "midnight",
+      "source": "docs/PROTOTYPE_RULES.md",
+      "slug": "ghost-rules",
+      "category": "核心玩法",
+      "summary": "幽灵白盒规则的持续修订稿，包含耐力、威胁优先级、升级和关卡。",
+      "date": "",
+      "status": "持续修订",
+      "originalTitle": "《子时已到》幽灵白盒版规则",
+      "title": "幽灵白盒版规则",
+      "dateBasis": "未署日期",
+      "dateDisplay": "未署日期",
+      "history": []
+    },
+    {
+      "project": "midnight",
+      "source": "docs/COMBAT_TUNING_2026_09_07.md",
+      "slug": "combat-tuning",
+      "category": "验证记录",
+      "summary": "缩短耐力，把攻击打断放到实际命中，并调整近远程敌人的压力。",
+      "date": "2026-09-07",
+      "status": "迭代记录",
+      "originalTitle": "2026-09-07 战斗难度与反馈调整",
+      "title": "2026-09-07 战斗难度与反馈调整",
+      "dateBasis": "文件名日期",
+      "dateDisplay": "2026-09-07",
+      "history": []
+    },
+    {
+      "project": "midnight",
+      "source": "docs/BOSS_AND_HUD_2026_09_07.md",
+      "slug": "boss-hud",
+      "category": "交互表现",
+      "summary": "Boss 压力、显隐提示与左上角成长展示的调整。",
+      "date": "2026-09-07",
+      "status": "迭代记录",
+      "originalTitle": "2026-09-07：幽灵状态、Boss压力与左上库存",
+      "title": "2026-09-07：幽灵状态、Boss压力与左上库存",
+      "dateBasis": "文件名日期",
+      "dateDisplay": "2026-09-07",
+      "history": []
+    },
+    {
+      "project": "midnight",
+      "source": "docs/CHEF_FEEDBACK_2026_09_07.md",
+      "slug": "feedback-review",
+      "category": "验证记录",
+      "summary": "由六个具体体验问题出发，检查攻击规模、冷却、难度和奖励节奏。",
+      "date": "2026-09-07",
+      "status": "迭代记录",
+      "originalTitle": "2026-09-07：厨神录像对照与试玩反馈修正",
+      "title": "2026-09-07：厨神录像对照与试玩反馈修正",
+      "dateBasis": "文件名日期",
+      "dateDisplay": "2026-09-07",
+      "history": []
+    },
+    {
+      "project": "midnight",
+      "source": "docs/FREEZE_AND_EFFECTS_2026_09_07.md",
+      "slug": "effects-fixes",
+      "category": "验证记录",
+      "summary": "卡顿修复、整卡冷却与特效层级；区分自动化测试和真实玩家体验。",
+      "date": "2026-09-07",
+      "status": "迭代记录",
+      "originalTitle": "2026-09-07：中途卡死、整卡冷却与粒子层次",
+      "title": "2026-09-07：中途卡死、整卡冷却与粒子层次",
+      "dateBasis": "文件名日期",
+      "dateDisplay": "2026-09-07",
+      "history": []
+    },
+    {
+      "project": "midnight",
+      "source": "docs/REWARD_MOTION_STUDY_2026_09_07.md",
+      "slug": "reward-motion",
+      "category": "交互表现",
+      "summary": "把奖励拆成击破、掉落、飞入界面与成长反馈的连续过程。",
+      "date": "2026-09-07",
+      "status": "迭代记录",
+      "originalTitle": "击破与奖励收集：参考分析、实现和验证",
+      "title": "击破与奖励收集：参考分析、实现和验证",
+      "dateBasis": "文件名日期",
+      "dateDisplay": "2026-09-07",
+      "history": []
+    },
+    {
+      "project": "midnight",
+      "source": "docs/BULLET_TIME_2026_09_08.md",
+      "slug": "bullet-time",
+      "category": "交互表现",
+      "summary": "统一世界时钟、去色与声音，形成第一轮子弹时间表现。",
+      "date": "2026-09-08",
+      "status": "迭代记录",
+      "originalTitle": "子弹时间：整场动画、黑白对比与音景（2026-09-08）",
+      "title": "子弹时间：整场动画、黑白对比与音景（2026-09-08）",
+      "dateBasis": "文件名日期",
+      "dateDisplay": "2026-09-08",
+      "history": []
+    },
+    {
+      "project": "midnight",
+      "source": "docs/FOCUS_SOFTENING_2026_09_08.md",
+      "slug": "focus-softening",
+      "category": "交互表现",
+      "summary": "继续修正分层去色、锁敌环、镜头和进入音，保留原先的操作节奏。",
+      "date": "2026-09-08",
+      "status": "迭代记录",
+      "originalTitle": "子弹时间分层去色与锁敌反馈修订（2026-09-08）",
+      "title": "子弹时间分层去色与锁敌反馈修订（2026-09-08）",
+      "dateBasis": "文件名日期",
+      "dateDisplay": "2026-09-08",
+      "history": []
+    },
+    {
+      "project": "midnight",
+      "source": "docs/COMBAT_AUDIO_2026_09_08.md",
+      "slug": "combat-audio",
+      "category": "交互表现",
+      "summary": "按实际听感调整爆炸、穿透与普通攻击的相对响度。",
+      "date": "2026-09-08",
+      "status": "迭代记录",
+      "originalTitle": "打击音效修订（2026-09-08）",
+      "title": "打击音效修订（2026-09-08）",
+      "dateBasis": "文件名日期",
+      "dateDisplay": "2026-09-08",
+      "history": []
+    },
+    {
+      "project": "midnight",
+      "source": "docs/TAPTAP_HAPTICS_1.0.3.md",
+      "slug": "haptics",
+      "category": "交互表现",
+      "summary": "1.0.3 的命中震动与平台回退，记录触觉反馈的触发边界。",
+      "date": "",
+      "status": "迭代记录",
+      "originalTitle": "TapTap H5 原生震动接入（1.0.3）",
+      "title": "TapTap H5 原生震动接入（1.0.3）",
+      "dateBasis": "未署日期",
+      "dateDisplay": "未署日期",
+      "history": []
+    },
+    {
+      "project": "merchant",
+      "source": "docs/superpowers/specs/2026-04-15-suitup-buildscore-oops-ui-integration-design.md",
+      "slug": "2026-04-15-suitup-buildscore-oops-ui-integration-design",
+      "title": "原型界面接入",
+      "category": "交互表现",
+      "summary": "扑克三消原型的界面、数据与操作接入方案。",
+      "date": "2026-04-15",
+      "status": "迭代方案",
+      "originalTitle": "SuitUp BuildScore（Oops Framework）UI 接入与配置加载设计",
+      "dateBasis": "文件名日期",
+      "dateDisplay": "2026-04-15",
+      "history": [
+        {
+          "commit": "d93417767e6e85ed253b14fea21f0854b2a33668",
+          "date": "2026-04-21",
+          "subject": "feat: complete hand card fan layout with full game integration"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/superpowers/specs/2026-04-20-v0.2-core-and-juice-design.md",
+      "slug": "2026-04-20-v0.2-core-and-juice-design",
+      "title": "v0.2 规则与反馈",
+      "category": "核心玩法",
+      "summary": "调整原型核心规则与消除反馈，说明这一轮优先验证的内容。",
+      "date": "2026-04-20",
+      "status": "迭代方案",
+      "originalTitle": "V0.2 核心机制闭环与爆分爽感 (Core & Juice) 设计文档",
+      "dateBasis": "文件名日期",
+      "dateDisplay": "2026-04-20",
+      "history": [
+        {
+          "commit": "d93417767e6e85ed253b14fea21f0854b2a33668",
+          "date": "2026-04-21",
+          "subject": "feat: complete hand card fan layout with full game integration"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/superpowers/specs/2026-04-21-handcard-fan-layout-design.md",
+      "slug": "2026-04-21-handcard-fan-layout-design",
+      "title": "手牌扇形布局",
+      "category": "交互表现",
+      "summary": "手牌位置、选择态和扇形布局的交互设计。",
+      "date": "2026-04-21",
+      "status": "迭代方案",
+      "originalTitle": "扇形动态手牌区（方案一：纯数学计算 + ECS）设计文档",
+      "dateBasis": "文件名日期",
+      "dateDisplay": "2026-04-21",
+      "history": [
+        {
+          "commit": "89c148e3de6adc22cc7fdb186d942bde5ad2b69e",
+          "date": "2026-04-21",
+          "subject": "docs(spec): add design spec for fan-shaped hand card layout"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/superpowers/specs/2026-05-19-traveling-merchant-modifier-system-design.md",
+      "slug": "2026-05-19-traveling-merchant-modifier-system-design",
+      "title": "道具修饰系统",
+      "category": "构筑成长",
+      "summary": "把工具和道具对结算的影响组织为可扩展规则。",
+      "date": "2026-05-19",
+      "status": "迭代方案",
+      "originalTitle": "远行商人 MVP v0.1 - Modifier（规则条目）系统设计",
+      "dateBasis": "文件名日期",
+      "dateDisplay": "2026-05-19",
+      "history": [
+        {
+          "commit": "edc90e8877c799e17c68733b642590da75a6692d",
+          "date": "2026-05-29",
+          "subject": "chore: snapshot buildscore ui iteration"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/superpowers/specs/2026-05-27-buildscore-ui-hud-settlement-redesign.md",
+      "slug": "2026-05-27-buildscore-ui-hud-settlement-redesign",
+      "title": "HUD 与结算重排",
+      "category": "交互表现",
+      "summary": "整理目标、进度与结算信息，让一轮得分的来源更易读。",
+      "date": "2026-05-27",
+      "status": "迭代方案",
+      "originalTitle": "BuildScore UI HUD & 结算表现改造设计（2026-05-27）",
+      "dateBasis": "文件名日期",
+      "dateDisplay": "2026-05-27",
+      "history": [
+        {
+          "commit": "edc90e8877c799e17c68733b642590da75a6692d",
+          "date": "2026-05-29",
+          "subject": "chore: snapshot buildscore ui iteration"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/superpowers/specs/2026-05-30-relic-effects-vnext-design.md",
+      "slug": "2026-05-30-relic-effects-vnext-design",
+      "title": "道具效果扩展",
+      "category": "构筑成长",
+      "summary": "将扩展后的道具效果落到触发条件、目标与结算过程。",
+      "date": "2026-05-30",
+      "status": "迭代方案",
+      "originalTitle": "30 个随身物（vNext）功能补齐 设计说明",
+      "dateBasis": "文件名日期",
+      "dateDisplay": "2026-05-30",
+      "history": [
+        {
+          "commit": "aea5319dd00f635246e7a0d3b9e489bc2f7c00ff",
+          "date": "2026-05-31",
+          "subject": "chore: snapshot ui updates and relic vnext"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/superpowers/specs/2026-05-30-relic-stamp-and-replace-design.md",
+      "slug": "2026-05-30-relic-stamp-and-replace-design",
+      "title": "道具盖章与替换",
+      "category": "交互表现",
+      "summary": "道具获得、落位和替换过程中的可见反馈。",
+      "date": "2026-05-30",
+      "status": "迭代方案",
+      "originalTitle": "道具印记位（5格）与满格替换 设计说明",
+      "dateBasis": "文件名日期",
+      "dateDisplay": "2026-05-30",
+      "history": [
+        {
+          "commit": "aea5319dd00f635246e7a0d3b9e489bc2f7c00ff",
+          "date": "2026-05-31",
+          "subject": "chore: snapshot ui updates and relic vnext"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/superpowers/specs/2026-07-12-v04-ui-simplification-design.md",
+      "slug": "2026-07-12-v04-ui-simplification-design",
+      "title": "右链版本 UI 简化",
+      "category": "交互表现",
+      "summary": "收敛右链版本界面信息与操作入口。",
+      "date": "2026-07-12",
+      "status": "迭代方案",
+      "originalTitle": "v0.4 局内 UI 简化设计",
+      "dateBasis": "文件名日期",
+      "dateDisplay": "2026-07-12",
+      "history": [
+        {
+          "commit": "3a6d758633713db2d6194603a046d3aafadf94a6",
+          "date": "2026-07-12",
+          "subject": "docs: define simplified v0.4 board UI"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/superpowers/specs/2026-07-14-ui-motion-trial-design.md",
+      "slug": "2026-07-14-ui-motion-trial-design",
+      "title": "界面动效试验",
+      "category": "交互表现",
+      "summary": "把关键动效做成可比较、可调整的试验。",
+      "date": "2026-07-14",
+      "status": "迭代方案",
+      "originalTitle": "《远行商人》UI 动效试手感版设计",
+      "dateBasis": "文件名日期",
+      "dateDisplay": "2026-07-14",
+      "history": [
+        {
+          "commit": "b4ec14c0624495f21ca32eb5c8ce178be024503c",
+          "date": "2026-07-14",
+          "subject": "docs: tidy ui motion spec"
+        },
+        {
+          "commit": "d15bc7a75158737a4d41ff69d83f75a8cddcc806",
+          "date": "2026-07-14",
+          "subject": "docs: design ui motion trial"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/superpowers/specs/2026-07-14-ui-motion-video-parity-design.md",
+      "slug": "2026-07-14-ui-motion-video-parity-design",
+      "title": "动效节奏对照",
+      "category": "交互表现",
+      "summary": "对照参考视频，检查动作节奏与表现差异。",
+      "date": "2026-07-14",
+      "status": "迭代方案",
+      "originalTitle": "《远行商人》视频式 UI 动效修订设计",
+      "dateBasis": "文件名日期",
+      "dateDisplay": "2026-07-14",
+      "history": [
+        {
+          "commit": "1861486efd4a2fe341c2d84a080debd7d2db2f81",
+          "date": "2026-07-15",
+          "subject": "docs: plan video-style ui motion implementation"
+        },
+        {
+          "commit": "725b4f276cb27c267176df415a24afeefae5dd80",
+          "date": "2026-07-15",
+          "subject": "docs: specify video-style ui motion revision"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/superpowers/specs/2026-07-15-five-animal-partner-naming-migration-design.md",
+      "slug": "2026-07-15-five-animal-partner-naming-migration-design",
+      "title": "五兽伙伴与命名",
+      "category": "核心玩法",
+      "summary": "从旧主题迁移到五兽伙伴，统一玩家可见名称与规则表达。",
+      "date": "2026-07-15",
+      "status": "迭代方案",
+      "originalTitle": "《远行商人》v0.5 五兽伙伴命名迁移设计",
+      "dateBasis": "文件名日期",
+      "dateDisplay": "2026-07-15",
+      "history": [
+        {
+          "commit": "f7c116435a29004d1de0d3b5d9064c720d7502a4",
+          "date": "2026-07-15",
+          "subject": "docs: specify five-animal partner naming migration"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/superpowers/specs/2026-07-15-ui-motion-preset-lab-design.md",
+      "slug": "2026-07-15-ui-motion-preset-lab-design",
+      "title": "动效预设实验室",
+      "category": "交互表现",
+      "summary": "建立预设比较入口，反复调整界面动作的速度和幅度。",
+      "date": "2026-07-15",
+      "status": "迭代方案",
+      "originalTitle": "《远行商人》UI 动效预设库与 Cocos 实验室设计",
+      "dateBasis": "文件名日期",
+      "dateDisplay": "2026-07-15",
+      "history": [
+        {
+          "commit": "b966f45afcc3e32ef5ce4878fdfa13074a9ae912",
+          "date": "2026-07-15",
+          "subject": "docs: plan ui motion preset lab implementation"
+        },
+        {
+          "commit": "fc31aac23ff6f966cb304fb72dac5082b4a3ab7c",
+          "date": "2026-07-15",
+          "subject": "docs: follow actual ui impact hit count"
+        },
+        {
+          "commit": "daa12a66ea440fc69cd9935b6998c737d2982a70",
+          "date": "2026-07-15",
+          "subject": "docs: specify ui motion preset lab"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/superpowers/specs/2026-07-16-card-target-flow-border-design.md",
+      "slug": "2026-07-16-card-target-flow-border-design",
+      "title": "选目标与流动描边",
+      "category": "交互表现",
+      "summary": "把可选目标、不可选目标与选中状态放在同一局内界面表达。",
+      "date": "2026-07-16",
+      "status": "迭代方案",
+      "originalTitle": "伙伴牌目标双相位外扩光效设计",
+      "dateBasis": "文件名日期",
+      "dateDisplay": "2026-07-16",
+      "history": [
+        {
+          "commit": "b47db45485e35d6f39d3428dec07fe8e30ecae25",
+          "date": "2026-07-16",
+          "subject": "docs: correct card target expansion effect design"
+        },
+        {
+          "commit": "2e9d0a9b5f12d33e1b83983bf319a0ba36beb5d6",
+          "date": "2026-07-16",
+          "subject": "feat: replace card target glow with flow border"
+        },
+        {
+          "commit": "d08325a8edffae1161e485a112151d20c0d8a14a",
+          "date": "2026-07-16",
+          "subject": "docs: design card target flow border"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/superpowers/specs/2026-07-16-score-motion-presets-design.md",
+      "slug": "2026-07-16-score-motion-presets-design",
+      "title": "得分动效预设",
+      "category": "交互表现",
+      "summary": "整理得分反馈预设，比较数字与动作的配合方式。",
+      "date": "2026-07-16",
+      "status": "迭代方案",
+      "originalTitle": "分数动效预设设计",
+      "dateBasis": "文件名日期",
+      "dateDisplay": "2026-07-16",
+      "history": [
+        {
+          "commit": "8c814925c25c9ace7c0e750ad0c3522525900f0b",
+          "date": "2026-07-16",
+          "subject": "docs: define reusable score motion presets"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/superpowers/specs/2026-07-17-game-polish-and-build-validation-design.md",
+      "slug": "2026-07-17-game-polish-and-build-validation-design",
+      "title": "体验打磨与构建验证",
+      "category": "验证记录",
+      "summary": "记录表现打磨范围与构建后的检查方式。",
+      "date": "2026-07-17",
+      "status": "迭代方案",
+      "originalTitle": "《远行商人》体验升级与构筑验证系统设计",
+      "dateBasis": "文件名日期",
+      "dateDisplay": "2026-07-17",
+      "history": [
+        {
+          "commit": "e477b7f2290e525846b10a27209827c1419397aa",
+          "date": "2026-07-17",
+          "subject": "docs: define game polish and build validation roadmap"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/superpowers/specs/2026-07-17-particle-fx-replica-design.md",
+      "slug": "2026-07-17-particle-fx-replica-design",
+      "title": "粒子效果设计",
+      "category": "交互表现",
+      "summary": "把参考效果拆为粒子参数、层次与可调节的表现。",
+      "date": "2026-07-17",
+      "status": "迭代方案",
+      "originalTitle": "视频粒子效果复刻设计",
+      "dateBasis": "文件名日期",
+      "dateDisplay": "2026-07-17",
+      "history": [
+        {
+          "commit": "73ca9b6c1ec9f191a927fe8f26a3ac9bcc753288",
+          "date": "2026-07-17",
+          "subject": "docs: design reusable 2d particle effect previews"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/superpowers/specs/2026-07-17-partner-icon-and-board-highlight-separation-design.md",
+      "slug": "2026-07-17-partner-icon-and-board-highlight-separation-design",
+      "title": "图标与棋盘高亮分层",
+      "category": "交互表现",
+      "summary": "分离伙伴图标和棋盘高亮，减少状态反馈之间的干扰。",
+      "date": "2026-07-17",
+      "status": "迭代方案",
+      "originalTitle": "伙伴图标比例与行动格提示分层设计",
+      "dateBasis": "文件名日期",
+      "dateDisplay": "2026-07-17",
+      "history": [
+        {
+          "commit": "a0cff4ea2c0044d1ce27918d70d4c0261ddb361f",
+          "date": "2026-07-24",
+          "subject": "feat: 建立五兽商队 v0.6 当前版本基线"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/superpowers/specs/2026-07-17-pattern-multiplier-and-reveal-motion-design.md",
+      "slug": "2026-07-17-pattern-multiplier-and-reveal-motion-design",
+      "title": "组合倍率与揭示动效",
+      "category": "交互表现",
+      "summary": "让组合形成、倍率变化和揭示反馈相互对应。",
+      "date": "2026-07-17",
+      "status": "迭代方案",
+      "originalTitle": "同类倍率与牌型揭示动效设计",
+      "dateBasis": "文件名日期",
+      "dateDisplay": "2026-07-17",
+      "history": [
+        {
+          "commit": "229a969252129121f0736693dca965669ab7d7ab",
+          "date": "2026-07-17",
+          "subject": "docs: design pattern reveal motion"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/superpowers/specs/2026-07-17-victory-confetti-rain-overlay-design.md",
+      "slug": "2026-07-17-victory-confetti-rain-overlay-design",
+      "title": "胜利彩屑反馈",
+      "category": "交互表现",
+      "summary": "胜利时的彩屑表现、层级和覆盖范围。",
+      "date": "2026-07-17",
+      "status": "迭代方案",
+      "originalTitle": "胜利彩带雨与粉黄遮罩动效设计",
+      "dateBasis": "文件名日期",
+      "dateDisplay": "2026-07-17",
+      "history": [
+        {
+          "commit": "ebf22c957f67ee21f77a4d17811d74c3cea29a78",
+          "date": "2026-07-17",
+          "subject": "docs: design victory confetti rain and overlay"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/superpowers/specs/2026-07-18-chapter-pattern-wave-background-design.md",
+      "slug": "2026-07-18-chapter-pattern-wave-background-design",
+      "title": "章节背景波纹",
+      "category": "交互表现",
+      "summary": "用章节背景与波纹变化表达场景氛围。",
+      "date": "2026-07-18",
+      "status": "迭代方案",
+      "originalTitle": "章节图案波浪换色背景设计",
+      "dateBasis": "文件名日期",
+      "dateDisplay": "2026-07-18",
+      "history": [
+        {
+          "commit": "f7cdf8722b31d66624d1462884049975395e7d8e",
+          "date": "2026-07-18",
+          "subject": "docs: design chapter pattern wave background"
+        }
+      ]
+    },
+    {
+      "project": "merchant",
+      "source": "docs/superpowers/specs/2026-07-18-hybrid-settlement-fx-lab-design.md",
+      "slug": "2026-07-18-hybrid-settlement-fx-lab-design",
+      "title": "结算反馈组合试验",
+      "category": "交互表现",
+      "summary": "把多种结算效果放在同一试验入口比较。",
+      "date": "2026-07-18",
+      "status": "迭代方案",
+      "originalTitle": "混合结算爆裂动效实验室设计",
+      "dateBasis": "文件名日期",
+      "dateDisplay": "2026-07-18",
+      "history": [
+        {
+          "commit": "a0cff4ea2c0044d1ce27918d70d4c0261ddb361f",
+          "date": "2026-07-24",
+          "subject": "feat: 建立五兽商队 v0.6 当前版本基线"
+        }
+      ]
+    }
+  ],
+  "snapshots": 26
+}

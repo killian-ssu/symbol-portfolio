@@ -1,0 +1,93 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f4f2eb"><title>v0.8 五品阶局外驿站、展区与每日行情实现说明 · Symbol 策划档案</title><meta name="description" content="局外驿站、五品阶藏品、展区收益与每日行情的设计和实现说明。"><link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css"><script src="../archive.js" defer></script></head><body class="document-page merchant"><a class="skip" href="#main">跳到正文</a><header class="site-header"><a class="wordmark" href="../index.html">SYMBOL<span>设计档案 / 2026</span></a><nav aria-label="主导航"><a href="../index.html#timeline">版本时间线</a><a href="../index.html#catalog">全部文档</a><a class="back-portfolio" href="../../index.html">作品集 <span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="doc-top"><a class="back-link" href="../index.html?project=merchant#catalog">← 返回远行商人文档</a><div class="doc-tags"><span>远行商人</span><span>迭代记录</span><span>构筑成长</span></div><h1>v0.8 五品阶局外驿站、展区与每日行情实现说明</h1><p class="doc-intro">局外驿站、五品阶藏品、展区收益与每日行情的设计和实现说明。</p><div class="doc-metadata"><span><strong>2026-07-25</strong>首次入库</span><span><strong>4 分钟</strong>预计阅读</span><span><strong>2</strong>次可查提交</span><a class="download" href="../sources/meta-hub.md" download>下载本文 ↓</a></div></div><div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><a class="level-2" href="#1-版本目标">1. 版本目标</a><a class="level-2" href="#2-五品阶">2. 五品阶</a><a class="level-2" href="#3-页面与交互">3. 页面与交互</a><a class="level-3" href="#3-1-仓库">3.1 仓库</a><a class="level-3" href="#3-2-每日行情">3.2 每日行情</a><a class="level-3" href="#3-3-神秘商店">3.3 神秘商店</a><a class="level-3" href="#3-4-展区">3.4 展区</a><a class="level-3" href="#3-5-主界面与图鉴">3.5 主界面与图鉴</a><a class="level-2" href="#4-数据与迁移">4. 数据与迁移</a><a class="level-2" href="#5-首版仍不做">5. 首版仍不做</a><a class="level-2" href="#6-当前实现状态">6. 当前实现状态</a><a href="#source-record">来源与修改记录</a></nav></details><a class="to-top" href="#main">回到页首 ↑</a></aside><div class="doc-reading"><div class="archive-note"><span class="note-marker">档案说明</span><p>这是 2026-09-19 从工程收录的文本，可能包含后来补写的注释。正文中的“当前”“已实现”保留原有语境，不代表本站试玩版已逐项复验。</p></div><article class="prose" id="article"><h2 id="1-版本目标">1. 版本目标<a class="heading-link" href="#1-版本目标" aria-label="链接到本节">#</a></h2><p>v0.8 在 v0.7 局外首要闭环上补全收藏价值、每日变化与长期持有取舍，不增加永久战斗属性，也不改变局内道具规则。</p>
+<p>底部导航从左到右固定为：</p>
+<ol>
+<li><strong>商店</strong></li>
+<li><strong>仓库</strong></li>
+<li><strong>主界面</strong></li>
+<li><strong>展区</strong></li>
+<li><strong>图鉴</strong></li>
+</ol>
+<p>局内“道具”和局外“藏品”仍是两个独立数据域。藏品可以复用局内资源图标，但不继承局内效果，也不参与肉鸽构筑。</p>
+<h2 id="2-五品阶">2. 五品阶<a class="heading-link" href="#2-五品阶" aria-label="链接到本节">#</a></h2><p>藏品品阶只接受 <code>S/A/B/C/D</code>，顺序固定为 <code>S &gt; A &gt; B &gt; C &gt; D</code>：</p>
+<ul>
+<li>S：金色，带冠标/闪光预制层。</li>
+<li>A：紫色。</li>
+<li>B：蓝色。</li>
+<li>C：绿色。</li>
+<li>D：灰褐色。</li>
+</ul>
+<p>品阶决定基础价值梯度、商店出现率、每日行情波幅、展区收益和卡片表现。五套底板、边框、光效和角标都在 Prefab 中预制，代码只切换显隐。</p>
+<p>每日行情波幅为：</p>
+<ul>
+<li>D：±3%</li>
+<li>C：±5%</li>
+<li>B：±8%</li>
+<li>A：±12%</li>
+<li>S：±15%</li>
+</ul>
+<p>商店品阶权重为 <code>D 40 / C 30 / B 18 / A 9 / S 3</code>。通关免费藏品只从 D/C/B 抽取，权重为 <code>60/30/10</code>；A/S 主要来自神秘商店。</p>
+<h2 id="3-页面与交互">3. 页面与交互<a class="heading-link" href="#3-页面与交互" aria-label="链接到本节">#</a></h2><h3 id="3-1-仓库">3.1 仓库<a class="heading-link" href="#3-1-仓库" aria-label="链接到本节">#</a></h3><ul>
+<li>使用纵向 ScrollView，每行 5 格，Prefab 预制 30 个槽位。</li>
+<li>筛选为“全部、S、A、B、C、D”。</li>
+<li>每格包含阴影、品阶层、图标、名称、数量、锁定、展出和行情角标。</li>
+<li>今日价高于昨日显示绿色上箭头，低于昨日显示红色下箭头，相同显示灰色横线。</li>
+<li>点击藏品打开独立 Oops Dialog，显示描述、品阶、总数/锁定/展出/可用、基础价值、昨日价、今日价、涨跌金额与百分比、每 3 小时展区收益。</li>
+<li>详情操作为锁定/解锁、赠送、前往展出、按今日行情出售 1 件。</li>
+</ul>
+<p>展出副本仍计入仓库总数，但不可出售、赠送或再次展出。所有扣除统一使用：</p>
+<pre><code class="language-text">available = quantity - locked - exhibited
+</code></pre>
+<h3 id="3-2-每日行情">3.2 每日行情<a class="heading-link" href="#3-2-每日行情" aria-label="链接到本节">#</a></h3><ul>
+<li>使用“本地日期 + 藏品 ID”生成稳定报价，同一天重复进入不会改变。</li>
+<li><code>今日价 = max(1, round(基础价值 × 当日波动系数))</code>。</li>
+<li>趋势由今日整数价与昨日实际整数价比较，允许平价。</li>
+<li>详情若在午夜前打开、午夜后确认出售，服务返回 <code>stale_quote</code>；界面关闭旧详情并要求使用刷新后的价格重新确认。</li>
+<li>行情只影响仓库直接出售和未来拍卖参考价，不改变商店售价与展区收益。</li>
+</ul>
+<h3 id="3-3-神秘商店">3.3 神秘商店<a class="heading-link" href="#3-3-神秘商店" aria-label="链接到本节">#</a></h3><ul>
+<li>每日生成 3 张普通神秘牌，逐张免费翻开并保存状态。</li>
+<li>第 4 张为独立广告牌；广告完成后揭晓，仍需用金币购买。</li>
+<li>同一天四件商品不得重复。</li>
+<li>未揭晓时 <code>ShopOfferRow.config</code> 为 <code>null</code>，界面无法取得名称、图标、品阶或价格。</li>
+<li>正面显示大图、品阶框、名称、已有数量、固定售价和已购买状态。</li>
+<li>删除 v0.7 的广告领币与广告刷新，显示本地午夜换货倒计时。</li>
+</ul>
+<h3 id="3-4-展区">3.4 展区<a class="heading-link" href="#3-4-展区" aria-label="链接到本节">#</a></h3><ul>
+<li>预制 3 个展位，三个展品必须不同。</li>
+<li>每满 3 小时按藏品固定配置产生一次金币。</li>
+<li>离线最多累计 8 次，即 24 小时。</li>
+<li>每日行情不改变展区收益。</li>
+<li>“统一领取”同时领取三个展位的完整周期。</li>
+<li>撤下或替换时自动结算完整周期；未完成周期清零。</li>
+<li>选择器是预制的 30 格 ScrollView，只列出未锁定、未展出的可用藏品。</li>
+</ul>
+<h3 id="3-5-主界面与图鉴">3.5 主界面与图鉴<a class="heading-link" href="#3-5-主界面与图鉴" aria-label="链接到本节">#</a></h3><ul>
+<li>主界面保留继续上次远行和开始新的远行，不增加战斗属性。</li>
+<li>玩家界面统一使用“图鉴”，分类仍为场景、特别状况、局内道具、工具。</li>
+<li>图鉴使用四列 ScrollView；未知条目显示剪影和“未发现”，不泄露真实名称，已发现条目可打开详情。</li>
+<li>商店存在未翻牌时显示底栏角标；展区存在可领取金币时显示底栏角标。</li>
+</ul>
+<h2 id="4-数据与迁移">4. 数据与迁移<a class="heading-link" href="#4-数据与迁移" aria-label="链接到本节">#</a></h2><ul>
+<li><code>collectibles.json</code> 升级为 v2，包含品阶、描述、固定商店价、基础价值、固定展区收益、商店权重、通关权重和图标。</li>
+<li>档案键升级为 <code>travelling_merchant.meta_profile.v2</code>。</li>
+<li>v1→v2 保留金币、仓库、发现记录和教程；旧商店状态重新生成，展区初始化为空。</li>
+<li><code>MetaProfileService</code> 是行情、商店、仓库可用数和展区收益的唯一规则源，不引用 Cocos。</li>
+<li><code>MetaProfileRuntime</code> 负责资源、本地存储、平台桥接和界面通知。</li>
+<li><code>MetaAdBridge</code> 只有 <code>shop_offer_reveal</code> 广告位；失败不改变牌面，可再次尝试。</li>
+<li><code>MetaSocialBridge</code> 仍负责赠送成功回执；失败时归还已暂扣藏品。</li>
+<li>未来拍卖直接消费 <code>DailyMarketQuote</code>，不得另建价格算法。</li>
+</ul>
+<h2 id="5-首版仍不做">5. 首版仍不做<a class="heading-link" href="#5-首版仍不做" aria-label="链接到本节">#</a></h2><ul>
+<li>拍卖界面与玩家自由交易。</li>
+<li>多货币、付费抽取和永久战斗属性。</li>
+<li>完整经济长期平衡与服务端权威资产。</li>
+<li>正式好友后台和广告 SDK；当前保留可替换桥接与编辑器演示实现。</li>
+</ul>
+<h2 id="6-当前实现状态">6. 当前实现状态<a class="heading-link" href="#6-当前实现状态" aria-label="链接到本节">#</a></h2><ul>
+<li>五页主界面、30 格仓库、4 张神秘牌、3 个展位、30 格展品选择器、32 格图鉴和藏品详情 Dialog 已写入 Prefab。</li>
+<li>12 件藏品已完成五品阶配置，当前图标使用项目素材占位，后续可直接替换 SpriteFrame。</li>
+<li>每日行情、隐藏信息、购买、按行情出售、可用库存、赠送、展区结算、24 小时上限和 v1→v2 迁移已落地。</li>
+<li>首次局内教学和进行中远行快照保持 v0.7 行为。</li>
+<li><code>test:meta</code>、<code>test:meta-ui</code>、<code>test:oops-runtime</code>、<code>test:v04</code> 与 TypeScript 编译已覆盖本次回归。</li>
+</ul>
+</article><section class="source-record" id="source-record"><p class="eyebrow">SOURCE & REVISIONS</p><h2>来源与修改记录</h2><dl><dt>原文标题</dt><dd>v0.8 五品阶局外驿站、展区与每日行情实现说明</dd><dt>工程内文件</dt><dd><code>docs/v07-meta-hub/meta-progression-implementation-plan.md</code></dd><dt>收录方式</dt><dd>从现存工程文件收录，保留原段落与参数；仅做网页排版、本机路径匿名化与链接整理。</dd><dt>日期依据</dt><dd>首次入库 · 2026-07-25。用于证明此时文件已经存在，不等于实际写作日期。</dd></dl><details class="history" open><summary>查看 2 次文件提交记录</summary><p>以下为包含此文件变化的提交。提交说明可能涉及整个项目，不代表该文档单独完成了所有列出的功能。</p><ol><li><time>2026-07-31</time><div><code>e82bdf5</code><p>chore: checkpoint current gameplay before pipeline rewrite</p></div></li><li><time>2026-07-25</time><div><code>a2775f2</code><p>feat: 整合远行玩法与局外成长系统 (#5)</p></div></li></ol></details></section><nav class="adjacent" aria-label="相邻文档"><a href="right-chain-brief.html"><small>上一篇</small>右链构筑、道具与工具统一策划案（AI 交接稿）</a><a href="2026-04-15-suitup-buildscore-oops-ui-integration-design.html"><small>下一篇</small>原型界面接入</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>两个独立游戏，从原型到迭代的设计记录。</p></div><p>整理于 2026.09.19<br><a href="../index.html#about">收录与日期说明</a> · <a href="../../index.html">返回作品集 ↗</a></p></footer></body></html>

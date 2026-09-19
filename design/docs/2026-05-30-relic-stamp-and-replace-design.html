@@ -1,0 +1,89 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f4f2eb"><title>道具盖章与替换 · Symbol 策划档案</title><meta name="description" content="道具获得、落位和替换过程中的可见反馈。"><link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css"><script src="../archive.js" defer></script></head><body class="document-page merchant"><a class="skip" href="#main">跳到正文</a><header class="site-header"><a class="wordmark" href="../index.html">SYMBOL<span>设计档案 / 2026</span></a><nav aria-label="主导航"><a href="../index.html#timeline">版本时间线</a><a href="../index.html#catalog">全部文档</a><a class="back-portfolio" href="../../index.html">作品集 <span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="doc-top"><a class="back-link" href="../index.html?project=merchant#catalog">← 返回远行商人文档</a><div class="doc-tags"><span>远行商人</span><span>迭代方案</span><span>交互表现</span></div><h1>道具盖章与替换</h1><p class="doc-intro">道具获得、落位和替换过程中的可见反馈。</p><div class="doc-metadata"><span><strong>2026-05-30</strong>文件名日期</span><span><strong>4 分钟</strong>预计阅读</span><span><strong>1</strong>次可查提交</span><a class="download" href="../sources/2026-05-30-relic-stamp-and-replace-design.md" download>下载本文 ↓</a></div></div><div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><a class="level-2" href="#目标">目标</a><a class="level-2" href="#核心约束">核心约束</a><a class="level-2" href="#数据模型-方案-a">数据模型（方案 A）</a><a class="level-3" href="#slotstate-运行时">SlotState（运行时）</a><a class="level-3" href="#modifierconfig-配置">ModifierConfig（配置）</a><a class="level-2" href="#流程设计">流程设计</a><a class="level-3" href="#1-获得-relic-自动放置">1) 获得 relic：自动放置</a><a class="level-3" href="#2-获得-relic-满格替换">2) 获得 relic：满格替换</a><a class="level-2" href="#ui-交互实现策略-不新增背包栏">UI/交互实现策略（不新增背包栏）</a><a class="level-3" href="#盘面格子印记渲染">盘面格子印记渲染</a><a class="level-3" href="#替换模式-ui-最小化新增资源">替换模式 UI（最小化新增资源）</a><a class="level-2" href="#测试要点">测试要点</a><a href="#source-record">来源与修改记录</a></nav></details><a class="to-top" href="#main">回到页首 ↑</a></aside><div class="doc-reading"><div class="archive-note"><span class="note-marker">档案说明</span><p>这是 2026-09-19 从工程收录的文本，可能包含后来补写的注释。正文中的“当前”“已实现”保留原有语境，不代表本站试玩版已逐项复验。</p></div><article class="prose" id="article"><h2 id="目标">目标<a class="heading-link" href="#目标" aria-label="链接到本节">#</a></h2><p>在局内使用 5 个行动格（slotIndex 0-4，对应 UI 1-5）承载“道具印记位”。道具不做背包栏/道具架；视觉仅体现在格子底纹/符印/边框变化；行动牌仍直接放在格子上。</p>
+<p>当玩家获得新道具（relic）时：</p>
+<ol>
+<li>若存在空位：自动放入第一个空位（从 slotIndex=0 起查找），播放一次落入反馈动画，并展示道具名称与效果说明，然后继续原本流程。</li>
+<li>若满格：进入替换流程（pendingItem），玩家点击一个旧印记位并确认后替换，替换位置保持不变，不做整体左移/重排；替换完成后继续原本流程。</li>
+<li>若一次获得多个道具：进入队列，逐个执行自动放置或替换；若未来探索轮中途获得，则延迟到本轮结算结束后处理。</li>
+</ol>
+<h2 id="核心约束">核心约束<a class="heading-link" href="#核心约束" aria-label="链接到本节">#</a></h2><ul>
+<li>每格最多 1 个道具印记（slotIndex 0-4）。</li>
+<li>全局道具与格子道具都占用 1 个印记位：<ul>
+<li>全局道具：效果作用全局，但仍占据某个 slot 的印记位（位置稳定）。</li>
+<li>格子道具：效果作用本格/相邻格（位置稳定，后续支持相邻触发）。</li>
+</ul>
+</li>
+<li>满格时新道具不自动覆盖旧道具；必须由玩家选择替换目标。</li>
+<li>替换界面打开时，禁止继续出牌、刷新、进入下一关。</li>
+</ul>
+<h2 id="数据模型-方案-a">数据模型（方案 A）<a class="heading-link" href="#数据模型-方案-a" aria-label="链接到本节">#</a></h2><h3 id="slotstate-运行时">SlotState（运行时）<a class="heading-link" href="#slotstate-运行时" aria-label="链接到本节">#</a></h3><ul>
+<li><code>slots[0..4].slotModifierId: string | null</code> 作为“印记位占用”的唯一真相（relic 不区分 global/slot 的占用方式，统一占一个 slot）。</li>
+<li><code>modifiersGlobal: string[]</code> 仅保留 <code>kind=upgrade</code>（若后续仍保留升级系统）。</li>
+</ul>
+<h3 id="modifierconfig-配置">ModifierConfig（配置）<a class="heading-link" href="#modifierconfig-配置" aria-label="链接到本节">#</a></h3><p>在现有 <code>ModifierConfig</code> 上新增可选字段，用于渲染印记：</p>
+<ul>
+<li><code>icon?: string</code>：SpriteAtlas 内的 icon spriteFrame 名</li>
+<li><code>frame?: string</code>：SpriteAtlas 内的 frame spriteFrame 名（可为空）</li>
+</ul>
+<p>逻辑效果仍由 <code>scope: global|slot</code> 决定：</p>
+<ul>
+<li><code>scope=global</code>：参与全局触发，不绑定 <code>slot_self/slot_index_is</code> 的“自身格”语义。</li>
+<li><code>scope=slot</code>：绑定占用的 slotIndex，支持 <code>slot_self</code>、<code>slot_index_is</code> 等条件。</li>
+</ul>
+<h2 id="流程设计">流程设计<a class="heading-link" href="#流程设计" aria-label="链接到本节">#</a></h2><h3 id="1-获得-relic-自动放置">1) 获得 relic：自动放置<a class="heading-link" href="#1-获得-relic-自动放置" aria-label="链接到本节">#</a></h3><p>触发点：关卡通关奖励选择（pending_reward）选择了某个 <code>modifier(kind=relic)</code>。</p>
+<p>步骤：</p>
+<ol>
+<li>从 <code>slotIndex=0</code> 起查找首个 <code>slotModifierId == null</code> 的格子。</li>
+<li>若找到：<ul>
+<li>写入该 slot 的 <code>slotModifierId = newRelicId</code></li>
+<li>播放该格“印记落入”动画（scale/opacity tween）</li>
+<li>展示道具名称与效果说明（不阻塞交互，展示后继续流程）</li>
+<li>继续原本流程（进入下一关 / 下一阶段）</li>
+</ul>
+</li>
+</ol>
+<h3 id="2-获得-relic-满格替换">2) 获得 relic：满格替换<a class="heading-link" href="#2-获得-relic-满格替换" aria-label="链接到本节">#</a></h3><p>触发条件：5 个 slot 均已有 <code>slotModifierId != null</code>。</p>
+<p>步骤：</p>
+<ol>
+<li>将新道具保存为 <code>pendingItem</code>（并进入队列）。</li>
+<li>暂停进入下一关或下一阶段。</li>
+<li>进入“替换模式”：<ul>
+<li>隐藏行动牌（仅隐藏牌节点，不影响印记显示）</li>
+<li>显示提示文案：<code>行囊已满，请选择一个旧印记替换</code>，并展示新道具名称/说明</li>
+<li>五个格子进入可点击</li>
+</ul>
+</li>
+<li>玩家点击一个 slot：<ul>
+<li>高亮该格</li>
+<li>弹出确认窗口，展示 <code>原道具 -&gt; 新道具</code> 预览与描述</li>
+</ul>
+</li>
+<li>玩家确认：<ul>
+<li>将 <code>selectedSlotIndex</code> 中旧道具移除（覆盖写入）</li>
+<li>将 <code>pendingItem</code> 放入该 slot（位置不变）</li>
+<li>播放旧印记淡出 / 新印记盖入动画</li>
+<li>退出替换模式，恢复行动牌显示</li>
+<li>若队列还有 pendingItem：继续下一轮替换；否则继续原本流程</li>
+</ul>
+</li>
+</ol>
+<h2 id="ui-交互实现策略-不新增背包栏">UI/交互实现策略（不新增背包栏）<a class="heading-link" href="#ui-交互实现策略-不新增背包栏" aria-label="链接到本节">#</a></h2><h3 id="盘面格子印记渲染">盘面格子印记渲染<a class="heading-link" href="#盘面格子印记渲染" aria-label="链接到本节">#</a></h3><p>在 <code>board_cell.prefab</code> 内由编辑器添加（并绑定）：</p>
+<ul>
+<li><code>StampRoot</code>（默认隐藏）<ul>
+<li><code>Icon</code>（cc.Sprite）</li>
+<li><code>Frame</code>（cc.Sprite，可选）</li>
+</ul>
+</li>
+</ul>
+<p>运行时通过脚本将 <code>slotModifierId</code> 映射到对应 <code>ModifierConfig.icon/frame</code>，从 SpriteAtlas 中取 spriteFrame 设置到 Icon/Frame。</p>
+<h3 id="替换模式-ui-最小化新增资源">替换模式 UI（最小化新增资源）<a class="heading-link" href="#替换模式-ui-最小化新增资源" aria-label="链接到本节">#</a></h3><ul>
+<li>不新增独立“背包/道具架”UI。</li>
+<li>替换模式提示使用飘字/提示文案（不阻塞点格子）。</li>
+<li>确认替换使用现有 Confirm 弹窗（带遮罩，确认时阻塞输入）。</li>
+</ul>
+<h2 id="测试要点">测试要点<a class="heading-link" href="#测试要点" aria-label="链接到本节">#</a></h2><ul>
+<li>空位自动放置：依次填充 0→4，确认不弹选择界面、能播放一次动画与提示。</li>
+<li>满格替换：进入替换模式，隐藏行动牌；点击某格后确认替换；替换后该位置保持不变。</li>
+<li>替换模式禁用操作：替换模式下无法出牌/刷新/跳关/进入下一关。</li>
+<li>scope 行为不变：<code>scope=global</code> 道具依然全局生效，<code>scope=slot</code> 道具依然与其占用 slotIndex 绑定。</li>
+</ul>
+</article><section class="source-record" id="source-record"><p class="eyebrow">SOURCE & REVISIONS</p><h2>来源与修改记录</h2><dl><dt>原文标题</dt><dd>道具印记位（5格）与满格替换 设计说明</dd><dt>工程内文件</dt><dd><code>docs/superpowers/specs/2026-05-30-relic-stamp-and-replace-design.md</code></dd><dt>收录方式</dt><dd>从现存工程文件收录，保留原段落与参数；仅做网页排版、本机路径匿名化与链接整理。</dd><dt>日期依据</dt><dd>文件名日期 · 2026-05-30。正文日期、首次入库日期与修订日期可能不同。</dd></dl><details class="history" open><summary>查看 1 次文件提交记录</summary><p>以下为包含此文件变化的提交。提交说明可能涉及整个项目，不代表该文档单独完成了所有列出的功能。</p><ol><li><time>2026-05-31</time><div><code>aea5319</code><p>chore: snapshot ui updates and relic vnext</p></div></li></ol></details></section><nav class="adjacent" aria-label="相邻文档"><a href="2026-05-30-relic-effects-vnext-design.html"><small>上一篇</small>道具效果扩展</a><a href="2026-07-12-v04-ui-simplification-design.html"><small>下一篇</small>右链版本 UI 简化</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>两个独立游戏，从原型到迭代的设计记录。</p></div><p>整理于 2026.09.19<br><a href="../index.html#about">收录与日期说明</a> · <a href="../../index.html">返回作品集 ↗</a></p></footer></body></html>

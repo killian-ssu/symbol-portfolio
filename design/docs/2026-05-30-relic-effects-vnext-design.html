@@ -1,0 +1,90 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f4f2eb"><title>道具效果扩展 · Symbol 策划档案</title><meta name="description" content="将扩展后的道具效果落到触发条件、目标与结算过程。"><link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css"><script src="../archive.js" defer></script></head><body class="document-page merchant"><a class="skip" href="#main">跳到正文</a><header class="site-header"><a class="wordmark" href="../index.html">SYMBOL<span>设计档案 / 2026</span></a><nav aria-label="主导航"><a href="../index.html#timeline">版本时间线</a><a href="../index.html#catalog">全部文档</a><a class="back-portfolio" href="../../index.html">作品集 <span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="doc-top"><a class="back-link" href="../index.html?project=merchant#catalog">← 返回远行商人文档</a><div class="doc-tags"><span>远行商人</span><span>迭代方案</span><span>构筑成长</span></div><h1>道具效果扩展</h1><p class="doc-intro">将扩展后的道具效果落到触发条件、目标与结算过程。</p><div class="doc-metadata"><span><strong>2026-05-30</strong>文件名日期</span><span><strong>6 分钟</strong>预计阅读</span><span><strong>1</strong>次可查提交</span><a class="download" href="../sources/2026-05-30-relic-effects-vnext-design.md" download>下载本文 ↓</a></div></div><div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><a class="level-2" href="#目标">目标</a><a class="level-2" href="#现状与缺口">现状与缺口</a><a class="level-3" href="#现有触发链">现有触发链</a><a class="level-3" href="#现有效果能力">现有效果能力</a><a class="level-2" href="#设计-阶段与触发接线-保持最小改动">设计：阶段与触发接线（保持最小改动）</a><a class="level-2" href="#设计-新增运行时状态-成长类">设计：新增运行时状态（成长类）</a><a class="level-2" href="#设计-新增条件-效果-配置驱动">设计：新增条件/效果（配置驱动）</a><a class="level-3" href="#新增-modifiercondition-建议">新增 ModifierCondition（建议）</a><a class="level-3" href="#新增-modifiereffect-建议">新增 ModifierEffect（建议）</a><a class="level-2" href="#设计-道具逐项映射-对齐-vnext">设计：道具逐项映射（对齐 vNext）</a><a class="level-2" href="#验证要点">验证要点</a><a href="#source-record">来源与修改记录</a></nav></details><a class="to-top" href="#main">回到页首 ↑</a></aside><div class="doc-reading"><div class="archive-note"><span class="note-marker">档案说明</span><p>这是 2026-09-19 从工程收录的文本，可能包含后来补写的注释。正文中的“当前”“已实现”保留原有语境，不代表本站试玩版已逐项复验。</p></div><article class="prose" id="article"><h2 id="目标">目标<a class="heading-link" href="#目标" aria-label="链接到本节">#</a></h2><p>把 <code>docs/v2-traveling-merchant/scoring-and-builds-vnext.md</code> 的“30 个随身物讨论池”全部做成可用（不再保留 enabled=false 占位），并对齐其触发时机、数值语言与关键约束：</p>
+<ul>
+<li>道具占用 5 个行动格的“印记位”（已实现的印记位系统继续沿用）。</li>
+<li>道具触发顺序清晰：同阶段的全局触发按固定顺序；格子相关触发按行动格顺序。</li>
+<li>尽量用配置驱动：通过扩展少量 <code>ModifierCondition/ModifierEffect</code> 来表达剩余道具，不为每个道具写 if/else。</li>
+<li>规则修正道具（山野图谱/通商路引）要影响出牌阶段预览牌型与结算牌型。</li>
+<li>“指定格子限制放置”（中格铜印/压箱底“只能放某格”）先不实现放置限制 UI；功能仍按 vNext 的“作用在第 3/第 5 格”来实现。</li>
+</ul>
+<h2 id="现状与缺口">现状与缺口<a class="heading-link" href="#现状与缺口" aria-label="链接到本节">#</a></h2><h3 id="现有触发链">现有触发链<a class="heading-link" href="#现有触发链" aria-label="链接到本节">#</a></h3><p>当前结算链只执行：</p>
+<ul>
+<li><code>onRefresh</code>（按本轮刷新次数循环）</li>
+<li><code>onToolUsed</code>（按本轮使用工具顺序循环）</li>
+<li><code>beforeScore</code>（一次）</li>
+</ul>
+<p>未接入但 vNext 需要的：</p>
+<ul>
+<li><code>onCardPlaced</code>（每次放牌时：成长/计数）</li>
+<li><code>onRoundStart</code>（探索轮/路段开始）</li>
+<li><code>afterScore</code>（本轮结算后追加分、通关后成长）</li>
+<li><code>beforePatternLock / onPatternLocked</code>（规则修正与牌型锁定阶段）</li>
+</ul>
+<h3 id="现有效果能力">现有效果能力<a class="heading-link" href="#现有效果能力" aria-label="链接到本节">#</a></h3><p>目前效果能覆盖：</p>
+<ul>
+<li>单牌加分 / 单牌乘分 / 单牌再触发（repeat）</li>
+<li>加倍率（patternMultiplier 叠加）</li>
+<li>总分追加 / 倍率乘算（totalMultiplier）</li>
+</ul>
+<p>缺少 vNext 的“相邻/计数/成长/规则修正”表达。</p>
+<h2 id="设计-阶段与触发接线-保持最小改动">设计：阶段与触发接线（保持最小改动）<a class="heading-link" href="#设计-阶段与触发接线-保持最小改动" aria-label="链接到本节">#</a></h2><p>为兼容现有系统并保持 UI/动画可实现性，阶段接线采取“能落地即可”的方式：</p>
+<ol>
+<li><strong>onRoundStart</strong>：每次 <code>startExploreRound()</code> 后触发一次（用于旅人靴的刷新 +1 等路段/探索轮开始类效果）。</li>
+<li><strong>onCardPlaced</strong>：每次放入一张行动牌后触发一次（用于商路账簿/矿商秤/百草册等成长计数）。</li>
+<li><strong>beforeScore</strong>：维持现有（结算前应用所有对单牌/倍率/总分的修正）。</li>
+<li><strong>afterScore</strong>：在本轮得分结算完并写入 session.score 后触发一次（用于“结算后追加分”与“通关后成长”等）。</li>
+</ol>
+<p>牌型锁定与规则修正：</p>
+<ul>
+<li>规则修正不作为新的数值运算类型，而是进入“牌型判定层”的映射表，影响 <code>resolvePatternForTypes</code> 与 <code>getPreviewPattern</code>。</li>
+</ul>
+<h2 id="设计-新增运行时状态-成长类">设计：新增运行时状态（成长类）<a class="heading-link" href="#设计-新增运行时状态-成长类" aria-label="链接到本节">#</a></h2><p>在 <code>GameSession</code> 增加最小的可持久字段：</p>
+<ul>
+<li><code>globalBaseScoreAdd: number</code>（聚宝盆：通关后全牌基础分 +2 的累积）</li>
+<li><code>tradeLedgerMult: number</code>（商路账簿：初始 1.0，每次交易 +0.1，在结算末尾乘入倍率区）</li>
+<li><code>mineScaleAdd: number</code>（矿商秤：每次开矿永久 +3，结算后追加当前累积分）</li>
+<li><code>gatherBookAdd: number</code>（百草册：每次采集永久 +1，影响后续采集牌 baseScore）</li>
+</ul>
+<p>这些状态：</p>
+<ul>
+<li>影响出牌阶段预览（至少影响“基础分/倍率预览”中的可观察项）</li>
+<li>需要在 <code>resetRun()</code> 与 <code>resetForLevel()</code> 明确是否清零：成长类属于“本局内成长”，因此 <code>resetRun</code> 清零；<code>resetForLevel</code> 不清零。</li>
+</ul>
+<h2 id="设计-新增条件-效果-配置驱动">设计：新增条件/效果（配置驱动）<a class="heading-link" href="#设计-新增条件-效果-配置驱动" aria-label="链接到本节">#</a></h2><h3 id="新增-modifiercondition-建议">新增 ModifierCondition（建议）<a class="heading-link" href="#新增-modifiercondition-建议" aria-label="链接到本节">#</a></h3><ul>
+<li><code>source_count_at_least</code>：统计本轮 5 张牌中某货源数量是否 &gt;= N</li>
+<li><code>tools_used_at_least</code>：统计本轮使用工具牌数量是否 &gt;= N</li>
+<li><code>left_neighbor_source_diff</code>：该牌与左邻牌货源不同（用于集市串铃）</li>
+<li><code>adjacent_same_source</code>：该 slot 与相邻 slot（左或右）至少一侧同源（用于破货架）</li>
+<li><code>slot_pair_same_source</code>：指定两个 slot 是否同源（用于压箱底：第 5 格与第 1 格同源）</li>
+</ul>
+<h3 id="新增-modifiereffect-建议">新增 ModifierEffect（建议）<a class="heading-link" href="#新增-modifiereffect-建议" aria-label="链接到本节">#</a></h3><ul>
+<li><code>add_right_neighbor_baseScore</code>：右邻牌 <code>perCardScoreAdd += value</code></li>
+<li><code>add_adjacent_pair_baseScore</code>：本格与命中的相邻格都 <code>perCardScoreAdd += value</code></li>
+<li><code>repeat_right_neighbor_score</code>：右邻牌 <code>perCardRepeat *= value</code>（需要防止连环扣递归：只允许由该 effect 产生一次，不再触发自身）</li>
+<li><code>multiply_pattern_multiplier</code>：对 patternMultiplier 做乘法（用于商路账簿末尾乘入倍率区 / 行商腰牌倍率翻倍等）</li>
+</ul>
+<h2 id="设计-道具逐项映射-对齐-vnext">设计：道具逐项映射（对齐 vNext）<a class="heading-link" href="#设计-道具逐项映射-对齐-vnext" aria-label="链接到本节">#</a></h2><p>以 vNext 表为准，核心需要补齐的占位道具对应到上述能力：</p>
+<ul>
+<li>破货架：<code>adjacent_same_source</code> + <code>add_adjacent_pair_baseScore(+8)</code></li>
+<li>红算盘：<code>source_count_at_least(trade,3)</code> + <code>add_pattern_multiplier(+3)</code></li>
+<li>旅人靴：<code>onRoundStart</code> + <code>add_refresh_left(+1)</code>（若不想改 UI，至少改 session.refreshLeft/refreshTotal）</li>
+<li>古玩匣：<code>card_sourceType_is loot</code> + <code>add_card_baseScore(+5)</code>；若 <code>tools_used_at_least(1)</code> 再 +5</li>
+<li>五色转经筒：<code>pattern_is five_unique</code> + 对所有牌 <code>add_card_baseScore(+8)</code></li>
+<li>集市串铃：<code>left_neighbor_source_diff</code> + <code>add_card_baseScore(+6)</code></li>
+<li>迎客幡：<code>slot_self</code> + <code>add_right_neighbor_baseScore(+10)</code></li>
+<li>连环扣：首次触发后对右邻 <code>repeat_right_neighbor_score(2)</code>，且该额外触发不再产生新的连环扣事件</li>
+<li>行商腰牌：<code>tools_used_at_least(2)</code> + <code>multiply_pattern_multiplier(2)</code>（作用于倍率区）</li>
+<li>聚宝盆：通关后 <code>globalBaseScoreAdd += 2</code>，下局所有牌 baseScore +globalBaseScoreAdd</li>
+<li>商路账簿：每打出 trade：<code>tradeLedgerMult += 0.1</code>；结算末尾 <code>patternMultiplier *= tradeLedgerMult</code></li>
+<li>矿商秤：每打出 mine：<code>mineScaleAdd += 3</code>；结算后追加 <code>mineScaleAdd</code></li>
+<li>百草册：每打出 gather：<code>gatherBookAdd += 1</code>；后续 gather 牌 baseScore +gatherBookAdd</li>
+<li>山野图谱 / 通商路引：规则修正映射表，影响预览与结算的“同源判定”</li>
+</ul>
+<p>注：中格铜印/压箱底的“只能放某格”不做放置限制，但效果仍绑定 <code>slotIndex=2/4</code> 生效。</p>
+<h2 id="验证要点">验证要点<a class="heading-link" href="#验证要点" aria-label="链接到本节">#</a></h2><ul>
+<li>30 个 relic 全部 <code>enabled=true</code> 且能进入奖励池（按 unlockChapter 逐章解锁）。</li>
+<li>新触发点接线后，旧的 14 个可用道具行为不退化。</li>
+<li>规则修正道具会影响出牌阶段的牌型预览与结算牌型一致。</li>
+<li>连环扣不出现无限递归重复。</li>
+<li>tsc 编译通过。</li>
+</ul>
+</article><section class="source-record" id="source-record"><p class="eyebrow">SOURCE & REVISIONS</p><h2>来源与修改记录</h2><dl><dt>原文标题</dt><dd>30 个随身物（vNext）功能补齐 设计说明</dd><dt>工程内文件</dt><dd><code>docs/superpowers/specs/2026-05-30-relic-effects-vnext-design.md</code></dd><dt>收录方式</dt><dd>从现存工程文件收录，保留原段落与参数；仅做网页排版、本机路径匿名化与链接整理。</dd><dt>日期依据</dt><dd>文件名日期 · 2026-05-30。正文日期、首次入库日期与修订日期可能不同。</dd></dl><details class="history" open><summary>查看 1 次文件提交记录</summary><p>以下为包含此文件变化的提交。提交说明可能涉及整个项目，不代表该文档单独完成了所有列出的功能。</p><ol><li><time>2026-05-31</time><div><code>aea5319</code><p>chore: snapshot ui updates and relic vnext</p></div></li></ol></details></section><nav class="adjacent" aria-label="相邻文档"><a href="2026-05-27-buildscore-ui-hud-settlement-redesign.html"><small>上一篇</small>HUD 与结算重排</a><a href="2026-05-30-relic-stamp-and-replace-design.html"><small>下一篇</small>道具盖章与替换</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>两个独立游戏，从原型到迭代的设计记录。</p></div><p>整理于 2026.09.19<br><a href="../index.html#about">收录与日期说明</a> · <a href="../../index.html">返回作品集 ↗</a></p></footer></body></html>

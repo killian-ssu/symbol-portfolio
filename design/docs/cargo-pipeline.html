@@ -1,0 +1,341 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f4f2eb"><title>薯团搬宝流水线 v0.2 · Symbol 策划档案</title><meta name="description" content="薯团搬宝阶段：以同类相乘、异类相加建立可见的流水线。"><link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css"><script src="../archive.js" defer></script></head><body class="document-page merchant"><a class="skip" href="#main">跳到正文</a><header class="site-header"><a class="wordmark" href="../index.html">SYMBOL<span>设计档案 / 2026</span></a><nav aria-label="主导航"><a href="../index.html#timeline">版本时间线</a><a href="../index.html#catalog">全部文档</a><a class="back-portfolio" href="../../index.html">作品集 <span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="doc-top"><a class="back-link" href="../index.html?project=merchant#catalog">← 返回远行商人文档</a><div class="doc-tags"><span>远行商人</span><span>历史方案</span><span>核心玩法</span></div><h1>薯团搬宝流水线 v0.2</h1><p class="doc-intro">薯团搬宝阶段：以同类相乘、异类相加建立可见的流水线。</p><div class="doc-metadata"><span><strong>2026-08-01</strong>正文日期</span><span><strong>22 分钟</strong>预计阅读</span><span><strong>3</strong>次可查提交</span><a class="download" href="../sources/cargo-pipeline.md" download>下载本文 ↓</a></div></div><div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><a class="level-2" href="#1-结论">1. 结论</a><a class="level-2" href="#2-世界观-薯团搬运队">2. 世界观：薯团搬运队</a><a class="level-3" href="#一轮的叙事">一轮的叙事</a><a class="level-2" href="#3-统一名词">3. 统一名词</a><a class="level-2" href="#4-基础公式">4. 基础公式</a><a class="level-2" href="#5-精确结算协议">5. 精确结算协议</a><a class="level-3" href="#安全规则">安全规则</a><a class="level-2" href="#6-30-件道具">6. 30 件道具</a><a class="level-2" href="#7-8-张工具">7. 8 张工具</a><a class="level-2" href="#8-六个启程信条">8. 六个启程信条</a><a class="level-2" href="#9-奖励-品阶与渐进解锁">9. 奖励、品阶与渐进解锁</a><a class="level-3" href="#9-1-奖励布局">9.1 奖励布局</a><a class="level-3" href="#9-2-第一次远行">9.2 第一次远行</a><a class="level-3" href="#9-3-后续远行">9.3 后续远行</a><a class="level-2" href="#10-六条成熟构筑">10. 六条成熟构筑</a><a class="level-3" href="#10-1-连续复工">10.1 连续复工</a><a class="level-3" href="#10-2-底货养大">10.2 底货养大</a><a class="level-3" href="#10-3-前段精工">10.3 前段精工</a><a class="level-3" href="#10-4-异色备货">10.4 异色备货</a><a class="level-3" href="#10-5-工具工坊">10.5 工具工坊</a><a class="level-3" href="#10-6-全格抛光">10.6 全格抛光</a><a class="level-2" href="#11-前中后期爽感规划">11. 前中后期爽感规划</a><a class="level-3" href="#第一章-看懂运算">第一章：看懂运算</a><a class="level-3" href="#第二章-开始构筑">第二章：开始构筑</a><a class="level-3" href="#第三章-一轮点火">第三章：一轮点火</a><a class="level-3" href="#第四章-整批交付">第四章：整批交付</a><a class="level-2" href="#12-20-条特别状况改写">12. 20 条特别状况改写</a><a class="level-2" href="#13-ui-与动画交接">13. UI 与动画交接</a><a class="level-3" href="#13-1-主界面">13.1 主界面</a><a class="level-3" href="#13-2-单批货表现">13.2 单批货表现</a><a class="level-3" href="#13-3-可读性压缩">13.3 可读性压缩</a><a class="level-2" href="#14-core-与数据实现">14. Core 与数据实现</a><a class="level-3" href="#14-1-建议的数据边界">14.1 建议的数据边界</a><a class="level-3" href="#14-2-替换范围">14.2 替换范围</a><a class="level-3" href="#14-3-成长存档">14.3 成长存档</a><a class="level-3" href="#14-4-实施顺序">14.4 实施顺序</a><a class="level-2" href="#15-纸面模拟">15. 纸面模拟</a><a class="level-2" href="#16-上线前验收">16. 上线前验收</a><a class="level-3" href="#机制">机制</a><a class="level-3" href="#数值">数值</a><a class="level-3" href="#文案与表现">文案与表现</a><a class="level-2" href="#17-当前判断">17. 当前判断</a><a href="#source-record">来源与修改记录</a></nav></details><a class="to-top" href="#main">回到页首 ↑</a></aside><div class="doc-reading"><div class="archive-note"><span class="note-marker">档案说明</span><p>这是 2026-09-19 从工程收录的文本，可能包含后来补写的注释。正文中的“当前”“已实现”保留原有语境，不代表本站试玩版已逐项复验。</p></div><article class="prose" id="article"><blockquote>
+<p>历史版本：自 2026-08-01 起由 <code>value-pipeline-design-v0.4.md</code> 取代。本文保留旧“搬货/加工”叙事、旧短文案和旧风筝效果，仅用于追溯，不再作为当前实现依据。</p>
+</blockquote>
+<blockquote>
+<p>状态：2026-07-31 起作为 vNext 运行时真相；已替换旧动物牌型与道具向右触发链。
+配套数据：<code>potato-goblin-pipeline-content-v0.2.json</code>
+配套模拟：<code>scripts/simulate-potato-goblin-pipeline-v02.mjs</code></p>
+</blockquote>
+<h2 id="1-结论">1. 结论<a class="heading-link" href="#1-结论" aria-label="链接到本节">#</a></h2><p>建议用“同一批宝贝从 1 号位加工到 5 号位”完整替换牌型、基础分区和道具向右触发链。</p>
+<p>这套方案的零道具规则只有三句：</p>
+<ol>
+<li>宝贝自带 <code>10</code> 点底货。</li>
+<li>1 号位每次行动加货 <code>10</code>。</li>
+<li>2—5 号位：与前一位相同就 <code>×2</code>，不同就 <code>+10</code>。</li>
+</ol>
+<p>所以玩家在第二格立刻看见：</p>
+<ul>
+<li>相同：<code>(10 + 10) × 2 = 40</code></li>
+<li>不同：<code>10 + 10 + 10 = 30</code></li>
+</ul>
+<p>相同和不同从第一次交接就有明确差异；五张牌的排列本身就是向右加工的机制，不再需要道具替基础规则解释“向右”。</p>
+<p>保留现有结构：</p>
+<ul>
+<li>25 张伙伴牌、五种各 5 张；</li>
+<li>手牌 3 张，打 1 补 1；</li>
+<li>每轮放满 5 格后结算；</li>
+<li>每关最多 4 轮、2 次伙伴手牌刷新；</li>
+<li>5 个道具位，每格最多 1 件，可在结算外换位；</li>
+<li>工具牌独立保留，容量仍为 3 张；</li>
+<li>16 关目标保持 <code>250</code> 到 <code>1,000,000</code>；</li>
+<li>信条、章节路线、补给、特别状况和局外货品结构继续存在。</li>
+</ul>
+<p>删除：</p>
+<ul>
+<li>牌型判断与牌型倍率；</li>
+<li>五位伙伴各自的固定探索值；</li>
+<li>道具之间的向右触发、回传和独立批次；</li>
+<li>“基础分区 × 倍率区”的双重计分界面。</li>
+</ul>
+<h2 id="2-世界观-薯团搬运队">2. 世界观：薯团搬运队<a class="heading-link" href="#2-世界观-薯团搬运队" aria-label="链接到本节">#</a></h2><p>玩家是一本远行货册的领队，带着五支“薯团地精”小队寻找和搬运宝贝。它们都长得像矮胖土豆，靠帽子颜色、背包剪影和面部小特征区分。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>稳定 ID</th><th>玩家名称</th><th>视觉身份</th><th>玩法身份</th></tr></thead><tbody><tr><td><code>eagle</code></td><td>红帽地精</td><td>红帽、短铲</td><td>仅表示红色牌</td></tr><tr><td><code>wolf</code></td><td>黄帽地精</td><td>黄帽、绳捆</td><td>仅表示黄色牌</td></tr><tr><td><code>turtle</code></td><td>绿帽地精</td><td>绿帽、木箱</td><td>仅表示绿色牌</td></tr><tr><td><code>bee</code></td><td>蓝帽地精</td><td>蓝帽、玻璃瓶</td><td>仅表示蓝色牌</td></tr><tr><td><code>mouse</code></td><td>紫帽地精</td><td>紫帽、钱袋</td><td>仅表示紫色牌</td></tr></tbody></table></div><p>五种地精没有被动能力。颜色只承担三件事：辨认牌、判断相同或不同、响应特别状况。这样玩家不会同时学习“五种角色能力”和“流水线运算”。</p>
+<p>内部继续保留现有五个稳定 ID，避免破坏存档、图鉴、计数与特别状况引用；显示名、卡图、剪影、动画和玩家文案改成五色薯团地精。道具与工具稳定 ID 也全部保留。</p>
+<h3 id="一轮的叙事">一轮的叙事<a class="heading-link" href="#一轮的叙事" aria-label="链接到本节">#</a></h3><ol>
+<li>货道入口已经有一小团价值 10 的宝贝，显示 <code>底货 10</code>。</li>
+<li>1 号地精找到一包新货，倒入货堆，变成 20。</li>
+<li>货堆只移动一次，到 2 号地精面前。</li>
+<li>同色地精熟悉上一个地精的手法，把现有货值翻倍；异色地精换一种搜寻办法，再添一包货。</li>
+<li>当前格的所有额外行动在原地完成，货堆不会拆成新批次。</li>
+<li>5 号地精完成后，整批货倒入本关目标条，才产生本轮得分。</li>
+</ol>
+<h2 id="3-统一名词">3. 统一名词<a class="heading-link" href="#3-统一名词" aria-label="链接到本节">#</a></h2><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>名词</th><th>唯一定义</th><th>不再使用的近义说法</th></tr></thead><tbody><tr><td>底货</td><td>每轮结算前已有的货值，基础为 10</td><td>初始分、种子分、粒子底数</td></tr><tr><td>货值</td><td>同一批宝贝此刻的数值</td><td>探索值、成果值、局部得分</td></tr><tr><td>加货</td><td>1 号位或不同地精每次行动增加的数值，基础为 10</td><td>补充量、加法值</td></tr><tr><td>行动</td><td>当前地精加工同一批货一次</td><td>触发伙伴、伙伴分</td></tr><tr><td>额外行动</td><td>在当前格再次执行当前规则，货物不移动</td><td>再触发、连锁次数</td></tr><tr><td>本格</td><td>道具所在的行动格</td><td>此处、当前位置</td></tr><tr><td>相同</td><td>当前地精与前一格颜色相同</td><td>同类、同伴、连对</td></tr><tr><td>不同</td><td>当前地精与前一格颜色不同</td><td>异类、交替</td></tr><tr><td>永久</td><td>本次远行后续关卡都保留，远行结束后清除</td><td>本局成长</td></tr><tr><td>成长</td><td>道具产生的永久数值增加</td><td>养成值、熟练度</td></tr></tbody></table></div><p>玩家卡面只显示这些词。<code>seed</code>、<code>load</code>、<code>post_add</code>、<code>relation</code> 等只存在于配置与代码。</p>
+<h2 id="4-基础公式">4. 基础公式<a class="heading-link" href="#4-基础公式" aria-label="链接到本节">#</a></h2><p>设本轮底货为 <code>B</code>，加货为 <code>L</code>，基础分别为 10 和 10。</p>
+<pre><code class="language-text">cargo = B
+
+for slot in 1...5:
+  repeat action_count(slot) times:
+    if slot == 1:
+      cargo = cargo + L
+    else if goblin(slot) == goblin(slot - 1):
+      cargo = cargo × 2
+    else:
+      cargo = cargo + L
+
+score = cargo after slot 5
+</code></pre>
+<p>基础例子：</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>排列</th><th>运算</th><th style="text-align:right">得分</th></tr></thead><tbody><tr><td>A</td><td><code>10+10</code></td><td style="text-align:right">20</td></tr><tr><td>AA</td><td><code>(10+10)×2</code></td><td style="text-align:right">40</td></tr><tr><td>AB</td><td><code>10+10+10</code></td><td style="text-align:right">30</td></tr><tr><td>AAAAA</td><td><code>(10+10)×2×2×2×2</code></td><td style="text-align:right">320</td></tr><tr><td>ABCDE</td><td><code>10+10+10+10+10+10</code></td><td style="text-align:right">60</td></tr><tr><td>ABBBC</td><td><code>10+10+10→×2→×2→+10</code></td><td style="text-align:right">130</td></tr></tbody></table></div><p>五连是基础上限，但不是默认前提。真实手牌只有 3 张，玩家不能保证五连；一段放在前面的同色会放大后续新增货值，一段放在后面的同色会放大已经积累的货值，道具位置和手中牌决定当轮取舍。</p>
+<h2 id="5-精确结算协议">5. 精确结算协议<a class="heading-link" href="#5-精确结算协议" aria-label="链接到本节">#</a></h2><p>每轮只允许一批货。结算顺序必须成为 Core、动画和文案的共同契约：</p>
+<ol>
+<li>锁定五张地精最终颜色；应用变色、复制和交换类工具与特别状况。</li>
+<li>计算本轮底货与加货：永久成长 → 固定加值 → 本轮工具 → 倍率。</li>
+<li>从 1 号位开始，读取当前格与前一格关系。</li>
+<li>计算当前格行动数：基础 1 次 → 信条 → 道具 → 工具 → 特别状况 → 上限裁切。</li>
+<li>逐次行动。每次行动先执行 <code>+L</code> 或 <code>×2</code>，再执行本格“货值+N”。</li>
+<li>当前格所有行动结束后，执行“本格结束”和“每格结束”效果。</li>
+<li>货堆向右移动一次；不得在额外行动之间移动。</li>
+<li>5 号位结束后，将货值一次性加入关卡目标。</li>
+<li>更新行动数、相同/不同次数、工具使用数和永久成长。</li>
+<li>达标则立即结束本关；未达标才进入下一轮。</li>
+</ol>
+<h3 id="安全规则">安全规则<a class="heading-link" href="#安全规则" aria-label="链接到本节">#</a></h3><ul>
+<li>单格行动上限 10 次。</li>
+<li>一次事件只允许增加数值、行动或工具，不允许直接发出另一个道具事件。</li>
+<li><code>行动+N</code> 在进入当前格前算完，当前行动不能让自己再次增加行动数。</li>
+<li>巧锁只能再次执行即时数值道具，不能再次执行成长、发工具或构型器。</li>
+<li>同一轮没有回到左侧、没有新批次、没有无限触发队列。</li>
+<li>“两次相同/不同后”包含当前格已经确定的这次交接。例如 <code>ABCCC</code> 的 5 号位已经完成第二次相同，可触发铃铛。</li>
+</ul>
+<p>建议 Core 输出下列只读事件，UI 不自行重算：</p>
+<pre><code class="language-text">round_started
+slot_started
+relation_resolved(first|same|different)
+action_started(index,total)
+cargo_changed(before,after,operator,source_id)
+item_resolved(item_id,slot)
+slot_completed
+cargo_moved(from,to)
+round_scored(value)
+growth_changed(source_id,before,after)
+</code></pre>
+<h2 id="6-30-件道具">6. 30 件道具<a class="heading-link" href="#6-30-件道具" aria-label="链接到本节">#</a></h2><p>设计约束：</p>
+<ul>
+<li>5 个道具位，一格一件；全局道具也占一个道具位。</li>
+<li>普通件只做一件事；条件件最多“一个条件 + 一个结果”。</li>
+<li>玩家文案中位数为 10 个字符，30 件中 24 件不超过 12 字，最长 14 字。</li>
+<li>稀有度控制出现率，不等于纯数值强弱。</li>
+<li>奖励职责只用于后台候选生成，不显示在卡面。</li>
+</ul>
+<p>解锁写作 <code>完成远行数 / 最早章节</code>；<code>0/1</code> 表示第一次远行第一章即可出现。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th style="text-align:right">#</th><th>稳定 ID</th><th>名称</th><th>品阶</th><th>玩家文案</th><th>范围</th><th>解锁</th></tr></thead><tbody><tr><td style="text-align:right">1</td><td><code>echo_box</code></td><td>饭团</td><td>普通</td><td>底货+10。</td><td>全局</td><td>0/1</td></tr><tr><td style="text-align:right">2</td><td><code>double_layer_box</code></td><td>酒葫芦</td><td>普通</td><td>相同时，行动+1。</td><td>本格</td><td>0/1</td></tr><tr><td style="text-align:right">3</td><td><code>offset_clasp</code></td><td>人参汤</td><td>普通</td><td>不同时，行动+1。</td><td>本格</td><td>0/1</td></tr><tr><td style="text-align:right">4</td><td><code>resonance_box</code></td><td>烤鸡</td><td>稀有</td><td>本格行动+1。</td><td>本格</td><td>0/2</td></tr><tr><td style="text-align:right">5</td><td><code>rebound_board</code></td><td>热汤</td><td>精良</td><td>5号位行动+2。</td><td>本格</td><td>1/2</td></tr><tr><td style="text-align:right">6</td><td><code>copper_horn</code></td><td>三色丸子</td><td>精良</td><td>每格货值+10。</td><td>全局</td><td>1/1</td></tr><tr><td style="text-align:right">7</td><td><code>relay_baton</code></td><td>鱼汤</td><td>普通</td><td>加货+5。</td><td>全局</td><td>0/1</td></tr><tr><td style="text-align:right">8</td><td><code>tool_pack_bell</code></td><td>水滴</td><td>精良</td><td>用工具，底货永久+100。</td><td>全局成长</td><td>1/2</td></tr><tr><td style="text-align:right">9</td><td><code>old_scale</code></td><td>莲花</td><td>普通</td><td>本格货值+10。</td><td>本格</td><td>0/1</td></tr><tr><td style="text-align:right">10</td><td><code>ballast_stone</code></td><td>羽毛笔</td><td>普通</td><td>5号位货值+50。</td><td>本格</td><td>0/2</td></tr><tr><td style="text-align:right">11</td><td><code>hinge_box</code></td><td>露珠叶</td><td>普通</td><td>相同时，货值+20。</td><td>本格</td><td>0/2</td></tr><tr><td style="text-align:right">12</td><td><code>reverse_clasp_box</code></td><td>药瓶</td><td>普通</td><td>不同时，货值+30。</td><td>本格</td><td>0/2</td></tr><tr><td style="text-align:right">13</td><td><code>echo_jar</code></td><td>盆栽</td><td>精良</td><td>货值过百，行动+2。</td><td>本格</td><td>1/2</td></tr><tr><td style="text-align:right">14</td><td><code>five_color_book</code></td><td>镜子</td><td>精良</td><td>每种地精，底货+5。</td><td>全局</td><td>1/1</td></tr><tr><td style="text-align:right">15</td><td><code>living_scale</code></td><td>金钟护符</td><td>精良</td><td>每3次行动，本格永久+30。</td><td>本格成长</td><td>1/1</td></tr><tr><td style="text-align:right">16</td><td><code>spring_scale</code></td><td>玉佩</td><td>稀有</td><td>每3轮，本格永久行动+1。</td><td>本格成长</td><td>0/2</td></tr><tr><td style="text-align:right">17</td><td><code>old_travel_log</code></td><td>蓑衣</td><td>精良</td><td>每10张牌，底货永久+50。</td><td>全局成长</td><td>0/1</td></tr><tr><td style="text-align:right">18</td><td><code>tempering_furnace</code></td><td>斗笠</td><td>精良</td><td>每2次不同，加货永久+40。</td><td>全局成长</td><td>0/2</td></tr><tr><td style="text-align:right">19</td><td><code>red_abacus</code></td><td>飞靴</td><td>精良</td><td>过关时，本格永久+100。</td><td>本格成长</td><td>1/2</td></tr><tr><td style="text-align:right">20</td><td><code>peddler_flag</code></td><td>冰晶</td><td>稀有</td><td>底货×2。</td><td>全局</td><td>0/3</td></tr><tr><td style="text-align:right">21</td><td><code>double_entry_book</code></td><td>灯笼</td><td>稀有</td><td>每3轮，每格永久+20。</td><td>全局成长</td><td>2/2</td></tr><tr><td style="text-align:right">22</td><td><code>old_scorebook</code></td><td>香炉</td><td>稀有</td><td>每成长50，底货+10。</td><td>全局</td><td>3/3</td></tr><tr><td style="text-align:right">23</td><td><code>linkage_flag</code></td><td>抓钩</td><td>精良</td><td>两次不同后，行动+3。</td><td>本格</td><td>0/2</td></tr><tr><td style="text-align:right">24</td><td><code>full_crate</code></td><td>铃铛</td><td>精良</td><td>两次相同后，行动+2。</td><td>本格</td><td>0/2</td></tr><tr><td style="text-align:right">25</td><td><code>copper_seal</code></td><td>信鸽</td><td>精良</td><td>每用1工具，行动+1。</td><td>本格</td><td>1/2</td></tr><tr><td style="text-align:right">26</td><td><code>tool_bag</code></td><td>月之眼</td><td>精良</td><td>每轮获得1张远镜。</td><td>全局</td><td>0/2</td></tr><tr><td style="text-align:right">27</td><td><code>spare_box</code></td><td>消散叶</td><td>精良</td><td>相同3次，获得铁锹。</td><td>全局</td><td>1/2</td></tr><tr><td style="text-align:right">28</td><td><code>tool_case</code></td><td>浮石</td><td>普通</td><td>不同2次，获得锦囊。</td><td>全局</td><td>1/2</td></tr><tr><td style="text-align:right">29</td><td><code>old_mold</code></td><td>灯塔</td><td>稀有</td><td>每用2工具，获得手杖。</td><td>全局</td><td>3/3</td></tr><tr><td style="text-align:right">30</td><td><code>loose_leaf_bag</code></td><td>风筝</td><td>稀有</td><td>后两张变第3张地精。</td><td>全局构型</td><td>0/2</td></tr></tbody></table></div><p><code>风筝</code>的“变”只改变本轮结算颜色，不改实体牌的基础类型；打完后仍按原牌进入弃牌堆。它占用一个数值道具位，换取稳定的末段二连，不是免费的五连保证。</p>
+<h2 id="7-8-张工具">7. 8 张工具<a class="heading-link" href="#7-8-张工具" aria-label="链接到本节">#</a></h2><p>工具继续独立于 25 张地精牌，伙伴手牌刷新不会丢弃工具；地精手牌 3 张加工具最多 3 张，仍符合现有合计 6 张的界面容量。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>稳定 ID</th><th>名称</th><th>玩家文案</th><th>用途</th><th>解锁</th></tr></thead><tbody><tr><td><code>recolor_cloth</code></td><td>铁锹</td><td>1张手牌变任意地精。</td><td>主动修色</td><td>0/1</td></tr><tr><td><code>whetstone</code></td><td>司南</td><td>本轮底货+20。</td><td>小幅点火</td><td>0/1</td></tr><tr><td><code>copy_board</code></td><td>远镜</td><td>变为上张地精。</td><td>接续相同</td><td>0/1</td></tr><tr><td><code>search_hook</code></td><td>宝盒</td><td>弃1张，抽1张。</td><td>低认知换牌</td><td>0/1</td></tr><tr><td><code>telescope</code></td><td>锦囊</td><td>看3张，拿1张。</td><td>定向找牌</td><td>1/2</td></tr><tr><td><code>trigger_bell</code></td><td>手杖</td><td>选择1格，行动+2。</td><td>单格爆发</td><td>1/2</td></tr><tr><td><code>winding_key</code></td><td>巧锁</td><td>选择1件道具再触发。</td><td>再用即时数值件</td><td>2/3</td></tr><tr><td><code>copy_paper</code></td><td>明珠</td><td>变为上张工具。</td><td>复制临场方案</td><td>3/3</td></tr></tbody></table></div><p>工具的合法目标与预览必须由 Core 返回。目标态留在 <code>game_main</code>：合法手牌、行动格或道具高亮，其他对象暗化，不新建全屏选择 Dialog。</p>
+<h2 id="8-六个启程信条">8. 六个启程信条<a class="heading-link" href="#8-六个启程信条" aria-label="链接到本节">#</a></h2><p>信条从“补旧牌型倍率”改成“选择本次远行的第一条路线”：</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>稳定 ID</th><th>名称</th><th>玩家文案</th><th>作用</th></tr></thead><tbody><tr><td><code>same_companions</code></td><td>同工</td><td>首次相同，行动+1。</td><td>相同路线起步</td></tr><tr><td><code>different_relay</code></td><td>轮工</td><td>首次不同，行动+1。</td><td>异色路线起步</td></tr><tr><td><code>all_together</code></td><td>见多</td><td>每种地精，底货+5。</td><td>多色底货</td></tr><tr><td><code>steady_growth</code></td><td>久运</td><td>过关时，底货永久+20。</td><td>稳定成长</td></tr><tr><td><code>tool_practice</code></td><td>巧手</td><td>每章获得1张宝盒。</td><td>工具路线</td></tr><tr><td><code>loaded_tail</code></td><td>压轴</td><td>5号位货值+30。</td><td>末段加值</td></tr></tbody></table></div><p>第一次远行仍不出现信条。第二次远行起二选一，候选标签继续参与奖励引导。</p>
+<h2 id="9-奖励-品阶与渐进解锁">9. 奖励、品阶与渐进解锁<a class="heading-link" href="#9-奖励-品阶与渐进解锁" aria-label="链接到本节">#</a></h2><h3 id="9-1-奖励布局">9.1 奖励布局<a class="heading-link" href="#9-1-奖励布局" aria-label="链接到本节">#</a></h3><p>保持现有三种补给：</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>补给</th><th>候选</th></tr></thead><tbody><tr><td>均衡</td><td>2 道具 + 1 工具</td></tr><tr><td>道具</td><td>3 道具</td></tr><tr><td>工具</td><td>1 道具 + 2 工具</td></tr></tbody></table></div><p>每批道具候选承担后台职责：</p>
+<ul>
+<li>基础件：先让当下分数可见地增加；</li>
+<li>引擎：让底货、加货、本格货值或行动永久成长；</li>
+<li>兑现件：把已经形成的相同、不同、货值或工具积累转成额外行动；</li>
+<li>构型件：改善三张手牌造成的断链。</li>
+</ul>
+<p>若玩家还没有成长引擎，第三次奖励起的引导候选优先来自引擎池；有引擎但没有兑现件时，优先兑现件；两者都有后再引导构型。玩家主动选择某条公开路线时，引导候选必须匹配该路线标签；只提高权重却允许整批完全不匹配，会让路线选择失去意义。自由候选始终保留，不根据玩家低分暗送特定核心。</p>
+<p>唯一一件成长引擎不能被自动推荐为“最差件”替换；玩家仍可主动确认删除。该保护解决的是奖励算法误判，不锁定玩家构筑。</p>
+<h3 id="9-2-第一次远行">9.2 第一次远行<a class="heading-link" href="#9-2-第一次远行" aria-label="链接到本节">#</a></h3><p>第一次远行关闭信条、特别状况和补给改选。前七次道具教学依次为：</p>
+<pre><code class="language-text">饭团 → 酒葫芦 → 蓑衣 → 风筝 → 铃铛 → 盆栽 → 热汤
+</code></pre>
+<p>教学顺序分别展示：底货、相同、底货成长、末段同色、两次相同、货值门槛和 5 号位爆发。它构成一条容易理解但不是完整版本唯一答案的示范路线。</p>
+<h3 id="9-3-后续远行">9.3 后续远行<a class="heading-link" href="#9-3-后续远行" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th style="text-align:right">已完成远行</th><th>开放内容</th></tr></thead><tbody><tr><td style="text-align:right">0</td><td>普通基础件、蓑衣、教学构型器与基础工具</td></tr><tr><td style="text-align:right">1</td><td>信条、1 次补给改选、精良成长、工具成长</td></tr><tr><td style="text-align:right">2</td><td>标准路线、2 次补给改选、全格成长与巧锁</td></tr><tr><td style="text-align:right">3</td><td>完整道具池、明珠、工具工坊终端件和特别状况</td></tr></tbody></table></div><p>解锁只增加路线，不解锁唯一的通关钥匙。首次远行的蓑衣路线已经能完成 16 关；玉佩不是后期必选。</p>
+<h2 id="10-六条成熟构筑">10. 六条成熟构筑<a class="heading-link" href="#10-六条成熟构筑" aria-label="链接到本节">#</a></h2><p>下面的“核心五件”是路线说明，不是游戏内固定配方。真实模拟从第一件开始逐关获得，并继续经历候选、替换、工具容量和真实手牌。</p>
+<h3 id="10-1-连续复工">10.1 连续复工<a class="heading-link" href="#10-1-连续复工" aria-label="链接到本节">#</a></h3><ul>
+<li>核心：玉佩、铃铛、烤鸡、热汤、风筝。</li>
+<li>过程：用固定行动度过前期，玉佩每 3 轮成长；中期让两次相同后的格子多行动；后期把高货值格放在连续同色末端。</li>
+<li>弱点：玉佩拿得太晚时成长不足；风筝、远镜或铁锹可换稳定性。</li>
+<li>体验：同一格连续盖下 <code>×2</code> 印章，数字快速跳级。</li>
+</ul>
+<h3 id="10-2-底货养大">10.2 底货养大<a class="heading-link" href="#10-2-底货养大" aria-label="链接到本节">#</a></h3><ul>
+<li>核心：蓑衣、铃铛、烤鸡、热汤、月之眼。</li>
+<li>过程：每打 10 张牌，所有后续乘法共同吃到底货 +50；不依赖永久行动成长。</li>
+<li>弱点：早期爆发慢；需要保留一到两个条件行动兑现件。</li>
+<li>体验：每两轮出现一次明确的“货箱升级”，后期任何短同色段都有价值。</li>
+</ul>
+<h3 id="10-3-前段精工">10.3 前段精工<a class="heading-link" href="#10-3-前段精工" aria-label="链接到本节">#</a></h3><ul>
+<li>核心：金钟护符、飞靴、铃铛、烤鸡、风筝。</li>
+<li>过程：把金钟护符和飞靴放在前段，先把货值加大，再让后面的相同关系乘上去。</li>
+<li>弱点：成长件换位可以，替换掉会失去该件成长；需要提前决定培养对象。</li>
+<li>体验：不是追求最长同色，而是让“最肥的一格”出现在乘法之前。</li>
+</ul>
+<h3 id="10-4-异色备货">10.4 异色备货<a class="heading-link" href="#10-4-异色备货" aria-label="链接到本节">#</a></h3><ul>
+<li>核心：斗笠、抓钩、烤鸡、热汤、风筝。</li>
+<li>推荐形状：<code>A-B-C-C-C</code>，前两次不同养加货，后两次相同兑现。</li>
+<li>过程：每两次不同让加货永久 +40；抓钩在第二次不同当格就行动 +3；后段再用相同乘起来。</li>
+<li>弱点：全程五种不同只是教学反例，无法承担百万目标；这条路线是“先不同、后相同”。</li>
+<li>体验：前段一次次装入更大的货包，后段突然连续翻倍。</li>
+</ul>
+<h3 id="10-5-工具工坊">10.5 工具工坊<a class="heading-link" href="#10-5-工具工坊" aria-label="链接到本节">#</a></h3><ul>
+<li>核心：月之眼、信鸽、烤鸡、水滴、灯塔。</li>
+<li>过程：月之眼每轮给远镜；每用工具让水滴的底货永久 +100；信鸽按本轮工具数增加行动；灯塔每用两张工具再产手杖。</li>
+<li>弱点：手牌与工具容量共 6，不能无脑囤工具；夜禁会限制第 4 张后的工具。</li>
+<li>体验：先修型，再点火，同一轮工具数直接反馈成当前格动作次数。</li>
+</ul>
+<h3 id="10-6-全格抛光">10.6 全格抛光<a class="heading-link" href="#10-6-全格抛光" aria-label="链接到本节">#</a></h3><ul>
+<li>核心：灯笼、三色丸子、铃铛、热汤、风筝。</li>
+<li>过程：灯笼每 3 轮让每格永久 +20；三色丸子每格再 +10；把早期小加值交给后面的相同关系放大。</li>
+<li>弱点：占用多个全局槽，单件加入时不如即时行动件醒目；成型后对非完美牌序最稳。</li>
+<li>体验：五格都留下加工痕迹，货团每过一格都明显变大。</li>
+</ul>
+<p>六条路线共享同一条底层语法，但成长资源、牌序目标和道具位置不同。纯五色不同保留为负面对照，不包装成虚假可通关路线。</p>
+<h2 id="11-前中后期爽感规划">11. 前中后期爽感规划<a class="heading-link" href="#11-前中后期爽感规划" aria-label="链接到本节">#</a></h2><h3 id="第一章-看懂运算">第一章：看懂运算<a class="heading-link" href="#第一章-看懂运算" aria-label="链接到本节">#</a></h3><ul>
+<li>第一次放 1 号牌，入口 <code>10</code> 与新货包 <code>+10</code> 合并成 <code>20</code>。</li>
+<li>第二格相同显示一次清晰的 <code>×2</code>，异色显示一个新货包 <code>+10</code>。</li>
+<li>数字主要在 60—1,000 区间，粒子团仍能看清添加和膨胀。</li>
+<li>道具先出现饭团、酒葫芦、人参汤、莲花和鱼汤。</li>
+</ul>
+<h3 id="第二章-开始构筑">第二章：开始构筑<a class="heading-link" href="#第二章-开始构筑" aria-label="链接到本节">#</a></h3><ul>
+<li>玩家第一次主动决定：成长底货、成长加货、成长本格，还是成长行动。</li>
+<li>条件行动和风筝开放，三张手牌的不确定性从“纯随机”变成可管理资源。</li>
+<li>数字进入千到万；相同加工使用更重的压印和更短的间隔。</li>
+</ul>
+<h3 id="第三章-一轮点火">第三章：一轮点火<a class="heading-link" href="#第三章-一轮点火" aria-label="链接到本节">#</a></h3><ul>
+<li>冰晶、灯笼、手杖和巧锁开放；完整构筑可以在一格内连续行动 3—6 次。</li>
+<li>前两次行动逐次播放；第 3 次起允许表现层压缩，但 Core 事件仍逐次记录。</li>
+<li>数字进入十万；货团由单颗粒转成分层光团，不按分数一比一生成粒子。</li>
+</ul>
+<h3 id="第四章-整批交付">第四章：整批交付<a class="heading-link" href="#第四章-整批交付" aria-label="链接到本节">#</a></h3><ul>
+<li>爽点不是屏幕同时出现五批货，而是唯一货团经过最后一格后变得巨大。</li>
+<li>5 号位完成时停顿一拍，货团整体飞入目标；目标条先增加，再显示超额。</li>
+<li>百万数使用千位分隔；成长、工具和条件来源在回放记录中可逐项展开。</li>
+</ul>
+<p>表现参数由 Prefab 和 Inspector 暴露。建议提供：基础行动时长、额外行动压缩阈值、货团移动时长、数字跳动曲线、终点停顿、粒子等级阈值；运行时代码不覆盖美术调参。</p>
+<h2 id="12-20-条特别状况改写">12. 20 条特别状况改写<a class="heading-link" href="#12-20-条特别状况改写" aria-label="链接到本节">#</a></h2><p>稳定 ID、地点、目标倍率、解除需求数量和额外候选奖励保持；旧的牌型、伙伴分和道具右传效果改成流水线事件。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>地点</th><th>ID / 名称</th><th>新玩家文案</th><th>解除</th></tr></thead><tbody><tr><td>山神索礼</td><td><code>thick_mist</code> 山岚</td><td>每轮随机1格，货值减半。</td><td>红帽×4</td></tr><tr><td>山神索礼</td><td><code>fallen_tree</code> 崩石</td><td>3号位道具首次失效。</td><td>黄帽×5</td></tr><tr><td>山神索礼</td><td><code>lost_path</code> 迷径</td><td>1号位首次行动失效。</td><td>红帽×4</td></tr><tr><td>山神索礼</td><td><code>wet_leaves</code> 禁火</td><td>每轮首张工具失效。</td><td>蓝帽×4</td></tr><tr><td>山神索礼</td><td><code>hidden_trail</code> 挪碑</td><td>结算前交换4、5号位。</td><td>紫帽×4</td></tr><tr><td>树影客栈</td><td><code>rapid_current</code> 断铃</td><td>首次相同改为加货。</td><td>绿帽×5</td></tr><tr><td>树影客栈</td><td><code>high_tide</code> 闭店</td><td>5号位首次行动失效。</td><td>绿帽×4</td></tr><tr><td>树影客栈</td><td><code>driftwood</code> 朽柜</td><td>随机1格，道具首次失效。</td><td>黄帽×5</td></tr><tr><td>树影客栈</td><td><code>hidden_reef</code> 空房</td><td>3号位不触发道具。</td><td>红帽×5</td></tr><tr><td>树影客栈</td><td><code>scattered_current</code> 错席</td><td>结算前交换随机相邻位。</td><td>绿帽×5</td></tr><tr><td>狐火渡口</td><td><code>headwind</code> 逆潮</td><td>各格额外行动-1。</td><td>红帽×6</td></tr><tr><td>狐火渡口</td><td><code>sandstorm</code> 狐惑</td><td>随机1色首次行动失效。</td><td>蓝帽×5</td></tr><tr><td>狐火渡口</td><td><code>rockfall</code> 水咒</td><td>每轮首次额外行动失效。</td><td>黄帽×5</td></tr><tr><td>狐火渡口</td><td><code>ground_fissure</code> 断舟</td><td>4号位首次行动失效。</td><td>黄帽×6</td></tr><tr><td>狐火渡口</td><td><code>shortage</code> 夜禁</td><td>第4张起，工具失效。</td><td>绿帽×5</td></tr><tr><td>海雾集市</td><td><code>quicksand</code> 迷雾</td><td>随机1位变成随机地精。</td><td>红帽×6</td></tr><tr><td>海雾集市</td><td><code>false_glint</code> 假货</td><td>额外行动只会加货。</td><td>紫帽×6</td></tr><tr><td>海雾集市</td><td><code>cave_in</code> 查封</td><td>随机1件道具首次失效。</td><td>黄帽×6</td></tr><tr><td>海雾集市</td><td><code>heavy_load</code> 重税</td><td>本关目标+25%。</td><td>不可解除</td></tr><tr><td>海雾集市</td><td><code>luring_glint</code> 诱价</td><td>5号位变为紫帽地精。</td><td>紫帽×5</td></tr></tbody></table></div><p>特别状况在进入章节时公开，终页开始才计数。解除在当轮计分前生效；已发生的前几格动画不倒放，Core 在开轮时先判断本轮能否解除并生成最终事件计划。</p>
+<h2 id="13-ui-与动画交接">13. UI 与动画交接<a class="heading-link" href="#13-ui-与动画交接" aria-label="链接到本节">#</a></h2><h3 id="13-1-主界面">13.1 主界面<a class="heading-link" href="#13-1-主界面" aria-label="链接到本节">#</a></h3><ul>
+<li>原牌型区改成单一“货值胶囊”：图标 + 当前货值。</li>
+<li>目标条只显示本关累计、目标和剩余轮数；不显示独立倍率区。</li>
+<li>五格之间常驻细小货道或脚印，明确唯一方向。</li>
+<li>每格牌上方只需要地精颜色与道具；关系在结算时临时显示 <code>相同 ×2</code> 或 <code>不同 +N</code>。</li>
+<li>道具详情继续显示成长进度，例如 <code>6/10张</code>、<code>2/3轮</code>、<code>永久+150</code>。</li>
+</ul>
+<h3 id="13-2-单批货表现">13.2 单批货表现<a class="heading-link" href="#13-2-单批货表现" aria-label="链接到本节">#</a></h3><ul>
+<li>入口先生成一个代表底货的小货团，并显示数字 10。</li>
+<li>1 号行动时，新货包从地精手中落入货团，数字跳到 20。</li>
+<li>加法使用“新包并入”；乘法使用“原货团膨胀并盖 ×2 印章”，视觉语言不可互换。</li>
+<li>当前格有额外行动时，货团留在该格上方，地精重复动作；完成后才向右。</li>
+<li>货团移动到下一格时，旧锚点清空，不复制残影成第二批可误认货物。</li>
+<li>粒子只表示量级：10、百、千、万、十万、百万六档；精确值始终由数字负责。</li>
+</ul>
+<h3 id="13-3-可读性压缩">13.3 可读性压缩<a class="heading-link" href="#13-3-可读性压缩" aria-label="链接到本节">#</a></h3><ul>
+<li>1—2 次额外行动逐次播放。</li>
+<li>第 3—5 次缩短间隔，仍显示每个运算结果。</li>
+<li>第 6 次起可合并粒子与音效，但数字必须按事件序列得到相同终值。</li>
+<li>玩家点开本轮记录时，始终可查看五格的 <code>进入货值 → 行动数 → 运算 → 离开货值</code>。</li>
+</ul>
+<h2 id="14-core-与数据实现">14. Core 与数据实现<a class="heading-link" href="#14-core-与数据实现" aria-label="链接到本节">#</a></h2><h3 id="14-1-建议的数据边界">14.1 建议的数据边界<a class="heading-link" href="#14-1-建议的数据边界" aria-label="链接到本节">#</a></h3><p>新增候选模块，不在 UI 复刻规则：</p>
+<pre><code class="language-text">PipelineRules
+  baseCargo
+  baseLoad
+  sameMultiplier
+  maxActionsPerSlot
+
+PipelineRoundInput
+  five resolved goblin IDs
+  five item runtimes
+  belief
+  tools used this round
+  active special situation
+  permanent growth state
+
+PipelineRoundResult
+  score
+  slot traces
+  source-tagged events
+  growth deltas
+  generated tools
+</code></pre>
+<p><code>slot trace</code> 至少包含：</p>
+<pre><code class="language-text">slot
+goblinId
+relation
+cargoBefore
+load
+actionCount
+actionResults[]
+itemResults[]
+cargoAfter
+</code></pre>
+<h3 id="14-2-替换范围">14.2 替换范围<a class="heading-link" href="#14-2-替换范围" aria-label="链接到本节">#</a></h3><p>需要替换：</p>
+<ul>
+<li>Core 的牌型识别、基础探索值求和、牌型倍率与旧右链触发队列；</li>
+<li>道具 action type 与成长状态；</li>
+<li>六个信条效果；</li>
+<li>20 条特别状况效果；</li>
+<li>结算回放数据与主界面计分展示；</li>
+<li>伙伴显示名、立绘、剪影、动画与相关世界观文案。</li>
+</ul>
+<p>继续复用：</p>
+<ul>
+<li>25 张牌的牌库、手牌、弃牌、打 1 补 1 和刷新；</li>
+<li>五个行动格与五个道具格；</li>
+<li>工具库存和目标选择协议；</li>
+<li>16 关、4 轮、2 次刷新和现有目标；</li>
+<li>奖励 Dialog、路线、信条选择、章节情报、局末记录和局外货品；</li>
+<li>30 个道具 ID、8 个工具 ID、五个伙伴内部 ID。</li>
+</ul>
+<h3 id="14-3-成长存档">14.3 成长存档<a class="heading-link" href="#14-3-成长存档" aria-label="链接到本节">#</a></h3><p>每件成长道具自己的状态跟随道具实例移动，不跟随格子。替换或主动删除道具时，状态一同离开；重新获得同 ID 不恢复旧成长。</p>
+<p>建议状态：</p>
+<pre><code class="language-text">itemInstanceId
+itemId
+growthValue
+growthCounter
+slot
+</code></pre>
+<p>本次远行存档版本提升一次；旧进行中远行不能无损转换牌型与旧道具链，候选实施方案是结束旧远行并保留局外货品。局外图鉴、仓库与稳定 ID 不迁移。</p>
+<h3 id="14-4-实施顺序">14.4 实施顺序<a class="heading-link" href="#14-4-实施顺序" aria-label="链接到本节">#</a></h3><ol>
+<li>在独立 Core 原型中实现零道具流水线和 trace。</li>
+<li>接入牌库、手牌、刷新与 8 张工具。</li>
+<li>接入 30 件候选道具及成长序列化。</li>
+<li>替换奖励职责与六个信条。</li>
+<li>替换 20 条特别状况。</li>
+<li>UI 先用数字、运算符和单色货团灰盒验证。</li>
+<li>最后替换薯团地精资源、Prefab 参数、音效和粒子。</li>
+</ol>
+<p>在第 1—5 步通过前，不修改正式 <code>game_main</code> Prefab；避免规则尚未稳定时反复覆盖美术布局。</p>
+<h2 id="15-纸面模拟">15. 纸面模拟<a class="heading-link" href="#15-纸面模拟" aria-label="链接到本节">#</a></h2><p>模拟器不是直接指定最终五件道具后算一个理想五连。它实际包含：</p>
+<ul>
+<li>25 张持续牌库、弃牌回洗、3 张手牌和打 1 补 1；</li>
+<li>每关共享 2 次刷新；</li>
+<li>五格结算和每格最优合法道具换位；</li>
+<li>三种奖励布局、品阶权重、引导/自由职责、2 次补给改选；</li>
+<li>道具占位、替换、唯一成长引擎保护；</li>
+<li>工具生成、容量、使用和复制；</li>
+<li>16 个现有目标及达标即结束；</li>
+<li>第一次、第二次和完整解锁三种档案；</li>
+<li>2,500 组随机成熟五件组合；</li>
+<li>六条从第一件开始获取的定向构筑；</li>
+<li>20 条特别状况配置与 4/5/6 次颜色应对可达性。</li>
+</ul>
+<p>基础枚举检查了全部 <code>5^5 = 3,125</code> 种五格颜色排列：</p>
+<ul>
+<li>最低 60；</li>
+<li>中位数 70；</li>
+<li>最高 320；</li>
+<li>1 号位 20、第二格相同 40、第二格不同 30 均通过固定断言。</li>
+</ul>
+<p>路线引导测试不会直接发放最终五件。模拟用一组目标标签代表玩家连续选择相应的公开路线；匹配标签的组件会进入引导候选，但玩家仍要从候选中选择、使用两次补给改选、处理五格容量并经历随机工具与替换。</p>
+<p>每条路线各跑 1,000 局：</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>路线</th><th style="text-align:right">1,000,000 通关率</th><th style="text-align:right">1,250,000 重税通关率</th></tr></thead><tbody><tr><td>连续复工</td><td style="text-align:right">75.0%</td><td style="text-align:right">67.3%</td></tr><tr><td>底货养大</td><td style="text-align:right">35.8%</td><td style="text-align:right">22.3%</td></tr><tr><td>前段精工</td><td style="text-align:right">26.9%</td><td style="text-align:right">18.5%</td></tr><tr><td>异色备货</td><td style="text-align:right">85.7%</td><td style="text-align:right">49.5%</td></tr><tr><td>工具工坊</td><td style="text-align:right">76.9%</td><td style="text-align:right">69.2%</td></tr><tr><td>全格抛光</td><td style="text-align:right">20.7%</td><td style="text-align:right">15.7%</td></tr></tbody></table></div><p>首次远行的同色教学策略另跑 1,000 局，完整通关率为 77.3%。六条路线合计 3,210 个胜局，出现率最高的风筝为 86.6%，低于 90% 必选警戒线；盆栽为 27.5%，玉佩为 32.9%，证明不再只有一件行动成长或通用兑现件能过关。</p>
+<p>特别状况颜色应对另跑 5,000 局：玩家优先打目标颜色并使用 2 次刷新时，四轮至少打 4 次和 5 次的成功率均为 100%，至少 6 次为 53.9%。因此需求 6 的终章应对是主动追求而非自然保证，但在当前 25 张牌结构中可达。</p>
+<p>纯五色不同作为负面对照仍无法通过，证明百万目标要求玩家在后段建立乘法，而不是只堆加法。</p>
+<h2 id="16-上线前验收">16. 上线前验收<a class="heading-link" href="#16-上线前验收" aria-label="链接到本节">#</a></h2><h3 id="机制">机制<a class="heading-link" href="#机制" aria-label="链接到本节">#</a></h3><ul>
+<li>零道具玩家只看一次结算就能复述“1 号加货、相同翻倍、不同加货”。</li>
+<li>第二格相同固定得到 40，不同固定得到 30。</li>
+<li>额外行动时货团不移动、不复制、不回左。</li>
+<li>五格结束前不计入目标。</li>
+<li>相同、不同、工具、底货成长、本格成长和全格成长至少各有一条可通关路线。</li>
+</ul>
+<h3 id="数值">数值<a class="heading-link" href="#数值" aria-label="链接到本节">#</a></h3><ul>
+<li>第一次远行的同色教学策略完整通关率不低于 60%。</li>
+<li>六条定向路线各跑至少 1,000 局，完整通关率不低于 15%，且没有单一道具出现在 90% 以上胜局。</li>
+<li>随机乱选应明显弱于有路线选择，但不应在第一章普遍零分。</li>
+<li>第 1、5、9、13 关的到达率不能出现超过 40 个百分点的单关断崖。</li>
+<li><code>heavy_load</code> 的 1,250,000 目标至少有三条成熟路线可通过。</li>
+</ul>
+<h3 id="文案与表现">文案与表现<a class="heading-link" href="#文案与表现" aria-label="链接到本节">#</a></h3><ul>
+<li>30 件道具数量、稳定 ID、品阶和解锁配置通过自动校验。</li>
+<li>道具玩家文案最长 14 字，中位数不高于 10 字。</li>
+<li>Core trace、卡面文案和动画运算符逐项一致。</li>
+<li>1,000,000 货值不会生成一百万粒子。</li>
+<li>所有美术时长、颜色、缩放、粒子锚点由 Prefab / <code>@property</code> 控制。</li>
+</ul>
+<h2 id="17-当前判断">17. 当前判断<a class="heading-link" href="#17-当前判断" aria-label="链接到本节">#</a></h2><p>这套机制可行，而且比“道具负责向右连锁”更适合成为游戏本体：</p>
+<ul>
+<li>牌序本身就是加工路线；</li>
+<li>同色和异色第一次交接就有差异；</li>
+<li>同一批货让动画、数字与故事完全一致；</li>
+<li>基础道具只需写“货值+10”或“行动+1”；</li>
+<li>复杂度来自五个槽位如何组合简单规则，而不是单张道具长文本；</li>
+<li>后期百万目标可以由不同成长资源共同到达，不需要恢复牌型或独立批次。</li>
+</ul>
+<p>最大风险不再是“规则看不懂”，而是“乘法路线的方差”和“奖励能否及时给出引擎—兑现—构型的完整选择”。这两项已经进入模拟与奖励职责验收，不应再通过增加道具解释文字解决。</p>
+</article><section class="source-record" id="source-record"><p class="eyebrow">SOURCE & REVISIONS</p><h2>来源与修改记录</h2><dl><dt>原文标题</dt><dd>《远行商人》薯团搬宝流水线 v0.2</dd><dt>工程内文件</dt><dd><code>docs/v05-five-animal-caravan/potato-goblin-pipeline-design-v0.2.md</code></dd><dt>收录方式</dt><dd>从现存工程文件收录，保留原段落与参数；仅做网页排版、本机路径匿名化与链接整理。</dd><dt>日期依据</dt><dd>正文日期 · 2026-08-01。正文日期、首次入库日期与修订日期可能不同。</dd></dl><details class="history" open><summary>查看 3 次文件提交记录</summary><p>以下为包含此文件变化的提交。提交说明可能涉及整个项目，不代表该文档单独完成了所有列出的功能。</p><ol><li><time>2026-08-02</time><div><code>634df36</code><p>feat: deepen value pipeline feedback and builds</p></div></li><li><time>2026-08-01</time><div><code>8dfcac8</code><p>feat: refine value pipeline clarity and flow</p></div></li><li><time>2026-07-31</time><div><code>b552927</code><p>feat: replace score chain with cargo pipeline</p></div></li></ol></details></section><nav class="adjacent" aria-label="相邻文档"><a href="trigger-network.html"><small>上一篇</small>触发网与特殊辅助道具候选 v0.1</a><a href="caravan-items.html"><small>下一篇</small>道具与工具目录（历史 v0.5 / v0.3）</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>两个独立游戏，从原型到迭代的设计记录。</p></div><p>整理于 2026.09.19<br><a href="../index.html#about">收录与日期说明</a> · <a href="../../index.html">返回作品集 ↗</a></p></footer></body></html>

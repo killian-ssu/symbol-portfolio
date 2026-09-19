@@ -1,0 +1,2 @@
+# Historical Markdown preserves original hard line breaks and final blank lines.
+design/sources/*.md whitespace=-blank-at-eol,-blank-at-eof

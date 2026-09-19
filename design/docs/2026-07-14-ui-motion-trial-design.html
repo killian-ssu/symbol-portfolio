@@ -1,0 +1,108 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f4f2eb"><title>界面动效试验 · Symbol 策划档案</title><meta name="description" content="把关键动效做成可比较、可调整的试验。"><link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css"><script src="../archive.js" defer></script></head><body class="document-page merchant"><a class="skip" href="#main">跳到正文</a><header class="site-header"><a class="wordmark" href="../index.html">SYMBOL<span>设计档案 / 2026</span></a><nav aria-label="主导航"><a href="../index.html#timeline">版本时间线</a><a href="../index.html#catalog">全部文档</a><a class="back-portfolio" href="../../index.html">作品集 <span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="doc-top"><a class="back-link" href="../index.html?project=merchant#catalog">← 返回远行商人文档</a><div class="doc-tags"><span>远行商人</span><span>迭代方案</span><span>交互表现</span></div><h1>界面动效试验</h1><p class="doc-intro">把关键动效做成可比较、可调整的试验。</p><div class="doc-metadata"><span><strong>2026-07-14</strong>文件名日期</span><span><strong>6 分钟</strong>预计阅读</span><span><strong>2</strong>次可查提交</span><a class="download" href="../sources/2026-07-14-ui-motion-trial-design.md" download>下载本文 ↓</a></div></div><div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><a class="level-2" href="#1-目标">1. 目标</a><a class="level-2" href="#2-设计原则">2. 设计原则</a><a class="level-2" href="#3-方案选择">3. 方案选择</a><a class="level-3" href="#方案-a-分别写在三个现有页面中">方案 A：分别写在三个现有页面中</a><a class="level-3" href="#方案-b-通用播放器-按钮组件-采用">方案 B：通用播放器 + 按钮组件（采用）</a><a class="level-3" href="#方案-c-完整数据化动效资产">方案 C：完整数据化动效资产</a><a class="level-2" href="#4-按钮动效">4. 按钮动效</a><a class="level-3" href="#4-1-接入范围">4.1 接入范围</a><a class="level-3" href="#4-2-默认曲线">4.2 默认曲线</a><a class="level-3" href="#4-3-点击行为">4.3 点击行为</a><a class="level-2" href="#5-行动格结算动效">5. 行动格结算动效</a><a class="level-3" href="#5-1-接入方式">5.1 接入方式</a><a class="level-3" href="#5-2-默认曲线">5.2 默认曲线</a><a class="level-3" href="#5-3-强度参数">5.3 强度参数</a><a class="level-2" href="#6-数据流与打断规则">6. 数据流与打断规则</a><a class="level-3" href="#按钮">按钮</a><a class="level-3" href="#行动格">行动格</a><a class="level-2" href="#7-预计文件">7. 预计文件</a><a class="level-2" href="#8-验收标准">8. 验收标准</a><a class="level-3" href="#按钮-2">按钮</a><a class="level-3" href="#行动格-2">行动格</a><a class="level-2" href="#9-实机调参顺序">9. 实机调参顺序</a><a href="#source-record">来源与修改记录</a></nav></details><a class="to-top" href="#main">回到页首 ↑</a></aside><div class="doc-reading"><div class="archive-note"><span class="note-marker">档案说明</span><p>这是 2026-09-19 从工程收录的文本，可能包含后来补写的注释。正文中的“当前”“已实现”保留原有语境，不代表本站试玩版已逐项复验。</p></div><article class="prose" id="article"><p>日期：2026-07-14
+状态：已确认试做范围，待实机调参</p>
+<h2 id="1-目标">1. 目标<a class="heading-link" href="#1-目标" aria-label="链接到本节">#</a></h2><p>先用最小一批真实界面验证手机端 UI 手感：</p>
+<ul>
+<li>主菜单“开始游戏”按钮。</li>
+<li>局内“刷新”按钮。</li>
+<li>5 个行动格在自动结算时的命中动效。</li>
+</ul>
+<p>本轮不实现分数区弹跳、资源数值动画、全局时间暂停、鼠标悬停、粒子、镜头震动和新音效。先确认按钮与行动格的缩放曲线，再向分数表现扩展。</p>
+<h2 id="2-设计原则">2. 设计原则<a class="heading-link" href="#2-设计原则" aria-label="链接到本节">#</a></h2><ul>
+<li>手机优先：以 <code>TOUCH_START / TOUCH_END / TOUCH_CANCEL</code> 为主，不依赖鼠标悬停。</li>
+<li>不改规则：动效只属于 UI 层，不改变刷新次数、行动格结算和分数。</li>
+<li>可打断：新一次按压或结算触发到来时，先停止该播放器自己创建的上一次动效，从已记录的基准状态重新播放。不停止其他系统作用在该节点上的 Tween。</li>
+<li>不累积误差：所有缩放都相对节点原始 scale 计算，不把当前缩放继续相乘。</li>
+<li>可逐步推广：按钮和行动格共用底层 Tween 播放与基准状态处理，但使用不同曲线预设。</li>
+</ul>
+<h2 id="3-方案选择">3. 方案选择<a class="heading-link" href="#3-方案选择" aria-label="链接到本节">#</a></h2><h3 id="方案-a-分别写在三个现有页面中">方案 A：分别写在三个现有页面中<a class="heading-link" href="#方案-a-分别写在三个现有页面中" aria-label="链接到本节">#</a></h3><p>优点是代码量最小。缺点是参数、打断逻辑和基准缩放会重复，后续接入其他按钮容易出现手感不一致。</p>
+<h3 id="方案-b-通用播放器-按钮组件-采用">方案 B：通用播放器 + 按钮组件（采用）<a class="heading-link" href="#方案-b-通用播放器-按钮组件-采用" aria-label="链接到本节">#</a></h3><p>用一个轻量通用播放器实现曲线、基准状态和打断；用按钮组件负责触摸状态；行动格在结算序列中显式调用命中预设。</p>
+<p>这个方案既能快速试手感，也能保留后续给分数、倍率、资源数值复用的入口。</p>
+<h3 id="方案-c-完整数据化动效资产">方案 C：完整数据化动效资产<a class="heading-link" href="#方案-c-完整数据化动效资产" aria-label="链接到本节">#</a></h3><p>把时长、幅度、曲线全部做成 Cocos 可编辑资产。扩展性最强，但在手感未定稿前会增加不必要的编辑器配置和维护成本，本轮不采用。</p>
+<h2 id="4-按钮动效">4. 按钮动效<a class="heading-link" href="#4-按钮动效" aria-label="链接到本节">#</a></h2><h3 id="4-1-接入范围">4.1 接入范围<a class="heading-link" href="#4-1-接入范围" aria-label="链接到本节">#</a></h3><ul>
+<li><code>main_menu.prefab</code> 中的 <code>StartBtn</code>。</li>
+<li><code>game_main.prefab</code> 中的 <code>RefreshBtn</code>。</li>
+</ul>
+<p>两个按钮现在都有 Cocos <code>Button</code> 的 Scale transition。通用按压组件启用时，运行时关闭该节点自带的 transition，避免两套缩放叠加。不直接修改预制体序列化数据。</p>
+<h3 id="4-2-默认曲线">4.2 默认曲线<a class="heading-link" href="#4-2-默认曲线" aria-label="链接到本节">#</a></h3><ol>
+<li>按下：<code>0.06s</code>内到达 <code>scaleX = 1.03</code>、<code>scaleY = 0.94</code>，使用快速 Ease Out。</li>
+<li>按住：保持压下状态，不额外循环。这本身就是长按反馈，避免让普通按钮看起来像存在特殊长按功能。</li>
+<li>松开：<code>0.10s</code> 到 <code>scaleX = 0.98</code>、<code>scaleY = 1.05</code>，再用 <code>0.14s backOut</code> 回到基准缩放。</li>
+<li>取消：<code>0.12s sineOut</code> 直接回到基准缩放，不播放过冲。</li>
+</ol>
+<p>初始参数是试手感起点，实机后优先调整四项：按下时长、纵向压缩、回弹过冲、回弹时长。</p>
+<h3 id="4-3-点击行为">4.3 点击行为<a class="heading-link" href="#4-3-点击行为" aria-label="链接到本节">#</a></h3><ul>
+<li>按钮原有 <code>TOUCH_END</code> / <code>Button.clickEvents</code> 不改，不把业务回调塞进动效组件。</li>
+<li>本轮不强制延迟进入游戏或刷新逻辑，保持触摸响应立即。</li>
+<li><code>StartBtn</code> 若因为页面立即销毁导致回弹不可见，实机证明后再为菜单转场单独增加最多 <code>0.08s</code> 的表现窗口，不先入侵页面跳转。</li>
+</ul>
+<h2 id="5-行动格结算动效">5. 行动格结算动效<a class="heading-link" href="#5-行动格结算动效" aria-label="链接到本节">#</a></h2><h3 id="5-1-接入方式">5.1 接入方式<a class="heading-link" href="#5-1-接入方式" aria-label="链接到本节">#</a></h3><ul>
+<li>5 个行动格全部启用。</li>
+<li>动效在 <code>GameMainViewComp.playSettlementSequence()</code> 的逐格结算循环里触发。</li>
+<li>格子提供一个明确的 <code>playSettlementImpact(intensity)</code> 入口，不把结算规则放入动效组件。</li>
+<li>动效对“格子内的卡牌展示根节点”播放，不改整个网格布局节点，避免影响命中区域和长按识别。</li>
+</ul>
+<h3 id="5-2-默认曲线">5.2 默认曲线<a class="heading-link" href="#5-2-默认曲线" aria-label="链接到本节">#</a></h3><ol>
+<li>砸下：<code>0.055s</code> 到 <code>scaleX = 1.08</code>、<code>scaleY = 0.88</code>，使用硬朗的 Ease Out。</li>
+<li>局部卡肉：保持上述状态 <code>0.05s</code>。只延长当前结算表现序列，不改全局 <code>timeScale</code>。</li>
+<li>反向拉伸：<code>0.075s</code> 到 <code>scaleX = 0.95</code>、<code>scaleY = 1.10</code>。</li>
+<li>回弹：<code>0.16s backOut</code> 回到基准缩放。</li>
+</ol>
+<p>现有的逐格音效和浮字保留。原本的通用左右抖动不再同时作用在卡牌节点上，避免缩放与抖动互相抢戏。</p>
+<h3 id="5-3-强度参数">5.3 强度参数<a class="heading-link" href="#5-3-强度参数" aria-label="链接到本节">#</a></h3><p><code>intensity</code> 本轮默认为 <code>1</code>，范围限制在 <code>0..2</code>。它只放大相对基准 scale 的偏移量，不改变基准 scale：</p>
+<ul>
+<li><code>0</code>：可用于关闭冲击，直接恢复基准状态。</li>
+<li><code>1</code>：当前试手感的标准命中。</li>
+<li><code>2</code>：后续连锁爆发的上限参考。</li>
+</ul>
+<p>本轮 5 个格子均使用 <code>1</code>，不做逐格增强。等动画曲线确认后，再将随身物触发次数或连锁深度映射到该参数。</p>
+<h2 id="6-数据流与打断规则">6. 数据流与打断规则<a class="heading-link" href="#6-数据流与打断规则" aria-label="链接到本节">#</a></h2><h3 id="按钮">按钮<a class="heading-link" href="#按钮" aria-label="链接到本节">#</a></h3><p><code>TOUCH_START -&gt; 记录/恢复基准状态 -&gt; 按下 Tween -&gt; TOUCH_END 回弹</code></p>
+<ul>
+<li>新一次 <code>TOUCH_START</code> 会停止该节点上的旧动效。</li>
+<li>播放器保存并只停止自己的 Tween 实例，不调用 <code>Tween.stopAllByTarget(node)</code>。</li>
+<li><code>TOUCH_CANCEL</code> 恢复但不过冲。</li>
+<li>组件禁用或节点销毁时解绑事件，并恢复 Cocos <code>Button</code> 原 transition。</li>
+</ul>
+<h3 id="行动格">行动格<a class="heading-link" href="#行动格" aria-label="链接到本节">#</a></h3><p><code>SettlementResult.cardLines -&gt; 现有逐格循环 -&gt; 对应格子 impact -&gt; 本格浮字/累加 -&gt; 等待下一格</code></p>
+<ul>
+<li>每格冲击返回可等待的 Promise，但结算序列只等待到“卡肉点完成”，回弹可以和浮字重叠，防止整体结算过慢。</li>
+<li>如果节点在动画期间失效，Promise 必须正常结束，不能卡住结算。</li>
+<li>如果旧动画被新一次冲击打断，旧动画对应的 Promise 也必须正常结束。</li>
+<li>页面退出或新一轮刷新前，将节点恢复到基准状态。</li>
+</ul>
+<h2 id="7-预计文件">7. 预计文件<a class="heading-link" href="#7-预计文件" aria-label="链接到本节">#</a></h2><p>新增：</p>
+<ul>
+<li><code>assets/script/game/common/ui-motion/UIMotion.ts</code>：通用基准状态、停止和曲线播放器。</li>
+<li><code>assets/script/game/common/ui-motion/PressFeedbackComp.ts</code>：手机按压生命周期组件。</li>
+<li>对应的 Cocos <code>.meta</code> 文件。</li>
+<li><code>scripts/test-ui-motion-contract.js</code>：检查接线、参数约束和不侵入核心逻辑。</li>
+</ul>
+<p>修改：</p>
+<ul>
+<li><code>assets/script/game/initialize/view/MainMenuViewComp.ts</code>：给 <code>StartBtn</code> 运行时接入按压组件。</li>
+<li><code>assets/script/game/buildscore/ui/GameMainViewComp.ts</code>：给 <code>RefreshBtn</code> 接入按压组件，在逐格结算中调用冲击。</li>
+<li><code>assets/script/game/buildscore/ui/BoardViewComp.ts</code>：对外提供行动格结算冲击入口。</li>
+<li><code>assets/script/game/buildscore/ui/BoardCellStampComp.ts</code>：在卡牌展示根节点上播放冲击预设。</li>
+</ul>
+<p>本轮原则上不修改 <code>.prefab</code>，避免与当前已存在的大量未提交 UI 调整产生冲突。</p>
+<h2 id="8-验收标准">8. 验收标准<a class="heading-link" href="#8-验收标准" aria-label="链接到本节">#</a></h2><h3 id="按钮-2">按钮<a class="heading-link" href="#按钮-2" aria-label="链接到本节">#</a></h3><ul>
+<li>开始游戏和刷新按钮在手机触摸开始时立即压缩。</li>
+<li>按住不松时稳定保持，不循环抖动。</li>
+<li>松开后有可见过冲且最终精确回到原缩放。</li>
+<li>划出按钮或触摸取消时恢复原状，不触发业务行为。</li>
+<li>连续快点不会越点越大、越点越小或停在中间缩放。</li>
+<li>刷新成功/失败逻辑与音效保持现状。</li>
+</ul>
+<h3 id="行动格-2">行动格<a class="heading-link" href="#行动格-2" aria-label="链接到本节">#</a></h3><ul>
+<li>自动结算时 5 个格子依次播放相同的砸下—停顿—拉伸—回弹。</li>
+<li>存在可感知的短停顿，但背景与其他 UI 不被全局冻结。</li>
+<li>动效不改变格子位置、命中区域、长按遗物详情和最终分数。</li>
+<li>一次结算完成后，5 个格子都精确回到各自原缩放。</li>
+<li>不因节点失效或中途退出导致结算永远等待。</li>
+</ul>
+<h2 id="9-实机调参顺序">9. 实机调参顺序<a class="heading-link" href="#9-实机调参顺序" aria-label="链接到本节">#</a></h2><ol>
+<li>先调按钮的纵向压缩和回弹时长。</li>
+<li>再调行动格的砸下幅度和 <code>0.05s</code> 卡肉时长。</li>
+<li>确认结算总节奏后，再接入“行动格短延迟爆分”。</li>
+<li>最后接入分数区、倍率和资源数值的通用弹跳。</li>
+</ol>
+</article><section class="source-record" id="source-record"><p class="eyebrow">SOURCE & REVISIONS</p><h2>来源与修改记录</h2><dl><dt>原文标题</dt><dd>《远行商人》UI 动效试手感版设计</dd><dt>工程内文件</dt><dd><code>docs/superpowers/specs/2026-07-14-ui-motion-trial-design.md</code></dd><dt>收录方式</dt><dd>从现存工程文件收录，保留原段落与参数；仅做网页排版、本机路径匿名化与链接整理。</dd><dt>日期依据</dt><dd>文件名日期 · 2026-07-14。正文日期、首次入库日期与修订日期可能不同。</dd></dl><details class="history" open><summary>查看 2 次文件提交记录</summary><p>以下为包含此文件变化的提交。提交说明可能涉及整个项目，不代表该文档单独完成了所有列出的功能。</p><ol><li><time>2026-07-14</time><div><code>b4ec14c</code><p>docs: tidy ui motion spec</p></div></li><li><time>2026-07-14</time><div><code>d15bc7a</code><p>docs: design ui motion trial</p></div></li></ol></details></section><nav class="adjacent" aria-label="相邻文档"><a href="2026-07-12-v04-ui-simplification-design.html"><small>上一篇</small>右链版本 UI 简化</a><a href="2026-07-14-ui-motion-video-parity-design.html"><small>下一篇</small>动效节奏对照</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>两个独立游戏，从原型到迭代的设计记录。</p></div><p>整理于 2026.09.19<br><a href="../index.html#about">收录与日期说明</a> · <a href="../../index.html">返回作品集 ↗</a></p></footer></body></html>

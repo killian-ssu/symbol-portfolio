@@ -1,0 +1,81 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f4f2eb"><title>道具、工具与伙伴组合执行设计 v0.2 · Symbol 策划档案</title><meta name="description" content="把伙伴组合纳入道具与工具的执行设计。"><link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css"><script src="../archive.js" defer></script></head><body class="document-page merchant"><a class="skip" href="#main">跳到正文</a><header class="site-header"><a class="wordmark" href="../index.html">SYMBOL<span>设计档案 / 2026</span></a><nav aria-label="主导航"><a href="../index.html#timeline">版本时间线</a><a href="../index.html#catalog">全部文档</a><a class="back-portfolio" href="../../index.html">作品集 <span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="doc-top"><a class="back-link" href="../index.html?project=merchant#catalog">← 返回远行商人文档</a><div class="doc-tags"><span>远行商人</span><span>历史方案</span><span>构筑成长</span></div><h1>道具、工具与伙伴组合执行设计 v0.2</h1><p class="doc-intro">把伙伴组合纳入道具与工具的执行设计。</p><div class="doc-metadata"><span><strong>2026-07-21</strong>正文日期</span><span><strong>10 分钟</strong>预计阅读</span><span><strong>1</strong>次可查提交</span><a class="download" href="../sources/items-execution-v2.md" download>下载本文 ↓</a></div></div><div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><a class="level-2" href="#1-这轮要解决什么">1. 这轮要解决什么</a><a class="level-2" href="#2-固定术语与卡面语法">2. 固定术语与卡面语法</a><a class="level-3" href="#2-1-伙伴组合">2.1 伙伴组合</a><a class="level-2" href="#3-一轮结算-先看到谁在动-再看到什么被传过去">3. 一轮结算：先看到谁在动，再看到什么被传过去</a><a class="level-2" href="#4-30-件候选道具">4. 30 件候选道具</a><a class="level-3" href="#4-1-探索值-8-件">4.1 探索值（8 件）</a><a class="level-3" href="#4-2-伙伴行动-12-件">4.2 伙伴行动（12 件）</a><a class="level-3" href="#4-3-道具传导-4-件">4.3 道具传导（4 件）</a><a class="level-3" href="#4-4-倍率-6-件">4.4 倍率（6 件）</a><a class="level-2" href="#5-工具牌-先只保留-6-张">5. 工具牌：先只保留 6 张</a><a class="level-2" href="#6-三条可玩构筑与实际事件量">6. 三条可玩构筑与实际事件量</a><a class="level-3" href="#a-右链养成-五连">A. 右链养成（五连）</a><a class="level-3" href="#b-两对调整-两对">B. 两对调整（两对）</a><a class="level-3" href="#c-四连爆发-四连">C. 四连爆发（四连）</a><a class="level-2" href="#7-16关测算结论">7. 16关测算结论</a><a class="level-2" href="#8-地点终页的设计边界">8. 地点终页的设计边界</a><a class="level-2" href="#9-给其他-ai-的生成约束">9. 给其他 AI 的生成约束</a><a href="#source-record">来源与修改记录</a></nav></details><a class="to-top" href="#main">回到页首 ↑</a></aside><div class="doc-reading"><div class="archive-note"><span class="note-marker">档案说明</span><p>这是 2026-09-19 从工程收录的文本，可能包含后来补写的注释。正文中的“当前”“已实现”保留原有语境，不代表本站试玩版已逐项复验。</p></div><article class="prose" id="article"><p>日期：2026-07-21<br>状态：<strong>候选设计，尚未写入运行时 JSON 或 Cocos UI</strong></p>
+<p>机器可读数据见 <code>relic-tool-redesign-data-v0.2.json</code>；16 关逐事件测算结果由 <code>scripts/simulate-relic-tool-v0.2.mjs</code> 生成至 <code>outputs/relic-tool-redesign-v0.2-simulation.json</code>。</p>
+<hr>
+<h2 id="1-这轮要解决什么">1. 这轮要解决什么<a class="heading-link" href="#1-这轮要解决什么" aria-label="链接到本节">#</a></h2><p>旧设计的问题不是“分数不够”，而是三种体验没有说成一条规则：</p>
+<ol>
+<li>玩家看到同类伙伴越多，天然会追求更高倍率。</li>
+<li>玩家把伙伴放进 1→5 的行动格时，又会感到道具应当向右逐段传导。</li>
+<li>原目录把加分、道具复写、伙伴再行动、成长和倍率混在长条件句里，读完仍无法预测下一步。</li>
+</ol>
+<p>v0.2 的统一回答是：<strong>伙伴组合决定本轮倍率，排列决定右侧传导的落点，道具把传导变成更多伙伴行动与可见养成，工具牌负责临场修型或点火。</strong></p>
+<p>右链不是唯一流派，而是所有构筑共用的空间语法。五连、四连、两对都可以使用它；区别在于玩家选择把有限的五个位置用来换更高的组合倍率、更多行动次数，或更快的探索值成长。</p>
+<h2 id="2-固定术语与卡面语法">2. 固定术语与卡面语法<a class="heading-link" href="#2-固定术语与卡面语法" aria-label="链接到本节">#</a></h2><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>术语</th><th>固定含义</th></tr></thead><tbody><tr><td>探索值</td><td>伙伴每次行动提供的基础数值。</td></tr><tr><td>倍率</td><td>本轮伙伴组合倍率，加上卡面明确写出的本轮/本局倍率。</td></tr><tr><td>此处</td><td>这件道具所在的行动格。</td></tr><tr><td>右侧</td><td><strong>紧邻右边的一格</strong>；不存在右侧时，效果不生效。</td></tr><tr><td><code>A+N</code></td><td>右侧伙伴额外行动 N 次。</td></tr><tr><td><code>R+N</code></td><td>右侧道具额外触发 N 次，不产生伙伴行动分。</td></tr></tbody></table></div><p>卡面写法必须遵守以下合同：</p>
+<ul>
+<li><code>伙伴探索值永久+2/+5/+10</code>：增加该伙伴种类本局探索值，当前这次行动起就有效。</li>
+<li><code>伙伴本次行动探索值+2/+5/+10</code>：只加给下一次指定伙伴行动，绝不伪装成永久成长。</li>
+<li><code>本轮倍率+0.1/+0.2/+0.5</code> 与 <code>本局倍率永久+…</code> 必须写明时效。</li>
+<li>自动道具不写“再次触发”作为模糊动词；统一写成 <code>伙伴行动次数+N</code> 或 <code>道具触发次数+N</code>。</li>
+<li>每件道具的原始触发必须有价值。计数型成长可以附带在一个已经有效的基础效果之后，不能让第一次触发是空白。</li>
+</ul>
+<h3 id="2-1-伙伴组合">2.1 伙伴组合<a class="heading-link" href="#2-1-伙伴组合" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>伙伴组合</th><th>条件</th><th style="text-align:right">倍率</th></tr></thead><tbody><tr><td>单张</td><td>五张伙伴均不重复</td><td style="text-align:right">×1</td></tr><tr><td>一对</td><td>恰有一组两张相同伙伴</td><td style="text-align:right">×2</td></tr><tr><td>两对</td><td>恰有两组两张相同伙伴</td><td style="text-align:right">×4</td></tr><tr><td>三连</td><td>恰有三张相同伙伴</td><td style="text-align:right">×5</td></tr><tr><td>四连</td><td>恰有四张相同伙伴</td><td style="text-align:right">×10</td></tr><tr><td>五连</td><td>五张均为同一伙伴</td><td style="text-align:right">×15</td></tr></tbody></table></div><p>组合按最高成立项识别。例如 <code>鹰、鹰、鹰、狼、狼</code> 是“三连”而不是“两对”；<code>鹰、鹰、狼、狼、龟</code> 是“两对”。“齐行”“队势”“未成”不作为玩家要学习的组合名称。</p>
+<h2 id="3-一轮结算-先看到谁在动-再看到什么被传过去">3. 一轮结算：先看到谁在动，再看到什么被传过去<a class="heading-link" href="#3-一轮结算-先看到谁在动-再看到什么被传过去" aria-label="链接到本节">#</a></h2><pre><code class="language-text">行动格1 → 行动格2 → 行动格3 → 行动格4 → 行动格5
+每一格：收到左侧效果 → 原始伙伴行动（道具→伙伴得分）
+       → 处理到达的A+N与R+N → 前往右侧
+</code></pre>
+<ul>
+<li>伙伴额外行动仍会触发此处道具，再结算伙伴探索值；它才是爆分的主体。</li>
+<li>道具额外触发只触发道具，不直接得到伙伴探索值；它只承担“把右侧再点亮”的辅助角色。</li>
+<li>倍率道具每轮最多生效一次。复写可以让它被点亮，但不会让同一张倍率牌在同一轮无限叠加。</li>
+<li>每张成长道具每轮最多为同一种伙伴永久增加 20 探索值；每格每轮最多结算 40 次伙伴行动与 40 次道具触发。第 13 次起的同类事件合并播放。这两个上限防止数值和动画失控，而不是让玩家在每张卡上背额外条件。</li>
+</ul>
+<h2 id="4-30-件候选道具">4. 30 件候选道具<a class="heading-link" href="#4-30-件候选道具" aria-label="链接到本节">#</a></h2><p>这些是“刚好 30 件”的首版池，不是 30 个只有数值差别的镜像。行动类占 12 件，保证链路主要放大伙伴行动；道具传导只有 4 件，作为少量桥梁。</p>
+<h3 id="4-1-探索值-8-件">4.1 探索值（8 件）<a class="heading-link" href="#4-1-探索值-8-件" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>ID</th><th>名称</th><th>稀有度</th><th>卡面文案</th></tr></thead><tbody><tr><td><code>old_scale</code></td><td>铜钱</td><td>普通</td><td>此处伙伴本次行动探索值+2。</td></tr><tr><td><code>ballast_stone</code></td><td>玉佩</td><td>普通</td><td>此处伙伴探索值永久+2。</td></tr><tr><td><code>living_scale</code></td><td>种子</td><td>罕见</td><td>此处伙伴探索值永久+5。</td></tr><tr><td><code>spring_scale</code></td><td>木雕</td><td>稀有</td><td>此处伙伴探索值永久+10。</td></tr><tr><td><code>old_travel_log</code></td><td>旅行日志</td><td>普通</td><td>右侧伙伴探索值永久+2。</td></tr><tr><td><code>hinge_box</code></td><td>领队结</td><td>罕见</td><td>右侧伙伴探索值永久+5。</td></tr><tr><td><code>reverse_clasp_box</code></td><td>指路旗</td><td>稀有</td><td>右侧伙伴探索值永久+10。</td></tr><tr><td><code>red_abacus</code></td><td>罗盘</td><td>罕见</td><td>所有伙伴探索值永久+2。</td></tr></tbody></table></div><h3 id="4-2-伙伴行动-12-件">4.2 伙伴行动（12 件）<a class="heading-link" href="#4-2-伙伴行动-12-件" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>ID</th><th>名称</th><th>稀有度</th><th>卡面文案</th></tr></thead><tbody><tr><td><code>echo_box</code></td><td>海螺</td><td>普通</td><td>右侧伙伴行动次数+1。</td></tr><tr><td><code>double_layer_box</code></td><td>手鼓</td><td>罕见</td><td>右侧伙伴行动次数+2。</td></tr><tr><td><code>resonance_box</code></td><td>笛子</td><td>罕见</td><td>右侧伙伴行动次数+1；此处伙伴探索值永久+2。</td></tr><tr><td><code>transmission_wheel</code></td><td>木偶</td><td>稀有</td><td>右侧伙伴行动次数+2；右侧道具触发次数+1。</td></tr><tr><td><code>pressure_board</code></td><td>背包</td><td>罕见</td><td>右侧伙伴行动次数+2；此处伙伴探索值永久+5。</td></tr><tr><td><code>rebound_board</code></td><td>沙漏</td><td>罕见</td><td>右侧伙伴行动次数+1；此处伙伴探索值永久+5。</td></tr><tr><td><code>echo_jar</code></td><td>风铃</td><td>稀有</td><td>右侧伙伴行动次数+2；右侧伙伴本次行动探索值+10。</td></tr><tr><td><code>copper_horn</code></td><td>算盘</td><td>稀有</td><td>右侧伙伴行动次数+2；所有伙伴探索值永久+2。</td></tr><tr><td><code>tool_pack_bell</code></td><td>鼓槌</td><td>罕见</td><td>右侧伙伴行动次数+1；本轮每使用1张工具，再+1。</td></tr><tr><td><code>old_mold</code></td><td>茶杯</td><td>罕见</td><td>右侧伙伴行动次数+1；每累计触发6次，下轮获得1张铜镜。</td></tr><tr><td><code>tool_bag</code></td><td>锦囊</td><td>普通</td><td>右侧伙伴行动次数+1；每累计触发6次，下轮获得1张磨石。</td></tr><tr><td><code>spare_box</code></td><td>荷包</td><td>普通</td><td>右侧伙伴行动次数+1；每累计触发6次，下轮获得1张网兜。</td></tr></tbody></table></div><h3 id="4-3-道具传导-4-件">4.3 道具传导（4 件）<a class="heading-link" href="#4-3-道具传导-4-件" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>ID</th><th>名称</th><th>稀有度</th><th>卡面文案</th></tr></thead><tbody><tr><td><code>timing_bell</code></td><td>磁石</td><td>普通</td><td>右侧道具触发次数+1。</td></tr><tr><td><code>drive_shaft</code></td><td>风车</td><td>罕见</td><td>右侧道具触发次数+2。</td></tr><tr><td><code>old_mainspring</code></td><td>珠串</td><td>稀有</td><td>右侧道具触发次数+1；每累计触发3次，再+2。</td></tr><tr><td><code>relay_baton</code></td><td>接力瓶</td><td>罕见</td><td>右侧道具触发次数+1；右侧伙伴行动次数+1。</td></tr></tbody></table></div><h3 id="4-4-倍率-6-件">4.4 倍率（6 件）<a class="heading-link" href="#4-4-倍率-6-件" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>ID</th><th>名称</th><th>稀有度</th><th>卡面文案</th></tr></thead><tbody><tr><td><code>peddler_flag</code></td><td>对牌旗</td><td>普通</td><td>一对时，本轮倍率+0.1。</td></tr><tr><td><code>linkage_flag</code></td><td>双结旗</td><td>稀有</td><td>右侧伙伴行动次数+3；此处伙伴探索值永久+5；两对时，本轮倍率+0.5。</td></tr><tr><td><code>copper_seal</code></td><td>三环印</td><td>罕见</td><td>三连时，本轮倍率+0.5。</td></tr><tr><td><code>old_scorebook</code></td><td>四叶章</td><td>稀有</td><td>四连时，本轮倍率+0.5。</td></tr><tr><td><code>full_crate</code></td><td>满载箱</td><td>稀有</td><td>五连时，本轮倍率+0.5。</td></tr><tr><td><code>double_entry_book</code></td><td>行旅账簿</td><td>稀有</td><td>本轮倍率+0.1；每累计触发5次，本局倍率永久+0.1。</td></tr></tbody></table></div><p><code>双结旗</code>是刻意保留的稀有终结件：它只读取一个组合“两对”，但把“两对倍率较低”的代价转换为更长的右侧行动链与可见成长。它不是“按三种组合分别触发三种不同效果”的旧式分支卡。</p>
+<h2 id="5-工具牌-先只保留-6-张">5. 工具牌：先只保留 6 张<a class="heading-link" href="#5-工具牌-先只保留-6-张" aria-label="链接到本节">#</a></h2><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>ID</th><th>名称</th><th>卡面文案</th><th>使用边界</th></tr></thead><tbody><tr><td><code>whetstone</code></td><td>磨石</td><td>下一张放入行动格的伙伴，本次行动探索值+5。</td><td>放牌前使用。</td></tr><tr><td><code>search_hook</code></td><td>网兜</td><td>丢弃1张伙伴手牌，补1张。</td><td>只处理伙伴手牌。</td></tr><tr><td><code>trigger_bell</code></td><td>口哨</td><td>选择一处，伙伴行动次数+1。</td><td>目标为已放伙伴的行动格。</td></tr><tr><td><code>winding_key</code></td><td>发条钥匙</td><td>选择一处，道具触发次数+1。</td><td>目标为已有道具的行动格。</td></tr><tr><td><code>copy_board</code></td><td>印章</td><td>下一张补到的伙伴牌，变为上一张已放置的伙伴。</td><td>尚未放置伙伴时不可使用。</td></tr><tr><td><code>copy_paper</code></td><td>铜镜</td><td>再使用上一张使用过的工具牌，不能复制铜镜。</td><td>没有可复制工具时不可使用。</td></tr></tbody></table></div><p>工具牌的相对位置永远来自“选择一处”，不说“下一处”。它们不需要新对话框：在局内主界面高亮 Core 给出的合法目标即可。</p>
+<h2 id="6-三条可玩构筑与实际事件量">6. 三条可玩构筑与实际事件量<a class="heading-link" href="#6-三条可玩构筑与实际事件量" aria-label="链接到本节">#</a></h2><h3 id="a-右链养成-五连">A. 右链养成（五连）<a class="heading-link" href="#a-右链养成-五连" aria-label="链接到本节">#</a></h3><pre><code class="language-text">手鼓 → 背包 → 风铃 → 木偶 → 木雕
+ A+2    A+2    A+2    A+2/R+1  链尾永久+10
+</code></pre>
+<ul>
+<li>行动次数按格变成 <code>1 → 3 → 7 → 15 → 31</code>。</li>
+<li>木偶送到右侧的 R+1 会额外点亮木雕，但木雕每轮对同一伙伴的永久成长上限为 +20；因此玩家看见的是“末端被养大”，不是无限增长的数字错误。</li>
+<li>成熟后的五连在第16关普通目标下三轮累计 <code>1,317,735 / 1,000,000</code>；“满载”终页目标 <code>1,250,000</code> 下同样三轮通过。</li>
+</ul>
+<h3 id="b-两对调整-两对">B. 两对调整（两对）<a class="heading-link" href="#b-两对调整-两对" aria-label="链接到本节">#</a></h3><pre><code class="language-text">手鼓 → 背包 → 双结旗 → 算盘 → 木雕
+ A+2    A+2    A+3/+0.5  A+2/全体+2  链尾永久+10
+</code></pre>
+<ul>
+<li>示例伙伴为 <code>鹰、鹰、狼、狼、龟</code>，基础倍率×4；双结旗把它变为本轮×4.5。</li>
+<li>行动次数为 <code>1 → 3 → 7 → 22 → 40（上限）</code>。它不是五连的降级版：两对更容易在手牌波动时保住，两种成对伙伴也能分别承接中段成长。</li>
+<li>第16关普通目标恰好在四轮累计 <code>1,062,855 / 1,000,000</code> 通过。若地点终页提前公开“满载”（目标+25%），四轮只有 <code>1,062,855 / 1,250,000</code>，因此应使用印章/网兜转成四连或五连；这是“提前公开终页后做准备”的压力，不是封锁右链。</li>
+</ul>
+<h3 id="c-四连爆发-四连">C. 四连爆发（四连）<a class="heading-link" href="#c-四连爆发-四连" aria-label="链接到本节">#</a></h3><pre><code class="language-text">手鼓 → 背包 → 算盘 → 木偶 → 木雕
+ A+2    A+2    A+2/全体+2  A+2/R+1  链尾永久+10
+</code></pre>
+<ul>
+<li>示例伙伴为 <code>鹰、鹰、鹰、鹰、狼</code>，倍率×10；允许保留一张异类伙伴，修型成本低于五连。</li>
+<li>行动次数为 <code>1 → 3 → 7 → 15 → 31</code>，但中段算盘把大量行动转成全体永久探索值。</li>
+<li>第16关普通目标四轮累计 <code>1,303,760 / 1,000,000</code>；“满载”终页也能四轮累计 <code>1,303,760 / 1,250,000</code> 通过。</li>
+</ul>
+<h2 id="7-16关测算结论">7. 16关测算结论<a class="heading-link" href="#7-16关测算结论" aria-label="链接到本节">#</a></h2><p>测算不是用“链路因子”估算，而是逐格回放原始行动、A+N、R+N、永久探索值、本轮倍率和每格事件上限。假设每页最多四轮；核心第五件道具在第8页开始稳定出现，而非第5页就理想凑齐。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>构筑</th><th style="text-align:right">普通16关</th><th style="text-align:right">满载终页（第16关）</th><th>结论</th></tr></thead><tbody><tr><td>右链养成（五连）</td><td style="text-align:right">3轮，1,317,735 / 1,000,000</td><td style="text-align:right">3轮，1,317,735 / 1,250,000</td><td>高上限、终局最快。</td></tr><tr><td>两对调整</td><td style="text-align:right">4轮，1,062,855 / 1,000,000</td><td style="text-align:right">4轮，1,062,855 / 1,250,000</td><td>普通终局可过；满载需工具修型。</td></tr><tr><td>四连爆发</td><td style="text-align:right">4轮，1,303,760 / 1,000,000</td><td style="text-align:right">4轮，1,303,760 / 1,250,000</td><td>稳定的终局保底路线。</td></tr><tr><td>纯探索值堆叠（反例）</td><td style="text-align:right">第13关失败，224,400 / 250,000</td><td style="text-align:right">未继续</td><td>证明成长不能脱离行动链独立通关。</td></tr></tbody></table></div><p>体验曲线由测算得到：第1～4页以 1～2 轮熟悉组合；第5～7页开始需要更好排列或更多轮数；第8页拿到完整链后出现一轮高爆发；第13页后目标暴涨，五连以三轮、两对和四连以四轮面对终局压力。这个曲线仍需要将来接入真实掉落概率、手牌随机与全部特别状况后再做 Monte Carlo 验证，但已经排除了“纯加分也能躺过”与“右链早期直接碾压后16关”的两种明显错误。</p>
+<h2 id="8-地点终页的设计边界">8. 地点终页的设计边界<a class="heading-link" href="#8-地点终页的设计边界" aria-label="链接到本节">#</a></h2><ul>
+<li>每章入口提前公开终页的特别状况，玩家可为它选择组合与工具，而不是结算时被随机断链。</li>
+<li>不再使用“所有右侧道具触发次数-1”这种攻击底层语法的全局限制。若保留逆风，应改为一个公开连接本轮首次 A/R 减 1，玩家可通过重排绕开或用低价值节点承受。</li>
+<li>“满载”作为纯目标+25%是可保留的终局压力；它鼓励两对路线在第16页改成四连/五连，却不让任何道具突然失效。</li>
+<li>随机变身、随机封锁和随机交换应改为提前公开目标；玩家需要解题，不该失去因果关系。</li>
+</ul>
+<h2 id="9-给其他-ai-的生成约束">9. 给其他 AI 的生成约束<a class="heading-link" href="#9-给其他-ai-的生成约束" aria-label="链接到本节">#</a></h2><p>新增道具前，先回答四个问题：</p>
+<ol>
+<li>它在原始触发时立刻做什么？</li>
+<li>它增加的是探索值、倍率、伙伴行动、道具传导、工具，还是明确的特殊规则？</li>
+<li>它把价值留在此处，还是送到右侧？若送右侧，是否仍能由玩家看懂目标？</li>
+<li>放进一个五格布局后，它让哪一格的伙伴行动更多，还是让哪一种伙伴永久变强？</li>
+</ol>
+<p>禁止再产生这些写法：</p>
+<ul>
+<li>“此道具再次触发时才有效”的空白初始卡。</li>
+<li>一张卡按三种牌型分别给三套不同次数的分支表。</li>
+<li>没有来源的“再次触发”。</li>
+<li>以全局扣除右侧触发来充当终页难度。</li>
+</ul>
+<p>运行时实施前，需要把候选 ID 映射回现有稳定 ID、在 Core 中实现按格事件队列、补齐工具合法目标与测试；本轮没有修改 <code>assets/resources/config/gameplay/</code>、Core、Prefab 或 Cocos Inspector 参数。</p>
+</article><section class="source-record" id="source-record"><p class="eyebrow">SOURCE & REVISIONS</p><h2>来源与修改记录</h2><dl><dt>原文标题</dt><dd>《远行商人》道具、工具与伙伴组合执行设计 v0.2</dd><dt>工程内文件</dt><dd><code>docs/v05-five-animal-caravan/relic-tool-redesign-execution-v0.2.md</code></dd><dt>收录方式</dt><dd>从现存工程文件收录，保留原段落与参数；仅做网页排版、本机路径匿名化与链接整理。</dd><dt>日期依据</dt><dd>正文日期 · 2026-07-21。正文日期、首次入库日期与修订日期可能不同。</dd></dl><details class="history" open><summary>查看 1 次文件提交记录</summary><p>以下为包含此文件变化的提交。提交说明可能涉及整个项目，不代表该文档单独完成了所有列出的功能。</p><ol><li><time>2026-07-24</time><div><code>a0cff4e</code><p>feat: 建立五兽商队 v0.6 当前版本基线</p></div></li></ol></details></section><nav class="adjacent" aria-label="相邻文档"><a href="items-execution-v1.html"><small>上一篇</small>道具与工具执行设计 v0.1</a><a href="items-execution-v3.html"><small>下一篇</small>道具、工具与成长机制执行设计 v0.3</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>两个独立游戏，从原型到迭代的设计记录。</p></div><p>整理于 2026.09.19<br><a href="../index.html#about">收录与日期说明</a> · <a href="../../index.html">返回作品集 ↗</a></p></footer></body></html>

@@ -1,0 +1,239 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f4f2eb"><title>结算体验与构筑扩展讨论稿 · Symbol 策划档案</title><meta name="description" content="讨论组合何时被看见、结算如何读懂，以及道具怎样扩展构筑。"><link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css"><script src="../archive.js" defer></script></head><body class="document-page merchant"><a class="skip" href="#main">跳到正文</a><header class="site-header"><a class="wordmark" href="../index.html">SYMBOL<span>设计档案 / 2026</span></a><nav aria-label="主导航"><a href="../index.html#timeline">版本时间线</a><a href="../index.html#catalog">全部文档</a><a class="back-portfolio" href="../../index.html">作品集 <span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="doc-top"><a class="back-link" href="../index.html?project=merchant#catalog">← 返回远行商人文档</a><div class="doc-tags"><span>远行商人</span><span>讨论稿</span><span>构筑成长</span></div><h1>结算体验与构筑扩展讨论稿</h1><p class="doc-intro">讨论组合何时被看见、结算如何读懂，以及道具怎样扩展构筑。</p><div class="doc-metadata"><span><strong>2026-05-30</strong>正文日期</span><span><strong>20 分钟</strong>预计阅读</span><span><strong>1</strong>次可查提交</span><a class="download" href="../sources/settlement-next.md" download>下载本文 ↓</a></div></div><div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><a class="level-2" href="#1-当前问题与设计目标">1. 当前问题与设计目标</a><a class="level-3" href="#1-1-当前版本已经成立的方向">1.1 当前版本已经成立的方向</a><a class="level-3" href="#1-2-mvp-后暴露出的体验问题">1.2 MVP 后暴露出的体验问题</a><a class="level-3" href="#1-3-核心体验目标">1.3 核心体验目标</a><a class="level-2" href="#2-与参考游戏的体验差异">2. 与参考游戏的体验差异</a><a class="level-3" href="#2-1-对比梳理">2.1 对比梳理</a><a class="level-3" href="#2-2-可以借鉴-但不照搬的部分">2.2 可以借鉴，但不照搬的部分</a><a class="level-2" href="#3-三节点-ui-方案">3. 三节点 UI 方案</a><a class="level-3" href="#3-1-三个常驻节点">3.1 三个常驻节点</a><a class="level-3" href="#3-2-三个-ui-状态">3.2 三个 UI 状态</a><a class="level-3" href="#3-3-倍率区同时承担教学">3.3 倍率区同时承担教学</a><a class="level-2" href="#4-同源牌型建议">4. 同源牌型建议</a><a class="level-3" href="#4-1-建议改为单一阶梯">4.1 建议改为单一阶梯</a><a class="level-3" href="#4-2-双同源定义调整">4.2 双同源定义调整</a><a class="level-2" href="#5-正式结算协议">5. 正式结算协议</a><a class="level-3" href="#5-1-数值运算类型只保留五种">5.1 数值运算类型只保留五种</a><a class="level-3" href="#5-2-固定阶段">5.2 固定阶段</a><a class="level-3" href="#5-3-单张行动牌的内部顺序">5.3 单张行动牌的内部顺序</a><a class="level-3" href="#5-4-防止连锁失控的规则">5.4 防止连锁失控的规则</a><a class="level-2" href="#6-格子印记-动画与可读性">6. 格子印记、动画与可读性</a><a class="level-3" href="#6-1-格子印记不是额外底座">6.1 格子印记不是额外底座</a><a class="level-3" href="#6-2-每类变化使用固定视觉语言">6.2 每类变化使用固定视觉语言</a><a class="level-3" href="#6-3-出牌阶段重点预览倍率">6.3 出牌阶段重点预览倍率</a><a class="level-2" href="#7-16-路段目标盘缠提案">7. 16 路段目标盘缠提案</a><a class="level-2" href="#8-建议保留的五条流派">8. 建议保留的五条流派</a><a class="level-2" href="#9-30-个随身物讨论池">9. 30 个随身物讨论池</a><a class="level-3" href="#9-1-首轮投放建议">9.1 首轮投放建议</a><a class="level-2" href="#10-连锁示例">10. 连锁示例</a><a class="level-3" href="#10-1-同源爆发">10.1 同源爆发</a><a class="level-3" href="#10-2-格子连锁">10.2 格子连锁</a><a class="level-3" href="#10-3-工具连锁">10.3 工具连锁</a><a class="level-3" href="#10-4-刷新蓄力">10.4 刷新蓄力</a><a class="level-3" href="#10-5-成长与规则修正">10.5 成长与规则修正</a><a class="level-3" href="#10-6-后期-10-万分量级示意">10.6 后期 10 万分量级示意</a><a class="level-2" href="#11-程序实现建议">11. 程序实现建议</a><a class="level-3" href="#11-1-分离预览和正式结算">11.1 分离预览和正式结算</a><a class="level-3" href="#11-2-事件日志最小结构">11.2 事件日志最小结构</a><a class="level-2" href="#12-后续验证问题">12. 后续验证问题</a><a class="level-2" href="#13-参考方向">13. 参考方向</a><a href="#source-record">来源与修改记录</a></nav></details><a class="to-top" href="#main">回到页首 ↑</a></aside><div class="doc-reading"><div class="archive-note"><span class="note-marker">档案说明</span><p>这是 2026-09-19 从工程收录的文本，可能包含后来补写的注释。正文中的“当前”“已实现”保留原有语境，不代表本站试玩版已逐项复验。</p></div><article class="prose" id="article"><p>版本：vNext 讨论稿<br>整理日期：2026-05-30<br>用途：MVP 后续迭代、数值讨论、论文研究与项目汇报</p>
+<p>这份文档不直接覆盖 <a href="../docs/merchant-mvp.html">MVP v0.1 策划案</a>。它记录 MVP 开发后暴露出的体验问题，并提出一套可以继续验证的结算流程、UI 反馈、数值曲线和 30 个随身物方案。</p>
+<hr>
+<h2 id="1-当前问题与设计目标">1. 当前问题与设计目标<a class="heading-link" href="#1-当前问题与设计目标" aria-label="链接到本节">#</a></h2><h3 id="1-1-当前版本已经成立的方向">1.1 当前版本已经成立的方向<a class="heading-link" href="#1-1-当前版本已经成立的方向" aria-label="链接到本节">#</a></h3><ul>
+<li>玩家每个路段最多进行 4 次探索轮。</li>
+<li>玩家依次将 5 张行动牌放入 5 个行动格。</li>
+<li>每张行动牌具有当前分数，行动牌之间可以形成同源关系。</li>
+<li>路段具有一个目标盘缠；每轮结算后，目标盘缠减去本轮总得分。</li>
+<li>UI 只保留三个核心数字节点：剩余目标、分数、倍率。</li>
+<li>总得分继续使用简单公式：</li>
+</ul>
+<pre><code class="language-text">本轮总得分 = 分数 x 倍率
+</code></pre>
+<p>这个简化很重要。它保留了数值膨胀的空间，又比同时展示基础分、倍率、总分、累计分更适合小游戏屏幕。</p>
+<h3 id="1-2-mvp-后暴露出的体验问题">1.2 MVP 后暴露出的体验问题<a class="heading-link" href="#1-2-mvp-后暴露出的体验问题" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>问题</th><th>产生原因</th><th>玩家感受</th><th>需要补上的设计</th></tr></thead><tbody><tr><td>同源牌型感知偏晚</td><td>原规则在 5 格填满后才结算牌型</td><td>出牌时缺少明确追求，只能在结算时被动看结果</td><td>倍率区实时显示同源进度和当前倍率</td></tr><tr><td>第 5 张牌后的交互仍需验证</td><td>5 格填满后立即自动结算，流程轻快，但玩家不能撤回最后一张牌</td><td>轻操作和容错空间之间存在取舍</td><td>当前版本继续自动结算，不增加按钮；将问题保留为后续测试项</td></tr><tr><td>道具触发顺序不明确</td><td>当前 GDD 只有触发名，没有完整结算协议</td><td>动画难做，玩家也难理解额外触发从哪里来</td><td>定义固定阶段和固定视觉语言</td></tr><tr><td>后期连锁容易变乱</td><td>大量道具可能同时加分、加倍率、成长、再触发</td><td>数字虽然变大，但玩家看不出构筑为什么强</td><td>限制运算类型，压缩重复动画，保留来源轨迹</td></tr><tr><td>原目标分膨胀不足</td><td>第 16 路段目标盘缠只有 6200</td><td>中后期缺少从成型到爆发的跨度</td><td>将第 16 路段目标提升到约 10 万以上</td></tr></tbody></table></div><h3 id="1-3-核心体验目标">1.3 核心体验目标<a class="heading-link" href="#1-3-核心体验目标" aria-label="链接到本节">#</a></h3><p>本作不是简单删减版的复杂卡牌游戏。它应当形成自己的体验合同：</p>
+<blockquote>
+<p>玩家只需要理解“同源越多，倍率越高”；但当构筑成型后，简单规则能够连续触发，产生远超初始数值的爆发。</p>
+</blockquote>
+<p>可以将目标概括为：</p>
+<pre><code class="language-text">低认知成本 + 清楚的即时反馈 + 后期数值爆炸
+</code></pre>
+<hr>
+<h2 id="2-与参考游戏的体验差异">2. 与参考游戏的体验差异<a class="heading-link" href="#2-与参考游戏的体验差异" aria-label="链接到本节">#</a></h2><h3 id="2-1-对比梳理">2.1 对比梳理<a class="heading-link" href="#2-1-对比梳理" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>功能细节</th><th>《小丑牌》的体验</th><th>《远行商人》MVP 当前体验</th><th>vNext 建议</th></tr></thead><tbody><tr><td>主要判断对象</td><td>玩家选择若干张牌，形成扑克牌型</td><td>玩家依次把行动牌放入固定行动格</td><td>保留行动格，更强调旅途摆放和格子印记构筑</td></tr><tr><td>牌型复杂度</td><td>多种扑克牌型，需要识别组合和优先级</td><td>主要是同源和五源齐备，认知负担更低</td><td>进一步强化“同源阶梯”，让主规则一句话成立</td></tr><tr><td>提交动作</td><td>选牌后点击出牌，提交前可观察牌型</td><td>第 5 张放下后立即结算</td><td>当前继续自动结算，不增加提交按钮；容错问题保留观察</td></tr><tr><td>预览反馈</td><td>提交前可看到当前牌型和基础分、倍率</td><td>出牌过程缺少足够明确的倍率反馈</td><td>倍率区实时显示同源进度、牌型名和当前倍率</td></tr><tr><td>分数展示</td><td>分数与倍率经过多次触发后相乘</td><td>已准备简化为分数区、倍率区、目标区</td><td>接受三节点方案，取消额外常驻总分区</td></tr><tr><td>构筑爽感</td><td>加分、加倍率、倍率乘算、再触发形成爆发</td><td>已有格子随身物和全局随身物，但触发层次尚未拉开</td><td>前期加法，中期成长和再触发，后期倍率乘算</td></tr><tr><td>空间策略</td><td>小丑牌顺序会影响部分触发</td><td>5 个行动格可以绑定随身物效果</td><td>将“格子印记”作为本作差异点，但不额外增加底座层级</td></tr></tbody></table></div><h3 id="2-2-可以借鉴-但不照搬的部分">2.2 可以借鉴，但不照搬的部分<a class="heading-link" href="#2-2-可以借鉴-但不照搬的部分" aria-label="链接到本节">#</a></h3><p>可以借鉴《小丑牌》的两点：</p>
+<ol>
+<li><strong>简单数学节点承载复杂构筑。</strong> 玩家始终盯着分数与倍率，但背后允许多个来源连续改变它们。</li>
+<li><strong>触发必须有来源。</strong> 哪张牌、哪个道具、哪一次再触发改变了数字，动画都应当指向对应节点。</li>
+</ol>
+<p>可以借鉴《炉石传说：酒馆战棋》的三类效果词汇：</p>
+<ol>
+<li><strong>重复触发：</strong> 某个清楚的事件再执行一次。</li>
+<li><strong>相邻影响：</strong> 左右位置决定收益，形成容易观察的摆位组合。</li>
+<li><strong>成长触发：</strong> 每次刷新、每次使用工具或每次通关都会积累收益。</li>
+</ol>
+<p>不建议照搬的部分：</p>
+<ul>
+<li>不增加大量扑克牌型。</li>
+<li>不把道具顺序优化变成首版必学内容。</li>
+<li>不让再触发无限生成新的再触发。</li>
+<li>不在 UI 中同时摆出过多中间数字。</li>
+</ul>
+<hr>
+<h2 id="3-三节点-ui-方案">3. 三节点 UI 方案<a class="heading-link" href="#3-三节点-ui-方案" aria-label="链接到本节">#</a></h2><h3 id="3-1-三个常驻节点">3.1 三个常驻节点<a class="heading-link" href="#3-1-三个常驻节点" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>节点</th><th>作用</th><th>出牌阶段</th><th>正式结算阶段</th></tr></thead><tbody><tr><td>剩余目标</td><td>当前路段还需要获得多少盘缠</td><td>保持不变</td><td>吸收本轮总得分并向下扣减</td></tr><tr><td>分数区</td><td>本轮行动牌和道具累计出的分数</td><td>保持初始显示，不要求提前展示精确分数</td><td>从 0 开始，按照触发顺序逐项增长</td></tr><tr><td>倍率区</td><td>当前同源牌型和道具累计出的倍率</td><td>实时显示牌型预览</td><td>锁定基础牌型倍率，再接受道具修改</td></tr></tbody></table></div><p>最终结算：</p>
+<pre><code class="language-text">本轮总得分 = 最终分数 x 最终倍率
+剩余目标 = max(0, 结算前剩余目标 - 本轮总得分)
+</code></pre>
+<p>本轮总得分不需要成为第四个常驻节点。结算末尾可以临时放大显示一次，然后直接用于扣减“剩余目标”节点。</p>
+<h3 id="3-2-三个-ui-状态">3.2 三个 UI 状态<a class="heading-link" href="#3-2-三个-ui-状态" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>状态</th><th>玩家操作</th><th>分数区</th><th>倍率区</th><th>设计目的</th></tr></thead><tbody><tr><td>出牌中</td><td>依次放置第 1-5 张行动牌；可在填满前使用工具</td><td>保持初始显示</td><td>实时更新当前牌型和倍率</td><td>让玩家边操作边理解目标</td></tr><tr><td>结算中</td><td>暂停操作</td><td>按事件逐项增加</td><td>按事件逐项增加或乘算</td><td>展示构筑为什么生效</td></tr><tr><td>结算后</td><td>进入下一探索轮或通关</td><td>临时显示本轮总得分</td><td>保留最终倍率片刻</td><td>形成收束和结果反馈</td></tr></tbody></table></div><p>当前版本保持轻操作：第 5 格填满后直接自动开始结算，不新增结算按钮。</p>
+<p>这里仍有一个值得记录的问题：自动结算让流程更顺，但最后一张牌出错时没有撤回窗口，也限制了“填满后再使用工具”的空间。这个问题暂时不做结论，后续通过实机测试观察误操作频率，再决定是否需要长按撤回、短暂延迟或其他不增加常驻按钮的交互方式。</p>
+<h3 id="3-3-倍率区同时承担教学">3.3 倍率区同时承担教学<a class="heading-link" href="#3-3-倍率区同时承担教学" aria-label="链接到本节">#</a></h3><p>倍率区在出牌阶段不应只是一个静态数字。当前确定的表现是：</p>
+<pre><code class="language-text">三同源
+x3
+</code></pre>
+<p>上方是当前牌型的文字图片，例如“双同源”“三同源”；下方是倍率区节点文本，例如 <code>x2</code>、<code>x3</code>。</p>
+<p>每放置一张牌：</p>
+<ul>
+<li>达到新的同源层级时，倍率数字跳动一次。</li>
+<li>上方牌型文字图片同步切换，例如“双同源 -&gt; 三同源 -&gt; 四同源”。</li>
+<li>结算开始时锁定牌型，之后再播放道具带来的倍率变化。</li>
+</ul>
+<p>这相当于用倍率区替代复杂教程。玩家在第一局就会自然感知“再来一张同色牌会更强”。</p>
+<hr>
+<h2 id="4-同源牌型建议">4. 同源牌型建议<a class="heading-link" href="#4-同源牌型建议" aria-label="链接到本节">#</a></h2><h3 id="4-1-建议改为单一阶梯">4.1 建议改为单一阶梯<a class="heading-link" href="#4-1-建议改为单一阶梯" aria-label="链接到本节">#</a></h3><p>当前 MVP 从三同源开始奖励倍率，而且“二对牌”单独形成双同源。为了强化即时感知，建议改为更直观的阶梯：</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>牌型</th><th>条件</th><th style="text-align:right">建议基础倍率</th><th>出牌阶段反馈</th></tr></thead><tbody><tr><td>散货</td><td>尚未形成同源</td><td style="text-align:right">x1</td><td>默认状态</td></tr><tr><td>双同源</td><td>至少 2 张同货源</td><td style="text-align:right">x2</td><td>第二张同色牌放下时立刻点亮</td></tr><tr><td>三同源</td><td>至少 3 张同货源</td><td style="text-align:right">x3</td><td>倍率区升级并加重反馈</td></tr><tr><td>四同源</td><td>至少 4 张同货源</td><td style="text-align:right">x5</td><td>进入明显爆发区</td></tr><tr><td>五同源</td><td>5 张同货源</td><td style="text-align:right">x8</td><td>使用最强牌型反馈</td></tr><tr><td>五源齐备</td><td>5 种货源各 1 张</td><td style="text-align:right">x4</td><td>作为独立杂色流入口</td></tr></tbody></table></div><p>识别规则：</p>
+<ol>
+<li>五源齐备优先单独识别。</li>
+<li>其余情况只看数量最多的一种货源。</li>
+<li>出现 <code>2+2+1</code> 时仍按双同源计算，不额外引入二对牌规则。</li>
+</ol>
+<h3 id="4-2-双同源定义调整">4.2 双同源定义调整<a class="heading-link" href="#4-2-双同源定义调整" aria-label="链接到本节">#</a></h3><p>MVP 文档中的“双同源”原本指 <code>2+2</code>。vNext 建议将它调整为“至少 2 张同货源”，因为本作最重要的教学语句是：</p>
+<blockquote>
+<p>同一种行动牌越多，倍率越高。</p>
+</blockquote>
+<p>如果同时要求玩家理解“两个对子也是一种特殊结构”，规则会稍微偏离这个主轴。<code>2+2</code> 可以留给未来的特殊道具，不再作为默认牌型。</p>
+<hr>
+<h2 id="5-正式结算协议">5. 正式结算协议<a class="heading-link" href="#5-正式结算协议" aria-label="链接到本节">#</a></h2><h3 id="5-1-数值运算类型只保留五种">5.1 数值运算类型只保留五种<a class="heading-link" href="#5-1-数值运算类型只保留五种" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>运算类型</th><th>UI 表达</th><th>示例</th><th>使用阶段</th></tr></thead><tbody><tr><td>加分 <code>ADD_SCORE</code></td><td>沿用已有的飘分表现</td><td><code>+10 分</code></td><td>前期常见</td></tr><tr><td>单牌乘分 <code>MULTIPLY_CARD_SCORE</code></td><td>行动牌或格子印记亮起，飘出变化后的分数</td><td><code>本牌分数 x2</code></td><td>中期常见</td></tr><tr><td>加倍率 <code>ADD_MULT</code></td><td>红色印记飞入倍率区</td><td><code>+2 倍率</code></td><td>前中期常见</td></tr><tr><td>乘倍率 <code>MULTIPLY_MULT</code></td><td>大号印章落在倍率区</td><td><code>倍率 x2</code></td><td>后期稀有</td></tr><tr><td>再触发 <code>RETRIGGER_CARD</code></td><td>原行动牌再次亮起</td><td><code>本牌再结算 1 次</code></td><td>中后期引擎</td></tr></tbody></table></div><p>所有直接改变数字的道具都尽量落到这五种语言里。这样道具数量可以增加，玩家仍然只需要认识少量视觉语法。</p>
+<p>此外允许少量“规则修正”道具，例如“开矿与采集视为同源行动”。规则修正不直接加分，也不作为新的动画运算类型；它们在牌型锁定前先修改判定方式。</p>
+<h3 id="5-2-固定阶段">5.2 固定阶段<a class="heading-link" href="#5-2-固定阶段" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th style="text-align:right">阶段</th><th>内部事件</th><th>处理内容</th><th>画面表现</th></tr></thead><tbody><tr><td style="text-align:right">0</td><td><code>onExploreStart</code></td><td>清除上轮临时状态，处理探索轮开始道具</td><td>全局道具依次轻亮</td></tr><tr><td style="text-align:right">1</td><td><code>onCardPlaced</code></td><td>玩家放置行动牌，刷新实时同源倍率；处理“每打出一张牌”类成长</td><td>行动格、成长道具与倍率区同步变化</td></tr><tr><td style="text-align:right">2</td><td><code>onAutoSettle</code></td><td>第 5 张牌放下后锁定输入并自动开始结算</td><td>不新增按钮，直接进入结算表现</td></tr><tr><td style="text-align:right">3</td><td><code>beforePatternLock</code></td><td>处理规则修正道具，例如“开矿与采集视为同源”</td><td>对应全局道具轻亮</td></tr><tr><td style="text-align:right">4</td><td><code>onPatternLocked</code></td><td>锁定本轮牌型，倍率区获得基础倍率；触发牌型道具</td><td>上方牌型图片定格，倍率区变化</td></tr><tr><td style="text-align:right">5</td><td><code>onCardScore</code></td><td>按格子 1 到 5 结算行动牌</td><td>沿用已完成的逐张飘分表现</td></tr><tr><td style="text-align:right">6</td><td><code>afterCardsScore</code></td><td>结算全局追加分、追加倍率和最终倍率乘算</td><td>全局道具从左到右依次触发</td></tr><tr><td style="text-align:right">7</td><td><code>onFinalizeScore</code></td><td>计算 <code>分数 x 倍率</code>，扣减剩余目标</td><td>总得分短暂放大，目标分扣减</td></tr><tr><td style="text-align:right">8</td><td><code>afterSettle</code></td><td>处理永久成长、清除临时标签，判断过关</td><td>数字收束，切换下一轮</td></tr></tbody></table></div><p>出牌阶段的实时牌型预览也需要读取规则修正道具。例如拥有“山野图谱”后，开矿与采集在预览时就应该显示为同源，而不是等到结算时才突然改变牌型。</p>
+<p>Boss 异象暂时不进入当前实现协议。等基础结算和构筑循环稳定后，再单独设计异象插入点。</p>
+<h3 id="5-3-单张行动牌的内部顺序">5.3 单张行动牌的内部顺序<a class="heading-link" href="#5-3-单张行动牌的内部顺序" aria-label="链接到本节">#</a></h3><p>格子从 1 到 5 依次结算。每一格内部遵循：</p>
+<pre><code class="language-text">行动牌当前分
+-&gt; 行动牌自身标签
+-&gt; 当前格子印记效果
+-&gt; 全局的“行动牌结算时”效果
+-&gt; 本格产生的再触发
+-&gt; 进入下一格
+</code></pre>
+<p>全局道具如果同阶段同时触发，按 UI 中从左到右的固定顺序播放。首版不要求玩家拖拽调整全局道具顺序。</p>
+<h3 id="5-4-防止连锁失控的规则">5.4 防止连锁失控的规则<a class="heading-link" href="#5-4-防止连锁失控的规则" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>规则</th><th>原因</th></tr></thead><tbody><tr><td>再触发可以重复行动牌计分，但默认不能再次生成新的再触发事件</td><td>防止无限循环，也便于解释</td></tr><tr><td>每次正式结算保留完整事件日志</td><td>方便动画、调试和论文分析</td></tr><tr><td>连锁超过 6 次后缩短单次动画，超过 12 次后允许合并显示 <code>连续触发 xN</code></td><td>兼顾爽感与节奏</td></tr><tr><td>玩家可点击加速，但最终乘算动画始终保留</td><td>快速玩家可以提速，爆发落点仍然明确</td></tr></tbody></table></div><hr>
+<h2 id="6-格子印记-动画与可读性">6. 格子印记、动画与可读性<a class="heading-link" href="#6-格子印记-动画与可读性" aria-label="链接到本节">#</a></h2><h3 id="6-1-格子印记不是额外底座">6.1 格子印记不是额外底座<a class="heading-link" href="#6-1-格子印记不是额外底座" aria-label="链接到本节">#</a></h3><p>程序逻辑上，部分随身物仍然会绑定某一个行动格。但视觉上不增加“底座 -&gt; 道具 -&gt; 行动牌”的多层结构。</p>
+<p>当前确定的表现是：</p>
+<ul>
+<li>初始行动格是空的旧纸槽。</li>
+<li>获得格子随身物后，对应行动格增加专属底纹、符印或拓印。</li>
+<li>部分格子印记可以改变边框样式，例如铜边、双层纹或相邻连纹。</li>
+<li>行动牌仍然直接放在格子上。</li>
+<li>不在格子上额外摆放一个实体道具图标。</li>
+</ul>
+<p>这样既保留格子构筑的策略意义，也让画面保持清楚。后文将这类效果统一称为“格子印记”。</p>
+<h3 id="6-2-每类变化使用固定视觉语言">6.2 每类变化使用固定视觉语言<a class="heading-link" href="#6-2-每类变化使用固定视觉语言" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>变化</th><th>建议视觉表现</th><th>声音节奏</th></tr></thead><tbody><tr><td>行动牌加分</td><td>沿用已完成的行动牌飘分表现</td><td>短促、逐张上扬</td></tr><tr><td>格子印记加分</td><td>格底纹样或边框亮起，随后沿用飘分表现</td><td>比普通行动牌稍厚重</td></tr><tr><td>全局随身物加分</td><td>对应小符牌亮起，随后沿用飘分表现</td><td>与行动牌音色区分</td></tr><tr><td>增加倍率</td><td>红色小印落入倍率区</td><td>清脆盖印声</td></tr><tr><td>倍率乘算</td><td>大印章压下，倍率数字明显放大</td><td>低频重音</td></tr><tr><td>再触发</td><td>行动牌回弹，再次亮起，牌角显示“再算”</td><td>快速回声</td></tr><tr><td>成长型随身物</td><td>全局小符牌直接显示当前值，例如 <code>x1.0 -&gt; x1.1</code></td><td>轻微递进音</td></tr><tr><td>规则修正随身物</td><td>对应货源图标之间出现连纹，例如“开矿 = 采集”</td><td>获得时提示，结算时轻亮</td></tr><tr><td>最终乘算</td><td>分数和倍率同时强调，总得分短暂放大，目标分开始扣减</td><td>本轮最强反馈</td></tr></tbody></table></div><h3 id="6-3-出牌阶段重点预览倍率">6.3 出牌阶段重点预览倍率<a class="heading-link" href="#6-3-出牌阶段重点预览倍率" aria-label="链接到本节">#</a></h3><p>出牌阶段可以展示：</p>
+<ul>
+<li>当前牌型的文字图片。</li>
+<li>当前已形成的同源倍率文本。</li>
+<li>一定会触发的格子印记状态。</li>
+</ul>
+<p>分数区不必提前展示精确预估分。随机效果和额外触发统一留到正式结算阶段，避免玩家把预览误解为最终结果。</p>
+<hr>
+<h2 id="7-16-路段目标盘缠提案">7. 16 路段目标盘缠提案<a class="heading-link" href="#7-16-路段目标盘缠提案" aria-label="链接到本节">#</a></h2><p>以下曲线是 vNext 首轮测试值。它不是最终平衡结果，目标是验证从轻松到膨胀的节奏。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th style="text-align:right">路段</th><th>场景</th><th>类型</th><th style="text-align:right">建议目标盘缠</th><th style="text-align:right">4 轮均分要求</th><th>主要体验</th></tr></thead><tbody><tr><td style="text-align:right">1</td><td>山神索礼</td><td>普通</td><td style="text-align:right">160</td><td style="text-align:right">40</td><td>不懂构筑也能轻松通过</td></tr><tr><td style="text-align:right">2</td><td>山神索礼</td><td>普通</td><td style="text-align:right">260</td><td style="text-align:right">65</td><td>感知双同源和三同源</td></tr><tr><td style="text-align:right">3</td><td>山神索礼</td><td>普通</td><td style="text-align:right">420</td><td style="text-align:right">105</td><td>开始期待奖励组合</td></tr><tr><td style="text-align:right">4</td><td>山神索礼</td><td>章节末</td><td style="text-align:right">700</td><td style="text-align:right">175</td><td>检查基础同源理解</td></tr><tr><td style="text-align:right">5</td><td>树影客栈</td><td>普通</td><td style="text-align:right">1100</td><td style="text-align:right">275</td><td>确立第一条构筑方向</td></tr><tr><td style="text-align:right">6</td><td>树影客栈</td><td>普通</td><td style="text-align:right">1700</td><td style="text-align:right">425</td><td>单个核心道具开始明显生效</td></tr><tr><td style="text-align:right">7</td><td>树影客栈</td><td>普通</td><td style="text-align:right">2600</td><td style="text-align:right">650</td><td>出现首次小型连锁</td></tr><tr><td style="text-align:right">8</td><td>树影客栈</td><td>章节末</td><td style="text-align:right">4000</td><td style="text-align:right">1000</td><td>需要稳定构筑，不只靠基础倍率</td></tr><tr><td style="text-align:right">9</td><td>狐火渡口</td><td>普通</td><td style="text-align:right">6200</td><td style="text-align:right">1550</td><td>再触发成为重要增益</td></tr><tr><td style="text-align:right">10</td><td>狐火渡口</td><td>普通</td><td style="text-align:right">9500</td><td style="text-align:right">2375</td><td>成型流派能够提前过关</td></tr><tr><td style="text-align:right">11</td><td>狐火渡口</td><td>普通</td><td style="text-align:right">14500</td><td style="text-align:right">3625</td><td>数值开始快速增长</td></tr><tr><td style="text-align:right">12</td><td>狐火渡口</td><td>章节末</td><td style="text-align:right">22000</td><td style="text-align:right">5500</td><td>需要形成可辨认的连锁</td></tr><tr><td style="text-align:right">13</td><td>海雾集市</td><td>普通</td><td style="text-align:right">34000</td><td style="text-align:right">8500</td><td>后期乘倍率道具加入爆发</td></tr><tr><td style="text-align:right">14</td><td>海雾集市</td><td>普通</td><td style="text-align:right">52000</td><td style="text-align:right">13000</td><td>构筑需要形成完整闭环</td></tr><tr><td style="text-align:right">15</td><td>海雾集市</td><td>普通</td><td style="text-align:right">78000</td><td style="text-align:right">19500</td><td>高压检验，允许单轮大爆发</td></tr><tr><td style="text-align:right">16</td><td>海雾集市</td><td>章节末</td><td style="text-align:right">120000</td><td style="text-align:right">30000</td><td>最终压力与通关爽感</td></tr></tbody></table></div><p>建议按章节控制奖励复杂度：</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th style="text-align:right">章节</th><th>主投放类型</th><th>玩家学习内容</th></tr></thead><tbody><tr><td style="text-align:right">1</td><td>加分、简单加倍率、刷新辅助</td><td>看懂分数与同源倍率</td></tr><tr><td style="text-align:right">2</td><td>格子印记联动、成长、再触发</td><td>看懂行动格位置和重复结算</td></tr><tr><td style="text-align:right">3</td><td>工具连锁、规则修正、乘倍率</td><td>构筑开始明显爆发</td></tr><tr><td style="text-align:right">4</td><td>完整池与高目标压力</td><td>用成型构筑完成终局检验</td></tr></tbody></table></div><hr>
+<h2 id="8-建议保留的五条流派">8. 建议保留的五条流派<a class="heading-link" href="#8-建议保留的五条流派" aria-label="链接到本节">#</a></h2><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>流派</th><th>一句话目标</th><th>前期入口</th><th>中期引擎</th><th>后期爆发</th></tr></thead><tbody><tr><td>同源爆发流</td><td>尽量凑出 4-5 张同货源</td><td>同源牌匣、来源专属道具</td><td>破货架、空货箱</td><td>火漆契</td></tr><tr><td>五源齐备流</td><td>5 种行动牌各放 1 张</td><td>百色绳、染货布</td><td>五色转经筒、集市串铃</td><td>五方路引</td></tr><tr><td>格子连锁流</td><td>把高收益牌放进关键格子印记</td><td>中格铜印、旧罗盘</td><td>双层箱、回声铃、连环扣</td><td>压箱底</td></tr><tr><td>工具连锁流</td><td>一轮内使用多张工具，累积倍率</td><td>旧货铃、加价印</td><td>古玩匣</td><td>行商腰牌</td></tr><tr><td>刷新蓄力流</td><td>把刷新次数转换成临时爆发</td><td>旅人靴、狐火灯</td><td>风雨斗笠、余香炉</td><td>与任意再触发或乘倍率终结器组合</td></tr></tbody></table></div><p>这些流派不是互相隔离的职业。每局只需要形成一条主线，再拿到一两个跨流派零件，就有机会产生意外组合。</p>
+<hr>
+<h2 id="9-30-个随身物讨论池">9. 30 个随身物讨论池<a class="heading-link" href="#9-30-个随身物讨论池" aria-label="链接到本节">#</a></h2><p>数值是首轮测试建议。表中的“第 1 章”“第 2 章”“第 3 章”表示最早加入奖励池的章节。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th style="text-align:right">#</th><th>名称</th><th>类型</th><th style="text-align:right">最早解锁</th><th>触发时机</th><th>效果描述</th><th>数值语言</th><th>流派</th></tr></thead><tbody><tr><td style="text-align:right">1</td><td>旧罗盘</td><td>格子印记</td><td style="text-align:right">1</td><td>本格行动牌计分</td><td>本格的探路牌分数翻倍</td><td>本牌分数 x2</td><td>格子、同源</td></tr><tr><td style="text-align:right">2</td><td>药草袋</td><td>全局</td><td style="text-align:right">1</td><td>采集牌计分</td><td>每张采集牌额外加分</td><td>每张采集 +5 分</td><td>同源</td></tr><tr><td style="text-align:right">3</td><td>矿灯</td><td>全局</td><td style="text-align:right">1</td><td>开矿牌计分</td><td>每张开矿牌 +5 分；三张及以上开矿时再 +5 分</td><td>每张开矿 +5 / +10 分</td><td>同源</td></tr><tr><td style="text-align:right">4</td><td>破货架</td><td>格子印记</td><td style="text-align:right">1</td><td>结算前</td><td>本格与相邻格同源时，两张牌都加分</td><td>两张牌各 +8 分</td><td>格子、同源</td></tr><tr><td style="text-align:right">5</td><td>红算盘</td><td>全局</td><td style="text-align:right">1</td><td>牌型锁定</td><td>三张及以上交易牌时增加倍率</td><td>+3 倍率</td><td>同源</td></tr><tr><td style="text-align:right">6</td><td>旧货铃</td><td>全局</td><td style="text-align:right">1</td><td>使用工具牌</td><td>本轮每使用 1 张工具牌，增加倍率</td><td>每张工具牌 +1 倍率</td><td>工具</td></tr><tr><td style="text-align:right">7</td><td>双层箱</td><td>格子印记</td><td style="text-align:right">2</td><td>本格行动牌计分</td><td>本格行动牌额外计分 1 次</td><td>再触发 1 次</td><td>格子</td></tr><tr><td style="text-align:right">8</td><td>狐火灯</td><td>全局</td><td style="text-align:right">2</td><td>刷新后</td><td>刷新后的下一张行动牌获得加价印</td><td>下一张牌分数 x2</td><td>刷新</td></tr><tr><td style="text-align:right">9</td><td>旅人靴</td><td>全局</td><td style="text-align:right">1</td><td>路段开始</td><td>每个路段增加刷新次数</td><td>刷新 +1</td><td>刷新</td></tr><tr><td style="text-align:right">10</td><td>百色绳</td><td>全局</td><td style="text-align:right">1</td><td>牌型锁定</td><td>五源齐备时增加倍率</td><td>+4 倍率</td><td>五源</td></tr><tr><td style="text-align:right">11</td><td>同源牌匣</td><td>全局</td><td style="text-align:right">1</td><td>牌型锁定</td><td>三同源及以上时增加倍率</td><td>+3 倍率</td><td>同源</td></tr><tr><td style="text-align:right">12</td><td>中格铜印</td><td>格子印记</td><td style="text-align:right">2</td><td>本格行动牌计分</td><td>只能放在第 3 格；本格行动牌分数翻倍</td><td>本牌分数 x2</td><td>格子</td></tr><tr><td style="text-align:right">13</td><td>古玩匣</td><td>全局</td><td style="text-align:right">1</td><td>搜罗牌计分</td><td>每张搜罗牌 +5 分；本轮用过工具时再 +5 分</td><td>每张搜罗 +5 / +10 分</td><td>同源、工具</td></tr><tr><td style="text-align:right">14</td><td>五色转经筒</td><td>全局</td><td style="text-align:right">2</td><td>牌型锁定</td><td>五源齐备时，5 张行动牌都提高分数</td><td>每张牌 +8 分</td><td>五源</td></tr><tr><td style="text-align:right">15</td><td>集市串铃</td><td>全局</td><td style="text-align:right">2</td><td>行动牌计分</td><td>当前牌与左侧行动牌货源不同时加分</td><td>每次 +6 分</td><td>五源、格子</td></tr><tr><td style="text-align:right">16</td><td>回声铃</td><td>全局</td><td style="text-align:right">2</td><td>行动牌计分开始</td><td>第 1 格行动牌额外计分 1 次</td><td>第 1 格再触发 1 次</td><td>格子</td></tr><tr><td style="text-align:right">17</td><td>迎客幡</td><td>格子印记</td><td style="text-align:right">2</td><td>本格行动牌计分</td><td>本格计分时，右侧相邻牌增加分数</td><td>右邻牌 +10 分</td><td>格子</td></tr><tr><td style="text-align:right">18</td><td>连环扣</td><td>格子印记</td><td style="text-align:right">3</td><td>本格首次计分</td><td>本格计分后，右侧相邻牌额外计分 1 次；额外计分不再生成连环扣事件</td><td>右邻再触发 1 次</td><td>格子</td></tr><tr><td style="text-align:right">19</td><td>压箱底</td><td>格子印记</td><td style="text-align:right">2</td><td>本格行动牌计分</td><td>只能放在第 5 格；当第 5 格与第 1 格同源时，本格分数提高</td><td>第 5 格分数 x3</td><td>格子、同源</td></tr><tr><td style="text-align:right">20</td><td>风雨斗笠</td><td>全局</td><td style="text-align:right">1</td><td>刷新后</td><td>本轮每刷新 1 次增加倍率，最多触发 3 次</td><td>每次 +2 倍率</td><td>刷新</td></tr><tr><td style="text-align:right">21</td><td>余香炉</td><td>全局</td><td style="text-align:right">2</td><td>刷新后</td><td>刷新后的下一张行动牌额外计分 1 次</td><td>下一张牌再触发 1 次</td><td>刷新、格子</td></tr><tr><td style="text-align:right">22</td><td>行商腰牌</td><td>全局</td><td style="text-align:right">2</td><td>最终乘算前</td><td>本轮使用至少 2 张工具牌时，倍率翻倍</td><td>倍率 x2</td><td>工具</td></tr><tr><td style="text-align:right">23</td><td>火漆契</td><td>全局</td><td style="text-align:right">3</td><td>最终乘算前</td><td>五同源时，倍率提高</td><td>倍率 x3</td><td>同源</td></tr><tr><td style="text-align:right">24</td><td>五方路引</td><td>全局</td><td style="text-align:right">3</td><td>最终乘算前</td><td>五源齐备时，倍率提高</td><td>倍率 x2</td><td>五源</td></tr><tr><td style="text-align:right">25</td><td>聚宝盆</td><td>全局成长</td><td style="text-align:right">2</td><td>路段通过后</td><td>本局后续所有行动牌提高基础分</td><td>每次通关后全牌 +2 分</td><td>通用成长</td></tr><tr><td style="text-align:right">26</td><td>商路账簿</td><td>全局成长</td><td style="text-align:right">2</td><td>打出交易牌</td><td>每打出 1 张交易牌，自身倍率成长；结算末尾乘入倍率区</td><td>初始 x1；每次交易 +0.1，首次后为 x1.1</td><td>交易、成长</td></tr><tr><td style="text-align:right">27</td><td>矿商秤</td><td>全局成长</td><td style="text-align:right">2</td><td>打出开矿牌</td><td>每打出 1 张开矿牌，矿商秤积累分数；每轮结算后追加当前积累分</td><td>初始 +0；每次开矿永久 +3 分</td><td>开矿、成长</td></tr><tr><td style="text-align:right">28</td><td>百草册</td><td>全局成长</td><td style="text-align:right">2</td><td>打出采集牌</td><td>每打出 1 张采集牌，本局后续采集牌基础分提高</td><td>每次采集永久 +1 分</td><td>采集、成长</td></tr><tr><td style="text-align:right">29</td><td>山野图谱</td><td>规则修正</td><td style="text-align:right">3</td><td>牌型判定前</td><td>开矿与采集在判断同源牌型时视为同一种行动；计分时仍保留原本类型</td><td>规则变化</td><td>混合同源</td></tr><tr><td style="text-align:right">30</td><td>通商路引</td><td>规则修正</td><td style="text-align:right">3</td><td>牌型判定前</td><td>探路与交易在判断同源牌型时视为同一种行动；计分时仍保留原本类型</td><td>规则变化</td><td>混合同源</td></tr></tbody></table></div><h3 id="9-1-首轮投放建议">9.1 首轮投放建议<a class="heading-link" href="#9-1-首轮投放建议" aria-label="链接到本节">#</a></h3><ul>
+<li>第 1 章只投放表中最早解锁为 <code>1</code> 的道具。</li>
+<li>第 2 章加入格子印记再触发、刷新再触发和成长型随身物。</li>
+<li>第 3 章加入规则修正、连环扣、火漆契、五方路引。</li>
+<li>每个奖励选项都应显示效果属于 <code>+分</code>、<code>+倍率</code>、<code>倍率 xN</code>、<code>再触发</code>、<code>成长</code> 或 <code>规则修正</code> 中的哪一种。</li>
+</ul>
+<hr>
+<h2 id="10-连锁示例">10. 连锁示例<a class="heading-link" href="#10-连锁示例" aria-label="链接到本节">#</a></h2><h3 id="10-1-同源爆发">10.1 同源爆发<a class="heading-link" href="#10-1-同源爆发" aria-label="链接到本节">#</a></h3><p>组合：</p>
+<pre><code class="language-text">五同源 x8
++ 同源牌匣 +3 倍率
++ 火漆契 倍率 x3
++ 破货架提高行动牌分数
++ 空货箱提高五同源稳定性
+</code></pre>
+<p>玩家体验：</p>
+<ul>
+<li>出牌阶段持续看到 <code>双同源 -&gt; 三同源 -&gt; 四同源 -&gt; 五同源</code>。</li>
+<li>结算末尾火漆契盖下大印，倍率从 <code>x11</code> 变为 <code>x33</code>。</li>
+<li>规则非常短，但数字增长明显。</li>
+</ul>
+<h3 id="10-2-格子连锁">10.2 格子连锁<a class="heading-link" href="#10-2-格子连锁" aria-label="链接到本节">#</a></h3><p>组合：</p>
+<pre><code class="language-text">第 1 格：高分行动牌
++ 回声铃：第 1 格再算 1 次
++ 第 3 格：中格铜印
++ 双层箱：关键格再算 1 次
++ 连环扣：本格首次计分后，右侧相邻牌再算 1 次
+</code></pre>
+<p>玩家体验：</p>
+<ul>
+<li>行动牌不是单纯按颜色凑牌，还要考虑放在哪一格。</li>
+<li>再触发动画反复回到同一张牌，构筑强点肉眼可见。</li>
+<li>连环扣产生的额外计分不再生成新的连环扣事件，避免无限循环。</li>
+</ul>
+<h3 id="10-3-工具连锁">10.3 工具连锁<a class="heading-link" href="#10-3-工具连锁" aria-label="链接到本节">#</a></h3><p>组合：</p>
+<pre><code class="language-text">本轮使用 3 张工具牌
++ 旧货铃：每张工具牌 +1 倍率
++ 古玩匣：本轮用过工具时，搜罗牌额外加分
++ 行商腰牌：至少使用 2 张工具牌，最终倍率 x2
+</code></pre>
+<p>玩家体验：</p>
+<ul>
+<li>玩家在结算前主动安排一串操作。</li>
+<li>旧货铃连续响起，倍率逐步增长。</li>
+<li>行商腰牌最后翻倍，形成清楚的收尾爆发。</li>
+</ul>
+<h3 id="10-4-刷新蓄力">10.4 刷新蓄力<a class="heading-link" href="#10-4-刷新蓄力" aria-label="链接到本节">#</a></h3><p>组合：</p>
+<pre><code class="language-text">旅人靴：额外刷新
++ 风雨斗笠：每次刷新 +2 倍率
++ 狐火灯：刷新后下一张牌分数 x2
++ 余香炉：刷新后下一张牌再算 1 次
+</code></pre>
+<p>玩家体验：</p>
+<ul>
+<li>刷新不再只是补救坏手牌，而是主动蓄力。</li>
+<li>玩家会观察哪张牌值得承接刷新后的双重强化。</li>
+</ul>
+<h3 id="10-5-成长与规则修正">10.5 成长与规则修正<a class="heading-link" href="#10-5-成长与规则修正" aria-label="链接到本节">#</a></h3><p>组合：</p>
+<pre><code class="language-text">商路账簿：每打出 1 张交易牌，自身倍率永久 +0.1
++ 山野图谱：开矿与采集判断牌型时视为同源
++ 矿灯：开矿牌持续获得加分
++ 药草袋：采集牌持续获得加分
+</code></pre>
+<p>玩家体验：</p>
+<ul>
+<li>商路账簿会从 <code>x1.1</code> 慢慢成长到 <code>x1.8</code> 或更高，玩家能直观看见构筑积累。</li>
+<li>山野图谱本身不直接加分，但会改变玩家挑选行动牌的方式。</li>
+<li>开矿和采集仍保留各自的加分道具，因此规则修正可以把两条简单效果组合起来。</li>
+</ul>
+<h3 id="10-6-后期-10-万分量级示意">10.6 后期 10 万分量级示意<a class="heading-link" href="#10-6-后期-10-万分量级示意" aria-label="链接到本节">#</a></h3><p>一个成型构筑可以出现：</p>
+<pre><code class="language-text">行动牌与格子印记累计分数 = 900
+五同源基础倍率 = x8
+同源牌匣 = +3 倍率
+工具连锁 = +4 倍率
+火漆契 = 倍率 x3
+行商腰牌 = 倍率 x2
+
+本轮总得分 = 900 x (8 + 3 + 4) x 3 x 2
+           = 81,000
+</code></pre>
+<p>再叠加一次关键格再触发，就能突破 10 万。第 16 路段的 <code>120000</code> 目标允许普通成型构筑用 2-4 轮通过，也允许优秀构筑单轮爆发通关。</p>
+<hr>
+<h2 id="11-程序实现建议">11. 程序实现建议<a class="heading-link" href="#11-程序实现建议" aria-label="链接到本节">#</a></h2><h3 id="11-1-分离预览和正式结算">11.1 分离预览和正式结算<a class="heading-link" href="#11-1-分离预览和正式结算" aria-label="链接到本节">#</a></h3><p>建议维护两个状态：</p>
+<pre><code class="language-text">previewState
+settlementState
+</code></pre>
+<ul>
+<li><code>previewState</code> 只计算当前牌型、倍率和可见状态，用于出牌阶段 UI；不要求提前算出精确总分。</li>
+<li><code>settlementState</code> 使用事件队列正式执行，记录每个道具来源和每次数值变化。</li>
+</ul>
+<h3 id="11-2-事件日志最小结构">11.2 事件日志最小结构<a class="heading-link" href="#11-2-事件日志最小结构" aria-label="链接到本节">#</a></h3><pre><code class="language-json">{
+  &quot;phase&quot;: &quot;onCardScore&quot;,
+  &quot;sourceType&quot;: &quot;relic&quot;,
+  &quot;sourceId&quot;: &quot;relic_double_box&quot;,
+  &quot;targetId&quot;: &quot;slot_03&quot;,
+  &quot;operation&quot;: &quot;RETRIGGER_CARD&quot;,
+  &quot;value&quot;: 1,
+  &quot;depth&quot;: 0
+}
+</code></pre>
+<p>事件日志可以同时服务：</p>
+<ul>
+<li>结算动画播放。</li>
+<li>调试数值错误。</li>
+<li>复盘玩家为何获得高分。</li>
+<li>论文中分析构筑行为和认知负荷。</li>
+</ul>
+<hr>
+<h2 id="12-后续验证问题">12. 后续验证问题<a class="heading-link" href="#12-后续验证问题" aria-label="链接到本节">#</a></h2><p>第一轮原型测试建议重点记录：</p>
+<ol>
+<li>玩家是否会在第一次出牌时注意倍率区的实时变化。</li>
+<li>玩家是否自然理解“同源越多，倍率越高”。</li>
+<li>第 5 张自动结算是否容易造成误操作；轻操作和容错空间应如何取舍。</li>
+<li>玩家是否能说出一轮爆发来自哪个道具。</li>
+<li>连续触发多少次以后，动画开始显得拖沓。</li>
+<li>第 8 路段前是否能够形成一条可辨认的主流派。</li>
+<li>第 12 路段后是否开始出现明显的数值跃迁。</li>
+<li>第 16 路段的 10 万量级目标是否让成型构筑感到兴奋，而不是纯粹疲劳。</li>
+</ol>
+<hr>
+<h2 id="13-参考方向">13. 参考方向<a class="heading-link" href="#13-参考方向" aria-label="链接到本节">#</a></h2><p>以下资料用于提炼效果语言和展示原则，不表示直接复制具体卡牌：</p>
+<ul>
+<li><a href="https://www.playbalatro.com/faq">Balatro 官方 FAQ</a>：官方对核心循环、Joker 协同和构筑发现感的概述。</li>
+<li><a href="https://balatrowiki.org/w/Chips">Balatro Wiki：Chips</a> 与 <a href="https://balatrowiki.org/w/Mult">Mult</a>：社区资料，用于理解分数和倍率相乘，以及加法倍率与乘算倍率的区别。</li>
+<li><a href="https://balatrowiki.org/w/Guide%3A_Activation_Sequence">Balatro Wiki：Activation Sequence</a>：社区资料，用于参考固定触发顺序的重要性。</li>
+<li><a href="https://news.blizzard.com/en-us/article/24244423/34-2-patch-notes-battlegrounds-arena-and-gameplay-updates">《炉石传说》34.2 更新说明</a>：官方资料，其中包含额外触发、相邻影响、刷新成长等酒馆战棋效果表达。</li>
+</ul>
+</article><section class="source-record" id="source-record"><p class="eyebrow">SOURCE & REVISIONS</p><h2>来源与修改记录</h2><dl><dt>原文标题</dt><dd>《远行商人》结算体验与构筑扩展讨论稿</dd><dt>工程内文件</dt><dd><code>docs/v2-traveling-merchant/scoring-and-builds-vnext.md</code></dd><dt>收录方式</dt><dd>从现存工程文件收录，保留原段落与参数；仅做网页排版、本机路径匿名化与链接整理。</dd><dt>日期依据</dt><dd>正文日期 · 2026-05-30。正文日期、首次入库日期与修订日期可能不同。</dd></dl><details class="history" open><summary>查看 1 次文件提交记录</summary><p>以下为包含此文件变化的提交。提交说明可能涉及整个项目，不代表该文档单独完成了所有列出的功能。</p><ol><li><time>2026-05-31</time><div><code>aea5319</code><p>chore: snapshot ui updates and relic vnext</p></div></li></ol></details></section><nav class="adjacent" aria-label="相邻文档"><a href="merchant-mvp.html"><small>上一篇</small>游戏策划案</a><a href="right-chain.html"><small>下一篇</small>当前策划案</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>两个独立游戏，从原型到迭代的设计记录。</p></div><p>整理于 2026.09.19<br><a href="../index.html#about">收录与日期说明</a> · <a href="../../index.html">返回作品集 ↗</a></p></footer></body></html>

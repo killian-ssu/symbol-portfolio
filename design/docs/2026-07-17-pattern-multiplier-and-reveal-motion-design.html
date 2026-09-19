@@ -1,0 +1,72 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f4f2eb"><title>组合倍率与揭示动效 · Symbol 策划档案</title><meta name="description" content="让组合形成、倍率变化和揭示反馈相互对应。"><link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css"><script src="../archive.js" defer></script></head><body class="document-page merchant"><a class="skip" href="#main">跳到正文</a><header class="site-header"><a class="wordmark" href="../index.html">SYMBOL<span>设计档案 / 2026</span></a><nav aria-label="主导航"><a href="../index.html#timeline">版本时间线</a><a href="../index.html#catalog">全部文档</a><a class="back-portfolio" href="../../index.html">作品集 <span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="doc-top"><a class="back-link" href="../index.html?project=merchant#catalog">← 返回远行商人文档</a><div class="doc-tags"><span>远行商人</span><span>迭代方案</span><span>交互表现</span></div><h1>组合倍率与揭示动效</h1><p class="doc-intro">让组合形成、倍率变化和揭示反馈相互对应。</p><div class="doc-metadata"><span><strong>2026-07-17</strong>文件名日期</span><span><strong>5 分钟</strong>预计阅读</span><span><strong>1</strong>次可查提交</span><a class="download" href="../sources/2026-07-17-pattern-multiplier-and-reveal-motion-design.md" download>下载本文 ↓</a></div></div><div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><a class="level-2" href="#背景与目标">背景与目标</a><a class="level-2" href="#方案选择">方案选择</a><a class="level-2" href="#规则与真相源">规则与真相源</a><a class="level-2" href="#牌型图片动效">牌型图片动效</a><a class="level-3" href="#共享播放器">共享播放器</a><a class="level-3" href="#prefab-绑定">Prefab 绑定</a><a class="level-3" href="#播放时机">播放时机</a><a class="level-2" href="#倍率区动效">倍率区动效</a><a class="level-2" href="#数据流">数据流</a><a class="level-2" href="#测试与验收">测试与验收</a><a class="level-3" href="#自动测试">自动测试</a><a class="level-3" href="#cocos-手工验收">Cocos 手工验收</a><a class="level-2" href="#范围边界">范围边界</a><a href="#source-record">来源与修改记录</a></nav></details><a class="to-top" href="#main">回到页首 ↑</a></aside><div class="doc-reading"><div class="archive-note"><span class="note-marker">档案说明</span><p>这是 2026-09-19 从工程收录的文本，可能包含后来补写的注释。正文中的“当前”“已实现”保留原有语境，不代表本站试玩版已逐项复验。</p></div><article class="prose" id="article"><p>日期：2026-07-17</p>
+<h2 id="背景与目标">背景与目标<a class="heading-link" href="#背景与目标" aria-label="链接到本节">#</a></h2><p>当前运行时配置中，双同类、三同类、四同类、五同类的基础倍率分别是 <code>2/2/3/5</code>；倍率区使用累计滚分动效；牌型图片则是静态开关显示。</p>
+<p>本次要达成：</p>
+<ol>
+<li>同类张数与基础倍率一致：双同类 ×2、三同类 ×3、四同类 ×4、五同类 ×5。</li>
+<li>保留现有“双同类/三同类/四同类/五同类”图片，让图片使用行动格分数同款的跳出、上浮和淡出节奏，播放后隐藏。</li>
+<li>第 2/3/4 张伙伴牌使同类牌型发生变化时各播放一次；第 5 张的最终牌型无论是否与上一次预览相同，都强制再播放一次。</li>
+<li>倍率数字立即替换为新值，只播放原有数值弹跳，不再滚分。</li>
+<li>结算期刷新锁等已有交互保持不变。</li>
+</ol>
+<h2 id="方案选择">方案选择<a class="heading-link" href="#方案选择" aria-label="链接到本节">#</a></h2><p>采用“共享分数爆字播放器”方案：把 <code>FloatingTextComp.playScoreBurst</code> 现有的节奏执行提取为可复用播放器，浮动分数和牌型图片都使用同一个 <code>ScoreBurstMotionProfile</code> 和同一份播放逻辑。</p>
+<p>不采用以下方案：</p>
+<ul>
+<li>在 HUD 内复制一份 Tween：初始改动小，但会与行动格分数逐渐分叉。</li>
+<li>临时复制牌型节点播放：需要额外管理节点销毁、图片帧和层级，更容易残留状态。</li>
+</ul>
+<h2 id="规则与真相源">规则与真相源<a class="heading-link" href="#规则与真相源" aria-label="链接到本节">#</a></h2><p><code>assets/resources/config/gameplay/patterns.json</code> 继续是牌型名称、优先级和倍率的唯一运行时真相源。只修改 <code>three_same</code> 和 <code>four_same</code> 的 <code>multiplier</code>，保留稳定 ID、优先级和判定条件。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>牌型 ID</th><th>玩家名称</th><th style="text-align:right">基础倍率</th></tr></thead><tbody><tr><td><code>two_same</code></td><td>双同类</td><td style="text-align:right">2</td></tr><tr><td><code>three_same</code></td><td>三同类</td><td style="text-align:right">3</td></tr><tr><td><code>four_same</code></td><td>四同类</td><td style="text-align:right">4</td></tr><tr><td><code>five_same</code></td><td>五同类</td><td style="text-align:right">5</td></tr><tr><td><code>junk</code></td><td>散牌</td><td style="text-align:right">1</td></tr></tbody></table></div><p>道具提供的固定或当轮倍率加成仍由 Core 在基础倍率上累加，UI 不重复计算。</p>
+<h2 id="牌型图片动效">牌型图片动效<a class="heading-link" href="#牌型图片动效" aria-label="链接到本节">#</a></h2><h3 id="共享播放器">共享播放器<a class="heading-link" href="#共享播放器" aria-label="链接到本节">#</a></h3><p>新增一个只管理自己 Tween 的共享分数爆字播放器。它接收：</p>
+<ul>
+<li>要动画的 <code>Node</code>；</li>
+<li>已在 Prefab 中绑定的 <code>UIOpacity</code>；</li>
+<li>由 <code>UIMotionPresetLibraryComp</code> 解析的 <code>ScoreBurstMotionProfile</code>；</li>
+<li>强度、左右方向与完成回调。</li>
+</ul>
+<p>播放器负责缩放、旋转、上浮、水平漂移与淡入/淡出。<code>FloatingTextComp</code> 播放行动格分数时，在完成回调中销毁临时浮字节点；牌型图片播放时，在完成回调中恢复 Prefab 基准位置/缩放/角度/透明度并隐藏节点，不销毁现有图片节点。</p>
+<p>牌型图片每次揭示时通过现有 <code>pickRotationDirection</code> 选择一个左右方向，并以强度 <code>1</code> 播放一次；不使用连击强度递增。</p>
+<h3 id="prefab-绑定">Prefab 绑定<a class="heading-link" href="#prefab-绑定" aria-label="链接到本节">#</a></h3><p>在 <code>game_main.prefab</code> 现有 <code>Pattern</code> 节点上增加 <code>UIOpacity</code> 和专用的牌型揭示组件，不新增视觉节点，不替换 SpriteFrame、颜色、尺寸或布局。组件持有：</p>
+<ul>
+<li>现有 <code>Pattern</code> 节点作为动画目标；</li>
+<li>节点的 <code>UIOpacity</code>；</li>
+<li>稳定预设 ID <code>score_cell_combo_burst_v1</code>。</li>
+</ul>
+<p>所有幅度、旋转、时长、上浮距离和淡出节奏仍从 <code>ui_motion_library.prefab</code> 读取，运行时不覆盖 Inspector 参数。</p>
+<h3 id="播放时机">播放时机<a class="heading-link" href="#播放时机" aria-label="链接到本节">#</a></h3><ul>
+<li>预览：行动格中已有伙伴牌、且 Core 返回的同类牌型 ID 相较上一次发生变化时，播放新牌型图片。因此双同类、三同类、四同类可在第 2/3/4 张各播放一次。</li>
+<li>稳定性：同一牌型只是倍率被道具修正时，不重播图片；新牌型在旧动画完成前到来时，先取消旧 Tween 并恢复基准状态，再播放新图片。</li>
+<li>最终结算：第 5 张伙伴牌返回最终结果后，对同类牌型强制再播放一次，不受“与上一次 ID 相同”的去重影响。<code>GameMainViewComp</code> 等待该动画完成后才开始逐格结算。</li>
+<li>散牌：不属于“同类标签”，不触发本次新增的跳出消失动效。</li>
+</ul>
+<p>若牌型揭示组件或透明度绑定缺失，预览降级为现有静态图片显示；最终结算则使用 <code>GameMainViewComp.settlementPatternRevealDelay</code> 的 Prefab 值等待后继续。缺少表现绑定不影响核心计分或阻断结算。</p>
+<h2 id="倍率区动效">倍率区动效<a class="heading-link" href="#倍率区动效" aria-label="链接到本节">#</a></h2><p><code>settlementMultMotion</code> 继续使用现有 <code>ScoreValueMotionComp</code>，但 <code>game_main.prefab</code> 中的 <code>presetId</code> 从 <code>score_value_roll_pop_v1</code> 改为 <code>score_setter_pop_video_v1</code>。</p>
+<p>该预设的 <code>rollDuration</code> 为 <code>0</code>，因此倍率数字会立即显示目标值，仅保留缩放、旋转和回弹。结算分数和目标分继续使用原有滚分预设，不受影响。</p>
+<h2 id="数据流">数据流<a class="heading-link" href="#数据流" aria-label="链接到本节">#</a></h2><ol>
+<li>Core 从 <code>patterns.json</code> 识别牌型并返回基础倍率。</li>
+<li><code>GameMainViewComp</code> 比较当前预览牌型 ID 与上一次 ID，只决定是否请求播放，不自行判定几同类。</li>
+<li><code>HudViewComp</code> 根据 Core 给出的 ID 选择已绑定 SpriteFrame，然后调用牌型揭示组件。</li>
+<li>牌型揭示组件从共享动效库取得 <code>score_cell_combo_burst_v1</code>，共享播放器对现有图片节点播放。</li>
+<li>倍率数字仍只消费 Core 返回的倍率，<code>ScoreValueMotionComp</code> 通过无滚分预设更新。</li>
+</ol>
+<h2 id="测试与验收">测试与验收<a class="heading-link" href="#测试与验收" aria-label="链接到本节">#</a></h2><h3 id="自动测试">自动测试<a class="heading-link" href="#自动测试" aria-label="链接到本节">#</a></h3><ul>
+<li>权威配置断言五个启用牌型的基础倍率为 <code>5/4/3/2/1</code>（按优先级降序）。</li>
+<li>核心牌型识别断言双/三/四/五同类分别返回 <code>2/3/4/5</code>。</li>
+<li>UI 契约断言预览只在同类牌型 ID 变化时请求播放，最终结算强制请求并等待完成。</li>
+<li>动效契约断言浮动分数和牌型图片共用播放器与 <code>score_cell_combo_burst_v1</code>。</li>
+<li>Prefab 契约断言 <code>Pattern</code> 节点绑定透明度/揭示组件，倍率动效绑定 <code>score_setter_pop_video_v1</code>，分数与目标数值仍绑定原预设。</li>
+<li>运行完整 Core/UI 契约、Prefab JSON 解析与 TypeScript 编译检查。</li>
+</ul>
+<h3 id="cocos-手工验收">Cocos 手工验收<a class="heading-link" href="#cocos-手工验收" aria-label="链接到本节">#</a></h3><ol>
+<li>连续放下同种伙伴，第 2/3/4 张分别看到双/三/四同类图片跳出、上浮、淡出。</li>
+<li>第 5 张放下后再看到五同类图片，图片动画完成后才开始逐格结算。</li>
+<li>快速连续出牌时，旧图片不残留，新牌型从 Prefab 原始位置完整重播。</li>
+<li>倍率区在双/三/四/五同类时立即显示 <code>×2/×3/×4/×5</code>，只弹跳，不出现中间数值。</li>
+<li>结算期点击刷新仍无效，不消耗刷新次数。</li>
+</ol>
+<h2 id="范围边界">范围边界<a class="heading-link" href="#范围边界" aria-label="链接到本节">#</a></h2><ul>
+<li>不替换现有牌型 SpriteFrame、图片尺寸、颜色、层级或锚点。</li>
+<li>不改动行动格计分节奏、道具触发顺序、总分公式或倍率加成逻辑。</li>
+<li>不新建弹窗或全屏遮罩。</li>
+<li>不解决当前工作区中与本需求无关的 <code>board_cell.prefab</code> 绑定或动效契约断言问题。</li>
+</ul>
+</article><section class="source-record" id="source-record"><p class="eyebrow">SOURCE & REVISIONS</p><h2>来源与修改记录</h2><dl><dt>原文标题</dt><dd>同类倍率与牌型揭示动效设计</dd><dt>工程内文件</dt><dd><code>docs/superpowers/specs/2026-07-17-pattern-multiplier-and-reveal-motion-design.md</code></dd><dt>收录方式</dt><dd>从现存工程文件收录，保留原段落与参数；仅做网页排版、本机路径匿名化与链接整理。</dd><dt>日期依据</dt><dd>文件名日期 · 2026-07-17。正文日期、首次入库日期与修订日期可能不同。</dd></dl><details class="history" open><summary>查看 1 次文件提交记录</summary><p>以下为包含此文件变化的提交。提交说明可能涉及整个项目，不代表该文档单独完成了所有列出的功能。</p><ol><li><time>2026-07-17</time><div><code>229a969</code><p>docs: design pattern reveal motion</p></div></li></ol></details></section><nav class="adjacent" aria-label="相邻文档"><a href="2026-07-17-partner-icon-and-board-highlight-separation-design.html"><small>上一篇</small>图标与棋盘高亮分层</a><a href="2026-07-17-victory-confetti-rain-overlay-design.html"><small>下一篇</small>胜利彩屑反馈</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>两个独立游戏，从原型到迭代的设计记录。</p></div><p>整理于 2026.09.19<br><a href="../index.html#about">收录与日期说明</a> · <a href="../../index.html">返回作品集 ↗</a></p></footer></body></html>

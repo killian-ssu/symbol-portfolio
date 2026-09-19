@@ -1,0 +1,143 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f4f2eb"><title>HUD 与结算重排 · Symbol 策划档案</title><meta name="description" content="整理目标、进度与结算信息，让一轮得分的来源更易读。"><link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css"><script src="../archive.js" defer></script></head><body class="document-page merchant"><a class="skip" href="#main">跳到正文</a><header class="site-header"><a class="wordmark" href="../index.html">SYMBOL<span>设计档案 / 2026</span></a><nav aria-label="主导航"><a href="../index.html#timeline">版本时间线</a><a href="../index.html#catalog">全部文档</a><a class="back-portfolio" href="../../index.html">作品集 <span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="doc-top"><a class="back-link" href="../index.html?project=merchant#catalog">← 返回远行商人文档</a><div class="doc-tags"><span>远行商人</span><span>迭代方案</span><span>交互表现</span></div><h1>HUD 与结算重排</h1><p class="doc-intro">整理目标、进度与结算信息，让一轮得分的来源更易读。</p><div class="doc-metadata"><span><strong>2026-05-27</strong>文件名日期</span><span><strong>5 分钟</strong>预计阅读</span><span><strong>1</strong>次可查提交</span><a class="download" href="../sources/2026-05-27-buildscore-ui-hud-settlement-redesign.md" download>下载本文 ↓</a></div></div><div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><a class="level-2" href="#背景与目标">背景与目标</a><a class="level-2" href="#现有资源复用">现有资源复用</a><a class="level-2" href="#hud-结构与绑定-编辑器创建">HUD 结构与绑定（编辑器创建）</a><a class="level-3" href="#a-level-进度条">A. Level 进度条</a><a class="level-3" href="#b-结算-hud-两块-分数框-倍率">B. 结算 HUD（两块：分数框 + 倍率）</a><a class="level-3" href="#c-牌型-牌库按钮-常驻显示">C. 牌型/牌库按钮（常驻显示）</a><a class="level-3" href="#d-信息弹层-mask-prefab">D. 信息弹层（mask.prefab）</a><a class="level-2" href="#刷新次数展示">刷新次数展示</a><a class="level-2" href="#结算表现-数据口径与动画序列">结算表现：数据口径与动画序列</a><a class="level-3" href="#数值口径-已确认">数值口径（已确认）</a><a class="level-3" href="#动画规则">动画规则</a><a class="level-3" href="#表现驱动的数据-settlementresult-breakdown">表现驱动的数据（SettlementResult.breakdown）</a><a class="level-2" href="#代码改造范围-概览">代码改造范围（概览）</a><a class="level-2" href="#验收标准">验收标准</a><a href="#source-record">来源与修改记录</a></nav></details><a class="to-top" href="#main">回到页首 ↑</a></aside><div class="doc-reading"><div class="archive-note"><span class="note-marker">档案说明</span><p>这是 2026-09-19 从工程收录的文本，可能包含后来补写的注释。正文中的“当前”“已实现”保留原有语境，不代表本站试玩版已逐项复验。</p></div><article class="prose" id="article"><h2 id="背景与目标">背景与目标<a class="heading-link" href="#背景与目标" aria-label="链接到本节">#</a></h2><p>本次改造聚焦在 BuildScore 模式的 HUD 信息架构与结算表现节奏优化，核心目标：</p>
+<ul>
+<li>Level/Turns/刷新次数信息更清晰可读</li>
+<li>结算时以“分数框 + 倍率”两块 HUD 表现逐张累加与最终跳变</li>
+<li>最终回合得分以“攻击/交盘缠”方式飞向 Target，并驱动 Target 递减到 0（过关）</li>
+<li>UI 节点由编辑器创建并绑定，代码不再运行时自动生成布局节点</li>
+<li>牌型/牌库信息弹层复用 <code>common/prefab/mask.prefab</code> 作为遮罩底</li>
+</ul>
+<p>非目标：</p>
+<ul>
+<li>不做燃烧 shader / 粒子特效（后续再接）</li>
+<li>不重构结算公式本身（仅补充表现所需的 breakdown 字段，避免 UI 反推）</li>
+</ul>
+<h2 id="现有资源复用">现有资源复用<a class="heading-link" href="#现有资源复用" aria-label="链接到本节">#</a></h2><ul>
+<li>飘字：<code>assets/resources/common/prefab/FloatingText.prefab</code></li>
+<li>遮罩：<code>assets/resources/common/prefab/mask.prefab</code></li>
+<li>（可选未来）toast/notify/alert/confirm/wait 等通用预制体</li>
+</ul>
+<h2 id="hud-结构与绑定-编辑器创建">HUD 结构与绑定（编辑器创建）<a class="heading-link" href="#hud-结构与绑定-编辑器创建" aria-label="链接到本节">#</a></h2><p>在 <code>assets/resources/gui/prefab/game_main.prefab</code> 内完成以下节点，并按脚本字段拖拽绑定。</p>
+<h3 id="a-level-进度条">A. Level 进度条<a class="heading-link" href="#a-level-进度条" aria-label="链接到本节">#</a></h3><ul>
+<li>节点：<code>HUD/Level/LevelProgressBar</code></li>
+<li>组件：<code>cc.ProgressBar</code></li>
+<li>绑定：<code>HudViewComp.levelProgressBar</code></li>
+</ul>
+<h3 id="b-结算-hud-两块-分数框-倍率">B. 结算 HUD（两块：分数框 + 倍率）<a class="heading-link" href="#b-结算-hud-两块-分数框-倍率" aria-label="链接到本节">#</a></h3><ul>
+<li>根节点：<code>HUD/SettlementHud</code>（默认 active=false）</li>
+<li>分数区：<ul>
+<li><code>HUD/SettlementHud/ScoreNode</code>（用于震荡）</li>
+<li><code>HUD/SettlementHud/ScoreNode/ScoreLabel</code>（Label）</li>
+</ul>
+</li>
+<li>倍率区：<ul>
+<li><code>HUD/SettlementHud/MultNode</code>（用于震荡）</li>
+<li><code>HUD/SettlementHud/MultNode/MultLabel</code>（Label，格式 <code>*2</code> 或 <code>x2</code> 由实现确定）</li>
+</ul>
+</li>
+</ul>
+<p>绑定（HudViewComp）：</p>
+<ul>
+<li><code>settlementHud: Node</code></li>
+<li><code>settlementScoreNode: Node</code></li>
+<li><code>settlementScoreLabel: Label</code></li>
+<li><code>settlementMultNode: Node</code></li>
+<li><code>settlementMultLabel: Label</code></li>
+</ul>
+<h3 id="c-牌型-牌库按钮-常驻显示">C. 牌型/牌库按钮（常驻显示）<a class="heading-link" href="#c-牌型-牌库按钮-常驻显示" aria-label="链接到本节">#</a></h3><ul>
+<li><code>HUD/BtnPatterns</code>（常驻 active=true）</li>
+<li><code>HUD/BtnDeck</code>（常驻 active=true）</li>
+</ul>
+<p>绑定（GameMainViewComp）：</p>
+<ul>
+<li><code>patternsBtn: Node</code></li>
+<li><code>deckBtn: Node</code></li>
+</ul>
+<h3 id="d-信息弹层-mask-prefab">D. 信息弹层（mask.prefab）<a class="heading-link" href="#d-信息弹层-mask-prefab" aria-label="链接到本节">#</a></h3><ul>
+<li>在 HUD 下创建 <code>HUD/InfoOverlay</code>，做法：<ul>
+<li>将 <code>common/prefab/mask.prefab</code> 拖入 HUD，作为 <code>InfoOverlay</code>（或把实例重命名为 <code>InfoOverlay</code>）</li>
+<li>在 <code>InfoOverlay</code> 下创建 <code>TextLabel</code>（Label），用于显示牌型/牌库文本</li>
+<li><code>InfoOverlay</code> 默认 active=false</li>
+</ul>
+</li>
+</ul>
+<p>绑定（GameMainViewComp）：</p>
+<ul>
+<li><code>infoOverlay: Node</code></li>
+<li><code>infoOverlayLabel: Label</code></li>
+</ul>
+<p>交互：</p>
+<ul>
+<li>点击 BtnPatterns/BtnDeck → 打开弹层并填充文本</li>
+<li>点击遮罩空白 → 关闭弹层（监听 <code>TOUCH_END</code>）</li>
+</ul>
+<h2 id="刷新次数展示">刷新次数展示<a class="heading-link" href="#刷新次数展示" aria-label="链接到本节">#</a></h2><p>刷新按钮文本显示为：<code>刷新/{left}</code>（例如 <code>刷新/2</code>）。</p>
+<p>数据来源：</p>
+<ul>
+<li>RunProgress 内维护剩余刷新次数（若已有：直接读；若没有：补 <code>getRefreshLeft()</code> 及事件触发）</li>
+</ul>
+<p>刷新时机：</p>
+<ul>
+<li>初始化 HUD 时</li>
+<li>每次刷新成功/失败后（扣次数与 UI 更新要同步）</li>
+</ul>
+<h2 id="结算表现-数据口径与动画序列">结算表现：数据口径与动画序列<a class="heading-link" href="#结算表现-数据口径与动画序列" aria-label="链接到本节">#</a></h2><h3 id="数值口径-已确认">数值口径（已确认）<a class="heading-link" href="#数值口径-已确认" aria-label="链接到本节">#</a></h3><ul>
+<li>逐张出牌阶段：分数框累加“基础分（未乘倍率）”</li>
+<li>倍率区实时显示当前倍率（红色飘字或数值跳动）</li>
+<li>五张结束后：分数框做一次跳变到“最终本回合总分（已乘倍率）”</li>
+</ul>
+<h3 id="动画规则">动画规则<a class="heading-link" href="#动画规则" aria-label="链接到本节">#</a></h3><p>逐张（第 1~5 张）：</p>
+<ul>
+<li>卡牌本体轻微抖动</li>
+<li>在牌上方弹出飘字：<ul>
+<li>分数飘字：蓝色（例如 <code>+30</code>）</li>
+<li>倍率飘字：红色（例如 <code>+0.5x</code> 或 <code>x2</code>，以实现约定为准）</li>
+</ul>
+</li>
+<li>分数框/倍率框触发震荡动画（scale/punch）</li>
+<li>飘字不飞向分数框，只在卡牌附近弹出并淡出</li>
+</ul>
+<p>五张结束：</p>
+<ul>
+<li>分数框数字跳动到“最终回合总分”</li>
+<li>生成一个“总分飘字/飞行体”（可复用 FloatingTextComp）从分数框飞向 Target</li>
+<li>Target 递减动画：从旧 Target 值逐步减到 <code>max(0, oldTarget - roundTotal)</code>，视觉上类似受到伤害/被交付盘缠</li>
+<li>若 Target 归零：触发过关表现（可先做轻微缩放/淡出，未来替换粒子/音效）</li>
+</ul>
+<h3 id="表现驱动的数据-settlementresult-breakdown">表现驱动的数据（SettlementResult.breakdown）<a class="heading-link" href="#表现驱动的数据-settlementresult-breakdown" aria-label="链接到本节">#</a></h3><p>为了避免 UI 反推，结算逻辑需要保证 SettlementResult 内包含表现所需字段，例如：</p>
+<ul>
+<li><code>perCardBaseAdds: number[5]</code>：每张牌对基础分的贡献（用于蓝色飘字与逐张累加）</li>
+<li><code>perCardMultDeltas?: number[5]</code>：每张牌引发的倍率变化（可选，没有就不播倍率飘字）</li>
+<li><code>baseSum: number</code>：基础分合计</li>
+<li><code>finalMult: number</code>：最终倍率</li>
+<li><code>roundTotal: number</code>：最终回合总分（用于飞向 Target 与扣减）</li>
+</ul>
+<h2 id="代码改造范围-概览">代码改造范围（概览）<a class="heading-link" href="#代码改造范围-概览" aria-label="链接到本节">#</a></h2><ul>
+<li><code>HudViewComp</code><ul>
+<li>从旧：chips/mult/total（三块）</li>
+<li>改为：score/mult（两块）+ levelProgressBar + 刷新按钮文本更新接口</li>
+</ul>
+</li>
+<li><code>GameMainViewComp</code><ul>
+<li>重写 <code>playSettlementSequence</code>：逐卡飘字与 HUD 震荡、最终乘倍率跳变、飞向 Target 扣减</li>
+<li>绑定并复用 <code>mask.prefab</code> 作为 InfoOverlay（只负责开关与填字）</li>
+</ul>
+</li>
+<li><code>RunProgress</code> / <code>GameSession</code><ul>
+<li>根据需要补充：刷新次数 getter、结算 breakdown 字段</li>
+</ul>
+</li>
+</ul>
+<h2 id="验收标准">验收标准<a class="heading-link" href="#验收标准" aria-label="链接到本节">#</a></h2><ul>
+<li>Level 进度条显示并随关卡推进更新</li>
+<li>刷新按钮显示 <code>刷新/剩余次数</code> 且随次数变化更新</li>
+<li>结算时 SettlementHud 显示，按 1~5 张顺序播：<ul>
+<li>牌上飘字（分数蓝、倍率红）</li>
+<li>分数框实时累加基础分并震荡</li>
+<li>倍率变化时倍率框震荡</li>
+<li>五张结束后分数框跳到最终回合总分</li>
+<li>最终分飞向 Target，Target 做递减动画，归零则过关</li>
+</ul>
+</li>
+<li>牌型/牌库按钮常驻可点击，弹层显示文本，点遮罩关闭</li>
+</ul>
+</article><section class="source-record" id="source-record"><p class="eyebrow">SOURCE & REVISIONS</p><h2>来源与修改记录</h2><dl><dt>原文标题</dt><dd>BuildScore UI HUD &amp; 结算表现改造设计（2026-05-27）</dd><dt>工程内文件</dt><dd><code>docs/superpowers/specs/2026-05-27-buildscore-ui-hud-settlement-redesign.md</code></dd><dt>收录方式</dt><dd>从现存工程文件收录，保留原段落与参数；仅做网页排版、本机路径匿名化与链接整理。</dd><dt>日期依据</dt><dd>文件名日期 · 2026-05-27。正文日期、首次入库日期与修订日期可能不同。</dd></dl><details class="history" open><summary>查看 1 次文件提交记录</summary><p>以下为包含此文件变化的提交。提交说明可能涉及整个项目，不代表该文档单独完成了所有列出的功能。</p><ol><li><time>2026-05-29</time><div><code>edc90e8</code><p>chore: snapshot buildscore ui iteration</p></div></li></ol></details></section><nav class="adjacent" aria-label="相邻文档"><a href="2026-05-19-traveling-merchant-modifier-system-design.html"><small>上一篇</small>道具修饰系统</a><a href="2026-05-30-relic-effects-vnext-design.html"><small>下一篇</small>道具效果扩展</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>两个独立游戏，从原型到迭代的设计记录。</p></div><p>整理于 2026.09.19<br><a href="../index.html#about">收录与日期说明</a> · <a href="../../index.html">返回作品集 ↗</a></p></footer></body></html>

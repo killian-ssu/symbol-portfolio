@@ -1,0 +1,89 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f4f2eb"><title>幽灵白盒版规则 · Symbol 策划档案</title><meta name="description" content="幽灵白盒规则的持续修订稿，包含耐力、威胁优先级、升级和关卡。"><link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css"><script src="../archive.js" defer></script></head><body class="document-page midnight"><a class="skip" href="#main">跳到正文</a><header class="site-header"><a class="wordmark" href="../index.html">SYMBOL<span>设计档案 / 2026</span></a><nav aria-label="主导航"><a href="../index.html#timeline">版本时间线</a><a href="../index.html#catalog">全部文档</a><a class="back-portfolio" href="../../index.html">作品集 <span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="doc-top"><a class="back-link" href="../index.html?project=midnight#catalog">← 返回子时已到文档</a><div class="doc-tags"><span>子时已到</span><span>持续修订</span><span>核心玩法</span></div><h1>幽灵白盒版规则</h1><p class="doc-intro">幽灵白盒规则的持续修订稿，包含耐力、威胁优先级、升级和关卡。</p><div class="doc-metadata"><span><strong>未署日期</strong>未署日期</span><span><strong>8 分钟</strong>预计阅读</span><span><strong>—</strong>无 Git 历史</span><a class="download" href="../sources/ghost-rules.md" download>下载本文 ↓</a></div></div><div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><a class="level-2" href="#核心循环">核心循环</a><a class="level-2" href="#耐力与瞄准">耐力与瞄准</a><a class="level-2" href="#幽灵状态">幽灵状态</a><a class="level-2" href="#四种常规幽灵">四种常规幽灵</a><a class="level-2" href="#索敌优先级">索敌优先级</a><a class="level-2" href="#六张升级卡">六张升级卡</a><a class="level-2" href="#十关内容">十关内容</a><a class="level-2" href="#掉落与连续强化">掉落与连续强化</a><a class="level-2" href="#boss">Boss</a><a class="level-2" href="#hud-与反馈">HUD 与反馈</a><a class="level-2" href="#当前美术边界">当前美术边界</a><a class="level-2" href="#2026-09-07-反馈优化">2026-09-07 反馈优化</a><a href="#source-record">来源与修改记录</a></nav></details><a class="to-top" href="#main">回到页首 ↑</a></aside><div class="doc-reading"><div class="archive-note"><span class="note-marker">档案说明</span><p>这是 2026-09-19 从工程收录的文本，可能包含后来补写的注释。正文中的“当前”“已实现”保留原有语境，不代表本站试玩版已逐项复验。</p><p>原文件未署完整写作日期。版本顺序可供追溯，具体日期未补写。</p></div><article class="prose" id="article"><blockquote>
+<p>状态：当前已实现规则，并接入 2026-08-26 版正式背景、五种幽灵、一体猎手小猫、飞弹和六张天赋图标。</p>
+</blockquote>
+<h2 id="核心循环">核心循环<a class="heading-link" href="#核心循环" aria-label="链接到本节">#</a></h2><ol>
+<li>幽灵先处于低透明度虚化状态，此时不可瞄准、不可受击，近战幽灵也不移动。</li>
+<li>幽灵显形后开始移动或准备攻击，并成为可瞄准目标。</li>
+<li>玩家按住战场进入子弹时间，耐力持续消耗；没有可选目标时不会启动专注或消耗耐力。</li>
+<li>准星完成后留下标记并继续寻找目标。玩家松手或耐力耗尽时，标记优先按即将接触玩家的威胁顺序结算。</li>
+<li>标记完成后不会被虚化吞掉；攻击前摇可以继续推进，但已承诺的命中仍会兑现。</li>
+</ol>
+<h2 id="耐力与瞄准">耐力与瞄准<a class="heading-link" href="#耐力与瞄准" aria-label="链接到本节">#</a></h2><ul>
+<li>耐力是唯一的索敌资源，HUD 不显示弹药，也不存在累计锁定容量。</li>
+<li>基础耐力为 <code>2.7秒</code>，非专注状态以 <code>1.25秒/秒</code> 恢复；至少有 <code>0.7秒</code> 耐力才可开始专注。</li>
+<li>基础锁定一只需 <code>0.52秒</code>，满条持续长按在目标充足时可锁约五只；这是耐力自然消耗的结果，没有额外锁定上限。</li>
+<li>玩家本次能累计多少标记，只取决于按压时长、耐力、瞄准速度和场上显形目标数。</li>
+<li>基础同时只有一个准星工作；瞄准卡达到 Lv.4、Lv.8 时分别提升为两个、三个并行准星。</li>
+<li>并行准星数不是锁定上限。一组准星完成后会继续并行寻找下一组目标。</li>
+<li>专注时世界移动为正常速度的 <code>26%</code>，敌人的显形/攻击机会时钟为 <code>62%</code>，生成节奏为 <code>72%</code>。</li>
+</ul>
+<h2 id="幽灵状态">幽灵状态<a class="heading-link" href="#幽灵状态" aria-label="链接到本节">#</a></h2><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>状态</th><th>表现</th><th>可瞄准</th><th>行为</th></tr></thead><tbody><tr><td>虚化</td><td>低透明度冷色轮廓</td><td>否</td><td>停止行动，等待下一次显形</td></tr><tr><td>显形中</td><td>透明度由低到高</td><td>否</td><td>只做短暂入场过渡，不再钻洞</td></tr><tr><td>显形</td><td>完整实体</td><td>是</td><td>近战移动，远程进入攻击节奏</td></tr><tr><td>预警</td><td>红色感叹号、脉冲</td><td>是</td><td>攻击倒计时，可由实际命中打断</td></tr><tr><td>重新虚化</td><td>透明度降低</td><td>否</td><td>返回虚化等待</td></tr></tbody></table></div><p>瞄准完成只代表“已标记”，不当场打断攻击。玩家必须及时松手，让射击在预警结束前真正命中。攻击已经飞出后，攻击物仍可单独瞄准清除。</p>
+<h2 id="四种常规幽灵">四种常规幽灵<a class="heading-link" href="#四种常规幽灵" aria-label="链接到本节">#</a></h2><ul>
+<li>普通幽灵：近战单位，显形后向玩家接近，进入距离后以红色预警蓄力抓击；一击击破。普通/护甲基础移动速度为 <code>72 / 57.6</code>，随关卡每关增加 <code>2.5%</code>（最多20%）；出手和命中必须在玩家中心 <code>92</code> 距离附近，配合落在角色身上的抓痕。</li>
+<li>远程幽灵：基础远程单位，显形后蓄力，第二、三关显形后约 <code>0.63–0.74秒</code> 开始前摇，前摇约 <code>0.79–0.83秒</code>；后期逐步加快。瞄准和完成标记不会停止攻击计时。每次攻击严格只生成一枚攻击物；不承担连发或散射能力，为后续远程怪保留空间。</li>
+<li>护甲幽灵：近战单位，带两层可见护甲。普通命中先逐层破甲，穿透高等级可一次击穿额外护甲层。</li>
+<li>法术幽灵：远程场面单位，长前摇结束后错峰生成三个咒术攻击物；在预警阶段击破可取消施法。</li>
+</ul>
+<p>所有危险行动使用威胁预算控制：普通/远程占 <code>1</code>，护甲/法术占 <code>2</code>。关卡预算为 <code>2 / 1 / 2 / 2 / 3 / 4 / 4 / 5 / 6</code>；Boss 关总预算 <code>5</code>，其中 <code>3</code> 点保留给 Boss，随从最多占 <code>2</code> 点，避免画面退化为持续清理大量弹幕。</p>
+<h2 id="索敌优先级">索敌优先级<a class="heading-link" href="#索敌优先级" aria-label="链接到本节">#</a></h2><p>自动索敌同时检查距离、攻击方向与预计命中时间（远程前摇还需加上弹道飞行时间）：</p>
+<ol>
+<li>预计1.25秒内命中玩家的攻击；</li>
+<li>已贴近玩家的近战（抓击距离外再留42的预备区）；</li>
+<li>预计3秒内命中的飞弹；</li>
+<li>Boss 弱点；</li>
+<li>其余朝玩家飞来的攻击、远处预警，再到普通显形目标。</li>
+</ol>
+<p>新近身威胁可以抢占尚未完成的准星，原目标保存本次长按中的进度。已经完成的标记保留；松手和每次实际开火前都重新按紧迫程度排序。快要完成的瞄准只有在仍来得及处理新威胁时才先做完。飞离玩家或轨迹不会碰到玩家的子弹不抢占紧急优先级。导弹改追也使用相同排序。</p>
+<h2 id="六张升级卡">六张升级卡<a class="heading-link" href="#六张升级卡" aria-label="链接到本节">#</a></h2><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>卡牌</th><th>已实现成长</th><th>卡面状态</th></tr></thead><tbody><tr><td>耐力</td><td>每级上限 <code>+0.22秒</code>、恢复系数 <code>+0.04</code>，最多强化10级</td><td>被动，无冷却</td></tr><tr><td>瞄准</td><td>首级速度+10%，后续每级乘1.025；Lv.4/8 将并行准星提升到2/3</td><td>被动，无冷却</td></tr><tr><td>爆炸</td><td>首级半径175、冷却4.8秒；每级半径+12、冷却−0.22秒；光波匹配范围</td><td>整卡圆角裁切冷却遮罩</td></tr><tr><td>穿透</td><td>光束在命中目标后方追加2—5个目标；逐级增宽，7级额外破甲</td><td>整卡圆角裁切冷却遮罩</td></tr><tr><td>导弹</td><td>主齐射后扇出3—6枚追灵导弹，弧线追踪，可改追</td><td>整卡圆角裁切冷却遮罩</td></tr><tr><td>保护罩</td><td>即将受伤时自动抵消一次伤害；首级8.5秒、逐级缩短冷却</td><td>整卡圆角裁切冷却遮罩</td></tr></tbody></table></div><p>六种能力均最多强化10级。普通/紫/红升级卡分别强化1/2/3级。每局70%概率在第7—9关中掉一张红卡，最多一张；第3关起非红卡约22%为紫卡。</p>
+<p>六张能力卡在局内拥有固定卡位，右下角数字表示等级。首关提供爆炸/导弹，第二关首次提供瞄准/穿透；后续优先提供已拥有卡的升级，帮助构筑成形。</p>
+<h2 id="十关内容">十关内容<a class="heading-link" href="#十关内容" aria-label="链接到本节">#</a></h2><ul>
+<li>第1关教学普通幽灵与显形规则，首只保留单独教学，完成后进入4–6只的敌群压力。</li>
+<li>第2关加入基础远程幽灵，最多同时1只远程、1枚敌弹，保留普通怪占多数的过渡。</li>
+<li>第3关加入护甲幽灵，同时最多1只护甲、1只远程，避免群攻刚起步就被多层护甲卡住。</li>
+<li>第4关加入法术幽灵，三种特殊怪各最多1只；第4—5关普通怪占65%，让群攻开始发挥。</li>
+<li>第6关普通怪占48%，逐步转向混编；第7—9关护甲/远程/法术占比为29%/27%/20%。第9关弹速提高到365—410，匹配更多准星和辅助攻击。</li>
+<li>第10关为 Boss 战。</li>
+<li>第1–9关击破目标：<code>12 / 16 / 20 / 28 / 40 / 54 / 72 / 88 / 108</code>；同时在场上限：<code>6 / 6 / 7 / 10 / 13 / 17 / 23 / 27 / 30</code>。</li>
+</ul>
+<h2 id="掉落与连续强化">掉落与连续强化<a class="heading-link" href="#掉落与连续强化" aria-label="链接到本节">#</a></h2><ul>
+<li>每只击破怪掉1金币，约0.26秒弹起落地，停留0.35—0.55秒后飞入金币框，飞行0.42—0.50秒；到达时数字才增加。</li>
+<li>第1—9关分别掉 <code>1 / 1 / 2 / 2 / 2 / 3 / 3 / 4 / 4</code> 张卡，分散在关卡进度中。卡片落地0.45秒后飞入金币下方卡区。普通掉落的队列额外等待最多0.14秒。</li>
+<li>最后一只怪击破时立即收拢所有奖励，取消落地/排队等待，已在飞行的也加速；测试中剩余奖励约0.4秒收完，约0.5秒进入关间状态，再用0.28秒抽卡进入选择。清场清除敌弹并结束无目标长按，每张卡提供一次二选一，全部用完才开始下一关。</li>
+<li>地面掉落归属场景地面层，位于敌人和子弹时间遮罩之下，附带小阴影；只有离地飞向HUD时才移入前景，保持世界坐标连续。</li>
+<li>暂停冻结收集；重开取消旧局在途回调。</li>
+</ul>
+<h2 id="boss">Boss<a class="heading-link" href="#boss" aria-label="链接到本节">#</a></h2><ul>
+<li>Boss 本体不可直接锁定，初始有三枚可锁定封印和九格生命，开场携带十只小怪。每枚封印有两层光环，每次命中削一层；7级穿透可一次击破两层。</li>
+<li>部位命中不再反复打断 Boss。它用紫色咒环表达不可打断的蓄力；红色感叹号仍只代表普通怪的可打断攻击。</li>
+<li>三枚封印拆完，Boss 完成一次反击后才暴露三枚弱点。清完一组弱点后重建三枚封印，最快也要三轮反击才能击破。</li>
+<li>每次行动发射分离起点的咒弹，随九格生命降至六格、三格从3发增强到4发、5发，隔次行动追加召灵。行动间隔1.45/1.20/0.95秒，蓄力0.95/0.85/0.75秒，均受机会时间缩放影响；场上Boss咒弹最多10枚，小怪弹最多8枚。</li>
+<li>战斗中持续补充随从，三段目标数量为10/14/18只，总上限18只，不计入关卡击破目标。随从使用第九关的显形周期与365—410弹速，不使用Boss本体的独立计时。暂停与齐射冻结补怪，子弹时间放慢补怪。</li>
+<li>弱点窗口为4秒，结束后保留已造成的生命进度；正在瞄准或已经承诺的弱点命中会兑现后再收回。</li>
+<li>弱点显露期间Boss仍会攻击；拆封印、打完弱点都不会取消正在进行的蓄力，已标记弱点仍兑现命中后才收回。</li>
+</ul>
+<h2 id="hud-与反馈">HUD 与反馈<a class="heading-link" href="#hud-与反馈" aria-label="链接到本节">#</a></h2><ul>
+<li>左上为三颗心和实际收集金币。升级卡库存位于金币框下方，左边缘与币框对齐，按普通、稀有、传说纵向排列；仅显示数量大于零的种类，用完一类后下方行补位，全部用完隐藏整个库存。金币接收时的弹跳不影响库存位置。顶部居中为关卡数，右上为设置按钮，耐力条位于关卡下方。</li>
+<li><code>HeartsLabel</code>、<code>RemainingLabel</code>、<code>LevelLabel</code>、<code>PauseButton</code>、<code>StaminaProgress</code> 和 <code>OwnedUpgrades</code> 都保留在游戏 Prefab 中作为可拖动锚点，运行时美术会跟随这些位置。</li>
+<li>耐力正常填充为薄荷绿，低耐力变红，与地面保持对比。</li>
+<li>专注中显示当前累计标记数 <code>×N</code>，但不把它包装成弹仓或容量。</li>
+<li>红色感叹号只表示可打断攻击。</li>
+<li>胜利文案为“子时已过”，玩家身份统一为“幽灵猎手”。</li>
+</ul>
+<h2 id="当前美术边界">当前美术边界<a class="heading-link" href="#当前美术边界" aria-label="链接到本节">#</a></h2><ul>
+<li>五种幽灵显示尺寸为约 <code>90–140</code>；虚化时为低不透明度，完全显形时固定为原图不透明度。</li>
+<li>普通击杀用真正的圆点为主、少量星形为辅，16颗连续外抛粒子按幽灵配色表现，Boss28颗；速度、尺寸与消散时点错开；六帧彩色爆炸序列仅在爆炸天赋就绪时播放。</li>
+<li>远程、法术、Boss 分别使用独立飞弹，玩家额外导弹使用独立图标；敌方飞弹保留 <code>MotionStreak</code> 与轨迹光带；玩家普通射击使用三层渐尖的曲面光尾，去掉全长直条和实体残影。</li>
+</ul>
+<h2 id="2026-09-07-反馈优化">2026-09-07 反馈优化<a class="heading-link" href="#2026-09-07-反馈优化" aria-label="链接到本节">#</a></h2><ul>
+<li>幽灵开始显形、开始虚化时，分别弹出一次“显形”“虚化”动效字：快速放大、回弹、略微上浮，约0.5秒淡出。平时不显示状态字，逐帧更新不会重播，身体完成显形或进入虚态也不重复提示；红色感叹号仍表示攻击前摇。连击保留固定位置的 <code>×N</code>。</li>
+<li>普通击杀粒子约0.50—0.89秒，单颗尺寸约16—36，扩散速度比上一版提高约23%；枪口、光尾、导弹与命中主体放大约25%。粒子约1/4较实、1/2半透、1/4轻薄，分别淡入与淡出；六帧爆炸主体约0.40秒，扩散中逐渐消散。末次击杀让回收与击破同时播放，不用装饰粒子的剩余寿命阻塞关间切换。</li>
+<li>冷却遮罩与卡片尺寸、位置完全重合，用卡底原图透明轮廓裁切，覆盖边框和图标；原生径向填充从十二点方向顺时针恢复亮度。等级始终在遮罩上方，冷却完成遮罩完全消失。</li>
+<li>移除怪物或敌弹时同步移出连射队列；开火前先清理失效目标再按威胁排序，范围击杀和导弹不能留下已销毁目标阻断连射。</li>
+<li>暂停、胜利、失败采用同套独立 Prefab 面板；根节点不再使用半透明 Sprite，遮罩独立为兄弟节点，文字与面板保持完全不透明。</li>
+<li>这是一轮针对试玩反馈的调参，实际通关难度与长局疲劳仍需后续试玩校准。验证范围见 <code>COMBAT_TUNING_2026_09_07.md</code>。</li>
+</ul>
+<p>详细参数、参考测量边界、逐帧图与真实引擎回放见 <a href="../docs/reward-motion.html">奖励动效分析记录</a>。</p>
+<p>本次厨神录像对照、参数与验证边界见 <a href="../docs/feedback-review.html">2026-09-07 厨神反馈修正</a>。</p>
+<p>后续试玩发现的卡死、完整遮罩与粒子虚实修正见 <a href="../docs/effects-fixes.html">中途卡死与效果修正</a>。</p>
+<p>最新的幽灵状态、Boss压力和库存显示规则见 <a href="../docs/boss-hud.html">Boss与左上库存修正</a>。</p>
+</article><section class="source-record" id="source-record"><p class="eyebrow">SOURCE & REVISIONS</p><h2>来源与修改记录</h2><dl><dt>原文标题</dt><dd>《子时已到》幽灵白盒版规则</dd><dt>工程内文件</dt><dd><code>docs/PROTOTYPE_RULES.md</code></dd><dt>收录方式</dt><dd>从现存工程文件收录，保留原段落与参数；仅做网页排版、本机路径匿名化与链接整理。</dd><dt>日期依据</dt><dd>未署日期。正文日期、首次入库日期与修订日期可能不同。</dd></dl><p class="muted">此工程未找到 Git 历史，暂不展示逐次修改日期。不会以文件复制时间推定写作时间。</p></section><nav class="adjacent" aria-label="相邻文档"><a href="ghost-plan.html"><small>上一篇</small>幽灵版后续优化方案</a><a href="combat-tuning.html"><small>下一篇</small>2026-09-07 战斗难度与反馈调整</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>两个独立游戏，从原型到迭代的设计记录。</p></div><p>整理于 2026.09.19<br><a href="../index.html#about">收录与日期说明</a> · <a href="../../index.html">返回作品集 ↗</a></p></footer></body></html>

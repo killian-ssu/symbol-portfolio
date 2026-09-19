@@ -1,0 +1,86 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f4f2eb"><title>手牌扇形布局 · Symbol 策划档案</title><meta name="description" content="手牌位置、选择态和扇形布局的交互设计。"><link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css"><script src="../archive.js" defer></script></head><body class="document-page merchant"><a class="skip" href="#main">跳到正文</a><header class="site-header"><a class="wordmark" href="../index.html">SYMBOL<span>设计档案 / 2026</span></a><nav aria-label="主导航"><a href="../index.html#timeline">版本时间线</a><a href="../index.html#catalog">全部文档</a><a class="back-portfolio" href="../../index.html">作品集 <span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="doc-top"><a class="back-link" href="../index.html?project=merchant#catalog">← 返回远行商人文档</a><div class="doc-tags"><span>远行商人</span><span>迭代方案</span><span>交互表现</span></div><h1>手牌扇形布局</h1><p class="doc-intro">手牌位置、选择态和扇形布局的交互设计。</p><div class="doc-metadata"><span><strong>2026-04-21</strong>文件名日期</span><span><strong>5 分钟</strong>预计阅读</span><span><strong>1</strong>次可查提交</span><a class="download" href="../sources/2026-04-21-handcard-fan-layout-design.md" download>下载本文 ↓</a></div></div><div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><a class="level-2" href="#1-目标与范围">1. 目标与范围</a><a class="level-2" href="#2-架构设计-基于-oops-framework-ecs">2. 架构设计 (基于 Oops Framework ECS)</a><a class="level-3" href="#2-1-components-组件">2.1 Components (组件)</a><a class="level-3" href="#2-2-system-系统">2.2 System (系统)</a><a class="level-3" href="#2-3-view-视图与交互层">2.3 View (视图与交互层)</a><a class="level-2" href="#3-核心数学算法-抛物线排版">3. 核心数学算法 (抛物线排版)</a><a class="level-3" href="#3-1-扇形排版公式">3.1 扇形排版公式</a><a class="level-3" href="#3-2-交互避让算法-hover-态">3.2 交互避让算法 (Hover 态)</a><a class="level-2" href="#4-数据流转与测试">4. 数据流转与测试</a><a class="level-2" href="#5-预期风险与解决">5. 预期风险与解决</a><a href="#source-record">来源与修改记录</a></nav></details><a class="to-top" href="#main">回到页首 ↑</a></aside><div class="doc-reading"><div class="archive-note"><span class="note-marker">档案说明</span><p>这是 2026-09-19 从工程收录的文本，可能包含后来补写的注释。正文中的“当前”“已实现”保留原有语境，不代表本站试玩版已逐项复验。</p></div><article class="prose" id="article"><h2 id="1-目标与范围">1. 目标与范围<a class="heading-link" href="#1-目标与范围" aria-label="链接到本节">#</a></h2><p>在 Cocos Creator 中，基于 Oops Framework 的 ECS 架构，实现类似《杀戮尖塔》和《炉石传说》中的扇形动态手牌区。
+核心目标：</p>
+<ul>
+<li>动态排列：无论手中是 1 张牌还是 15 张牌，都能自动适应屏幕宽度并呈扇形均匀排列。</li>
+<li>交互动效：当鼠标/手指悬停在某张牌上时，该卡牌放大并抬高，同时周围卡牌丝滑地向两侧避让（挤开）。</li>
+<li>架构解耦：所有卡牌的位置、旋转、状态逻辑交由专门的 ECS System 进行计算和驱动。</li>
+</ul>
+<h2 id="2-架构设计-基于-oops-framework-ecs">2. 架构设计 (基于 Oops Framework ECS)<a class="heading-link" href="#2-架构设计-基于-oops-framework-ecs" aria-label="链接到本节">#</a></h2><p>我们将采用纯粹的 ECS 模式，UI 层只负责渲染和抛出事件，核心计算放在 System 层。</p>
+<h3 id="2-1-components-组件">2.1 Components (组件)<a class="heading-link" href="#2-1-components-组件" aria-label="链接到本节">#</a></h3><ul>
+<li><code>HandCardComp</code>: 标记一张手牌，包含卡牌的唯一 ID、配置数据等。</li>
+<li><code>CardTransformComp</code>: 包含卡牌<strong>当前</strong>和<strong>目标</strong>的 X、Y、Scale、Angle（旋转角度）、ZIndex（层级）。</li>
+<li><code>CardStateComp</code>: 记录卡牌当前状态，如：<code>Normal</code>（正常排列）、<code>Hover</code>（被悬停）、<code>Dragging</code>（被拖拽）、<code>Playing</code>（打出动画中）。</li>
+</ul>
+<h3 id="2-2-system-系统">2.2 System (系统)<a class="heading-link" href="#2-2-system-系统" aria-label="链接到本节">#</a></h3><ul>
+<li><code>HandCardLayoutSystem</code>: 手牌排版系统，负责核心数学计算。<ul>
+<li><strong>触发时机</strong>: 当手牌数量变化，或者有卡牌的状态（如 <code>Hover</code> 触发避让）发生变化时，重新计算所有卡牌的 <code>CardTransformComp</code> 的<strong>目标值</strong>。</li>
+</ul>
+</li>
+<li><code>CardTransformSystem</code>: 缓动执行系统。<ul>
+<li><strong>触发时机</strong>: 每帧（<code>update</code>）或通过 Tween。负责将卡牌从<strong>当前值</strong>平滑地插值（Lerp）或 Tween 到 <code>CardTransformComp</code> 中计算好的<strong>目标值</strong>，并将结果应用到实际的 Cocos <code>Node</code> 上。</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-3-view-视图与交互层">2.3 View (视图与交互层)<a class="heading-link" href="#2-3-view-视图与交互层" aria-label="链接到本节">#</a></h3><ul>
+<li><code>HandCardViewComp</code>: 挂载在单张手牌预制体上的脚本，仅负责监听 Cocos 原生的 <code>MOUSE_ENTER</code>, <code>MOUSE_LEAVE</code>, <code>TOUCH_START</code>, <code>TOUCH_MOVE</code> 等事件，并在触发时更新实体身上的 <code>CardStateComp</code>，从而触发 <code>HandCardLayoutSystem</code> 的重新计算。</li>
+</ul>
+<h2 id="3-核心数学算法-抛物线排版">3. 核心数学算法 (抛物线排版)<a class="heading-link" href="#3-核心数学算法-抛物线排版" aria-label="链接到本节">#</a></h2><p>我们不使用复杂的贝塞尔曲线，而是使用易于计算和控制的<strong>二次函数（抛物线）<strong>结合</strong>极坐标</strong>思想来实现扇形。</p>
+<h3 id="3-1-扇形排版公式">3.1 扇形排版公式<a class="heading-link" href="#3-1-扇形排版公式" aria-label="链接到本节">#</a></h3><p>假设手牌区中心点为原点 <code>(0, 0)</code>，当前共有 $N$ 张手牌，手牌区域最大跨度为 $W$。</p>
+<ol>
+<li><strong>计算 X 坐标</strong>: <ul>
+<li>限制最大卡牌间距。如果 $N$ 较小，间距固定；如果 $N$ 很大，计算出的总宽度超过 $W$，则压缩间距以挤在一个屏幕内。</li>
+<li>第 $i$ 张牌的 X 坐标 $x_i$ 根据间距向两边散开分布。</li>
+</ul>
+</li>
+<li><strong>计算 Y 坐标</strong>: <ul>
+<li>抛物线公式：$y_i = a * x_i^2 + b$</li>
+<li>$a$ 是一个极小的负数（控制抛物线开口向下，即两边的牌往下掉）。</li>
+<li>$b$ 是整体 Y 轴的基准偏移。</li>
+</ul>
+</li>
+<li><strong>计算旋转角度 (Angle)</strong>: <ul>
+<li>角度直接与 X 坐标成正比：$angle_i = -c * x_i$</li>
+<li>$c$ 是角度系数，X 在右侧（正数），卡牌向右倾斜（负角度）；X 在左侧（负数），卡牌向左倾斜（正角度）。</li>
+</ul>
+</li>
+<li><strong>计算层级 (Z-Index)</strong>:<ul>
+<li>正常排版时，$i$ 越大（越靠右），Z-Index 越高（或根据你的游戏设定，从中间向两边递减）。</li>
+</ul>
+</li>
+</ol>
+<h3 id="3-2-交互避让算法-hover-态">3.2 交互避让算法 (Hover 态)<a class="heading-link" href="#3-2-交互避让算法-hover-态" aria-label="链接到本节">#</a></h3><p>当玩家悬停在第 $k$ 张牌上时：</p>
+<ol>
+<li><strong>当前牌 ($k$)</strong>:<ul>
+<li><code>Target Y</code> = 抛物线原计算 Y 值 + <code>HoverOffset</code>（向上抬高）。</li>
+<li><code>Target Scale</code> = <code>HoverScale</code>（放大）。</li>
+<li><code>Target Angle</code> = 0（强制回正，方便阅读）。</li>
+<li><code>Z-Index</code> = 强制置顶（最大）。</li>
+</ul>
+</li>
+<li><strong>左侧牌 ($i &lt; k$)</strong>:<ul>
+<li><code>Target X</code> = 原计算 X 值 - <code>PushOffset</code>（向左挤开）。</li>
+<li><code>Target Y</code> 和 <code>Target Angle</code> 保持抛物线原来基于未挤开时的位置（避免挤开时牌掉得太深）。</li>
+</ul>
+</li>
+<li><strong>右侧牌 ($i &gt; k$)</strong>:<ul>
+<li><code>Target X</code> = 原计算 X 值 + <code>PushOffset</code>（向右挤开）。</li>
+</ul>
+</li>
+</ol>
+<h2 id="4-数据流转与测试">4. 数据流转与测试<a class="heading-link" href="#4-数据流转与测试" aria-label="链接到本节">#</a></h2><ol>
+<li>View 监听到 Hover -&gt; 更新 Entity 的 <code>CardStateComp</code>。</li>
+<li>ECS 监听到 <code>CardStateComp</code> 变化 -&gt; 触发 <code>HandCardLayoutSystem</code>。</li>
+<li><code>HandCardLayoutSystem</code> 遍历所有手牌实体，根据上述公式计算出新的 <code>Target X/Y/Angle/Scale</code> 并写入 <code>CardTransformComp</code>。</li>
+<li><code>CardTransformSystem</code>（或全局的 Tween 管理器）读取 <code>Target</code> 值，通过 <code>cc.tween</code> 或 <code>Math.lerp</code> 让卡牌 Node 丝滑移动过去。</li>
+</ol>
+<h2 id="5-预期风险与解决">5. 预期风险与解决<a class="heading-link" href="#5-预期风险与解决" aria-label="链接到本节">#</a></h2><ul>
+<li><strong>层级闪烁问题</strong>：当快速滑动时，多张牌的 Hover 状态切换极快，可能导致 Z-Index 频繁重排产生闪烁。<ul>
+<li><em>解决</em>：在 System 中严格锁定全局只有一张牌处于 Hover 态（类似单选），且设置 Z-Index 变更的微小防抖。</li>
+</ul>
+</li>
+<li><strong>不同分辨率适配</strong>：抛物线的参数 $a$ 和最大宽度 $W$ 可能会在超宽屏或窄屏上表现不同。<ul>
+<li><em>解决</em>：在初始化时，根据 <code>cc.view.getVisibleSize()</code> 动态计算 $W$ 和 $a$ 系数。</li>
+</ul>
+</li>
+</ul>
+</article><section class="source-record" id="source-record"><p class="eyebrow">SOURCE & REVISIONS</p><h2>来源与修改记录</h2><dl><dt>原文标题</dt><dd>扇形动态手牌区（方案一：纯数学计算 + ECS）设计文档</dd><dt>工程内文件</dt><dd><code>docs/superpowers/specs/2026-04-21-handcard-fan-layout-design.md</code></dd><dt>收录方式</dt><dd>从现存工程文件收录，保留原段落与参数；仅做网页排版、本机路径匿名化与链接整理。</dd><dt>日期依据</dt><dd>文件名日期 · 2026-04-21。正文日期、首次入库日期与修订日期可能不同。</dd></dl><details class="history" open><summary>查看 1 次文件提交记录</summary><p>以下为包含此文件变化的提交。提交说明可能涉及整个项目，不代表该文档单独完成了所有列出的功能。</p><ol><li><time>2026-04-21</time><div><code>89c148e</code><p>docs(spec): add design spec for fan-shaped hand card layout</p></div></li></ol></details></section><nav class="adjacent" aria-label="相邻文档"><a href="2026-04-20-v0.2-core-and-juice-design.html"><small>上一篇</small>v0.2 规则与反馈</a><a href="2026-05-19-traveling-merchant-modifier-system-design.html"><small>下一篇</small>道具修饰系统</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>两个独立游戏，从原型到迭代的设计记录。</p></div><p>整理于 2026.09.19<br><a href="../index.html#about">收录与日期说明</a> · <a href="../../index.html">返回作品集 ↗</a></p></footer></body></html>

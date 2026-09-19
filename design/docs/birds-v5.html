@@ -1,0 +1,98 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f4f2eb"><title>Noon v0.5「十关压力与齐射成长版」策划 · Symbol 策划档案</title><meta name="description" content="从五关扩到十关，增加持续压力与齐射成长的候选参数。"><link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css"><script src="../archive.js" defer></script></head><body class="document-page midnight"><a class="skip" href="#main">跳到正文</a><header class="site-header"><a class="wordmark" href="../index.html">SYMBOL<span>设计档案 / 2026</span></a><nav aria-label="主导航"><a href="../index.html#timeline">版本时间线</a><a href="../index.html#catalog">全部文档</a><a class="back-portfolio" href="../../index.html">作品集 <span aria-hidden="true">↗</span></a></nav></header><main id="main"><div class="doc-top"><a class="back-link" href="../index.html?project=midnight#catalog">← 返回子时已到文档</a><div class="doc-tags"><span>子时已到</span><span>历史方案</span><span>核心玩法</span></div><h1>Noon v0.5「十关压力与齐射成长版」策划</h1><p class="doc-intro">从五关扩到十关，增加持续压力与齐射成长的候选参数。</p><div class="doc-metadata"><span><strong>未署日期</strong>未署日期</span><span><strong>7 分钟</strong>预计阅读</span><span><strong>—</strong>无 Git 历史</span><a class="download" href="../sources/birds-v5.md" download>下载本文 ↓</a></div></div><div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><a class="level-2" href="#一-版本结论">一、版本结论</a><a class="level-2" href="#二-当前难度平淡的结构性原因">二、当前难度平淡的结构性原因</a><a class="level-2" href="#三-难度规则调整">三、难度规则调整</a><a class="level-3" href="#1-持续攻击">1. 持续攻击</a><a class="level-3" href="#2-错峰威胁">2. 错峰威胁</a><a class="level-3" href="#3-基础参数候选">3. 基础参数候选</a><a class="level-2" href="#四-两种新敌人">四、两种新敌人</a><a class="level-3" href="#1-回旋鸟">1. 回旋鸟</a><a class="level-3" href="#2-俯冲鸟">2. 俯冲鸟</a><a class="level-2" href="#五-十关结构">五、十关结构</a><a class="level-2" href="#六-升级架构">六、升级架构</a><a class="level-3" href="#1-九次二选一与等级">1. 九次二选一与等级</a><a class="level-3" href="#2-现有升级等级化">2. 现有升级等级化</a><a class="level-3" href="#3-六项新升级">3. 六项新升级</a><a class="level-3" href="#4-后期规模目标">4. 后期规模目标</a><a class="level-2" href="#七-暂停与主界面规则">七、暂停与主界面规则</a><a class="level-2" href="#八-验证标准">八、验证标准</a><a class="level-2" href="#九-实施顺序">九、实施顺序</a><a class="level-3" href="#v0-5a-压力骨架">v0.5a：压力骨架</a><a class="level-3" href="#v0-5b-成长与新敌人">v0.5b：成长与新敌人</a><a class="level-2" href="#十-本版不做">十、本版不做</a><a href="#source-record">来源与修改记录</a></nav></details><a class="to-top" href="#main">回到页首 ↑</a></aside><div class="doc-reading"><div class="archive-note"><span class="note-marker">档案说明</span><p>这是 2026-09-19 从工程收录的文本，可能包含后来补写的注释。正文中的“当前”“已实现”保留原有语境，不代表本站试玩版已逐项复验。</p><p>原文件未署完整写作日期。版本顺序可供追溯，具体日期未补写。</p></div><article class="prose" id="article"><blockquote>
+<p>状态：历史方案，保留用于追溯。当前《子时已到》幽灵规则以 <code>docs/PROTOTYPE_RULES.md</code> 为准，本文中鸟、旧耐力和旧锁定窗口数值不再是实施依据。</p>
+</blockquote>
+<h2 id="一-版本结论">一、版本结论<a class="heading-link" href="#一-版本结论" aria-label="链接到本节">#</a></h2><p>v0.5 从五关扩展到十关，但重点不是把现有波次复制一遍。当前体验平淡的根源是：玩家进入专注后拥有很大的行动优势，而鸟通常只攻击一次，弹丸又会被优先、快速锁定；因此玩家很少真正面对“继续贪一只鸟，还是立刻松手保命”的压力。</p>
+<p>本版同时解决三件事：</p>
+<ol>
+<li>用持续攻击、错峰威胁和两种新敌人建立中后期挑战。</li>
+<li>把九次二选一改成可升级的构筑过程，让后期常见六至八个标记、九至十二声枪响的夸张齐射。</li>
+<li>补齐主界面、暂停、继续、重新开始和返回主界面的局内闭环。</li>
+</ol>
+<h2 id="二-当前难度平淡的结构性原因">二、当前难度平淡的结构性原因<a class="heading-link" href="#二-当前难度平淡的结构性原因" aria-label="链接到本节">#</a></h2><ul>
+<li>世界在专注时降至 <code>22%</code>，但准星仍按真实时间推进，玩家对弹丸拥有很大的相对速度优势。</li>
+<li>弹丸锁定只需 <code>0.22—0.28秒</code>，且自动优先，单枚威胁几乎不会迫使玩家提前松手。</li>
+<li>大多数鸟完成一次攻击后便不再制造压力；玩家只拦弹、不击落鸟也经常可以自然清场。</li>
+<li>多枚弹丸若同时命中，会被 <code>0.65秒</code> 受击保护压缩成一次伤害，表面密度没有转化成实际危险。</li>
+<li>当前四次升级以数值增强为主，锁定容量通常只从四个变成五个，后期齐射规模没有显著跨越。</li>
+</ul>
+<p>因此，本版不采用“所有弹丸直接加速一倍”的办法。纯弹速会缩短反应时间，却不一定增加有趣判断。</p>
+<h2 id="三-难度规则调整">三、难度规则调整<a class="heading-link" href="#三-难度规则调整" aria-label="链接到本节">#</a></h2><h3 id="1-持续攻击">1. 持续攻击<a class="heading-link" href="#1-持续攻击" aria-label="链接到本节">#</a></h3><ul>
+<li>普通鸟若仍在场，第一次射击后会在 <code>1.8—2.5秒</code> 后再装填一次；单次飞越最多攻击两次。</li>
+<li>快枪鸟仍保持一次高速射击，避免连续快弹造成不可读伤害。</li>
+<li>连发鸟保持一轮两发，但高关卡允许完成第二轮连发；第二轮必须重新展示双发预警。</li>
+<li>击落攻击者因此成为真正的减压手段，不能长期只拦弹等鸟飞走。</li>
+</ul>
+<h3 id="2-错峰威胁">2. 错峰威胁<a class="heading-link" href="#2-错峰威胁" aria-label="链接到本节">#</a></h3><ul>
+<li>关卡脚本把危险弹丸间隔控制在 <code>0.55—0.9秒</code>，让受击保护不再吞掉整轮攻击。</li>
+<li>同一批威胁必须有连续可见预警，不用不可见随机数偷袭玩家。</li>
+<li>中后期每波至少形成一次“当前准星快锁完鸟时，第一枚弹丸进入”的抢断局面。</li>
+</ul>
+<h3 id="3-基础参数候选">3. 基础参数候选<a class="heading-link" href="#3-基础参数候选" aria-label="链接到本节">#</a></h3><p>以下是首轮测试值，不视为最终平衡：</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>参数</th><th style="text-align:right">v0.4</th><th style="text-align:right">v0.5首测值</th><th>目的</th></tr></thead><tbody><tr><td>专注世界速度</td><td style="text-align:right">22%</td><td style="text-align:right">26%</td><td>保留子弹时间感，同时让威胁仍有轻微推进</td></tr><tr><td>受击保护</td><td style="text-align:right">0.65秒</td><td style="text-align:right">0.48秒</td><td>让明确错开的攻击可以分别造成伤害</td></tr><tr><td>普通弹锁定</td><td style="text-align:right">0.28秒</td><td style="text-align:right">0.32秒</td><td>避免弹丸优先等于无条件化解</td></tr><tr><td>快弹锁定</td><td style="text-align:right">0.22秒</td><td style="text-align:right">0.25秒</td><td>快枪鸟仍可反应，但需要更早松手</td></tr><tr><td>专注恢复</td><td style="text-align:right">0.9秒/秒</td><td style="text-align:right">0.72秒/秒</td><td>同一波内连续开专注具有资源压力</td></tr><tr><td>齐射世界速度</td><td style="text-align:right">8%</td><td style="text-align:right">10%</td><td>仍保护已承诺齐射，不削弱爽点</td></tr></tbody></table></div><p>公平底线：玩家已看见预警、拥有至少 <code>0.6秒</code> 专注并立刻反应时，不允许脚本制造必定受伤的局面。</p>
+<h2 id="四-两种新敌人">四、两种新敌人<a class="heading-link" href="#四-两种新敌人" aria-label="链接到本节">#</a></h2><h3 id="1-回旋鸟">1. 回旋鸟<a class="heading-link" href="#1-回旋鸟" aria-label="链接到本节">#</a></h3><ul>
+<li>第一次飞出边缘后掉头返回，不算清除。</li>
+<li>每次经过战场只攻击一次，最多经过两次。</li>
+<li>轮廓使用回旋翼或弧形尾迹，边缘掉头前显示回转箭头。</li>
+<li>作用：让“只拦弹、不击落攻击者”的保守打法付出持续压力。</li>
+</ul>
+<h3 id="2-俯冲鸟">2. 俯冲鸟<a class="heading-link" href="#2-俯冲鸟" aria-label="链接到本节">#</a></h3><ul>
+<li>入场后先横向飞行，出现清楚的向下箭头预警，再转向玩家俯冲。</li>
+<li>俯冲阶段被视为最高优先级威胁，可像弹丸一样快速锁定。</li>
+<li>撞到玩家失去一颗心，鸟同时消失。</li>
+<li>作用：制造必须松手的明确时刻，同时仍使用原有长按、自动锁定、松手齐射语法。</li>
+</ul>
+<p>本版不加入护盾、无敌、反锁定和不可拦截弹丸。这些规则会否定自动锁定的核心便利，而不是压力玩家的松手判断。</p>
+<h2 id="五-十关结构">五、十关结构<a class="heading-link" href="#五-十关结构" aria-label="链接到本节">#</a></h2><p>总计 <code>31波</code>，目标一局 <code>6—9分钟</code>。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>关卡</th><th style="text-align:right">波数</th><th>单位数</th><th>内容职责</th></tr></thead><tbody><tr><td>第1关</td><td style="text-align:right">2</td><td>2 / 3</td><td>无文字教学，完成第一次有效齐射</td></tr><tr><td>第2关</td><td style="text-align:right">3</td><td>3 / 4 / 5</td><td>普通鸟二次装填，第一次出现持续压力</td></tr><tr><td>第3关</td><td style="text-align:right">3</td><td>3 / 4 / 5</td><td>快枪鸟抢断长按</td></tr><tr><td>第4关</td><td style="text-align:right">3</td><td>3 / 4 / 5</td><td>连发鸟测试等待第二弹的判断</td></tr><tr><td>第5关</td><td style="text-align:right">3</td><td>4 / 5 / 6</td><td>三类混编，作为前半程检查点</td></tr><tr><td>第6关</td><td style="text-align:right">3</td><td>4 / 5 / 6</td><td>回旋鸟登场，不能靠放走敌人清场</td></tr><tr><td>第7关</td><td style="text-align:right">3</td><td>4 / 5 / 6</td><td>俯冲鸟登场，第一次明确强制松手</td></tr><tr><td>第8关</td><td style="text-align:right">3</td><td>5 / 6 / 7</td><td>回旋、快枪与连发形成持续战线</td></tr><tr><td>第9关</td><td style="text-align:right">4</td><td>5 / 6 / 7 / 8</td><td>多轮错峰攻击，测试专注管理</td></tr><tr><td>第10关</td><td style="text-align:right">4</td><td>6 / 7 / 8 / 10</td><td>综合决战，以大规模齐射收束整局</td></tr></tbody></table></div><p>难度情绪：<code>1—2关理解 → 3—4关第一次受压 → 5关小胜 → 6—7关改变习惯 → 8—9关构筑兑现 → 10关连续大齐射</code>。</p>
+<h2 id="六-升级架构">六、升级架构<a class="heading-link" href="#六-升级架构" aria-label="链接到本节">#</a></h2><h3 id="1-九次二选一与等级">1. 九次二选一与等级<a class="heading-link" href="#1-九次二选一与等级" aria-label="链接到本节">#</a></h3><ul>
+<li>前九关结束后均进行二选一。</li>
+<li>升级不再全部“一次获得后永久移出池”，而是带有 <code>Lv.1—Lv.3</code>。</li>
+<li>卡面必须显示当前等级和升级后的确切变化。</li>
+<li>选择池保证至少一个选项不是纯数值强化，避免连续两次只看到速度或时长。</li>
+</ul>
+<h3 id="2-现有升级等级化">2. 现有升级等级化<a class="heading-link" href="#2-现有升级等级化" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>升级</th><th>等级效果建议</th></tr></thead><tbody><tr><td>快眼</td><td>每级锁定速度 <code>+15%</code>，最高3级</td></tr><tr><td>多重标记</td><td>每级容量 <code>+1</code>，最高3级；容量上限7</td></tr><tr><td>深呼吸</td><td>每级专注上限 <code>+0.5秒</code>，最高3级</td></tr><tr><td>副准星</td><td>Lv.1为45%速度，Lv.2为70%速度</td></tr><tr><td>震荡弹</td><td>冲击半径 <code>125 / 165 / 205</code></td></tr><tr><td>回神</td><td>拦截恢复专注 <code>0.25 / 0.4 / 0.55秒</code></td></tr></tbody></table></div><h3 id="3-六项新升级">3. 六项新升级<a class="heading-link" href="#3-六项新升级" aria-label="链接到本节">#</a></h3><div class="table-scroll" tabindex="0" role="region" aria-label="可横向滚动的表格"><table><thead><tr><th>升级</th><th>效果</th><th>改变的行为</th></tr></thead><tbody><tr><td>连珠准星</td><td>每完成第3个锁定，额外标记一个可用目标；Lv.2改为每第2个</td><td>更容易积累大齐射，但仍受容量限制</td></tr><tr><td>顺风眼</td><td>同一次长按内，每完成一个锁定，后续锁定加速10%，上限30%/50%</td><td>鼓励继续按住形成连锁节奏</td></tr><tr><td>屏息</td><td>每个锁定返还0.10/0.16秒专注，单次长按最多返还0.6/0.9秒</td><td>为六至八标记提供可控成长路径</td></tr><tr><td>余响弹</td><td>松手时已有4个标记，主齐射后追加2/3枪攻击仍存活威胁</td><td>明确奖励贪到四标，制造后半段枪声高潮</td></tr><tr><td>追凶</td><td>拦截弹丸时，将仍在场的发射者追加为一个奖励标记；每次长按1/2次</td><td>把防守操作转化为反击齐射</td></tr><tr><td>双枪</td><td>主齐射每第3/第2枪追加一发副枪，攻击最近未标记目标</td><td>后期枪数显著超过标记数，形成视觉跨越</td></tr></tbody></table></div><p>奖励标记和副枪不会再次触发连珠准星，避免无限递归。所有追加射击都属于同一个玩家感知齐射段，枪声音阶与连击不得重置。</p>
+<h3 id="4-后期规模目标">4. 后期规模目标<a class="heading-link" href="#4-后期规模目标" aria-label="链接到本节">#</a></h3><ul>
+<li>无容量升级：常见 <code>4标记 → 4—7枪</code>。</li>
+<li>一至两级容量：常见 <code>5—6标记 → 7—10枪</code>。</li>
+<li>成型连射构筑：峰值 <code>7—8标记 → 9—12枪</code>。</li>
+<li>追加枪必须优先寻找仍存活目标；没有目标时不空放大量无意义枪声。</li>
+</ul>
+<h2 id="七-暂停与主界面规则">七、暂停与主界面规则<a class="heading-link" href="#七-暂停与主界面规则" aria-label="链接到本节">#</a></h2><ul>
+<li>主界面提供“开始游戏”。</li>
+<li>局内右上角提供暂停按钮。</li>
+<li>暂停后保留当前关卡、波次、专注、锁定队列和飞行物位置。</li>
+<li>暂停菜单提供“继续游戏、重新开始、返回主界面”。</li>
+<li>重新开始直接开启全新第一关，不弹第二次确认；当前原型没有不可恢复的长期资源。</li>
+<li>返回主界面清空本局状态。</li>
+<li>暂停时玩法更新与程序化音频同时停止；恢复后继续原有子弹时间或齐射状态。</li>
+</ul>
+<h2 id="八-验证标准">八、验证标准<a class="heading-link" href="#八-验证标准" aria-label="链接到本节">#</a></h2><ul>
+<li>熟悉玩法的玩家不能再无脑长按到容量满；第5关以后每关至少出现一次主动提前松手。</li>
+<li>没有升级的自动测试应在第6—8关出现明显失败风险，但任何单个脚本局面都不得造成不可避免伤害。</li>
+<li>正常构筑在第8关以后平均齐射规模达到6枪以上，第10关至少出现一次8枪以上齐射机会。</li>
+<li>玩家能从行为而非颜色说出回旋鸟和俯冲鸟的区别。</li>
+<li>暂停中等待5秒，关卡时间、专注、目标位置与弹丸位置均不变化。</li>
+<li>暂停后继续、重新开始、返回主界面三条路径均无残留锁定、音效或旧弹丸。</li>
+<li>锁定、奖励标记、主齐射和追加枪的整个收益段不会被换波、暂停或过关截断。</li>
+</ul>
+<h2 id="九-实施顺序">九、实施顺序<a class="heading-link" href="#九-实施顺序" aria-label="链接到本节">#</a></h2><h3 id="v0-5a-压力骨架">v0.5a：压力骨架<a class="heading-link" href="#v0-5a-压力骨架" aria-label="链接到本节">#</a></h3><ol>
+<li>完成主界面与暂停闭环。</li>
+<li>为鸟加入装填次数、再次预警和错峰攻击脚本。</li>
+<li>调整五个基础参数，先把现有五关打出压力。</li>
+<li>将配置扩成十关31波。</li>
+</ol>
+<h3 id="v0-5b-成长与新敌人">v0.5b：成长与新敌人<a class="heading-link" href="#v0-5b-成长与新敌人" aria-label="链接到本节">#</a></h3><ol>
+<li>升级系统支持等级、等级文案和选择池约束。</li>
+<li>实现连珠准星、余响弹、屏息，先验证大齐射路径。</li>
+<li>再实现顺风眼、追凶、双枪。</li>
+<li>实现回旋鸟与俯冲鸟并放入第6—10关。</li>
+<li>完成完整十关自动测试和至少三名玩家压力测试。</li>
+</ol>
+<h2 id="十-本版不做">十、本版不做<a class="heading-link" href="#十-本版不做" aria-label="链接到本节">#</a></h2><ul>
+<li>不制作或细化正式美术素材。</li>
+<li>不加入角色移动、手动准星、弹药库存和换弹。</li>
+<li>不加入局外成长、金币、广告与任务系统。</li>
+<li>不用不可拦截攻击、强制禁用子弹时间等方式制造难度。</li>
+<li>暂不制作多阶段Boss；第10关先验证高密度综合战能否成立。</li>
+</ul>
+</article><section class="source-record" id="source-record"><p class="eyebrow">SOURCE & REVISIONS</p><h2>来源与修改记录</h2><dl><dt>原文标题</dt><dd>Noon v0.5「十关压力与齐射成长版」策划</dd><dt>工程内文件</dt><dd><code>docs/V0_5_PLAN.md</code></dd><dt>收录方式</dt><dd>从现存工程文件收录，保留原段落与参数；仅做网页排版、本机路径匿名化与链接整理。</dd><dt>日期依据</dt><dd>未署日期。正文日期、首次入库日期与修订日期可能不同。</dd></dl><p class="muted">此工程未找到 Git 历史，暂不展示逐次修改日期。不会以文件复制时间推定写作时间。</p></section><nav class="adjacent" aria-label="相邻文档"><a href="birds-v4.html"><small>上一篇</small>Noon v0.4「内容与感知验证版」策划</a><a href="mole-art.html"><small>下一篇</small>午时已到：首轮美术与战斗动效落地</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>两个独立游戏，从原型到迭代的设计记录。</p></div><p>整理于 2026.09.19<br><a href="../index.html#about">收录与日期说明</a> · <a href="../../index.html">返回作品集 ↗</a></p></footer></body></html>
