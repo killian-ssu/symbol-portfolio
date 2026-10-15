@@ -1,0 +1,13 @@
+{
+  "loader": "Build/a4867b85992aee1f879625bf8f72f284.loader.js",
+  "config": {
+    "dataUrl": "Build/902c34da3251532a225147668d36d856.data.unityweb",
+    "frameworkUrl": "Build/d6ece9897d7e6cd98f3db8bd3926effd.framework.js.unityweb",
+    "codeUrl": "Build/f042acfb00e07e97f34ccdafae8a008a.wasm.unityweb",
+    "streamingAssetsUrl": "StreamingAssets",
+    "companyName": "Noon",
+    "productName": "子时已到",
+    "productVersion": "web-preview"
+  },
+  "chunked": {}
+}
