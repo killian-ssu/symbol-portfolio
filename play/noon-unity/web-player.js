@@ -2,13 +2,24 @@
 (() => {
   const $ = id => document.getElementById(id);
   const originalFetch = window.fetch.bind(window);
-  let instance, starting = false, suspended = false;
+  let instance, starting = false, suspended = false, failed = false, progress = 0;
+  function setProgress(value) {
+    // Unity's download/decompression callbacks are the only source of progress.
+    progress = Math.max(progress, Math.min(1, value));
+    const percent = Math.floor(progress * 100);
+    $('progress').setAttribute('aria-valuenow', String(percent));
+    $('progress-fill').style.width = `${progress * 100}%`;
+    $('progress-fill').classList.toggle('empty', progress === 0);
+    $('percent').textContent = `${percent}%`;
+  }
   function fail(message) {
+    failed = true;
     $('error').textContent = message;
     $('error').classList.remove('hidden');
     $('status').textContent = '暂时未能进入巡夜';
     $('retry').classList.remove('hidden');
     $('progress').classList.add('hidden');
+    $('percent').classList.add('hidden');
   }
   function suspend() {
     if (!instance || suspended) return;
@@ -51,8 +62,6 @@
   }
   async function start() {
     if (starting) return; starting = true;
-    $('start').disabled = true; $('start').textContent = '正在准备…';
-    $('status').textContent = '首次加载需要下载资源，请稍候';
     try {
       try {
         await new Promise((resolve, reject) => {
@@ -82,13 +91,27 @@
         script.onload = resolve; script.onerror = () => reject(new Error('下载失败，请检查网络后重试。')); document.head.appendChild(script);
       });
       instance = await createUnityInstance($('unity-canvas'), config, value => {
-        $('progress').value = value;
-        $('status').textContent = value < .9 ? `正在加载巡夜世界 · ${Math.round(value * 100)}%` : '正在唤醒月夜世界…';
+        setProgress(value);
+        $('status').textContent = value < .9 ? '正在进入子时已到…' : '正在准备巡夜…';
       });
       window.noonUnity = instance;
-      $('loading').classList.add('done'); $('unity-canvas').focus();
+      // Keep the poster over Unity's internal boot until the real home screen is ready.
+      await new Promise((resolve, reject) => {
+        const timeout = setTimeout(() => { cleanup(); reject(new Error('进入巡夜超时，请重新加载。')); }, 60000);
+        const ready = () => { if (window.noonWebState?.ready) { cleanup(); resolve(); } };
+        function cleanup() { clearTimeout(timeout); window.removeEventListener('noon-state', ready); }
+        window.addEventListener('noon-state', ready); ready();
+      });
+      if (failed) return;
+      setProgress(1);
+      $('status').textContent = '巡夜准备完成';
+      // Match the game's own short boot fade, avoiding a flash of its older title layout.
+      await new Promise(resolve => setTimeout(resolve, 350));
+      $('loading').classList.add('done');
+      if (!document.hidden) $('unity-canvas').focus({ preventScroll: true });
     } catch (error) { console.error(error); fail(error.message || '加载失败，请检查网络后重试。'); }
   }
-  $('start').addEventListener('click', start);
+  // Loading itself needs no gesture. Unity unlocks audio on the first actual game input.
+  start();
   window.addEventListener('noon-state', () => { if (!document.hidden) suspended = false; });
 })();
