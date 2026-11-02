@@ -3,6 +3,24 @@
   const $ = id => document.getElementById(id);
   const originalFetch = window.fetch.bind(window);
   let instance, starting = false, suspended = false, failed = false, progress = 0;
+  function layoutLoading() {
+    const game = $('game').getBoundingClientRect(), safe = $('loading-safe-area').getBoundingClientRect();
+    const unit = Math.max(game.width / 720, game.height / 1600), artTop = (game.height - 1600 * unit) / 2;
+    const art = $('loading-art');
+    art.style.width = `${720 * unit}px`; art.style.height = `${1600 * unit}px`; art.style.setProperty('--u', `${unit}px`);
+    const footerLift = Math.max(0, artTop + 1446 * unit - (safe.bottom - game.top));
+    document.querySelector('.loading-progress').style.transform = `translateY(${-footerLift}px)`;
+    const preferredWidth = 679.685512 * unit, preferredHeight = 271.805654 * unit;
+    const scale = Math.min(1, Math.max(.01, (safe.width - 32 * unit) / preferredWidth));
+    const width = preferredWidth * scale, height = preferredHeight * scale;
+    const desiredX = (game.width - 720 * unit) / 2 + 360.086572 * unit;
+    const desiredY = artTop + 400 * unit;
+    const centerX = Math.max(safe.left - game.left + 16 * unit + width / 2, Math.min(desiredX, safe.right - game.left - 16 * unit - width / 2));
+    const centerY = Math.max(safe.top - game.top + 16 * unit + height / 2, Math.min(desiredY, safe.bottom - game.top - 16 * unit - height / 2));
+    const logo = $('logo');
+    logo.style.width = `${width}px`;logo.style.left = `${centerX - (game.width - 720 * unit) / 2 - width / 2}px`;logo.style.top = `${centerY - artTop - height / 2}px`;
+  }
+  layoutLoading();new ResizeObserver(layoutLoading).observe($('game'));
   function setProgress(value) {
     // Unity's download/decompression callbacks are the only source of progress.
     progress = Math.max(progress, Math.min(1, value));
@@ -20,6 +38,7 @@
     $('retry').classList.remove('hidden');
     $('progress').classList.add('hidden');
     $('percent').classList.add('hidden');
+    $('control-hint').classList.add('hidden');
   }
   function suspend() {
     if (!instance || suspended) return;
@@ -91,8 +110,8 @@
         script.onload = resolve; script.onerror = () => reject(new Error('下载失败，请检查网络后重试。')); document.head.appendChild(script);
       });
       instance = await createUnityInstance($('unity-canvas'), config, value => {
-        setProgress(value);
-        $('status').textContent = value < .9 ? '正在进入子时已到…' : '正在准备巡夜…';
+        setProgress(Math.min(.99, value));
+        $('status').textContent = '正在准备巡夜…';
       });
       window.noonUnity = instance;
       // Keep the poster over Unity's internal boot until the real home screen is ready.
@@ -105,8 +124,8 @@
       if (failed) return;
       setProgress(1);
       $('status').textContent = '巡夜准备完成';
-      // Match the game's own short boot fade, avoiding a flash of its older title layout.
-      await new Promise(resolve => setTimeout(resolve, 350));
+      // Start the shared short fade after a rendered readiness boundary.
+      await new Promise(resolve => requestAnimationFrame(resolve));
       $('loading').classList.add('done');
       if (!document.hidden) $('unity-canvas').focus({ preventScroll: true });
     } catch (error) { console.error(error); fail(error.message || '加载失败，请检查网络后重试。'); }
