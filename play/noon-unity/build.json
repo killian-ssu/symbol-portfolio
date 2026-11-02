@@ -1,13 +1,34 @@
 {
   "loader": "Build/a4867b85992aee1f879625bf8f72f284.loader.js",
   "config": {
-    "dataUrl": "Build/902c34da3251532a225147668d36d856.data.unityweb",
-    "frameworkUrl": "Build/d6ece9897d7e6cd98f3db8bd3926effd.framework.js.unityweb",
-    "codeUrl": "Build/f042acfb00e07e97f34ccdafae8a008a.wasm.unityweb",
+    "dataUrl": "Build/d8bc774f865fdf5d1450ec61cd6c04f7.data.unityweb",
+    "frameworkUrl": "Build/adff6934bb7ff9fa504b19487f186fd8.framework.js.unityweb",
+    "codeUrl": "Build/a66c9c6fd42e8bdd816501a44785f2a3.wasm.unityweb",
     "streamingAssetsUrl": "StreamingAssets",
     "companyName": "Noon",
     "productName": "子时已到",
     "productVersion": "web-preview"
   },
-  "chunked": {}
+  "chunked": {
+    "Build/d8bc774f865fdf5d1450ec61cd6c04f7.data.unityweb": {
+      "bytes": 41623211,
+      "parts": [
+        {
+          "url": "Build/d8bc774f865fdf5d1450ec61cd6c04f7.data.unityweb.part-000",
+          "bytes": 16777216,
+          "sha256": "5552eed7de321bb2baca2f7d2992613e36b46a385a95cd5864b1dba0417abd9f"
+        },
+        {
+          "url": "Build/d8bc774f865fdf5d1450ec61cd6c04f7.data.unityweb.part-001",
+          "bytes": 16777216,
+          "sha256": "15c7b9a83b986ea46e979e7ba6336ba326b07799f462689e680db603d213de5d"
+        },
+        {
+          "url": "Build/d8bc774f865fdf5d1450ec61cd6c04f7.data.unityweb.part-002",
+          "bytes": 8068779,
+          "sha256": "04b06f6bf9f1b0a44f627307fc7987c8256f0eccf2d5b1a17d2b07ed03c25424"
+        }
+      ]
+    }
+  }
 }
