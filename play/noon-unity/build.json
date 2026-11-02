@@ -1,32 +1,32 @@
 {
   "loader": "Build/a4867b85992aee1f879625bf8f72f284.loader.js",
   "config": {
-    "dataUrl": "Build/e49b1d6ec584765c66cfb2dbd78a4af0.data.unityweb",
-    "frameworkUrl": "Build/c5b6e7033654bfff91ee568010ca3859.framework.js.unityweb",
-    "codeUrl": "Build/849134163ed90a48654137cbdc478166.wasm.unityweb",
+    "dataUrl": "Build/0826d7cd074e3c03a9f9543375ea3eff.data.unityweb",
+    "frameworkUrl": "Build/959a42e285a8b489def442fcc2d049a2.framework.js.unityweb",
+    "codeUrl": "Build/a0eb7553d83302ba6345da00b14f2dc3.wasm.unityweb",
     "streamingAssetsUrl": "StreamingAssets",
     "companyName": "Noon",
     "productName": "子时已到",
     "productVersion": "web-preview"
   },
   "chunked": {
-    "Build/e49b1d6ec584765c66cfb2dbd78a4af0.data.unityweb": {
-      "bytes": 41932939,
+    "Build/0826d7cd074e3c03a9f9543375ea3eff.data.unityweb": {
+      "bytes": 42344148,
       "parts": [
         {
-          "url": "Build/e49b1d6ec584765c66cfb2dbd78a4af0.data.unityweb.part-000",
+          "url": "Build/0826d7cd074e3c03a9f9543375ea3eff.data.unityweb.part-000",
           "bytes": 16777216,
-          "sha256": "e2d937b47b4474a877af5c532d82ad8c55d10542b057ac0ec9e768909f147569"
+          "sha256": "f7f888cd454d01288dfe57fe4c0c497f456a31e55f32496086f1d87124e6c9d3"
         },
         {
-          "url": "Build/e49b1d6ec584765c66cfb2dbd78a4af0.data.unityweb.part-001",
+          "url": "Build/0826d7cd074e3c03a9f9543375ea3eff.data.unityweb.part-001",
           "bytes": 16777216,
-          "sha256": "bf330857491a8b0c6982230bfc1f4dbbb752045b449a3bb2e37d6bb47f2c16cb"
+          "sha256": "add4bb2f1ee88f30d90682e603eedfbb42cb68c7a5a56b24d64b5a0789cf58c4"
         },
         {
-          "url": "Build/e49b1d6ec584765c66cfb2dbd78a4af0.data.unityweb.part-002",
-          "bytes": 8378507,
-          "sha256": "305e8981bd77d5c44271a9a6fd30dc43164f383618c2d583d8528031b9812bef"
+          "url": "Build/0826d7cd074e3c03a9f9543375ea3eff.data.unityweb.part-002",
+          "bytes": 8789716,
+          "sha256": "8a61e92c5b2762cdd0e61f784b068bb37b1fb09ccbe37be17966f7595cce2cc8"
         }
       ]
     }
