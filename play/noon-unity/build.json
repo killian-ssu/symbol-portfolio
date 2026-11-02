@@ -1,7 +1,7 @@
 {
   "loader": "Build/a4867b85992aee1f879625bf8f72f284.loader.js",
   "config": {
-    "dataUrl": "Build/0826d7cd074e3c03a9f9543375ea3eff.data.unityweb",
+    "dataUrl": "Build/39835ebdb610a59f9333437f353940dd.data.unityweb",
     "frameworkUrl": "Build/959a42e285a8b489def442fcc2d049a2.framework.js.unityweb",
     "codeUrl": "Build/a0eb7553d83302ba6345da00b14f2dc3.wasm.unityweb",
     "streamingAssetsUrl": "StreamingAssets",
@@ -10,23 +10,23 @@
     "productVersion": "web-preview"
   },
   "chunked": {
-    "Build/0826d7cd074e3c03a9f9543375ea3eff.data.unityweb": {
-      "bytes": 42344148,
+    "Build/39835ebdb610a59f9333437f353940dd.data.unityweb": {
+      "bytes": 42342177,
       "parts": [
         {
-          "url": "Build/0826d7cd074e3c03a9f9543375ea3eff.data.unityweb.part-000",
+          "url": "Build/39835ebdb610a59f9333437f353940dd.data.unityweb.part-000",
           "bytes": 16777216,
-          "sha256": "f7f888cd454d01288dfe57fe4c0c497f456a31e55f32496086f1d87124e6c9d3"
+          "sha256": "56e71e3fa9f3162f1eb65be693f055f953cf64cccc7c76362e232ec43b2bd306"
         },
         {
-          "url": "Build/0826d7cd074e3c03a9f9543375ea3eff.data.unityweb.part-001",
+          "url": "Build/39835ebdb610a59f9333437f353940dd.data.unityweb.part-001",
           "bytes": 16777216,
           "sha256": "add4bb2f1ee88f30d90682e603eedfbb42cb68c7a5a56b24d64b5a0789cf58c4"
         },
         {
-          "url": "Build/0826d7cd074e3c03a9f9543375ea3eff.data.unityweb.part-002",
-          "bytes": 8789716,
-          "sha256": "8a61e92c5b2762cdd0e61f784b068bb37b1fb09ccbe37be17966f7595cce2cc8"
+          "url": "Build/39835ebdb610a59f9333437f353940dd.data.unityweb.part-002",
+          "bytes": 8787745,
+          "sha256": "ffa3a1bbbd8d94db69857092749fa126acf768fa2545f91d50144bbfa3a80800"
         }
       ]
     }
