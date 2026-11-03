@@ -1,32 +1,32 @@
 {
   "loader": "Build/6ec390fa365c37a5e2d2e0414c0f2345.loader.js",
   "config": {
-    "dataUrl": "Build/a1042f75b8aacf8716887c106166c30f.data.unityweb",
-    "frameworkUrl": "Build/304188f0288bcc50c5a0bb3e9147e9a1.framework.js.unityweb",
-    "codeUrl": "Build/ee722e248d3a4d30cfbe028b2dd61868.wasm.unityweb",
+    "dataUrl": "Build/056ccbca192e6850080b1ae2626d9f65.data.unityweb",
+    "frameworkUrl": "Build/20688d33d19453c38370dd6104a6931a.framework.js.unityweb",
+    "codeUrl": "Build/2fea9e02ccceb3e6ee3fda70a448bd1c.wasm.unityweb",
     "streamingAssetsUrl": "StreamingAssets",
     "companyName": "Noon",
     "productName": "子时已到",
     "productVersion": "web-preview"
   },
   "chunked": {
-    "Build/a1042f75b8aacf8716887c106166c30f.data.unityweb": {
-      "bytes": 42420465,
+    "Build/056ccbca192e6850080b1ae2626d9f65.data.unityweb": {
+      "bytes": 45652264,
       "parts": [
         {
-          "url": "Build/a1042f75b8aacf8716887c106166c30f.data.unityweb.part-000",
+          "url": "Build/056ccbca192e6850080b1ae2626d9f65.data.unityweb.part-000",
           "bytes": 16777216,
-          "sha256": "f7ff9555dd30a50ac81be6f10fd0c391046e1c978768bd293d4eedf8147dd202"
+          "sha256": "73ba5c36c6089a240100fc0ac4babd3a150eab4cb7488f83a44142735c143594"
         },
         {
-          "url": "Build/a1042f75b8aacf8716887c106166c30f.data.unityweb.part-001",
+          "url": "Build/056ccbca192e6850080b1ae2626d9f65.data.unityweb.part-001",
           "bytes": 16777216,
-          "sha256": "29806d055ff3f375509f8b3774a73e49d1aed92edb8ee610a81afb8db83090cd"
+          "sha256": "37957c288f358ad77b4384de9f8957dda5fddd28739ae9e5d2013bacb08262f4"
         },
         {
-          "url": "Build/a1042f75b8aacf8716887c106166c30f.data.unityweb.part-002",
-          "bytes": 8866033,
-          "sha256": "e7e08583bb4153c05fb227356cf1c99ee867e916be34a82d784da1e191565ddd"
+          "url": "Build/056ccbca192e6850080b1ae2626d9f65.data.unityweb.part-002",
+          "bytes": 12097832,
+          "sha256": "d4f74dfb8984ef6433fa4b3af91dc4ee2bc2a5104b5b5cdeda794e8485d70b89"
         }
       ]
     }
