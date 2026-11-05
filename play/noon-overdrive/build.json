@@ -1,0 +1,35 @@
+{
+  "loader": "Build/3680419aeda78a516ea893b53f5f4238.loader.js",
+  "config": {
+    "dataUrl": "Build/0b731108c99435b44645e48817ae0bf9.data.unityweb",
+    "frameworkUrl": "Build/e2feeeb991f9ed9d1cb143d1c0ffa219.framework.js.unityweb",
+    "codeUrl": "Build/e7e044cf47fed267fb395019604d2994.wasm.unityweb",
+    "streamingAssetsUrl": "StreamingAssets",
+    "companyName": "Noon",
+    "productName": "子时已到",
+    "productVersion": "overdrive-b6817ab"
+  },
+  "chunked": {
+    "Build/0b731108c99435b44645e48817ae0bf9.data.unityweb": {
+      "bytes": 45583150,
+      "parts": [
+        {
+          "url": "Build/0b731108c99435b44645e48817ae0bf9.data.unityweb.part-000",
+          "bytes": 16777216,
+          "sha256": "230029190b051a188f4a7c22df91886f018f71a80cf10b14850f6ece480ca064"
+        },
+        {
+          "url": "Build/0b731108c99435b44645e48817ae0bf9.data.unityweb.part-001",
+          "bytes": 16777216,
+          "sha256": "e1541f4e8fb181ce90cd2bc25904b4933b2d3d3e43d717d6c1d2a4233c30e1e8"
+        },
+        {
+          "url": "Build/0b731108c99435b44645e48817ae0bf9.data.unityweb.part-002",
+          "bytes": 12028718,
+          "sha256": "5c77b4c380808b025f968fa9c67cfd0c2833dc535e2b2d8a1a367e0fcde654d9"
+        }
+      ]
+    }
+  },
+  "mode": "overdrive-trial"
+}
