@@ -112,3 +112,48 @@ main,.site-footer{position:relative;z-index:1}
 @media(prefers-contrast:more),(forced-colors:active){.archive-flow{display:none}}
 
 @media print{.archive-flow,.site-header,.site-footer,.toc,.hero-actions,.catalog-controls,.project-tabs,.doc-metadata .download,.adjacent,.version-label,.evidence video,.audio-label{display:none!important}:root{color-scheme:light;--bg:#fff;--surface:#f3f3f3;--raised:#eee;--text:#000;--gold:#574600;--muted:#555;--line:#ccc;--strong-line:#999}body{background:#fff;color:#000;font-size:11pt}.prose,.archive-note,.prose strong,.prose code,.source-record code{color:#000}main{max-width:none;padding:0}.doc-top{padding:0}.doc-layout{display:block}.doc-reading{max-width:none}.prose{font-size:11pt;line-height:1.7}.prose h2{break-after:avoid}.prose pre{white-space:pre-wrap;color:#000;background:#eee}.table-scroll{overflow:visible}.prose table{min-width:0}.archive-note{break-inside:avoid}.source-record{break-before:page}.history details{display:block}}
+
+/* November retrospective edition. The historical reader keeps its layout. */
+.recap-home .hero{
+  grid-template-columns:minmax(0,1fr) minmax(260px,380px);
+  gap:clamp(32px,7vw,106px);
+  padding-block:clamp(44px,7vw,96px) clamp(40px,5.5vw,78px);
+}
+.recap-home .hero h1{font-size:clamp(52px,8vw,112px);line-height:1.1;margin-block:22px}
+.recap-home .hero-description{max-width:32em;line-height:1.8}
+.recap-edition{margin-left:12px;color:var(--gold);font-family:Barlow,sans-serif}
+.noon-preview{margin:0;padding:0;border:1px solid var(--strong-line);background:var(--surface)}
+.noon-preview-image{height:clamp(218px,27vw,384px);overflow:hidden}
+.noon-preview-image img{width:100%;height:100%;display:block;object-fit:cover;object-position:center 36%}
+.noon-preview figcaption{display:flex;justify-content:space-between;gap:8px;padding:11px 14px;font-size:12px;color:var(--muted)}
+.noon-preview figcaption span:first-child{color:var(--gold)}
+.recap-section .section-heading{margin-bottom:24px}
+.recap-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 26px;list-style:none;margin:0;padding:0}
+.recap-list>li{min-width:0;border-top:1px solid var(--line)}
+.recap-list>li:first-child{grid-column:1/-1;border-color:#f8c62b62;background:#f8c62b07}
+.recap-list>li:last-child{border-bottom:1px solid var(--line)}
+.recap-card{display:block;height:100%;padding:17px 14px 20px;text-decoration:none;transition:background .2s ease}
+.recap-card:hover,.recap-card:focus-visible{background:#f8c62b0a;text-decoration:none}
+.recap-card:hover h3,.recap-card:focus-visible h3{color:var(--gold)}
+.recap-kicker{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:12px;color:var(--muted)}
+.recap-kicker span{color:var(--gold);letter-spacing:.05em}
+.recap-kicker time{font:700 15px Barlow,sans-serif;white-space:nowrap}
+.recap-card h3{font-size:19px;line-height:1.5;margin:7px 0 5px;font-weight:600}
+.recap-list>li:first-child h3{font-size:clamp(20px,2.5vw,30px)}
+.recap-card h3 .folio-icon{width:16px;height:16px;margin-left:4px;color:var(--gold)}
+.recap-card p{margin:0;line-height:1.65;font-size:14px;color:var(--muted)}
+.retrospective .prose img{display:block;width:auto;max-width:100%;max-height:640px;margin:20px auto 8px;border:1px solid var(--line)}
+.retrospective .prose img+p{color:var(--muted);text-align:center;font-size:13px}
+@media(max-width:760px){
+  .recap-home .hero{grid-template-columns:1fr;gap:24px;padding-block:39px 40px}
+  .recap-home .hero h1{font-size:clamp(45px,12vw,68px);margin-block:16px}
+  .recap-home .hero-actions{flex-direction:row;flex-wrap:wrap;align-items:center;gap:12px 18px}
+  .recap-home .hero-actions .primary-link{gap:10px}
+  .noon-preview-image{height:clamp(155px,41vw,244px)}
+  .noon-preview-image img{object-position:center 30%}
+  .recap-home .site-header nav>a:first-child,.retrospective .site-header nav>a:first-child{display:inline-flex}
+  .noon-preview figcaption{padding:8px 10px}
+  .recap-list{grid-template-columns:1fr}
+  .recap-card{padding-inline:9px}
+  .recap-card h3{font-size:17px}
+}
