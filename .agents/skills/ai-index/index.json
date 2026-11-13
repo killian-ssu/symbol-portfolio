@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "rules": {
+    "repository": ".agents/skills/ai-index/repository.md",
+    "structure": ".agents/skills/ai-index/structure.md",
+    "verification": ".agents/skills/ai-index/verification.md"
+  },
+  "modules": [
+    {
+      "id": "design",
+      "summary": "策划文档与历史资料的分类、阅读和检索",
+      "document": ".agents/skills/ai-index/design.md",
+      "sources": [
+        "design",
+        "scripts/build-design.py",
+        "scripts/requirements-design.txt"
+      ],
+      "dependencies": [],
+      "code_targets": [
+        {
+          "id": "filter-documents",
+          "file": "design/archive.js",
+          "symbol": "filter",
+          "anchor": "function filter(updateURL=true){",
+          "summary": "依据项目、分类及查询词筛选文档并更新 URL"
+        },
+        {
+          "id": "render-document",
+          "file": "scripts/build-design.py",
+          "symbol": "build_reader",
+          "anchor": "def build_reader(document, position):",
+          "summary": "从公开 Markdown 生成正文、章节目录、表格和相邻文档导航"
+        },
+        {
+          "id": "planning-home",
+          "file": "scripts/build-design.py",
+          "symbol": "build_home",
+          "anchor": "def build_home():",
+          "summary": "以 current.json 的分组生成策划文档首页"
+        },
+        {
+          "id": "history-catalog",
+          "file": "scripts/build-design.py",
+          "symbol": "build_history",
+          "anchor": "def build_history():",
+          "summary": "根据目录生成可检索的历史资料列表"
+        }
+      ]
+    },
+    {
+      "id": "portfolio",
+      "summary": "视觉作品集与策划入口",
+      "document": ".agents/skills/ai-index/portfolio.md",
+      "sources": [
+        "index.html",
+        "reader.html",
+        "styles.css",
+        "app.js",
+        "details.js",
+        "assets"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "play",
+      "summary": "游戏试玩发布内容边界",
+      "document": ".agents/skills/ai-index/play.md",
+      "sources": [
+        "play"
+      ],
+      "dependencies": []
+    }
+  ]
+}

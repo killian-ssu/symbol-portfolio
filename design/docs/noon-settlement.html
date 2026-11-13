@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0c0e12"><title>结算与复活设计 · 司靖波游戏策划</title>
+<meta name="description" content="《子时已到》游戏策划、系统设计、开发规范与历史资料。">
+<link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css?v=20261114"><link rel="stylesheet" href="../planning.css?v=20261114">
+<script src="../archive.js?v=20261114" defer></script></head><body class="document-page midnight design-reader planning-reader"><a class="skip" href="#main">跳到正文</a>
+<header class="site-header"><a class="archive-identity" href="../../index.html"><strong>司靖波 <span>SYMBOL</span></strong></a>
+<nav aria-label="主导航"><a href="../index.html">策划文档</a><a href="../history.html">历史资料</a><a href="../../index.html">作品集</a></nav></header>
+<main id="main"><div class="doc-top"><a class="back-link" href="../index.html">← 策划文档</a>
+<div class="doc-tags"><span>子时已到</span><span>系统设计</span><span>现行规则</span></div>
+<h1>结算与复活设计</h1><p class="doc-intro">胜败处理、收益计算、复活成本、存档与奖励发放。</p>
+<div class="doc-metadata"><span>规则依据：2026-11-13</span><span>文字修订：2026-11-14</span><a href="../sources/noon-settlement.md" download>下载 Markdown</a></div></div>
+<div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><div class="toc-links">
+<ul>
+<li><a href="#1-胜败判定与结算时点">1. 胜败判定与结算时点</a></li>
+<li><a href="#2-奖励构成与计算规则">2. 奖励构成与计算规则</a><ul>
+<li><a href="#最终星重复挑战与成长上限">最终星重复挑战与成长上限</a></li>
+</ul>
+</li>
+<li><a href="#3-复活规则">3. 复活规则</a></li>
+<li><a href="#4-数据保存与系统关联">4. 数据保存与系统关联</a></li>
+<li><a href="#5-已知问题与验收要求">5. 已知问题与验收要求</a></li>
+</ul>
+</div>
+</nav></details><a class="to-top" href="#main">返回顶部 ↑</a></aside>
+<div class="doc-reading"><p class="version-note">依据 2026-11-13 正式 Unity 源码、配置及本人设计口述整理。历史迭代与未验证方案在正文中分别标明。</p><article class="prose"><p>2026-11-13 · <a href="../docs/noon-system-overview.html">整体设计</a> · <a href="../docs/noon-levels.html">关卡节奏</a> · <a href="../docs/noon-progression.html">局外成长</a>。按当前正式 Unity 源码与配置整理；仅核对规则和调用关系，本轮未运行游戏、操作真实账号或验证支付。</p>
+<h2 id="1-胜败判定与结算时点">1. 胜败判定与结算时点</h2>
+<p><strong>胜利会结算入账；死亡先保存失败状态并允许决定是否复活，退出这一局才领取失败收益。</strong> 复活不是新开局，不再次收出击体力；也不先领一次失败收益再继续领第二次。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表格，可横向滚动"><table>
+<thead>
+<tr>
+<th>事件</th>
+<th>当前处理</th>
+<th>玩家接下来做什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>完成最后一个房间</td>
+<td>保存胜利检查点，留出胜利表现时间，执行结算；保存成功后显示“奖励已入账”</td>
+<td>去强化、下一关/最终星再次挑战，或回主页</td>
+</tr>
+<tr>
+<td>生命归零，未用过复活</td>
+<td>保存失败检查点，等失败表现完成后显示统一失败页；奖励只是预览</td>
+<td>花 40 灵晶复活，或回主页领取并结束</td>
+</tr>
+<tr>
+<td>已复活后再死</td>
+<td>保留失败状态，不能再次复活</td>
+<td>回主页领取当前可带回收益</td>
+</tr>
+<tr>
+<td>主动结束挑战</td>
+<td>标记放弃，直接按失败收益结算并返回主页</td>
+<td>从局外再准备；不绕回复活弹窗</td>
+</tr>
+<tr>
+<td>暂停/切后台</td>
+<td>保存当前挑战，未结算</td>
+<td>恢复同一局；已锁目标的处理沿用用户已确认的规则</td>
+</tr>
+<tr>
+<td>重进后恢复终局检查点</td>
+<td>回到对应胜利/失败处理</td>
+<td>不重开、不重复扣出击费、不重复发奖</td>
+</tr>
+</tbody>
+</table></div>
+<p>胜利页当前若能做首章强化，主动作可为“去强化”；不满足时给下一关/再次挑战。失败页的“本局可带回”使用账号副本计算预览，不修改真实余额；“回到主页时领取，复活继续累积”对应实际入账时点。</p>
+<h2 id="2-奖励构成与计算规则">2. 奖励构成与计算规则</h2>
+<p>下表的金币项相加得到最终金币。各星金额读取 <code>campaign.json.chapters</code>，不使用统一虚构的每关奖励。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表格，可横向滚动"><table>
+<thead>
+<tr>
+<th>收益</th>
+<th>条件与算法</th>
+<th>去向</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>收集金币</td>
+<td><code>min(本局收集量, 该星收集上限) × 单位换算 × 金币百分比 / 100</code>，整数截断</td>
+<td>金币钱包</td>
+</tr>
+<tr>
+<td>房间奖励</td>
+<td>已完成普通房间数 × 每个房间的金币奖励；Boss 房不再计一次普通房间奖</td>
+<td>金币钱包</td>
+</tr>
+<tr>
+<td>通关奖励</td>
+<td>完成全部房间才给 <code>clearCoins</code></td>
+<td>金币钱包</td>
+</tr>
+<tr>
+<td>首通奖励</td>
+<td>该星第一次胜利给 <code>firstCoins</code> 与 <code>firstGems</code></td>
+<td>金币与灵晶钱包</td>
+</tr>
+<tr>
+<td>里程碑</td>
+<td>每五星的首次通关，在尚未领取时给该星里程碑金币</td>
+<td>金币钱包；同时标记已领</td>
+</tr>
+<tr>
+<td>首次回收补助</td>
+<td>账号首次结算且至少完成一个房间时额外给 40 金币；胜败均可，一次性</td>
+<td>金币钱包；保存一次性记录</td>
+</tr>
+<tr>
+<td>强化石</td>
+<td>当前四级成长模式，首四星首次通关分别 1、2、2、3 个</td>
+<td>强化库存</td>
+</tr>
+<tr>
+<td>技能材料</td>
+<td>符合条件的首通给 3 个通用材料；当前首五星彩用首章装备快照，不给这项；全部技能满级也不发</td>
+<td>通用技能材料库存</td>
+</tr>
+<tr>
+<td>头饰/鞋子金币加成</td>
+<td>按本局保存的加成，对收集、房间、通关三项合计计算；不放大首通、里程碑和首次回收补助，最终星复刷另有规则</td>
+<td>金币钱包</td>
+</tr>
+<tr>
+<td>同行证经验</td>
+<td>每完成一个房间 10 经验，首通再加 20，受总经验上限约束</td>
+<td>同行证等级进度；轨道奖励仍需领取</td>
+</tr>
+<tr>
+<td>通关外观</td>
+<td>达到免费装备的通关门槛时将相应部件加入拥有记录</td>
+<td>皮肤库整套可穿判定；不自动改穿戴</td>
+</tr>
+</tbody>
+</table></div>
+<p>第一星新局只有三个房间；源码会把原七个房间定义少掉的四份房间金币补进首通金币，保留这一段预算。首通材料、经验与强化资格仍按真实结果处理。</p>
+<p><strong>首星算例。</strong> 假设新档首次胜利，收集计数为 39，无额外金币加成，尚未领首次回收补助，金币功能正常：收集金币 <code>floor(39 × 60%) = 23</code>，三个房间奖励 15，通关 50，首通 <code>50 + (7−3) × 5 = 70</code>，首次回收 40，共 <strong>198 金币</strong>；另有 <strong>10 灵晶、1 强化石、50 同行证经验</strong>。这是公式算例，不是本轮实机产出记录。</p>
+<p>失败结算保留已经收集的金币及已完成普通房间奖励，可触发首次回收补助，也计已完成房间的同行证经验；不给本次未达成的通关、首通与里程碑奖。不把失败时剩余卡片折成永久技能或材料。</p>
+<h3 id="最终星重复挑战与成长上限">最终星重复挑战与成长上限</h3>
+<p>五十星全通后，最终星复刷的基础金币按普通完整收益比例缩放到配置预算 2000；未打完按实际获得比例计算，舍入余量统一归入一项，不重复加首通奖励。技能尚未全满时，每个服务日的前 3 次复刷胜利各给 8 个通用技能材料；服务日使用 UTC 日期。首次打通第五十星不消耗这 3 次复刷额度。</p>
+<p>代码里的金币停止条件仍引用旧完整成长判断，不能把“当前四级强化已经满级”直接解释为“不再获得金币”。旧补给金币加成有兼容路径，但当前首章成长模式新开局不消费旧补给；不能把兼容项写成新玩家必经系统。</p>
+<h2 id="3-复活规则">3. 复活规则</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表格，可横向滚动"><table>
+<thead>
+<tr>
+<th>检查项</th>
+<th>当前规则</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>操作</td>
+<td>在失败页点击标明 40 灵晶的复活按钮</td>
+</tr>
+<tr>
+<td>条件</td>
+<td>仍有本局、模型为失败、本局未用过复活、余额足够；保存失败等待中不能重复提交</td>
+</tr>
+<tr>
+<td>记录</td>
+<td>同一挑战 ID 标记复活已使用；扣除灵晶，生成复活后的检查点</td>
+</tr>
+<tr>
+<td>结果</td>
+<td>恢复 2 心、耐力补满，短暂 2 秒无敌；清理旧锁定、待射队列和敌弹，把贴身普通敌人推回安全状态；保留本局已获能力、进度及收益</td>
+</tr>
+<tr>
+<td>超载与技能</td>
+<td>按复活保存规则保留热量和剩余冷却；不把复活当免费冷却刷新。危险中的临时攻击/表现状态清理</td>
+</tr>
+<tr>
+<td>反馈</td>
+<td>保存成功后关失败页，恢复同一战斗；灵晶不足时提示或进入现有补给入口，不直接复活</td>
+</tr>
+<tr>
+<td>失败处理</td>
+<td>先保存扣款、已用次数和复活检查点，再让战斗恢复。保存失败则恢复余额和未用状态，留在失败状态供重试</td>
+</tr>
+<tr>
+<td>配置</td>
+<td>费用为 <code>campaign.json.reviveCost</code>；每局一次、恢复心数、无敌及清场细则在服务与战斗模型中定义</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="4-数据保存与系统关联">4. 数据保存与系统关联</h2>
+<p>结算先验证挑战 ID、检查点、完成房间数量与终局状态，读取本局快照；成功时把奖励、星级进度、同行证经验、已见技能、免费装备归属和已结算标记一起写入账号，并清除进行中的挑战。<code>run:挑战ID</code> 防止同一局重复结算。</p>
+<p>账号修改与保存有回退：如果结算落盘失败，恢复修改前账号，显示“奖励暂未到账，重试保存”；成功落盘后才把“已到账”交给玩家。不能仅因为内存余额变了就宣称保存成功。复活也独立保证扣款和检查点一致。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表格，可横向滚动"><table>
+<thead>
+<tr>
+<th>连接的系统</th>
+<th>结算交给它什么</th>
+<th>下一次发生什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>星级进度</td>
+<td>首通/完成房间数量/尝试与失败记录</td>
+<td>开放下一星、强化门槛与对应技能池</td>
+</tr>
+<tr>
+<td>强化</td>
+<td>金币、强化石、通关资格</td>
+<td>玩家选择升级，新的攻击在下一次出击生效</td>
+</tr>
+<tr>
+<td>永久技能</td>
+<td>金币、符合条件的技能材料、已见技能记录</td>
+<td>达到资格后可培养；不继承局内词条</td>
+</tr>
+<tr>
+<td>皮肤库</td>
+<td>免费部件的拥有资格</td>
+<td>整套条件满足后可穿；通关领奖不强制换装</td>
+</tr>
+<tr>
+<td>商城与同行证</td>
+<td>资源余额、经验等级</td>
+<td>商城是另一条资源/外观来源；同行证购买解锁轨道，结算经验推动等级，领取仍单独处理</td>
+</tr>
+<tr>
+<td>下一次战斗</td>
+<td>清除旧挑战，保留永久账号</td>
+<td>新出击再检查体力并保存新的成长与规则快照</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="5-已知问题与验收要求">5. 已知问题与验收要求</h2>
+<p>一个已定位的文案偏差：胜利结果页仍有“第十星后选卡开放护盾”的旧提示，而正式新超载卡池已过滤护盾，后续开放的是冲击波。策划以真实卡池为准，将提示列为待修正，不把它当成新模式规则；本次没有修改游戏文案。</p>
+<p>后续实测要覆盖：胜利自动入账；失败预览不入账；复活后再结算一次；第二次死亡不能复活；主动放弃；退出后恢复终局；首次回收补助和里程碑不重复；扣款/发奖保存失败回退；强化石与同行证经验落到正确入口；最终星跨 UTC 日期的奖励次数。本轮仅完成源码、配置与算例核对。</p>
+<p>来源：结算及账号服务（<code>Start</code>、<code>Settle</code>、<code>Revive</code>）、战斗复活与终局、应用保存与终局衔接、统一结算页、复活提交、超载存档、当前配置。</p></article>
+<nav class="adjacent" aria-label="相邻文档"><a href="noon-levels.html"><small>上一篇</small>关卡与节奏设计</a><a href="noon-progression.html"><small>下一篇</small>局外成长与商城设计</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>游戏策划与系统设计</p></div><p>文档更新：2026-11-14<br><a href="../index.html">策划文档</a> · <a href="../history.html">历史资料</a></p></footer></body></html>

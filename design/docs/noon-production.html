@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0c0e12"><title>AI 辅助制作流程 · 司靖波游戏策划</title>
+<meta name="description" content="《子时已到》游戏策划、系统设计、开发规范与历史资料。">
+<link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css?v=20261114"><link rel="stylesheet" href="../planning.css?v=20261114">
+<script src="../archive.js?v=20261114" defer></script></head><body class="document-page midnight design-reader planning-reader"><a class="skip" href="#main">跳到正文</a>
+<header class="site-header"><a class="archive-identity" href="../../index.html"><strong>司靖波 <span>SYMBOL</span></strong></a>
+<nav aria-label="主导航"><a href="../index.html">策划文档</a><a href="../history.html">历史资料</a><a href="../../index.html">作品集</a></nav></header>
+<main id="main"><div class="doc-top"><a class="back-link" href="../index.html">← 策划文档</a>
+<div class="doc-tags"><span>子时已到</span><span>开发规范</span><span>制作规范</span></div>
+<h1>AI 辅助制作流程</h1><p class="doc-intro">阶段交付、职责分工、任务说明及美术与程序交接。</p>
+<div class="doc-metadata"><span>规则依据：2026-11-13</span><span>文字修订：2026-11-14</span><a href="../sources/noon-production.md" download>下载 Markdown</a></div></div>
+<div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><div class="toc-links">
+<ul>
+<li><a href="#阶段与交付条件">阶段与交付条件</a></li>
+<li><a href="#职责分工">职责分工</a></li>
+<li><a href="#任务说明模板">任务说明模板</a><ul>
+<li><a href="#线框评审与美术需求模板">线框评审与美术需求模板</a></li>
+</ul>
+</li>
+<li><a href="#美术资产与动效交接">美术资产与动效交接</a></li>
+<li><a href="#参考资料">参考资料</a></li>
+</ul>
+</div>
+</nav></details><a class="to-top" href="#main">返回顶部 ↑</a></aside>
+<div class="doc-reading"><p class="version-note">本页为项目开发与验证方案。计划、评审要求和待执行测试均不代表已完成验证。</p><article class="prose"><p>从玩家体验切成一个能玩、能看或能验收的任务，先走通代表样例，再扩到同类页面或关卡。本规程适用于内部制作。现有系统排期走局外系统计划，页面与素材规格走 UI 制作 SOP和素材技术规格。</p>
+<h2 id="阶段与交付条件">阶段与交付条件</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表格，可横向滚动"><table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>最小产物</th>
+<th>进入下一阶段的依据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>立项与玩法</td>
+<td>玩家动机、预期决策、失败信号、可重复试玩入口</td>
+<td>Symbol 能试玩并判断核心行为有没有出现，待验证项写明下一次怎么测</td>
+</tr>
+<tr>
+<td>页面分析</td>
+<td>入口、主任务、内容优先级、触发与返回、空态和失败态</td>
+<td>单凭流程能说清玩家看到什么、点什么、何时到账</td>
+</tr>
+<tr>
+<td>低保真</td>
+<td>灰阶线框，覆盖正常、受限、返回和代表短屏</td>
+<td>Symbol 审阅，修订本批页面结构和信息</td>
+</tr>
+<tr>
+<td>画风与代表页</td>
+<td>Symbol 给画风参考与美术要求。制作方复用已有源稿和组件，给代表整页与状态样例</td>
+<td>在实际显示尺寸确认气质、对比度、字重、可读性，决定复用和补制清单</td>
+</tr>
+<tr>
+<td>分层与引擎对位</td>
+<td>可编辑母稿、透明分件、组件清单和一个实机页面</td>
+<td>原稿与 Unity 渲染同画幅对照，核对控件位置、适配与真实事件</td>
+</tr>
+<tr>
+<td>动效与整合</td>
+<td>一条完整动作的静态关键帧、短样片、接入版本和可复现步骤</td>
+<td>真实成功／失败事件驱动，完成、取消、暂停、重开和快速重复操作均有明确结果</td>
+</tr>
+<tr>
+<td>验收与交付</td>
+<td>构建身份、分层检查证据、已知限制、接手入口</td>
+<td>正确构建中的相关状态已复测。策划体验结论由实际试玩支持</td>
+</tr>
+</tbody>
+</table></div>
+<p>已有画面先查源稿、实际接入和本次页面变化。能复用的组件按原登记沿用，缺的从页面分析导出补件。整页图用于审视视觉与构图，数据、文案、按钮和交互层继续独立。</p>
+<h2 id="职责分工">职责分工</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表格，可横向滚动"><table>
+<thead>
+<tr>
+<th>角色或工具</th>
+<th>负责</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Symbol</td>
+<td>确定体验、规则取舍、页面结构、画风要求、代表效果和人工验收</td>
+</tr>
+<tr>
+<td>主 AI 会话</td>
+<td>查版本与基线，拆任务，标记依赖，整合规格、素材、代码和验证证据</td>
+</tr>
+<tr>
+<td>策划与复核 AI</td>
+<td>在既有局外系统计划中已有 Claude 写规格和任务卡、Codex 实现和验证的安排。每轮指定实际负责人和交接范围</td>
+</tr>
+<tr>
+<td>图片生成与 Photoshop</td>
+<td>生成候选、整理分层母稿、导出素材。记录实际来源、工具、模型和版本，付费批次按已定范围执行</td>
+</tr>
+<tr>
+<td>资源工作台与引擎</td>
+<td>工作台负责查找、修改入口、版本和替换关系。UI Toolkit 先做独立对位样件，正式页面接既有运行入口及数据。Cocos 单列导入、图集、热区及平台验证</td>
+</tr>
+</tbody>
+</table></div>
+<p>多人或多 Agent 同时执行时，任务卡写明交接物和各自写入范围。同一个界面、配置或正式场景由一方负责合并。实际使用的工具按产出写入记录，研究过的方案和已接入工具分别标明。</p>
+<h2 id="任务说明模板">任务说明模板</h2>
+<p>每个阶段只填本轮需要的字段。放进相应模块的现有任务卡和报告目录。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表格，可横向滚动"><table>
+<thead>
+<tr>
+<th>字段</th>
+<th>填写方式</th>
+<th>首轮示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>玩家问题</td>
+<td>一句话，写具体动作</td>
+<td>首通后能否找到强化，并看懂升级前后的攻击和实际成本</td>
+</tr>
+<tr>
+<td>版本与证据</td>
+<td>目标版本、页面状态、相关规则与实机基线</td>
+<td>Unity 首章、首通第 1 星后的结算和四级强化预览</td>
+</tr>
+<tr>
+<td>范围与依赖</td>
+<td>本轮产物、涉及的页面、需先完成的事情</td>
+<td>结算与强化线框，包含成功、资源不足、未开放。画风在结构审阅后给出</td>
+</tr>
+<tr>
+<td>分工与写入</td>
+<td>决策人、执行人、文件或素材位置</td>
+<td>Symbol 审阅结构，执行方编辑本流程目录的独立线框</td>
+</tr>
+<tr>
+<td>通过条件</td>
+<td>指明要看到的可复现结果</td>
+<td>从结算进入强化，玩家能区分持有与消耗，操作后余额和攻击同时刷新</td>
+</tr>
+<tr>
+<td>证据与状态</td>
+<td>实际做了什么、验证方法、构建及后续事项</td>
+<td>线框点击检查与截图。进入 Unity 后补中英文、短长屏、真实数据、触控与存档</td>
+</tr>
+</tbody>
+</table></div>
+<p>设计发生冲突时，在规格所在位置记录日期、决定、理由、适用版本、替代旧项和实际验证状态。汇报时引用一处主文档，避免同一规则在策划稿、交互稿和报告里各自演变。</p>
+<p><a id="低保真评审与美术要求卡"></a></p>
+<h3 id="线框评审与美术需求模板">线框评审与美术需求模板</h3>
+<p>Symbol 审阅线框后，用这张卡交接一个代表页或组件。只填会影响本轮取舍的字段。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表格，可横向滚动"><table>
+<thead>
+<tr>
+<th>字段</th>
+<th>要填的内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>审阅范围和决定</td>
+<td>页面、状态、线框版本、通过项、待修项、评审人和日期</td>
+</tr>
+<tr>
+<td>画风参考</td>
+<td>图或片段来源、时间点、在游戏内看到的特征、希望借用的做法</td>
+</tr>
+<tr>
+<td>形状与信息层级</td>
+<td>主要轮廓、强调对象、文字对比、留白。注明需要避开的写实程度、装饰和遮挡。参照形状、配色与状态矩阵</td>
+</tr>
+<tr>
+<td>复用与补件</td>
+<td>工作台 ID 或可编辑原稿，缺件及用途。尺寸、锚点、九宫格等沿用 UI SOP 素材交付契约</td>
+</tr>
+<tr>
+<td>动效与状态</td>
+<td>哪个真实事件触发，普通、按下、禁用、成功及失败时显示什么。底纹、按钮动作和短特效各负责什么。参照动效分工</td>
+</tr>
+<tr>
+<td>代表样件与验收</td>
+<td>目标画幅、可操作样件、静态对照、通过和停止条件。每轮优先比较一个变化</td>
+</tr>
+</tbody>
+</table></div>
+<p>例如「同一块强化底板，有纹理与无纹理」先固定形状、配色、字号和按钮动作，只观察纹理能否在实际尺寸下增加层次并保持文字可读。选定纹理后再测流速或对比度。 Claude 样件提纲</p>
+<h2 id="美术资产与动效交接">美术资产与动效交接</h2>
+<ul>
+<li><strong>设计到美术</strong>。输入含批准线框、关键画幅、页面热区、真实文案、画风参考、复用清单和不同状态。至少先试实际会拉伸的按钮、信息底板或卡片和一种弹窗。</li>
+<li><strong>美术到程序</strong>。每件记录稳定 ID、原稿图层、输出尺寸、可见边界、锚点、层级、九宫格／等比／裁切规则、动态文字、资源路径、许可来源和替换关系。复用原 .meta 与资源 ID。工作台核对缩略图、数量、搜索、来源和可编辑入口。</li>
+<li><strong>对位到动效</strong>。保留同一画幅的静态基准，先用独立样件验证分层与布局，再以正式引擎入口回归实际状态。样件通过时记录它使用的是演示还是真实数据。</li>
+<li><strong>动效到运行</strong>。示例可选「强化成功」：事务成功后刷新数值，由 Animation 或 Tween 组织节点亮起和攻击变化，粒子补短促的奖励反馈，Shader 承担有需要的材质变化。记录触发、起止、层级、可打断点和跳过后的最终状态。保存失败回到可操作态，已有确认的收益只结算一次。工具组合留到动效专项。 已有动效拆解</li>
+</ul>
+<p>验证从本轮变动出发。规则断言、引擎画面、真实输入、人工手感、手机硬件和发行服务各用对应证据。持续用同一构建身份检查入口与产物。发行相关回执放所属发布记录。</p>
+<h2 id="参考资料">参考资料</h2>
+<p>参考用户提供的《碎梦师》附件《AI 辅助游戏制作：工作流与注意事项》（2026-10-23）。借用了代表样例、任务卡、分阶段验收、工具状态和交接思路。《子时已到》的引擎、版本控制、素材工作台、付费授权和发布入口按本项目现有约定执行。</p></article>
+<nav class="adjacent" aria-label="相邻文档"><a href="noon-ui-flow.html"><small>上一篇</small>界面结构与交互设计</a><a href="noon-project-plan.html"><small>下一篇</small>项目计划</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>游戏策划与系统设计</p></div><p>文档更新：2026-11-14<br><a href="../index.html">策划文档</a> · <a href="../history.html">历史资料</a></p></footer></body></html>

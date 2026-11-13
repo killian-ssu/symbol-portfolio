@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0c0e12"><title>项目计划 · 司靖波游戏策划</title>
+<meta name="description" content="《子时已到》游戏策划、系统设计、开发规范与历史资料。">
+<link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css?v=20261114"><link rel="stylesheet" href="../planning.css?v=20261114">
+<script src="../archive.js?v=20261114" defer></script></head><body class="document-page midnight design-reader planning-reader"><a class="skip" href="#main">跳到正文</a>
+<header class="site-header"><a class="archive-identity" href="../../index.html"><strong>司靖波 <span>SYMBOL</span></strong></a>
+<nav aria-label="主导航"><a href="../index.html">策划文档</a><a href="../history.html">历史资料</a><a href="../../index.html">作品集</a></nav></header>
+<main id="main"><div class="doc-top"><a class="back-link" href="../index.html">← 策划文档</a>
+<div class="doc-tags"><span>子时已到</span><span>开发规范</span><span>执行草案</span></div>
+<h1>项目计划</h1><p class="doc-intro">版本里程碑、阶段目标、执行流程与主要风险。</p>
+<div class="doc-metadata"><span>规则依据：2026-11-13</span><span>文字修订：2026-11-14</span><a href="../sources/noon-project-plan.md" download>下载 Markdown</a></div></div>
+<div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><div class="toc-links">
+<ul>
+<li><a href="#版本与里程碑">版本与里程碑</a></li>
+<li><a href="#执行流程">执行流程</a></li>
+<li><a href="#项目风险与应对">项目风险与应对</a></li>
+</ul>
+</div>
+</nav></details><a class="to-top" href="#main">返回顶部 ↑</a></aside>
+<div class="doc-reading"><p class="version-note">本页为项目开发与验证方案。计划、评审要求和待执行测试均不代表已完成验证。</p><article class="prose"><p>2026-11-13 · 执行草案。按交付结果推进。对外日期、实际人力和首测招募时间由 Symbol 按当期安排填写。</p>
+<h2 id="版本与里程碑">版本与里程碑</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表格，可横向滚动"><table>
+<thead>
+<tr>
+<th>范围</th>
+<th>当前基线</th>
+<th>下一可验收结果</th>
+<th>退出条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Unity 海外 App · 首测玩法</td>
+<td>破绽、超载、主动卡已并入正式新挑战。已有首星三个房间及首通成长路径</td>
+<td>固定一版可供首次接触玩家完整体验的首段</td>
+<td>新档跑通出击、教程、结算、强化和重新出击。旧档及暂停续玩按所属验证记录复核。真人按<a href="../docs/noon-playtest.html">试玩方案</a>留逐局记录</td>
+</tr>
+<tr>
+<td>Unity 海外 App · 局外系统</td>
+<td>可玩预览使用四级强化、十五套皮肤和现有技能成长</td>
+<td>每次实施一张任务卡，覆盖消耗、解锁、异常和存档</td>
+<td>由系统计划与备战预览核对实现版本。50 级、碎片、奖池按实际接入及验收标记</td>
+</tr>
+<tr>
+<td>Unity 海外 App · 美术与反馈</td>
+<td>首星低保真已可审阅。现有分层 PSD 与工作台可供复用</td>
+<td>验证一块底板的框内纹理、一项重复触发反馈，再为审阅过的线框制作一个代表高保真</td>
+<td>保留静态对照、实际画幅、复现步骤和结果。只有代表样件的收益及成本明确后，才决定是否扩产。 美术规范初稿</td>
+</tr>
+<tr>
+<td>Unity 海外 App · 发行</td>
+<td>已有商品与 SDK 交接清单</td>
+<td>完整 SDK、签名和发行资料到位后验证真实支付及履约恢复</td>
+<td>运行包、商店回执、入账与恢复一致。未到位时以玩法和界面为当前交付范围。 发行交接</td>
+</tr>
+<tr>
+<td>Cocos 国内小游戏</td>
+<td>有独立的玩法、平台适配及导出入口</td>
+<td>有明确国内版本目标时，建立一张 Cocos 专属任务卡</td>
+<td>用 Creator 实际操作和目标平台验证。核对对应构建、包与上传回执。 Cocos 交付入口</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="执行流程">执行流程</h2>
+<ul>
+<li>每轮开始记录目标版本、要解决的玩家问题、预计耗时、依赖和可验收产物。美术先用一个组件做短对照，玩法先用一个可玩片段，局外先跑通一张任务卡。日期随实际开始时间落到对应任务卡。</li>
+<li>到约定检查点，先看代表结果是否成立。超出时间预算时，优先延后候选纹理、非主链路弹窗或新增商品。保留真实存档、支付、输入、到账与关键教学的验收。</li>
+<li>Claude 审阅框架、规格和任务卡。Codex 负责取证、独立样件、接入与回归。影响正式玩法方向、画风或首测范围的决定由 Symbol 确认，独立试验的参数可先使用可逆默认值。</li>
+<li>决定写回对应维护文档与任务卡。局外见决策记录，美术样件见规范附录。验证结果随对应交付记录保存。</li>
+</ul>
+<h2 id="项目风险与应对">项目风险与应对</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表格，可横向滚动"><table>
+<thead>
+<tr>
+<th>风险</th>
+<th>何时能看出来</th>
+<th>处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>教程能走通，玩家仍只在耐力耗尽时松手</td>
+<td>无口头提示的首星试玩</td>
+<td>看行为与玩家复述，先定位提示、威胁或窗口，再只调一个变量</td>
+</tr>
+<tr>
+<td>静态生成反复加细节，分层和对位返工</td>
+<td>第一张代表页和普通／按下／禁用三态</td>
+<td>先定结构与简单形状，从既有分件选一个底板做运行对照</td>
+</tr>
+<tr>
+<td>多块底板同时动，文字和反馈变难读</td>
+<td>样件扩到整页，尤其短屏和弹窗叠加时</td>
+<td>记录同时运动范围、读数和渲染开销，根据同页观察决定扩展量</td>
+</tr>
+<tr>
+<td>新成长和在途旧档互相影响</td>
+<td>新档、历史成长档、在途快照对照</td>
+<td>按规则版本核对结算、迁移、重复领取和恢复</td>
+</tr>
+<tr>
+<td>商店履约验证受发行资料阻塞</td>
+<td>完整 SDK 或真实商店服务不可用</td>
+<td>记录阻塞资料，继续完成可独立验收的首段玩法、素材或界面</td>
+</tr>
+</tbody>
+</table></div></article>
+<nav class="adjacent" aria-label="相邻文档"><a href="noon-production.html"><small>上一篇</small>AI 辅助制作流程</a><a href="noon-playtest.html"><small>下一篇</small>玩家测试方案</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>游戏策划与系统设计</p></div><p>文档更新：2026-11-14<br><a href="../index.html">策划文档</a> · <a href="../history.html">历史资料</a></p></footer></body></html>

@@ -1,0 +1,123 @@
+{
+  "updatedAt": "2026-11-14",
+  "rulesAsOf": "2026-11-13",
+  "documents": [
+    {
+      "slug": "noon-design",
+      "title": "游戏策划案",
+      "group": "策划总览",
+      "summary": "核心玩法、游戏循环、系统关系、设计迭代与项目职责。",
+      "status": "设计案例",
+      "scope": "依据 2026-11-13 正式 Unity 源码、配置及本人设计口述整理。历史迭代与未验证方案在正文中分别标明。",
+      "source": "docs/development-workflow/portfolio-case.md"
+    },
+    {
+      "slug": "noon-system-overview",
+      "title": "系统设计总览",
+      "group": "策划总览",
+      "summary": "正式版本的系统结构、资源流向、状态保留与功能范围。",
+      "status": "现行规则",
+      "scope": "依据 2026-11-13 正式 Unity 源码、配置及本人设计口述整理。历史迭代与未验证方案在正文中分别标明。",
+      "source": "docs/development-workflow/game-design.md"
+    },
+    {
+      "slug": "noon-combat",
+      "title": "战斗系统设计",
+      "group": "系统设计",
+      "summary": "自动攻击、锁敌齐射、破绽、连击超载、主动技能与暂停恢复。",
+      "status": "现行规则",
+      "scope": "依据 2026-11-13 正式 Unity 源码、配置及本人设计口述整理。历史迭代与未验证方案在正文中分别标明。",
+      "source": "docs/development-workflow/combat-spec.md"
+    },
+    {
+      "slug": "noon-cards",
+      "title": "局内选卡设计",
+      "group": "系统设计",
+      "summary": "卡片掉落、候选生成、品质、成长上限及永久技能关联。",
+      "status": "现行规则",
+      "scope": "依据 2026-11-13 正式 Unity 源码、配置及本人设计口述整理。历史迭代与未验证方案在正文中分别标明。",
+      "source": "docs/development-workflow/card-selection-spec.md"
+    },
+    {
+      "slug": "noon-levels",
+      "title": "关卡与节奏设计",
+      "group": "系统设计",
+      "summary": "星级与房间结构、敌人投放、教学节奏和房间切换规则。",
+      "status": "现行规则与目标",
+      "scope": "依据 2026-11-13 正式 Unity 源码、配置及本人设计口述整理。历史迭代与未验证方案在正文中分别标明。",
+      "source": "docs/development-workflow/level-pacing-spec.md"
+    },
+    {
+      "slug": "noon-settlement",
+      "title": "结算与复活设计",
+      "group": "系统设计",
+      "summary": "胜败处理、收益计算、复活成本、存档与奖励发放。",
+      "status": "现行规则",
+      "scope": "依据 2026-11-13 正式 Unity 源码、配置及本人设计口述整理。历史迭代与未验证方案在正文中分别标明。",
+      "source": "docs/development-workflow/settlement-spec.md"
+    },
+    {
+      "slug": "noon-progression",
+      "title": "局外成长与商城设计",
+      "group": "系统设计",
+      "summary": "强化、皮肤、永久技能、商城及资源消耗关系。",
+      "status": "现行规则",
+      "scope": "依据 2026-11-13 正式 Unity 源码、配置及本人设计口述整理。历史迭代与未验证方案在正文中分别标明。",
+      "source": "docs/development-workflow/progression-spec.md"
+    },
+    {
+      "slug": "noon-brief",
+      "title": "立项说明",
+      "group": "开发规范",
+      "summary": "产品定位、设计目标、目标用户、版本范围与参考依据。",
+      "status": "设计说明",
+      "scope": "本页为项目开发与验证方案。计划、评审要求和待执行测试均不代表已完成验证。",
+      "source": "docs/development-workflow/game-brief.md"
+    },
+    {
+      "slug": "noon-feature-spec",
+      "title": "功能设计与 AI 交接规范",
+      "group": "开发规范",
+      "summary": "操作、条件、结果、反馈、异常、保存、配置及验收要求。",
+      "status": "协作规范",
+      "scope": "本页为项目开发与验证方案。计划、评审要求和待执行测试均不代表已完成验证。",
+      "source": "docs/development-workflow/feature-spec.md"
+    },
+    {
+      "slug": "noon-ui-flow",
+      "title": "界面结构与交互设计",
+      "group": "开发规范",
+      "summary": "首星流程、备战与商城页面、关键界面状态和验证要求。",
+      "status": "交互方案",
+      "scope": "本页为项目开发与验证方案。计划、评审要求和待执行测试均不代表已完成验证。",
+      "source": "docs/development-workflow/ui-flow.md"
+    },
+    {
+      "slug": "noon-production",
+      "title": "AI 辅助制作流程",
+      "group": "开发规范",
+      "summary": "阶段交付、职责分工、任务说明及美术与程序交接。",
+      "status": "制作规范",
+      "scope": "本页为项目开发与验证方案。计划、评审要求和待执行测试均不代表已完成验证。",
+      "source": "docs/development-workflow/production.md"
+    },
+    {
+      "slug": "noon-project-plan",
+      "title": "项目计划",
+      "group": "开发规范",
+      "summary": "版本里程碑、阶段目标、执行流程与主要风险。",
+      "status": "执行草案",
+      "scope": "本页为项目开发与验证方案。计划、评审要求和待执行测试均不代表已完成验证。",
+      "source": "docs/development-workflow/project-plan.md"
+    },
+    {
+      "slug": "noon-playtest",
+      "title": "玩家测试方案",
+      "group": "开发规范",
+      "summary": "测试目标、样本安排、执行流程、观察指标与记录模板。",
+      "status": "待执行方案",
+      "scope": "本页为项目开发与验证方案。计划、评审要求和待执行测试均不代表已完成验证。",
+      "source": "docs/development-workflow/playtest.md"
+    }
+  ]
+}

@@ -6,10 +6,14 @@
 
 游戏试玩进度保存在当前浏览器。
 
-## 策划与迭代档案
+## 策划文档
 
 入口：[在线阅读](https://killian-ssu.github.io/symbol-portfolio/design/)。
 
-收录远行商人 53 份、子时已到 15 份设计与迭代记录，另附三份核心文档的 26 份提交文本快照。提供版本时间线、文档筛选、独立阅读页、来源与日期依据，以及公开阅读版 Markdown 下载。整理日期：2026-09-19。
+首页集中展示《子时已到》的 13 份策划与流程文档，分为策划总览、系统设计、开发规范与验证。当前规则依据为 2026-11-13，文字修订于 2026-11-14。提供章节目录、系统间跳转、循环图及 Markdown 下载。
 
-`design/catalog.json` 为公开索引；原始工程和本地采集脚本未随站点发布。正文保留历史语境，候选方案不等于已实现功能。
+原有 81 份文档及其历史快照保留在[历史资料](https://killian-ssu.github.io/symbol-portfolio/design/history.html)，支持关键词、项目和分类筛选。历史资料的版本说明与当前正式游戏分别维护。
+
+`design/current.json` 为首页文档配置，`design/sources/` 为经过公开阅读整理的 Markdown，`design/catalog.json` 为包含历史资料的目录。生成网页使用 `python3 scripts/build-design.py`，依赖见 `scripts/requirements-design.txt`。生成器只重建当前阅读页、策划首页和历史检索页；历史正文独立维护，原有地址保持有效。
+
+标题使用规范的专业名词。当前规则、个人设计判断、待实施方案与尚未执行的测试明确区分，设计资料更新不代表 `play/` 中的游戏构建已同步。

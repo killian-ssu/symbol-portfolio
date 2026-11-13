@@ -1,0 +1,74 @@
+/* Compact document navigation, preserving the portfolio's charcoal and gold palette. */
+.planning-home main,.planning-reader main{max-width:1200px}
+.planning-home .site-header,.planning-reader .site-header{max-width:1320px;padding:22px 32px;gap:18px}
+.planning-home .site-header nav,.planning-reader .site-header nav{display:flex;gap:24px;flex-wrap:nowrap;white-space:nowrap}
+.planning-home .site-header nav a,.planning-reader .site-header nav a{display:inline-block!important}
+.planning-intro{padding:54px 0 36px;max-width:860px}
+.planning-intro .eyebrow{margin-bottom:12px;color:var(--gold)}
+.planning-intro h1{font-size:40px;line-height:1.4;margin:0 0 14px;font-weight:600}
+.planning-intro>p:not(.eyebrow){font-size:16px;color:var(--muted);margin:0;max-width:760px}
+.intro-meta{display:flex;flex-wrap:wrap;gap:8px 24px;margin-top:20px;font-size:12px;color:var(--muted)}
+.planning-section{border-top:1px solid var(--line);padding:27px 0 32px}
+.planning-heading{display:flex;align-items:baseline;gap:14px;margin-bottom:22px}
+.planning-heading>span{font-family:Barlow,sans-serif;font-size:20px;color:var(--gold)}
+.planning-heading h2{font-size:23px;line-height:1.5;margin:0;font-weight:600}
+.planning-heading p{font-size:13px;margin:0 0 0 auto;color:var(--muted)}
+.overview-feature{display:grid;grid-template-columns:1.15fr 1fr;gap:44px;background:var(--surface);border-left:3px solid var(--gold);padding:28px 30px}
+.overview-feature .eyebrow{margin:0 0 9px;font-size:10px}
+.overview-feature h3{font-size:27px;line-height:1.45;font-weight:600;margin:0 0 12px}
+.overview-feature p{font-size:14px;color:var(--muted);line-height:1.8;margin:0 0 18px}
+.read-button{display:inline-flex;align-items:center;gap:24px;color:var(--gold);font-size:14px;text-decoration:none;padding:7px 0;border-bottom:1px solid var(--strong-line)}
+.overview-feature dl{margin:0;display:grid;grid-template-columns:72px 1fr;align-content:center;gap:15px 16px;font-size:13px;line-height:1.8}
+.overview-feature dt{color:var(--muted)}.overview-feature dd{margin:0}
+.overview-secondary{display:grid;grid-template-columns:190px 1fr 20px;gap:20px;align-items:baseline;padding:19px 0 0;text-decoration:none;font-size:14px}
+.overview-secondary>span:first-of-type{font-size:13px;color:var(--muted)}
+.overview-secondary:hover strong,.planning-list a:hover h3{color:var(--gold)}
+.planning-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;column-gap:34px}
+.planning-list li{border-top:1px solid var(--line);min-width:0}
+.planning-list li>a{display:grid;grid-template-columns:26px 1fr 18px;gap:10px;padding:19px 0;text-decoration:none;align-items:baseline}
+.list-number{font-family:Barlow,sans-serif;font-size:17px;color:var(--muted)}
+.planning-list h3{font-size:17px;line-height:1.6;margin:0 0 5px;font-weight:600}
+.planning-list p{font-size:13px;line-height:1.8;color:var(--muted);margin:0}
+.list-open{color:var(--gold)}
+.history-entry{display:flex;align-items:center;justify-content:space-between;gap:28px;padding:25px 0 38px;border-top:1px solid var(--line)}
+.history-entry h2{font-size:21px;margin:0 0 8px}.history-entry p{font-size:13px;color:var(--muted);margin:0}.history-entry>a{font-size:14px;white-space:nowrap;color:var(--gold)}
+.planning-home .site-footer,.planning-reader .site-footer{max-width:1200px;padding:24px 32px}
+.planning-reader .doc-top{padding:32px 0 25px}.planning-reader .doc-top h1{font-size:32px;line-height:1.5;max-width:900px;margin:14px 0}
+.planning-reader .doc-intro{font-size:15px;line-height:1.8;max-width:900px;margin:10px 0}
+.planning-reader .doc-metadata{display:flex;gap:10px 24px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.planning-reader .doc-tags{font-size:11px}.planning-reader .doc-layout{grid-template-columns:210px minmax(0,1fr);gap:34px}
+.planning-reader .toc nav ul{list-style:none;padding:0;margin:0}.planning-reader .toc nav li{margin:0}.planning-reader .toc nav ul ul{padding-left:12px}
+.planning-reader .toc nav a{display:block;padding:5px 0;font-size:12px;line-height:1.6;overflow-wrap:anywhere}
+.planning-reader .toc nav ul ul a{font-size:11px;color:var(--muted)}
+.planning-reader .prose{font-size:16px;line-height:1.95}.planning-reader .prose h2{font-size:24px;margin:36px 0 18px;padding-top:24px}.planning-reader .prose h3{font-size:19px;margin:25px 0 12px}
+.version-note{font-size:12px;line-height:1.85;color:var(--muted);border-left:2px solid var(--strong-line);padding:3px 14px;margin:0 0 25px}
+.planning-reader .prose img{width:100%;background:#fff;border-radius:3px;padding:8px;margin:22px 0}
+.planning-diagram{margin:22px 0}.planning-diagram>div{overflow-x:auto;max-width:100%}.planning-diagram figcaption{font-size:12px;text-align:right;margin-top:8px}
+.planning-reader .table-scroll{overflow-x:auto;width:100%;margin:20px 0}.planning-reader .prose table{font-size:13px;line-height:1.85;min-width:560px;width:100%;table-layout:auto}
+.planning-reader .prose th,.planning-reader .prose td{padding:11px 13px;overflow-wrap:break-word}.planning-reader .prose th:first-child{width:auto}
+.planning-reader .prose code{overflow-wrap:anywhere;white-space:normal}.planning-reader .prose pre{max-width:100%;overflow:auto}
+.planning-reader .adjacent{margin-top:40px}.planning-reader .adjacent a{font-size:14px}
+.history-intro{padding-bottom:28px}.history-intro a{color:var(--gold)}.catalog-heading{font-size:22px;font-weight:600;margin:0 0 18px}
+.history-home .catalog-controls{border-top-color:var(--line)}.history-home .document-row{grid-template-columns:110px minmax(0,1fr) 20px;padding:18px 0;gap:20px}.history-home .document-row h3{font-size:17px;line-height:1.6}.history-home .document-row p{font-size:13px}.history-home #result-count{font-size:12px;color:var(--muted);margin:16px 0}
+.planning-reader .prose :target{scroll-margin-top:24px}
+@media(max-width:760px){
+ .planning-home main,.planning-reader main{padding:0 20px}
+ .planning-home .site-header,.planning-reader .site-header{padding:17px 20px;gap:12px}
+ .planning-home .archive-identity strong,.planning-reader .archive-identity strong{font-size:16px;letter-spacing:0}
+ .planning-home .archive-identity strong span,.planning-reader .archive-identity strong span{display:none}
+ .planning-home .site-header nav,.planning-reader .site-header nav{gap:13px;font-size:12px}
+ .planning-intro{padding:34px 0 27px}.planning-intro h1{font-size:30px}.planning-intro>p:not(.eyebrow){font-size:14px}
+ .intro-meta{gap:6px 16px;font-size:11px}.planning-section{padding:21px 0 25px}
+ .planning-heading{flex-wrap:wrap;gap:7px 11px;margin-bottom:16px}.planning-heading h2{font-size:21px}.planning-heading p{flex-basis:100%;margin-left:29px;font-size:12px}
+ .overview-feature{grid-template-columns:1fr;padding:20px;gap:24px}.overview-feature h3{font-size:23px}.overview-feature dl{border-top:1px solid var(--line);padding-top:18px;gap:12px;font-size:12px}
+ .overview-secondary{grid-template-columns:1fr 18px;gap:5px 12px;font-size:14px}.overview-secondary>span:first-of-type{grid-row:2;grid-column:1}.overview-secondary>span:last-child{grid-row:1;grid-column:2}
+ .planning-list{grid-template-columns:1fr}.planning-list li>a{padding:15px 0}.planning-list h3{font-size:16px}.planning-list p{font-size:13px}
+ .history-entry{flex-direction:column;align-items:flex-start;gap:14px;padding:22px 0 28px}
+ .planning-reader .doc-top{padding-top:24px}.planning-reader .doc-top h1{font-size:27px}.planning-reader .doc-intro{font-size:14px}.planning-reader .doc-metadata{font-size:11px;gap:8px 15px}
+ .planning-reader .doc-layout{display:block}.planning-reader .toc{position:static;max-height:none;padding:0;margin-bottom:22px;border-bottom:1px solid var(--line)}.planning-reader .to-top{display:none}
+ .planning-reader .prose{font-size:15px}.planning-reader .prose h2{font-size:22px}.planning-reader .prose h3{font-size:18px}.planning-reader .prose th:first-child{width:auto}
+ .planning-reader .prose img{padding:0}.planning-reader .planning-diagram img{min-width:720px;margin:0}.planning-reader .adjacent{gap:18px}
+ .history-home .document-row{grid-template-columns:minmax(0,1fr) 18px;gap:6px}.history-home .row-date{grid-column:1 / -1;display:flex;gap:10px}.history-home .row-date small{margin:0}.history-home .row-main{grid-column:1}.history-home .row-arrow{grid-column:2;grid-row:2}.history-home .document-row h3{font-size:16px}
+ .planning-home .site-footer,.planning-reader .site-footer{padding:24px 20px}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}

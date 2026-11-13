@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0c0e12"><title>界面结构与交互设计 · 司靖波游戏策划</title>
+<meta name="description" content="《子时已到》游戏策划、系统设计、开发规范与历史资料。">
+<link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css?v=20261114"><link rel="stylesheet" href="../planning.css?v=20261114">
+<script src="../archive.js?v=20261114" defer></script></head><body class="document-page midnight design-reader planning-reader"><a class="skip" href="#main">跳到正文</a>
+<header class="site-header"><a class="archive-identity" href="../../index.html"><strong>司靖波 <span>SYMBOL</span></strong></a>
+<nav aria-label="主导航"><a href="../index.html">策划文档</a><a href="../history.html">历史资料</a><a href="../../index.html">作品集</a></nav></header>
+<main id="main"><div class="doc-top"><a class="back-link" href="../index.html">← 策划文档</a>
+<div class="doc-tags"><span>子时已到</span><span>开发规范</span><span>交互方案</span></div>
+<h1>界面结构与交互设计</h1><p class="doc-intro">首星流程、备战与商城页面、关键界面状态和验证要求。</p>
+<div class="doc-metadata"><span>规则依据：2026-11-13</span><span>文字修订：2026-11-14</span><a href="../sources/noon-ui-flow.md" download>下载 Markdown</a></div></div>
+<div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><div class="toc-links">
+<ul>
+<li><a href="#页面结构">页面结构</a></li>
+<li><a href="#首星交互流程">首星交互流程</a></li>
+<li><a href="#备战与商城交互流程">备战与商城交互流程</a></li>
+<li><a href="#关键界面状态">关键界面状态</a></li>
+<li><a href="#美术资源与复用范围">美术资源与复用范围</a></li>
+<li><a href="#界面验证要求">界面验证要求</a></li>
+</ul>
+</div>
+</nav></details><a class="to-top" href="#main">返回顶部 ↑</a></aside>
+<div class="doc-reading"><p class="version-note">本页为项目开发与验证方案。计划、评审要求和待执行测试均不代表已完成验证。</p><article class="prose"><p>2026-11-13 低保真审阅稿。以 Unity 首星三个房间、当前四级强化和现有备战为底。线框覆盖出击到再次出击，以及皮肤库、技能、商城的页面结构。打开可点击线框 · 当前备战实现证据 · 后续局外规格</p>
+<h2 id="页面结构">页面结构</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表格，可横向滚动"><table>
+<thead>
+<tr>
+<th>区域</th>
+<th>玩家任务</th>
+<th>关键页面和状态</th>
+<th>本轮覆盖</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>加载／主页</td>
+<td>找到当前星级、开始或续玩</td>
+<td>加载、章节与星、资源条、设置、体力补给</td>
+<td>出击、新开与继续。体力不足、冷启动存档读取留到引擎验收</td>
+</tr>
+<tr>
+<td>战斗</td>
+<td>读威胁并选择何时松手</td>
+<td>HUD、教学、选卡、暂停、主动技能就绪与冷却</td>
+<td>HUD、选卡、暂停。战斗进度用评审控制切换</td>
+</tr>
+<tr>
+<td>结束与回收</td>
+<td>知道本次拿到什么，决定下一步</td>
+<td>胜利、失败、奖励预览、复活可用与用尽</td>
+<td>胜利、失败与返回，区分到账和预览</td>
+</tr>
+<tr>
+<td>备战</td>
+<td>提升攻击、穿戴皮肤、看技能</td>
+<td>强化、皮肤库、技能；门槛、缺资源、成功</td>
+<td>强化三类状态、皮肤选择与获得途径、技能总览</td>
+</tr>
+<tr>
+<td>商城与活动</td>
+<td>判断商品与活动价值，完成领取或购买</td>
+<td>商城三段、每日补给、签到、同行证、礼包、灵晶与兑换</td>
+<td>先看页面层级，交易弹窗和待接奖池按对应规格另评</td>
+</tr>
+<tr>
+<td>锁定入口</td>
+<td>识别当前不可用</td>
+<td>首章底栏末两格</td>
+<td>作为锁定占位，没有点击动作</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="首星交互流程">首星交互流程</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表格，可横向滚动"><table><thead><tr><th>当前页面或状态</th><th>条件</th><th>后续页面或状态</th></tr></thead><tbody><tr><td>出击主页</td><td>完成当前步骤</td><td>有在途挑战？</td></tr><tr><td>有在途挑战？</td><td>有</td><td>继续巡夜：读取本局快照</td></tr><tr><td>有在途挑战？</td><td>无，体力足够</td><td>开始巡夜：创建本局</td></tr><tr><td>有在途挑战？</td><td>无，体力不足</td><td>体力补给／关闭后回主页</td></tr><tr><td>继续巡夜：读取本局快照</td><td>完成当前步骤</td><td>战斗 HUD：锁定、齐射、技能</td></tr><tr><td>开始巡夜：创建本局</td><td>完成当前步骤</td><td>战斗 HUD：锁定、齐射、技能</td></tr><tr><td>战斗 HUD：锁定、齐射、技能</td><td>有待选卡</td><td>选卡：确认一个奖励</td></tr><tr><td>选卡：确认一个奖励</td><td>完成当前步骤</td><td>战斗 HUD：锁定、齐射、技能</td></tr><tr><td>战斗 HUD：锁定、齐射、技能</td><td>暂停</td><td>暂停</td></tr><tr><td>暂停</td><td>继续</td><td>战斗 HUD：锁定、齐射、技能</td></tr><tr><td>暂停</td><td>结束并结算</td><td>出击主页</td></tr><tr><td>暂停</td><td>关闭应用后重开，读取已保存进度</td><td>出击主页</td></tr><tr><td>战斗 HUD：锁定、齐射、技能</td><td>胜利，保存成功</td><td>胜利结算：奖励已入账</td></tr><tr><td>战斗 HUD：锁定、齐射、技能</td><td>失败</td><td>失败结算：展示可带回</td></tr><tr><td>失败结算：展示可带回</td><td>复活可用且成功</td><td>战斗 HUD：锁定、齐射、技能</td></tr><tr><td>失败结算：展示可带回</td><td>返回，结算保存成功</td><td>出击主页</td></tr><tr><td>胜利结算：奖励已入账</td><td>有可强化项</td><td>备战：强化</td></tr><tr><td>胜利结算：奖励已入账</td><td>下一关</td><td>有在途挑战？</td></tr><tr><td>备战：强化</td><td>查看下一星</td><td>出击主页</td></tr></tbody></table></div>
+
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表格，可横向滚动"><table><thead><tr><th>当前页面或状态</th><th>条件</th><th>后续页面或状态</th></tr></thead><tbody><tr><td>查看攻击、强化等级、持有与消耗</td><td>完成当前步骤</td><td>本局结束且下一档开放？</td></tr><tr><td>本局结束且下一档开放？</td><td>未开放／已满／有在途</td><td>显示门槛或当前限制</td></tr><tr><td>本局结束且下一档开放？</td><td>是</td><td>金币和强化石足够？</td></tr><tr><td>金币和强化石足够？</td><td>否</td><td>显示不足项</td></tr><tr><td>金币和强化石足够？</td><td>是</td><td>执行强化并保存</td></tr><tr><td>执行强化并保存</td><td>成功</td><td>刷新攻击、资源与节点</td></tr><tr><td>执行强化并保存</td><td>失败</td><td>保留原数值，提示重试</td></tr><tr><td>刷新攻击、资源与节点</td><td>完成当前步骤</td><td>查看攻击、强化等级、持有与消耗</td></tr><tr><td>保留原数值，提示重试</td><td>完成当前步骤</td><td>查看攻击、强化等级、持有与消耗</td></tr></tbody></table></div>
+
+<h2 id="备战与商城交互流程">备战与商城交互流程</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表格，可横向滚动"><table><thead><tr><th>当前页面或状态</th><th>条件</th><th>后续页面或状态</th></tr></thead><tbody><tr><td>皮肤库</td><td>完成当前步骤</td><td>选卡：更新角色预览与获得途径</td></tr><tr><td>选卡：更新角色预览与获得途径</td><td>完成当前步骤</td><td>当前皮肤状态</td></tr><tr><td>当前皮肤状态</td><td>穿戴中</td><td>显示当前穿戴</td></tr><tr><td>当前皮肤状态</td><td>已拥有，且无在途</td><td>确认穿戴并保存</td></tr><tr><td>当前皮肤状态</td><td>未拥有</td><td>按来源指向关卡提示、礼包或同行证</td></tr><tr><td>技能页</td><td>完成当前步骤</td><td>选技能，查看用途与开放条件</td></tr><tr><td>选技能，查看用途与开放条件</td><td>已获得且可永久升级</td><td>显示实际效果、成本与门槛</td></tr><tr><td>选技能，查看用途与开放条件</td><td>局内成长或未开放</td><td>展示效果或获得方式</td></tr><tr><td>商城</td><td>完成当前步骤</td><td>查看领取内容、商品或兑换条件</td></tr><tr><td>查看领取内容、商品或兑换条件</td><td>完成当前步骤</td><td>领取／交易结果</td></tr><tr><td>领取／交易结果</td><td>成功</td><td>刷新到账与已领取状态</td></tr><tr><td>领取／交易结果</td><td>失败／取消</td><td>保留原状态，显示可恢复操作</td></tr></tbody></table></div>
+
+<p>皮肤试穿阶段只改变预览。商城线框仅评审现有商品层级，礼包、奖池、广告和支付的组合按各自当前规格补分支。真实购买和保存失败要用对应服务或隔离测试状态复核。</p>
+<h2 id="关键界面状态">关键界面状态</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表格，可横向滚动"><table>
+<thead>
+<tr>
+<th>画面</th>
+<th>从上到下</th>
+<th>动作与例外</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>出击</td>
+<td>设置／账户，资源条，章节与星级，场景，出击按钮，五格导航</td>
+<td>首次教学局免费，之后新开消耗 5 体力，续玩沿用已有快照。线框提出加一行下一星攻击对照，具体数值由真实进关规则提供</td>
+</tr>
+<tr>
+<td>HUD</td>
+<td>生命、房间、暂停，耐力，战场与局内反馈，底部技能</td>
+<td>锁定、破绽、连击和超载靠近作用对象。主动卡热区独立，暂停和选卡覆盖底层输入。失去触点的行为按真实输入验证</td>
+</tr>
+<tr>
+<td>选卡</td>
+<td>暗幕，候选卡，选中态，确认</td>
+<td>当前教程第一个房间的爆炸为强制单卡。线框将该状态单列，后续双卡只需沿用清晰差异与确认关系</td>
+</tr>
+<tr>
+<td>胜利／失败</td>
+<td>结果、房间进度、资源卡、到账提示、操作</td>
+<td>胜利用已入账数据。失败先预览，返回才结算。复活显示费用与保留能力。线框的灵晶不足只展示提示，正式购买引导按实际发行服务验收</td>
+</tr>
+<tr>
+<td>强化</td>
+<td>资源条，角色，攻击总览，节点，持有／需要，页签与主导航</td>
+<td>四级为现有基线。强化成功同步刷新攻击和余额，进阶门槛可读。线框单列资源不足和未开放示例，未来 50 级树按对应规格另行审阅</td>
+</tr>
+</tbody>
+</table></div>
+<p>选卡按可玩实现校对，线框中的「确认」表示选中后应用，正式控件的触发按局内现行规则。线框使用直接切换状态来评审信息，点击战场推进演示不代表实际攻击输入。体力补给、支付失败、保存失败、旧档迁移、皮肤升星及技能细节在正式接入时按对应规格和事务验证。</p>
+<p>首通演示使用首测预算中的 175 金币和 1 强化石，强化消耗 120 金币和 1 强化石，攻击从 1 到 3。失败示例的 58 金币取自历史操作记录中的放弃结算，用来说明预览与到账的差异。第二星进入战斗后即完成本次线框的主流程检查。 首测预算 · 配置 · 历史验证</p>
+<h2 id="美术资源与复用范围">美术资源与复用范围</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表格，可横向滚动"><table>
+<thead>
+<tr>
+<th>页面</th>
+<th>已有证据</th>
+<th>待线框通过后补齐</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>出击／全局导航</td>
+<td>出击实机截图 · 紫色主页原稿及接入件</td>
+<td>复用钱包、岛屿、导航和实际文字层。核对下一星信息是否需独立底板</td>
+</tr>
+<tr>
+<td>HUD／选卡／暂停</td>
+<td>HUD · 选卡 · 暂停</td>
+<td>对齐首星当前教学状态，核查目标提示、待选卡层级与主动卡区域</td>
+</tr>
+<tr>
+<td>胜利／失败</td>
+<td>胜利 · 失败与复活</td>
+<td>区分奖励已到账和待回收，按两种动作优先级列按钮和内容状态</td>
+</tr>
+<tr>
+<td>备战</td>
+<td>新版备战实机记录 · 原武器升级分层</td>
+<td>旧仓库与武器升级弹窗可参考局部组件。新版备战主体按确认线框重排，现有紫色备战主体缺分件</td>
+</tr>
+<tr>
+<td>商城／活动</td>
+<td>23 张分层源稿与总览 · 历史 Figma 界面快照</td>
+<td>第二批先核对入口、可购买／可领取／已领／失败状态，再列可复用卡、窗口和缺件</td>
+</tr>
+</tbody>
+</table></div>
+<p>23 张 PSD 基于 2026-11-09 的 Unity 取样，是后续比对与可编辑素材入口。备战以后续独立实机记录及源码为准。新版紫色商城、备战、补给主体只有局部素材或整页参考，补做时对照真实 PSD 图层及缺件表。</p>
+<h2 id="界面验证要求">界面验证要求</h2>
+<p>以 720×1334 为基准，复看 720×1281、720×1558 模拟画幅及项目实际中英文。记录顶部资源、按钮命中与战斗输入遮挡、短屏结算和长屏暗幕。用新档、有进行中挑战及一份带历史成长的旧档核对结算和强化事务。触屏、音效听感、发行服务另按实际运行条件登记。 现有验证入口</p></article>
+<nav class="adjacent" aria-label="相邻文档"><a href="noon-feature-spec.html"><small>上一篇</small>功能设计与 AI 交接规范</a><a href="noon-production.html"><small>下一篇</small>AI 辅助制作流程</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>游戏策划与系统设计</p></div><p>文档更新：2026-11-14<br><a href="../index.html">策划文档</a> · <a href="../history.html">历史资料</a></p></footer></body></html>

@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0c0e12"><title>功能设计与 AI 交接规范 · 司靖波游戏策划</title>
+<meta name="description" content="《子时已到》游戏策划、系统设计、开发规范与历史资料。">
+<link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css?v=20261114"><link rel="stylesheet" href="../planning.css?v=20261114">
+<script src="../archive.js?v=20261114" defer></script></head><body class="document-page midnight design-reader planning-reader"><a class="skip" href="#main">跳到正文</a>
+<header class="site-header"><a class="archive-identity" href="../../index.html"><strong>司靖波 <span>SYMBOL</span></strong></a>
+<nav aria-label="主导航"><a href="../index.html">策划文档</a><a href="../history.html">历史资料</a><a href="../../index.html">作品集</a></nav></header>
+<main id="main"><div class="doc-top"><a class="back-link" href="../index.html">← 策划文档</a>
+<div class="doc-tags"><span>子时已到</span><span>开发规范</span><span>协作规范</span></div>
+<h1>功能设计与 AI 交接规范</h1><p class="doc-intro">操作、条件、结果、反馈、异常、保存、配置及验收要求。</p>
+<div class="doc-metadata"><span>规则依据：2026-11-13</span><span>文字修订：2026-11-14</span><a href="../sources/noon-feature-spec.md" download>下载 Markdown</a></div></div>
+<div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><div class="toc-links">
+<ul>
+<li><a href="#1-文档范围与完整性要求">1. 文档范围与完整性要求</a></li>
+<li><a href="#2-功能设计检查项">2. 功能设计检查项</a></li>
+<li><a href="#3-现有功能文档补录流程">3. 现有功能文档补录流程</a></li>
+<li><a href="#4-ai-开发任务规范">4. AI 开发任务规范</a></li>
+<li><a href="#5-设计决策记录">5. 设计决策记录</a></li>
+</ul>
+</div>
+</nav></details><a class="to-top" href="#main">返回顶部 ↑</a></aside>
+<div class="doc-reading"><p class="version-note">本页为项目开发与验证方案。计划、评审要求和待执行测试均不代表已完成验证。</p><article class="prose"><p>用于《子时已到》的新功能、修订和现有功能补录。由 Symbol 提出的“操作—条件—结果—反馈”与七项核对内容整理，作为本项目工作方法；不假定它对应某个已核实的通用“七问”标准。</p>
+<h2 id="1-文档范围与完整性要求">1. 文档范围与完整性要求</h2>
+<p>先写功能解决的体验问题，再把影响制作的决定讲清。核心操作、资源消耗、状态转换、失败处理和保存不能依靠读者猜；尚在探索的玩法可以先用原型验证，但要指出假设、试验范围和否定信号，不把尚未决定的部分默认为最终规则。</p>
+<p>原型用来发现问题，规格用来保留决定。没有必要在试验前穷尽全游戏；进入正式功能制作前，应该补齐这次受影响路径的约束与验收。</p>
+<h2 id="2-功能设计检查项">2. 功能设计检查项</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表格，可横向滚动"><table>
+<thead>
+<tr>
+<th>项目</th>
+<th>要回答的问题</th>
+<th>常见遗漏</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>目标与范围</td>
+<td>为谁解决哪个问题？影响哪个版本、页面或循环？</td>
+<td>只说“更爽、更方便”，不说具体改变哪次选择</td>
+</tr>
+<tr>
+<td>操作/触发</td>
+<td>谁在什么入口做什么？手动、自动、回调还是计时触发？</td>
+<td>把点按、长按、抬手和取消写成一个“点击”</td>
+</tr>
+<tr>
+<td>条件</td>
+<td>哪些状态、资源、次数、目标和前置进度允许执行？条件不足怎么办？</td>
+<td>只写成功路径，不写按钮不可用的原因</td>
+</tr>
+<tr>
+<td>记录与结果</td>
+<td>操作前后哪些临时状态、资源、对象改变？顺序和重复执行规则是什么？</td>
+<td>混淆选中与提交；重复扣款或发奖</td>
+</tr>
+<tr>
+<td>反馈</td>
+<td>玩家如何知道接受了操作、正在处理、成功、失败或不能执行？</td>
+<td>只有成功动画，没有对应失败说明或数据生效时点</td>
+</tr>
+<tr>
+<td>特殊情况</td>
+<td>中断、暂停、切页、无目标、目标失效、连续操作、旧档如何处理？</td>
+<td>一个“取消”覆盖了应执行与应取消的不同状态</td>
+</tr>
+<tr>
+<td>保存数据</td>
+<td>哪些跨页面、跨局、跨启动保留？什么时候保存，失败怎样恢复？</td>
+<td>把内存已改当成落盘成功；靠退出游戏刷新冷却</td>
+</tr>
+<tr>
+<td>配置</td>
+<td>哪些值可调，单位/范围/默认值是什么，谁读取？哪些仍写在代码里？</td>
+<td>列了表但未接入；秒数未区分真实时间和世界时间</td>
+</tr>
+<tr>
+<td>验收</td>
+<td>用什么具体场景检查规则、画面和玩家理解？失败信号是什么？</td>
+<td>用构建成功替代可玩，用自测替代真人理解</td>
+</tr>
+</tbody>
+</table></div>
+<p>“如何记录”区分运行中的临时状态；“保存数据”区分持久化，二者不能合并成一句“存档即可”。没有必要的数据或配置应注明不适用及原因，不为了填表新造字段。</p>
+<h2 id="3-现有功能文档补录流程">3. 现有功能文档补录流程</h2>
+<ol>
+<li>固定正式版本与当前入口，沿页面 → 操作 → 服务 → 配置 → 保存核对。对自动触发的功能，补计时、事件和回调入口。</li>
+<li>分别记录当前源码行为、用户明确决定、历史记录与待验证推断。当前实现可以证明做法，不能单独证明做法正确或当初为什么选择它。</li>
+<li>已有规格继续归原维护文档；新说明链接它，必要时概括规则，不另建一份互相冲突的参数权威。</li>
+<li>发现不一致时写清影响和选项，由对应决定者确认；补文档不自动授权改玩法、删存档或替换美术。</li>
+<li>每次只补影响当前功能理解的访谈问题；能从源码确认的不要反复询问 Symbol。</li>
+</ol>
+<h2 id="4-ai-开发任务规范">4. AI 开发任务规范</h2>
+<p>任务至少提供：要交付的结果、目标版本和现有入口、适用规格、允许修改范围、已确认约束、具体验收场景、尚未决定的事项。实现细节可以由执行方在约束内选择；会改变玩家体验或资源归属的分歧要显式提出。</p>
+<p>交付时说明改了什么、实际检查了什么、还缺什么；源稿、当前源码、运行包与已发布版本分别说明。运行失败和设计不成立都可以成为结果，不能为了填“通过”改写验收标准。</p>
+<p>先复用<a href="../docs/noon-combat.html">现行战斗</a>和<a href="../docs/noon-progression.html">局外系统</a>作为完整样例。它们是本轮补录文档，不能伪装为项目最初开工前已有的策划案。</p>
+<h2 id="5-设计决策记录">5. 设计决策记录</h2>
+<p>每次发生影响玩家选择、系统关系或协作方式的改动，补一条：日期与版本、问题、考虑过的办法、最终决定与决定者、实际改动、验证结果、剩余问题。设计假设可以被否定，已实现不等于已被玩家理解。</p>
+<p>本轮已确认的输入决定记录在<a href="../docs/noon-combat.html#6-状态保存与中断恢复">战斗规格的中断章节</a>：暂停或切到后台时保留已锁目标的攻击，取消尚未锁完的目标。后续变更在同一规则位置修订，并保留必要的决定来源。</p></article>
+<nav class="adjacent" aria-label="相邻文档"><a href="noon-brief.html"><small>上一篇</small>立项说明</a><a href="noon-ui-flow.html"><small>下一篇</small>界面结构与交互设计</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>游戏策划与系统设计</p></div><p>文档更新：2026-11-14<br><a href="../index.html">策划文档</a> · <a href="../history.html">历史资料</a></p></footer></body></html>

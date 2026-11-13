@@ -1,5 +1,13 @@
 (() => {
   const params=new URLSearchParams(location.search);
+  const legacyHash=['#catalog','#iterations','#recaps','#timeline','#timeline-midnight','#timeline-merchant','#about'];
+  const isPlanningHome=document.body.classList.contains('planning-home')&&!document.body.classList.contains('history-home');
+  if(isPlanningHome&&(legacyHash.includes(location.hash)||['project','category','q'].some(key=>params.has(key)))){
+    if(location.hash.startsWith('#timeline-'))params.set('project',location.hash.slice(10));
+    const query=params.toString();
+    location.replace('history.html'+(query?'?'+query:'')+'#catalog');
+    return;
+  }
   const validProjects=['merchant','midnight'];
   const rows=[...document.querySelectorAll('.document-row')];
   const search=document.querySelector('#search');

@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0c0e12"><title>战斗系统设计 · 司靖波游戏策划</title>
+<meta name="description" content="《子时已到》游戏策划、系统设计、开发规范与历史资料。">
+<link rel="icon" href="../../favicon.svg"><link rel="stylesheet" href="../archive.css?v=20261114"><link rel="stylesheet" href="../planning.css?v=20261114">
+<script src="../archive.js?v=20261114" defer></script></head><body class="document-page midnight design-reader planning-reader"><a class="skip" href="#main">跳到正文</a>
+<header class="site-header"><a class="archive-identity" href="../../index.html"><strong>司靖波 <span>SYMBOL</span></strong></a>
+<nav aria-label="主导航"><a href="../index.html">策划文档</a><a href="../history.html">历史资料</a><a href="../../index.html">作品集</a></nav></header>
+<main id="main"><div class="doc-top"><a class="back-link" href="../index.html">← 策划文档</a>
+<div class="doc-tags"><span>子时已到</span><span>系统设计</span><span>现行规则</span></div>
+<h1>战斗系统设计</h1><p class="doc-intro">自动攻击、锁敌齐射、破绽、连击超载、主动技能与暂停恢复。</p>
+<div class="doc-metadata"><span>规则依据：2026-11-13</span><span>文字修订：2026-11-14</span><a href="../sources/noon-combat.md" download>下载 Markdown</a></div></div>
+<div class="doc-layout"><aside class="toc"><details open><summary>本文目录</summary><nav aria-label="本文目录"><div class="toc-links">
+<ul>
+<li><a href="#1-设计目标与系统关系">1. 设计目标与系统关系</a></li>
+<li><a href="#2-操作流程与反馈">2. 操作流程与反馈</a></li>
+<li><a href="#3-主动技能">3. 主动技能</a></li>
+<li><a href="#4-锁定威胁与破绽">4. 锁定、威胁与破绽</a></li>
+<li><a href="#5-连击热量与自动火力">5. 连击、热量与自动火力</a></li>
+<li><a href="#6-状态保存与中断恢复">6. 状态保存与中断恢复</a></li>
+<li><a href="#7-参数配置与模块职责">7. 参数配置与模块职责</a></li>
+<li><a href="#8-验收场景">8. 验收场景</a></li>
+<li><a href="#9-实现依据">9. 实现依据</a></li>
+</ul>
+</div>
+</nav></details><a class="to-top" href="#main">返回顶部 ↑</a></aside>
+<div class="doc-reading"><p class="version-note">依据 2026-11-13 正式 Unity 源码、配置及本人设计口述整理。历史迭代与未验证方案在正文中分别标明。</p><article class="prose"><p>2026-11-13 · 第一版协作稿。适用于正式新挑战的超载规则；旧在途局与独立原型不作为本稿基线。<a href="../docs/noon-system-overview.html">返回整体设计</a>。正文为当前实现的整理，明确的人为决定另行标注。本轮仅做源码与配置核对。</p>
+<h2 id="1-设计目标与系统关系">1. 设计目标与系统关系</h2>
+<p>常态自动攻击承担基础输出。玩家通过长按减速和锁敌选择介入时机，松手发起齐射，对命中的目标造成伤害并积累连击；抓破绽得到更多添柴收益，超载改善随后一段自动火力。主动技能提供恢复、集中输出和解围手段。</p>
+<p>这是对当前机制关系的归纳。是否达到了“愿意提前松手”“主动技能时机有区别”“超载收益可读”，需要实际玩家观察，不能仅靠规则成立来下结论。</p>
+<h2 id="2-操作流程与反馈">2. 操作流程与反馈</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表格，可横向滚动"><table>
+<thead>
+<tr>
+<th>操作或触发</th>
+<th>必须满足的条件</th>
+<th>状态与规则结果</th>
+<th>玩家反馈/检查点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>常态等待</td>
+<td>正在战斗，非长按、非齐射、非收尾，自动射击时钟就绪，有合法目标；教学有额外限制</td>
+<td>自动选择目标发弹；不抢正在瞄准、已锁或已提交齐射的目标</td>
+<td>看见自动弹和命中反馈；不会因此增加手动连击或热量</td>
+</tr>
+<tr>
+<td>首次按住战场</td>
+<td>当前可操作、没有另一根已登记手指；非观察教学</td>
+<td>登记本次触摸，尝试进入长按；无目标/耐力不足时等待，条件满足后可自动开始</td>
+<td>等待显形或低耐力反馈；未进入长按不提前消耗耐力</td>
+</tr>
+<tr>
+<td>进入长按</td>
+<td>战斗状态，教学允许，耐力达到启动门槛，存在可锁目标，当前不在齐射</td>
+<td>进入减速，自动分配瞄准；耐力按实际推进时间消耗，新的自动枪发射停止</td>
+<td>战场减速、瞄准进度、耐力变化；世界时间与耐力不是同一速度</td>
+</tr>
+<tr>
+<td>一个瞄准完成</td>
+<td>目标仍有效且可锁，真实进度达到 100%</td>
+<td>计入已锁列表；继续寻找下一目标；如有额外瞄准词条，按独立冷却启动额外队列</td>
+<td>完成标记与真实锁定声音；额外队列开始不冒充锁定完成</td>
+</tr>
+<tr>
+<td>主动松手/离开触摸区域</td>
+<td>当前触摸属于这次操作；模型处于长按</td>
+<td>清掉未完成瞄准；有效已锁目标进入齐射队列；固定本次各目标的破绽资格</td>
+<td>退出长按，出现齐射、命中与连击；没有已锁目标则不生成虚假攻击</td>
+</tr>
+<tr>
+<td>耐力耗尽</td>
+<td>已经进入长按且耐力降至 0</td>
+<td>自动提交已锁目标，结束长按；手指继续按住不会自动开启下一轮</td>
+<td>低耐力反馈；需要抬手后再次按下</td>
+</tr>
+<tr>
+<td>齐射期间再次按住</td>
+<td>正在齐射</td>
+<td>缓存下一轮长按意图；齐射结束后重新检查耐力和目标；提前抬手取消缓存</td>
+<td>避免漏掉连续输入，不跳过新一轮的资格检查</td>
+</tr>
+<tr>
+<td>普通/破绽手动结算</td>
+<td>本次齐射目标有效，尚未计过本次连击</td>
+<td>普通 +1，破绽 +2；击杀不是额外破绽判定；一目标本轮只计一次</td>
+<td>连击数、命中反馈；破绽有额外闪环和粒子，实际可读性待试玩</td>
+</tr>
+<tr>
+<td>本轮齐射结束</td>
+<td>产生了正数连击</td>
+<td>创建添柴过程；到达后把连击数加到热量，受容量限制；再判断火力档位</td>
+<td>连击数字回落、火焰添柴、升档反馈，与数据生效时点对应</td>
+</tr>
+<tr>
+<td>点击主动技能</td>
+<td>已获得、战斗中、教学允许、独立冷却为 0、非收尾，并满足技能的具体目标条件</td>
+<td>成功才产生效果并开始冷却；失败不空扣冷却</td>
+<td>技能表现与真实冷却罩；不能用按钮动画代替施放成功</td>
+</tr>
+</tbody>
+</table></div>
+<p>自动射击已发出的弹仍按在途状态处理；“停止发射新弹”不等于清空已有弹体。主动技能不要求先结束长按或齐射，但真实触控能否同时完成两种输入，需要设备验证。</p>
+<h2 id="3-主动技能">3. 主动技能</h2>
+<p>当前有五个主动按钮；“瞄准”属于局内被动成长，所以备战六项不等于六个主动按钮。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表格，可横向滚动"><table>
+<thead>
+<tr>
+<th>技能</th>
+<th>额外施放条件</th>
+<th>基础效果</th>
+<th>基础冷却</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>屏息</td>
+<td>当前没有冻结；耐力未满或存在合法作用目标</td>
+<td>恢复最大耐力的 60%，上限为满；冻结敌方 2 秒</td>
+<td>18 秒</td>
+</tr>
+<tr>
+<td>爆破</td>
+<td>没有在途爆破弹，至少有一个可作用敌人</td>
+<td>自动挑选密集区域，抛射后范围爆炸；不要求玩家额外点地面</td>
+<td>12 秒</td>
+</tr>
+<tr>
+<td>激光/穿透</td>
+<td>没有尚未发完的本技能激光，存在作用目标</td>
+<td>初始连续 3 束；锁定方向上的贯穿攻击</td>
+<td>14 秒</td>
+</tr>
+<tr>
+<td>导弹</td>
+<td>存在可作用敌人</td>
+<td>初始 8 枚，按已分配数量分流到目标，逐枚发射</td>
+<td>16 秒</td>
+</tr>
+<tr>
+<td>冲击波/脉冲</td>
+<td>没有未结束的脉冲，前方 100° 扇形内存在可作用目标</td>
+<td>基础范围 285、推开 110、短硬直 0.8 秒，并处理范围内弹体</td>
+<td>18 秒</td>
+</tr>
+</tbody>
+</table></div>
+<p>上述值来自正式 <code>overdrive.combat.balance</code>。冷却、数量、范围、伤害可受合法局内词条影响；表中不是满成长效果。原生 Boss 部件保留手动锁敌的反制责任，不能泛化为主动技能全部能处理。</p>
+<p>屏息开局自带，不占一次正常选卡。第一星短教程只开放屏息与爆破；后续星级逐步加入其他能力。护盾、轰炸的新主动用途尚未定稿，不进入现行新挑战池；已有旧投资和旧局按兼容规则保留。</p>
+<h2 id="4-锁定威胁与破绽">4. 锁定、威胁与破绽</h2>
+<p><strong>可锁不等于任意可见。</strong>普通目标需存活且处于允许状态；虚化、显形过渡和失效目标不能照常锁定。弹体、Boss 部件还有各自资格。普通敌人在长按中已锁或正在瞄准时有显形保护，但攻击预警仍会推进；不能把“锁住”理解为已经打断。</p>
+<p><strong>顺序有明确例外。</strong>当前排序中提灯核心有最高专项优先级；随后考虑即将造成后果的威胁、近身敌人与逼近弹体、Boss 喘息本体、能在窗口内完成锁定的破绽，再落到普通目标。高危目标可抢占尚未完成的主瞄准，临近完成的瞄准有保护条件。已锁数量与同时瞄准的路数分别计算，不写成同一个“锁敌上限”。</p>
+<p><strong>破绽资格在松手时固定。</strong>普通敌人处于攻击预警，或可见时间进入退场前窗口时可形成破绽；部分 Boss 机制部件具有专门判定。锁定完成时是破绽，不保证任意时刻松手都仍有破绽奖励；实际齐射只结算仍有效的目标。</p>
+<p><strong>额外瞄准不是瞬锁。</strong>由主瞄准完成触发，额外目标从零开始走锁定时钟，不挤占主槽位、不递归启动更多额外队列。松手、暂停、失效、切换房间取消未完成额外瞄准。</p>
+<h2 id="5-连击热量与自动火力">5. 连击、热量与自动火力</h2>
+<p>热量不是“本次连击等级”。多次齐射可持续添柴，热量同时衰减。自动枪和主动技能不产热，避免自动输出自行维持超载。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表格，可横向滚动"><table>
+<thead>
+<tr>
+<th>火力档</th>
+<th>升档热量</th>
+<th>退档下限</th>
+<th>自动射频倍率</th>
+<th>每次弹数</th>
+<th>每秒耗热</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>3</td>
+<td>0</td>
+<td>2</td>
+<td>2</td>
+<td>0.85</td>
+</tr>
+<tr>
+<td>2</td>
+<td>8</td>
+<td>6</td>
+<td>2.7</td>
+<td>3</td>
+<td>1.25</td>
+</tr>
+<tr>
+<td>3</td>
+<td>14</td>
+<td>11</td>
+<td>3.5</td>
+<td>4</td>
+<td>1.9</td>
+</tr>
+<tr>
+<td>4</td>
+<td>18</td>
+<td>15</td>
+<td>4</td>
+<td>5</td>
+<td>2.4</td>
+</tr>
+<tr>
+<td>5</td>
+<td>22</td>
+<td>18</td>
+<td>4.5</td>
+<td>5</td>
+<td>2.8</td>
+</tr>
+</tbody>
+</table></div>
+<p>退档在低于对应下限时发生，热量归零退出超载。容量 28，添柴飞行 0.82 秒，常态自动射击基础间隔 1.15 秒。添柴尚在途中时保留微量余火；这些是当前参数，未据此宣称平衡已经定稿。</p>
+<p>设开局攻击为 A，对应永久技能等级为 S。正式自动弹基础伤害为 <code>max(1, 0.5A)</code>；手动攻击读取 A。攻击技能先读取 <code>D = A + 2S</code>，基础爆破为 <code>1.5D</code>、每束激光和每枚导弹为 <code>0.75D</code>；脉冲基础为 <code>0.5A</code>。随后再应用对应词条和目标防护/伤害累计规则，不能把小数结果统一解释成每次四舍五入。敌人生命使用关卡固定参考值，不因玩家强化同步上涨。</p>
+<h2 id="6-状态保存与中断恢复">6. 状态保存与中断恢复</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表格，可横向滚动"><table>
+<thead>
+<tr>
+<th>数据或状态</th>
+<th>本局用途</th>
+<th>保存与恢复边界</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>当前手指、初次按住等待、连续按住缓存</td>
+<td>区分按下、抬起、初次等待与耗尽后重按</td>
+<td>不作为持续按住状态恢复，避免切回游戏仍被视为按住</td>
+</tr>
+<tr>
+<td>正在瞄准、已锁列表、锁定进度</td>
+<td>决定本次能提交哪些目标</td>
+<td>未提交的长按在直接检查点恢复时取消；不恢复半个输入</td>
+</tr>
+<tr>
+<td>已提交齐射目标、发射序号、发射时钟</td>
+<td>保证已经松手的攻击按顺序执行</td>
+<td>写入检查点，恢复后继续剩余攻击；过滤失效目标</td>
+</tr>
+<tr>
+<td>耐力、热量、档位、技能冷却</td>
+<td>决定当前可用操作与收益</td>
+<td>保存真实剩余值；普通续玩不回满、不清冷却</td>
+</tr>
+<tr>
+<td>敌人、在途弹体、技能效果、添柴过程</td>
+<td>保持战场连续性</td>
+<td>保存相应检查点；恢复保留已结算标记，防止重复计数</td>
+</tr>
+<tr>
+<td>已选词条、待选卡、教程完成状态</td>
+<td>保持本局成长和教学进度</td>
+<td>使用原检查点及版本；旧教程完成不自动代替新教程完成</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>2026-11-13 Symbol 已确认：</strong>长按已锁目标后点击暂停或切到后台，保留当前行为——先提交已锁目标，再暂停，恢复后继续执行剩余齐射；未锁完的目标取消。正常暂停路径会先结束触摸，因此不能笼统写成“暂停清空所有攻击”。</p>
+<p>这与“直接恢复一份尚未提交长按的检查点”是两个场景：后者不会凭空补发未松手的攻击。突然终止应用能恢复到哪里，还取决于最后成功保存的时点，不承诺每帧落盘。</p>
+<p>切换房间、失败和复活是独立状态转换。切换房间会重建房间目标和输入队列；普通续玩与复活不同，复活有清理危险、恢复生命/耐力的专门规则，不能套用“续玩不回满”去解释复活。</p>
+<h2 id="7-参数配置与模块职责">7. 参数配置与模块职责</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表格，可横向滚动"><table>
+<thead>
+<tr>
+<th>配置来源</th>
+<th>当前关键值</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NoonSettings.asset</code> → <code>data.rules</code></td>
+<td>基础耐力 2.7 秒、启动门槛 0.7；普通锁定 0.52 秒、弹体锁定 0.34 秒</td>
+<td>基础输入；锁定时长受瞄准速度与部件例外影响</td>
+</tr>
+<tr>
+<td>同上</td>
+<td>长按世界倍率 0.18、生成倍率 0.72、齐射生成倍率 0</td>
+<td>时间流速分别管理，不能一个倍率控制所有时钟</td>
+</tr>
+<tr>
+<td><code>campaign.json</code> → <code>overdrive.combat</code></td>
+<td>耐力恢复 0.42/秒、锁速上限 1.6、额外目标上限 2</td>
+<td>正式战斗覆盖；不能误用基础资源中的旧恢复值 1.25</td>
+</tr>
+<tr>
+<td>同上</td>
+<td>热量表、容量、自动射击间隔、添柴飞行</td>
+<td>连击向自动火力的收益转换</td>
+</tr>
+<tr>
+<td><code>overdrive.combat.balance</code></td>
+<td>五项主动技能与部件参数</td>
+<td>具体施放效果及冷却</td>
+</tr>
+<tr>
+<td><code>overdrive.intro / rooms / bands</code> 与 <code>chapters</code></td>
+<td>首星、房间压力、章节参考攻击</td>
+<td>正式关卡与渐进披露</td>
+</tr>
+</tbody>
+</table></div>
+<p>部分输入边界、排序保护和齐射间隔仍由代码定义，并非所有规则都已表格化。新增调参需求应先明确要控制的体验变量，再决定是否开放配置。</p>
+<h2 id="8-验收场景">8. 验收场景</h2>
+<p>以下为据现行规则整理的验收清单，<strong>本轮未运行</strong>：</p>
+<ol>
+<li>无目标时首次按住，目标出现后自动进入锁定；先抬手则不进入。</li>
+<li>耐力不足时首次按住可等待；已经长按耗尽后，继续按住不能反复自动开启。</li>
+<li>主瞄准完成触发额外瞄准，但额外进度未满时松手不计入锁定数。</li>
+<li>本次普通命中 2 个、破绽命中 1 个，连击共 4；只在添柴到达时增加热量，并考虑飞行期间的耗热。</li>
+<li>手动锁住目标时自动枪不新选同一目标；自动命中与主动技能命中不产热。</li>
+<li>在长按、齐射半途、添柴途中和主动技能冷却中分别暂停保存、重开；检查剩余攻击、热量、耐力、冷却和重复计数。</li>
+<li>每个主动技能分别检查无目标、冷却未完、已在施放、合法目标；不合法点击不空扣冷却。</li>
+<li>新玩家能否解释“锁住”和“命中”的差别，能否说出一次主动提前松手的理由；另记真人观察，不与程序检查混算。</li>
+</ol>
+<h2 id="9-实现依据">9. 实现依据</h2>
+<ul>
+<li>输入：<code>OnPointerDown</code>、<code>Update</code>、<code>FinishPointer</code>。</li>
+<li>主战斗模型：<code>Press</code>、<code>ReleaseInternal</code>、<code>Advance</code>、<code>Acquire</code>、<code>UpdateLocks</code>、<code>UpdateVolley</code>、<code>Pause</code>。</li>
+<li>共用超载实现：<code>UsesOverdriveCombat</code>、<code>IsOverdriveOpening</code>、<code>CaptureOverdriveVolley</code>、<code>UpdateOverdrive</code>、<code>RefreshOverdriveTier</code>。文件名含 Trial，但正式挑战也调用这部分共用规则。</li>
+<li>主动技能：<code>CanActivateOverdriveSkill</code>、<code>TryActivateOverdriveSkill</code>、<code>UpdateOverdriveActiveSkills</code>。</li>
+<li>额外瞄准：<code>TryExtraAim</code>；检查点：<code>CaptureOverdriveCheckpoint</code>、<code>RestoreOverdriveCheckpoint</code>。</li>
+<li>正式配置合成、正式配置、基础资源。</li>
+<li>表现事件、暂停与切后台、账号检查点保存。</li>
+</ul></article>
+<nav class="adjacent" aria-label="相邻文档"><a href="noon-system-overview.html"><small>上一篇</small>系统设计总览</a><a href="noon-cards.html"><small>下一篇</small>局内选卡设计</a></nav></div></div></main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>游戏策划与系统设计</p></div><p>文档更新：2026-11-14<br><a href="../index.html">策划文档</a> · <a href="../history.html">历史资料</a></p></footer></body></html>
