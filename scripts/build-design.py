@@ -33,7 +33,7 @@ def page(title, body, classes, nested=False):
 <meta name="theme-color" content="#0c0e12"><title>{escape(title)} · 司靖波游戏策划</title>
 <meta name="description" content="《子时已到》游戏策划、系统设计、开发规范与历史资料。">
 <link rel="icon" href="{prefix}../favicon.svg"><link rel="stylesheet" href="{prefix}archive.css?v=20261114"><link rel="stylesheet" href="{prefix}planning.css?v=20261114">
-<script src="{prefix}archive.js?v=20261114" defer></script></head><body class="{classes}">{header(nested)}
+<script src="{prefix}archive.js?v=20261114" defer></script><script src="{prefix}archive-flow.js?v=planning-flow-20261114" defer></script></head><body class="{classes}"><canvas class="archive-flow" aria-hidden="true" role="presentation"></canvas>{header(nested)}
 <main id="main">{body}</main><footer class="site-footer"><div><strong>司靖波 / Symbol</strong><p>游戏策划与系统设计</p></div><p>文档更新：{DATE}<br><a href="{prefix}index.html">策划文档</a> · <a href="{prefix}history.html">历史资料</a></p></footer></body></html>'''
 
 

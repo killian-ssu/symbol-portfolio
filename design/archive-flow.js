@@ -19,7 +19,10 @@
   const labels = [...document.querySelectorAll(
     '.hero h1, .hero-description, .hero-actions, .count-block, .hero-counts, ' +
     '.section-heading, .timeline-content, .row-main, .project-intro, .start-reading, ' +
-    '.archive-about, .doc-top, .doc-reading, .toc, .site-footer'
+    '.archive-about, .doc-top, .doc-reading, .toc, .site-footer, ' +
+    '.planning-intro h1, .planning-intro > p, .intro-meta, .planning-heading, ' +
+    '.overview-secondary, .planning-list h3, .planning-list p, .history-entry, ' +
+    '.catalog-heading, .catalog-controls, #result-count'
   )];
   let width = 0, height = 0, ratio = 1;
   let frameId = 0, lastFrame = 0, time = 0;

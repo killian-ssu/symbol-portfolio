@@ -44,6 +44,27 @@
           "symbol": "build_history",
           "anchor": "def build_history():",
           "summary": "根据目录生成可检索的历史资料列表"
+        },
+        {
+          "id": "planning-page-shell",
+          "file": "scripts/build-design.py",
+          "symbol": "page",
+          "anchor": "def page(title, body, classes, nested=False):",
+          "summary": "共用页面模板接入背景画布、装饰脚本和导航"
+        },
+        {
+          "id": "background-text-protection",
+          "file": "design/archive-flow.js",
+          "symbol": "measureMask",
+          "anchor": "function measureMask() {",
+          "summary": "依据新旧页面文字区域生成装饰避让遮罩"
+        },
+        {
+          "id": "background-decoration",
+          "file": "design/archive-flow.js",
+          "symbol": "paint",
+          "anchor": "function paint() {",
+          "summary": "绘制原有灰金色流动纹理并应用文字避让"
         }
       ]
     },
