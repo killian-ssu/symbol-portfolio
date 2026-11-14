@@ -82,12 +82,25 @@
   async function start() {
     if (starting) return; starting = true;
     try {
+      try {
+        await new Promise((resolve, reject) => {
+          const request = indexedDB.open('NoonStorageCapability', 1);
+          request.onupgradeneeded = () => request.result.createObjectStore('probe');
+          request.onerror = () => reject(request.error);
+          request.onsuccess = () => {
+            const db = request.result, tx = db.transaction('probe', 'readwrite');
+            tx.objectStore('probe').put(1, 'ready');
+            tx.oncomplete = () => { db.close(); resolve(); };
+            tx.onerror = () => { db.close(); reject(tx.error); };
+          };
+        });
+      } catch { $('storage-warning').classList.remove('hidden'); }
       if (!window.WebAssembly || !document.createElement('canvas').getContext('webgl2')) throw new Error('此浏览器不支持游戏所需的图形功能，请使用新版 Safari 或 Chrome。');
       const response = await originalFetch('build.json', { cache: 'no-cache' });
       if (!response.ok) throw new Error('游戏资源尚未就绪，请稍后重试。');
       const build = await response.json();
       installChunkFetch(build.chunked || {});
-      const config = { ...build.config, autoSyncPersistentDataPath: false,
+      const config = { ...build.config, autoSyncPersistentDataPath: true,
         devicePixelRatio: Math.min(devicePixelRatio || 1, 2),
         matchWebGLToCanvasSize: true,
         showBanner(message, type) { if (type === 'error') fail('游戏遇到问题，请重新加载。'); else console.warn(message); }
