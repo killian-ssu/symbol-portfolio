@@ -1,32 +1,32 @@
 {
   "loader": "Build/0d9dc962e7732769902f5fa457f15baa.loader.js",
   "config": {
-    "dataUrl": "Build/f91243052521832b216efda45a7d1191.data.unityweb",
+    "dataUrl": "Build/792f2a6eaed7f1aa1b1562e0558ab381.data.unityweb",
     "frameworkUrl": "Build/694fbe392ba7ed82ca23597b6fd3b093.framework.js.unityweb",
-    "codeUrl": "Build/74788642c973ce0623e0c3ca8b28eaa2.wasm.unityweb",
+    "codeUrl": "Build/2e27df0ab6b03744ccf031963e597d82.wasm.unityweb",
     "streamingAssetsUrl": "StreamingAssets",
     "companyName": "Noon",
     "productName": "子时已到",
     "productVersion": "web-preview"
   },
   "chunked": {
-    "Build/f91243052521832b216efda45a7d1191.data.unityweb": {
+    "Build/792f2a6eaed7f1aa1b1562e0558ab381.data.unityweb": {
       "bytes": 46581676,
       "parts": [
         {
-          "url": "Build/f91243052521832b216efda45a7d1191.data.unityweb.part-000",
+          "url": "Build/792f2a6eaed7f1aa1b1562e0558ab381.data.unityweb.part-000",
           "bytes": 16777216,
-          "sha256": "be61f259723294b7c97e24c714673836f7c5a71985bcf4ed39823ec0cc3e8261"
+          "sha256": "6fc2314c886d6518b786166bc9bdb93d599b8dace24ede22650f42841a2ba764"
         },
         {
-          "url": "Build/f91243052521832b216efda45a7d1191.data.unityweb.part-001",
+          "url": "Build/792f2a6eaed7f1aa1b1562e0558ab381.data.unityweb.part-001",
           "bytes": 16777216,
           "sha256": "57dcce0cb35f1dfbb0699ef9d977cf60db9fabfa10830abad0656833ece9e2e9"
         },
         {
-          "url": "Build/f91243052521832b216efda45a7d1191.data.unityweb.part-002",
+          "url": "Build/792f2a6eaed7f1aa1b1562e0558ab381.data.unityweb.part-002",
           "bytes": 13027244,
-          "sha256": "9ece57446ce1f5a7ee878a867126337167889f9b55d5f9ce123065c4e6f03e43"
+          "sha256": "6d548f40afe2bacea04304d7927efa8acdf739cbc7e8225c4099486e7ec054ea"
         }
       ]
     }
