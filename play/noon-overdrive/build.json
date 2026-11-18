@@ -1,35 +1,34 @@
 {
-  "loader": "Build/a47849c3cef98b129b5f523803abd3fa.loader.js",
+  "loader": "Build/627a71f7010fe64ac236be2316593614.loader.js",
   "config": {
-    "dataUrl": "Build/707c1cebe3894a06baf79854adeaac0f.data.unityweb",
-    "frameworkUrl": "Build/694fbe392ba7ed82ca23597b6fd3b093.framework.js.unityweb",
-    "codeUrl": "Build/ec79bf6b43f08db9775c7f7e3f8012d2.wasm.unityweb",
+    "dataUrl": "Build/e4e3c32526f4a60ce0783f639bfc8f82.data.unityweb",
+    "frameworkUrl": "Build/3126450d1209faf6aceb790f6a6947f0.framework.js.unityweb",
+    "codeUrl": "Build/95987e3cea7895b2369840694b1242a7.wasm.unityweb",
     "streamingAssetsUrl": "StreamingAssets",
     "companyName": "Noon",
     "productName": "子时已到",
-    "productVersion": "overdrive-10-stages"
+    "productVersion": "web-preview"
   },
   "chunked": {
-    "Build/707c1cebe3894a06baf79854adeaac0f.data.unityweb": {
-      "bytes": 46576752,
+    "Build/e4e3c32526f4a60ce0783f639bfc8f82.data.unityweb": {
+      "bytes": 48311594,
       "parts": [
         {
-          "url": "Build/707c1cebe3894a06baf79854adeaac0f.data.unityweb.part-000",
+          "url": "Build/e4e3c32526f4a60ce0783f639bfc8f82.data.unityweb.part-000",
           "bytes": 16777216,
-          "sha256": "3617fcd0ed6b66ffcad007f162939c88ba98a17af37964376cca8ec86fdd26f8"
+          "sha256": "e861dad96a6072305ca2977483296f0a2c8daed80287a6512288816c75157489"
         },
         {
-          "url": "Build/707c1cebe3894a06baf79854adeaac0f.data.unityweb.part-001",
+          "url": "Build/e4e3c32526f4a60ce0783f639bfc8f82.data.unityweb.part-001",
           "bytes": 16777216,
-          "sha256": "5f36c3212d316321126987052d20d05348a99d2ae2848363fc716a62481dcdc7"
+          "sha256": "cc1c242d079d5b03f897a36147c62ad20e50616f3f649bfe0b2121d1087371da"
         },
         {
-          "url": "Build/707c1cebe3894a06baf79854adeaac0f.data.unityweb.part-002",
-          "bytes": 13022320,
-          "sha256": "17af936d731c82c8501382a34b9456106e34665cde935bf1dce2dd4ebb4eea8d"
+          "url": "Build/e4e3c32526f4a60ce0783f639bfc8f82.data.unityweb.part-002",
+          "bytes": 14757162,
+          "sha256": "044dec0f9a6ee387bbc3ea520b8b3237de1df513962592714e273461e5406e78"
         }
       ]
     }
-  },
-  "mode": "overdrive-trial"
+  }
 }
