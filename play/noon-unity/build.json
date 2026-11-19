@@ -1,32 +1,32 @@
 {
   "loader": "Build/497d829984ed6dc9bf00699d64f6c095.loader.js",
   "config": {
-    "dataUrl": "Build/a2f39775bc25abcdf3405b18d4e2daef.data.unityweb",
-    "frameworkUrl": "Build/d90cb99b33d46d42ef867c78312f8311.framework.js.unityweb",
-    "codeUrl": "Build/721049aa7996e84d74af17f9ba8af3f5.wasm.unityweb",
+    "dataUrl": "Build/2bfde508fae6ba6665dfb1ae053df1bb.data.unityweb",
+    "frameworkUrl": "Build/cb1614c05d38b2979e2a07510b9dbd3e.framework.js.unityweb",
+    "codeUrl": "Build/1fca721a5c204f88b3fe76ea4bdffd92.wasm.unityweb",
     "streamingAssetsUrl": "StreamingAssets",
     "companyName": "Noon",
     "productName": "子时已到",
     "productVersion": "web-preview"
   },
   "chunked": {
-    "Build/a2f39775bc25abcdf3405b18d4e2daef.data.unityweb": {
-      "bytes": 48350767,
+    "Build/2bfde508fae6ba6665dfb1ae053df1bb.data.unityweb": {
+      "bytes": 48472330,
       "parts": [
         {
-          "url": "Build/a2f39775bc25abcdf3405b18d4e2daef.data.unityweb.part-000",
+          "url": "Build/2bfde508fae6ba6665dfb1ae053df1bb.data.unityweb.part-000",
           "bytes": 16777216,
-          "sha256": "3cb41a4b807ba45a4a30d46ef80c28c25bfef7b81875ff735413c68f0420ca09"
+          "sha256": "9011589ed0dd4e0a7955c3a0a8884973b7c22ef7d718ef87531e40002737cbcc"
         },
         {
-          "url": "Build/a2f39775bc25abcdf3405b18d4e2daef.data.unityweb.part-001",
+          "url": "Build/2bfde508fae6ba6665dfb1ae053df1bb.data.unityweb.part-001",
           "bytes": 16777216,
-          "sha256": "d2040242c15479e3028897157c76c8936f77713a86976a25cf262b3c2053eb61"
+          "sha256": "c4432f0fd513eb4f220116062233fb7fee6a8d76b7aba25eea5142a86fb1aedd"
         },
         {
-          "url": "Build/a2f39775bc25abcdf3405b18d4e2daef.data.unityweb.part-002",
-          "bytes": 14796335,
-          "sha256": "388da991c5744d3ba99c3b85af452a7269b06bc6655cbfffd382e0caaaebd5b6"
+          "url": "Build/2bfde508fae6ba6665dfb1ae053df1bb.data.unityweb.part-002",
+          "bytes": 14917898,
+          "sha256": "5bb488d2c8b7c1a91f2123f6ce4c38e4d2e6989e23db4b0f0d3f9bb43df24834"
         }
       ]
     }
