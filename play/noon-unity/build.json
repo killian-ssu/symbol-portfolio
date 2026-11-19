@@ -1,32 +1,32 @@
 {
-  "loader": "Build/497d829984ed6dc9bf00699d64f6c095.loader.js",
+  "loader": "Build/b6a34fba86cb1f3b9b2a60f34f82b0e1.loader.js",
   "config": {
-    "dataUrl": "Build/3174f245a8aa0c98b681c46e6bf80581.data.unityweb",
-    "frameworkUrl": "Build/62aa1f3e2bef2f3a13d4290d372cbe98.framework.js.unityweb",
-    "codeUrl": "Build/e868b401ada7f3cbc7e6bcb8f27da3d9.wasm.unityweb",
+    "dataUrl": "Build/9d994b17032dafbd6db87f60b03a117f.data.unityweb",
+    "frameworkUrl": "Build/bb63555f8f67b3bb2dd80d213541a7cd.framework.js.unityweb",
+    "codeUrl": "Build/2e9e156e3b2a3727d69faabbaca98d54.wasm.unityweb",
     "streamingAssetsUrl": "StreamingAssets",
     "companyName": "Noon",
     "productName": "子时已到",
     "productVersion": "web-preview"
   },
   "chunked": {
-    "Build/3174f245a8aa0c98b681c46e6bf80581.data.unityweb": {
-      "bytes": 48474659,
+    "Build/9d994b17032dafbd6db87f60b03a117f.data.unityweb": {
+      "bytes": 42100788,
       "parts": [
         {
-          "url": "Build/3174f245a8aa0c98b681c46e6bf80581.data.unityweb.part-000",
+          "url": "Build/9d994b17032dafbd6db87f60b03a117f.data.unityweb.part-000",
           "bytes": 16777216,
-          "sha256": "5e223e2fb512b0db44e1076a6887205b4ddd1ba561b12dbd39543469a95ec1ee"
+          "sha256": "80b138decdaa928bd71f040929d3c4fd72cc9966550751227d1c1a2eab4b7910"
         },
         {
-          "url": "Build/3174f245a8aa0c98b681c46e6bf80581.data.unityweb.part-001",
+          "url": "Build/9d994b17032dafbd6db87f60b03a117f.data.unityweb.part-001",
           "bytes": 16777216,
-          "sha256": "636d1ac3b27a367c36c8aac9e3a0f7267ee20476adb3c20f3c76252e4c3ab92e"
+          "sha256": "c8a1c0d00099baa2ec357e4145231d8afc280d7f4fca0b2f39824ecd6868ac33"
         },
         {
-          "url": "Build/3174f245a8aa0c98b681c46e6bf80581.data.unityweb.part-002",
-          "bytes": 14920227,
-          "sha256": "08cf17b1b88b00ac311732f567a5d7add4e1e2840133a30fdb3186d5e2f3b683"
+          "url": "Build/9d994b17032dafbd6db87f60b03a117f.data.unityweb.part-002",
+          "bytes": 8546356,
+          "sha256": "cb11262b6ae3e7b70741ee05f1c95923d10e24b5ea847917c27828926fd083a3"
         }
       ]
     }
