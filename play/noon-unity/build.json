@@ -1,32 +1,32 @@
 {
-  "loader": "Build/c10d5dca30a2b5a264f9d444390a4cdd.loader.js",
+  "loader": "Build/a4867b85992aee1f879625bf8f72f284.loader.js",
   "config": {
-    "dataUrl": "Build/9868ea905399ba4f7fe1e842f3d7c6e6.data.unityweb",
+    "dataUrl": "Build/30badbac948690912ecea87cd632a0a6.data.unityweb",
     "frameworkUrl": "Build/e5bab0876556a4c3b947fbabb7c20468.framework.js.unityweb",
-    "codeUrl": "Build/fd03f6318a8f7055e6f408cd05db7cea.wasm.unityweb",
+    "codeUrl": "Build/53d2121d6b7083e4c73d6fd83eb2210a.wasm.unityweb",
     "streamingAssetsUrl": "StreamingAssets",
     "companyName": "Noon",
     "productName": "子时已到",
     "productVersion": "web-preview"
   },
   "chunked": {
-    "Build/9868ea905399ba4f7fe1e842f3d7c6e6.data.unityweb": {
-      "bytes": 48496541,
+    "Build/30badbac948690912ecea87cd632a0a6.data.unityweb": {
+      "bytes": 48129269,
       "parts": [
         {
-          "url": "Build/9868ea905399ba4f7fe1e842f3d7c6e6.data.unityweb.part-000",
+          "url": "Build/30badbac948690912ecea87cd632a0a6.data.unityweb.part-000",
           "bytes": 16777216,
-          "sha256": "5dd685e908df271adb9bf56df1a0f08139a5d9d1fa371693eaf28e0683da8499"
+          "sha256": "db45b8115fd2b6c754b7043a70f4e0053c3ae67b8e80bd3bcddb78fdc386fc88"
         },
         {
-          "url": "Build/9868ea905399ba4f7fe1e842f3d7c6e6.data.unityweb.part-001",
+          "url": "Build/30badbac948690912ecea87cd632a0a6.data.unityweb.part-001",
           "bytes": 16777216,
-          "sha256": "b7bb37f62497c08f0863124914fce765bca2165cca46e5a0f950252c5e3c8358"
+          "sha256": "4c2f6c1a8b435284f85efa6a777c520b90bb5cda8f69091d5fe9447895886912"
         },
         {
-          "url": "Build/9868ea905399ba4f7fe1e842f3d7c6e6.data.unityweb.part-002",
-          "bytes": 14942109,
-          "sha256": "4cb7c64949edaa986ea0221fb712e14c1c612f73024d5476c963030311f59cd8"
+          "url": "Build/30badbac948690912ecea87cd632a0a6.data.unityweb.part-002",
+          "bytes": 14574837,
+          "sha256": "97cbd1af3dab7308de3cc72f1f09eb49cda6df01e96aa7c74d51e42c473e10a3"
         }
       ]
     }
