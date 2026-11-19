@@ -1,32 +1,32 @@
 {
   "loader": "Build/90cad14be2948789f1c462a94ec69e45.loader.js",
   "config": {
-    "dataUrl": "Build/09cb4eef4d1655a6381238a65476d586.data.unityweb",
+    "dataUrl": "Build/1df984937c4ae123cfc997f7abcfe3e2.data.unityweb",
     "frameworkUrl": "Build/bb63555f8f67b3bb2dd80d213541a7cd.framework.js.unityweb",
-    "codeUrl": "Build/091026dcddc128adf6f8b9bc3634f655.wasm.unityweb",
+    "codeUrl": "Build/c69ecf3cbf4242e31e2e22ced116bd5c.wasm.unityweb",
     "streamingAssetsUrl": "StreamingAssets",
     "companyName": "Noon",
     "productName": "子时已到",
     "productVersion": "web-preview"
   },
   "chunked": {
-    "Build/09cb4eef4d1655a6381238a65476d586.data.unityweb": {
-      "bytes": 42112380,
+    "Build/1df984937c4ae123cfc997f7abcfe3e2.data.unityweb": {
+      "bytes": 42098664,
       "parts": [
         {
-          "url": "Build/09cb4eef4d1655a6381238a65476d586.data.unityweb.part-000",
+          "url": "Build/1df984937c4ae123cfc997f7abcfe3e2.data.unityweb.part-000",
           "bytes": 16777216,
-          "sha256": "dfb53af2836d0bcc66898d11695cf753f09032d86a4f39e62b77674b7a0187fb"
+          "sha256": "fa2ccb883481a9c5c52a65fb66eb1b4e14d7d2a22d5c5aca96877f384a96c0cb"
         },
         {
-          "url": "Build/09cb4eef4d1655a6381238a65476d586.data.unityweb.part-001",
+          "url": "Build/1df984937c4ae123cfc997f7abcfe3e2.data.unityweb.part-001",
           "bytes": 16777216,
-          "sha256": "aa0ffe814c616063caf81765bc1bcee80ac98ac9da6f20496b946cb9339ccb36"
+          "sha256": "6ae13288eee9e30925970b2c1026fd92b581ca8c4ec7760ad7bfa3b96abf15de"
         },
         {
-          "url": "Build/09cb4eef4d1655a6381238a65476d586.data.unityweb.part-002",
-          "bytes": 8557948,
-          "sha256": "0cc2afc2a18914469262feed5384876f43ae755d91fd887ea83c94131b08360e"
+          "url": "Build/1df984937c4ae123cfc997f7abcfe3e2.data.unityweb.part-002",
+          "bytes": 8544232,
+          "sha256": "444bc7e082058af93e7a29e104ed144f0784051304d35f04e526d3bacf7733d4"
         }
       ]
     }
