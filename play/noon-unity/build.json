@@ -1,32 +1,32 @@
 {
-  "loader": "Build/c10d5dca30a2b5a264f9d444390a4cdd.loader.js",
+  "loader": "Build/497d829984ed6dc9bf00699d64f6c095.loader.js",
   "config": {
-    "dataUrl": "Build/04b16290634b9c32c807d9e5509da9a6.data.unityweb",
+    "dataUrl": "Build/6479a5617f52ed70c1d91c03b4919a20.data.unityweb",
     "frameworkUrl": "Build/e5bab0876556a4c3b947fbabb7c20468.framework.js.unityweb",
-    "codeUrl": "Build/48e0f136f42d858eadc37968d42c6c84.wasm.unityweb",
+    "codeUrl": "Build/f74e26614cb1569e4af449655b2020bf.wasm.unityweb",
     "streamingAssetsUrl": "StreamingAssets",
     "companyName": "Noon",
     "productName": "子时已到",
     "productVersion": "web-preview"
   },
   "chunked": {
-    "Build/04b16290634b9c32c807d9e5509da9a6.data.unityweb": {
-      "bytes": 48128210,
+    "Build/6479a5617f52ed70c1d91c03b4919a20.data.unityweb": {
+      "bytes": 48131367,
       "parts": [
         {
-          "url": "Build/04b16290634b9c32c807d9e5509da9a6.data.unityweb.part-000",
+          "url": "Build/6479a5617f52ed70c1d91c03b4919a20.data.unityweb.part-000",
           "bytes": 16777216,
-          "sha256": "eb2bb53dc569e89b03d8182bd1b953d771576a7a8b994884f0e3b26866ee04c3"
+          "sha256": "50ad2d3bf3f4e77292c1cc54406c4769256acbfbc4b2a9104d602fc597a33689"
         },
         {
-          "url": "Build/04b16290634b9c32c807d9e5509da9a6.data.unityweb.part-001",
+          "url": "Build/6479a5617f52ed70c1d91c03b4919a20.data.unityweb.part-001",
           "bytes": 16777216,
-          "sha256": "f003b62a61c828ac319a0087aa6528b725b98f4efc9c342d587d1c12a49789f7"
+          "sha256": "8c4dab1d5e177eaf570dda63d646f04cf92e40dc35145254bad6b100236b9808"
         },
         {
-          "url": "Build/04b16290634b9c32c807d9e5509da9a6.data.unityweb.part-002",
-          "bytes": 14573778,
-          "sha256": "12e26b86bc9d0dfa6b9159522a1c34f61d5e187e7527abe6956e89ec63a04755"
+          "url": "Build/6479a5617f52ed70c1d91c03b4919a20.data.unityweb.part-002",
+          "bytes": 14576935,
+          "sha256": "dbfe37d4f47b2d5cbfeefa074c985da9c3ed4a5e3868c40849263dc62ff6f954"
         }
       ]
     }
