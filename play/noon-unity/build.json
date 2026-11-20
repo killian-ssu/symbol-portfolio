@@ -1,32 +1,32 @@
 {
-  "loader": "Build/6c0f912f67ca5d0ad90891d367623b52.loader.js",
+  "loader": "Build/90cad14be2948789f1c462a94ec69e45.loader.js",
   "config": {
-    "dataUrl": "Build/2ec8996e6887d50175e0df31d24b8a25.data.unityweb",
-    "frameworkUrl": "Build/bb63555f8f67b3bb2dd80d213541a7cd.framework.js.unityweb",
-    "codeUrl": "Build/4d57bce75fe03223f6653bcffba5e1c1.wasm.unityweb",
+    "dataUrl": "Build/d5a1cfa455ee4836f531d5a76ef4e166.data.unityweb",
+    "frameworkUrl": "Build/cfe1c9700d1a5eb307481cdd026a4fa0.framework.js.unityweb",
+    "codeUrl": "Build/88a725cab6911cab70f2cb7a87a037fa.wasm.unityweb",
     "streamingAssetsUrl": "StreamingAssets",
     "companyName": "Noon",
     "productName": "子时已到",
     "productVersion": "web-preview"
   },
   "chunked": {
-    "Build/2ec8996e6887d50175e0df31d24b8a25.data.unityweb": {
-      "bytes": 42095383,
+    "Build/d5a1cfa455ee4836f531d5a76ef4e166.data.unityweb": {
+      "bytes": 42100711,
       "parts": [
         {
-          "url": "Build/2ec8996e6887d50175e0df31d24b8a25.data.unityweb.part-000",
+          "url": "Build/d5a1cfa455ee4836f531d5a76ef4e166.data.unityweb.part-000",
           "bytes": 16777216,
-          "sha256": "d0e23eb94918d75b02875b1566f0025191ddc3fd44963829b9b3ea2018a34f06"
+          "sha256": "26a56576dedac4a8be26090e48da4e2911b17fd6ce70b16bc1fc0a70b9244c53"
         },
         {
-          "url": "Build/2ec8996e6887d50175e0df31d24b8a25.data.unityweb.part-001",
+          "url": "Build/d5a1cfa455ee4836f531d5a76ef4e166.data.unityweb.part-001",
           "bytes": 16777216,
-          "sha256": "e426f66717f23266d83eb239efecf4979d73d607d64d1aa8ba944dc5c3d213ed"
+          "sha256": "e900b90c1739de7d25b5e6cf6b8bf0d2279975b3fea1adc6b8cde967619a6ba6"
         },
         {
-          "url": "Build/2ec8996e6887d50175e0df31d24b8a25.data.unityweb.part-002",
-          "bytes": 8540951,
-          "sha256": "9995b1f23c282df2826ed76c08b8bd050c836bc58cddadf78add15ff8984c987"
+          "url": "Build/d5a1cfa455ee4836f531d5a76ef4e166.data.unityweb.part-002",
+          "bytes": 8546279,
+          "sha256": "6e95ab763afd83c09ca0fea53bbe8288c8f544c3e602dd81c91fc70a0e1012a8"
         }
       ]
     }
