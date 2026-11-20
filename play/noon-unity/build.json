@@ -1,32 +1,32 @@
 {
-  "loader": "Build/90cad14be2948789f1c462a94ec69e45.loader.js",
+  "loader": "Build/6c0f912f67ca5d0ad90891d367623b52.loader.js",
   "config": {
-    "dataUrl": "Build/e8f2e0232c04bf1e81663cc60cd16a3a.data.unityweb",
+    "dataUrl": "Build/2ec8996e6887d50175e0df31d24b8a25.data.unityweb",
     "frameworkUrl": "Build/bb63555f8f67b3bb2dd80d213541a7cd.framework.js.unityweb",
-    "codeUrl": "Build/572e525485d702e6583d93e548b35b5a.wasm.unityweb",
+    "codeUrl": "Build/4d57bce75fe03223f6653bcffba5e1c1.wasm.unityweb",
     "streamingAssetsUrl": "StreamingAssets",
     "companyName": "Noon",
     "productName": "子时已到",
     "productVersion": "web-preview"
   },
   "chunked": {
-    "Build/e8f2e0232c04bf1e81663cc60cd16a3a.data.unityweb": {
-      "bytes": 42096910,
+    "Build/2ec8996e6887d50175e0df31d24b8a25.data.unityweb": {
+      "bytes": 42095383,
       "parts": [
         {
-          "url": "Build/e8f2e0232c04bf1e81663cc60cd16a3a.data.unityweb.part-000",
+          "url": "Build/2ec8996e6887d50175e0df31d24b8a25.data.unityweb.part-000",
           "bytes": 16777216,
-          "sha256": "0c352ca6fdc35c0f2569e8ea4bf310035573f03baeecb66e81efd4bc7cbe8091"
+          "sha256": "d0e23eb94918d75b02875b1566f0025191ddc3fd44963829b9b3ea2018a34f06"
         },
         {
-          "url": "Build/e8f2e0232c04bf1e81663cc60cd16a3a.data.unityweb.part-001",
+          "url": "Build/2ec8996e6887d50175e0df31d24b8a25.data.unityweb.part-001",
           "bytes": 16777216,
-          "sha256": "0fefd72edbedb97dd2b98611a8391d9d1af21d2e6c17a847028e440f272fb33d"
+          "sha256": "e426f66717f23266d83eb239efecf4979d73d607d64d1aa8ba944dc5c3d213ed"
         },
         {
-          "url": "Build/e8f2e0232c04bf1e81663cc60cd16a3a.data.unityweb.part-002",
-          "bytes": 8542478,
-          "sha256": "1823791c4f23261c75279a7f8bd70829249689cbce9b2f6e590efa96717fcead"
+          "url": "Build/2ec8996e6887d50175e0df31d24b8a25.data.unityweb.part-002",
+          "bytes": 8540951,
+          "sha256": "9995b1f23c282df2826ed76c08b8bd050c836bc58cddadf78add15ff8984c987"
         }
       ]
     }
